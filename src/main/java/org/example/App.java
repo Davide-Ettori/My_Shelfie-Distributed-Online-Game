@@ -11,6 +11,5 @@ public class App{
 
         int a = 12, b = 5;
         int c = a + b;
-        int pippo = 1000;
     }
 }
