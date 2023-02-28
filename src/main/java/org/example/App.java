@@ -12,6 +12,6 @@ public class App{
         int a = 12, b = 5;
         int c = a + b;
         System.out.println(c);
-        int ciao = 1;
+        int ciao = 100;
     }
 }
