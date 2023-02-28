@@ -14,11 +14,9 @@ public class App{
         int modifica = 100;
     }
 }
-class App1{
+class Prova{
     public static void main( String[] args ){
         System.out.println( "\nHello World!" );
-
-
         int pluto = 100;
     }
 }
