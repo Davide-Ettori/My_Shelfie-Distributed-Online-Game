@@ -9,7 +9,7 @@ public class App{
     public static void main( String[] args ){
         System.out.println( "\nHello World!" );
 
-        int a = 10, b = 5;
+        int a = 12, b = 5;
         int c = a + b;
     }
 }
