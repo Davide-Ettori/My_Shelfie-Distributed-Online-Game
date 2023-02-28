@@ -17,6 +17,6 @@ public class App{
 class Prova{
     public static void main( String[] args ){
         System.out.println( "\nHello World!" );
-        int pluto = 100;
+        int pluto = 106;
     }
 }
