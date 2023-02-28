@@ -20,7 +20,7 @@ class App1{
 
 
 
-        int a = 12, b = 5;
+        int a = 12, b = 7;
         int c = a + b;
         int pluto = 100;
     }
