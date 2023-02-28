@@ -21,6 +21,6 @@ class App1{
 
         int a = 12, b = 5;
         int c = a + b;
-        int pippo = 100;
+        int pluto = 100;
     }
 }
