@@ -11,10 +11,9 @@ public class App{
 
         int a = 12, b = 5;
         int c = a + b;
-        int ciao = 100;
+        int modifica = 100;
     }
 }
-
 class App1{
     public static void main( String[] args ){
         System.out.println( "\nHello World!" );
