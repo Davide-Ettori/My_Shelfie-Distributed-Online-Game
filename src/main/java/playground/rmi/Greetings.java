@@ -4,33 +4,32 @@ import java.rmi.Remote;
 import java.rmi.server.UnicastRemoteObject;
 
 interface GreetingsInterface extends Remote{ // interfaccia, non classe
-    public void sendMsg(String msg, boolean fromServer) throws Exception; // devi sempre aggiungere questa eccezione
-    public void setClient(GreetingsInterface g) throws Exception;
+    public void setClient(Greetings g) throws Exception; // devi sempre aggiungere questa eccezione, in tutte le funzioni
     public GreetingsInterface getClient() throws Exception;
+    public void sendToClient(String msg) throws Exception;
+    public void sendToServer(String msg) throws Exception;
 }
 
-public class Greetings extends UnicastRemoteObject implements GreetingsInterface {
-    private String msg;
-    private GreetingsInterface client;
+public class Greetings extends UnicastRemoteObject implements GreetingsInterface { // in questo modo, è come se facessi ereditarietà multipla
+    private Greetings client; // potresti mettere un array di client nel caso avessi più utenti contemporanemente
 
-    public Greetings(String msg) throws Exception{ // anche qui è obbligatoria l'eccezione
-        this.msg = msg;
+    public Greetings() throws Exception{ // anche qui è obbligatoria l'eccezione
+        this.client = null;
     }
 
-    public void sendMsg(String msg, boolean fromServer){
-        if(fromServer){
-
-        }else{
-
-        }
-        //this.msg = msg;
+    public void sendToServer(String msg) throws Exception{
+        Server.gotMessage(msg, this.client); // triggero la funzione di ricezione del server, gli dico anche quale client gli ha mandato il messaggio
     }
 
-    public void setClient(GreetingsInterface g){
+    public void sendToClient(String msg) throws Exception{
+        Client.gotMessage(msg); // triggero la funzione di ricezione del client
+    }
+
+    public void setClient(Greetings g){
         this.client = g;
-    }
+    } // imposto il client che sta comunicando in questo momento
 
-    public GreetingsInterface getClient(){
+    public Greetings getClient(){
         return this.client;
-    }
+    } // return il client su cui sto lavorando in questo momento
 }
