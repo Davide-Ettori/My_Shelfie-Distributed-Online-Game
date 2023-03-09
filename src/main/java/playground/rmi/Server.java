@@ -3,36 +3,39 @@ package playground.rmi;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+
 public class Server {
-    public static final int PORT = 1099; // porta di default per RMI, per qualche motivo magico funziona solo su questa porta
-    public static boolean stop = false;
+    public static final int PORT = 1099; // porta di default RMI, sul mio PC è l'unica che funziona
+    //public static stopRunning(){}
+    public static void main(String args[]) {
+        try {
+            GreetRemote server = new GreetRemote(); // inizializzo l'oggetto remore che userò dal client
 
-    public static void gotMessage(String msg, Greetings client) throws Exception{ // questa funzione viene chiamata quando il server riceve un messaggio da un client
-        if(client == null)
-            return;
-        if(msg.equals("end")){
-            Server.stop = true;
-            return;
-        }
-        client.sendToClient("Ciao " + msg); // rimando al client il messaggio completo
-    }
-    public static void main(String[] args){
-        System.setProperty("java.rmi.server.hostname","127.0.0.1");
-        try{
-            Greetings server = new Greetings(); // creo l'oggetto remoto
-            Registry registry = LocateRegistry.createRegistry(PORT); // istanzio un registry sulla porta 5000
-            registry.rebind("Greet", server); // pubblico l'oggetto remoto con l'identificatore "Greet"
-
-            System.out.println("\nRMI attivo sulla porta " + PORT);
-
-            while(!Server.stop){} // questo ciclo si ferma solo se arriva una eccezione, tipo se cade la connessione lato server
-            // oppure quando qualche client gli manda un messaggio di fine connessione
-            // si potrebbe mettere un'istruzione che stoppa il ciclo quando tutti i client si disconnettono
-
-        }catch(Exception e){
+            Registry registry = LocateRegistry.createRegistry(PORT); // setto il RMI sulla porta 1099
+            registry.rebind("RMI_Greet", server); // chiamo l'oggetto con un nome riconoscibile
+            System.out.println("\nRMI pronto sulla porta " + PORT);
+            while(!server.stop){
+                Thread.sleep(100); // ricontrolla il valore di server.stop ogni 100 ms
+            } // il server resta in ascolto, fino a che il client non gli comanda la fine
+            // oppure finché non cade la connessione ed esce dal blocco try, ovviamente
+            System.out.println("\nChiudo il server...");
+        } catch(Exception e) {
             System.out.println("\nErrore sul server: " + e.toString());
         }
-        System.out.println("fine");
     }
 }
-// ogni client (e il server) ha il suo oggetto Greetings grazie al comunica con l'esterno. Qui sto mandando stringhe, ma in realtà puoi mandare qualsiasi oggetto, come nelle socket
+
+class GreetRemote extends UnicastRemoteObject implements GreetInterface{
+    public boolean stop;
+    GreetRemote() throws Exception{ // costruttore classico con eventuale logica aggiuntiva e la chiamata al costruttore della superclasse
+        super();
+        this.stop = false;
+        // tutta la logica del server va inserita in questa classe qui
+    }
+    public String getResponse(String name) throws Exception {
+        return "Ciao " + name + "!"; // risultato della computazione che verrà utilizzato dal server
+    }
+    public void stopServer(){ // stoppo l'ascolto del server
+        this.stop = true;
+    }
+}
