@@ -2,7 +2,6 @@ package playground.socket;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.ref.Cleaner;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -24,9 +23,9 @@ public class Client {
         ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
 
-        outStream.writeObject(sendPac);
-        Packet responsePackageSever = (Packet) inStream.readObject();
+        outStream.writeObject(sendPac); // mando il mio pacchetto (ovvero il mio nome) al server
+        Packet responsePackageSever = (Packet) inStream.readObject(); // ricevo la risposta - BLOCCANTE
 
-        System.out.println("\nIl server ha risposto: " + responsePackageSever.getMsg());
+        System.out.println("\nIl server ha risposto: " + responsePackageSever.getMsg()); // visualizzo la risposta del server a terminale
     }
 }
