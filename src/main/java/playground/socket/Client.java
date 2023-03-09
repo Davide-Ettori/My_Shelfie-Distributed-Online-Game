@@ -27,5 +27,9 @@ public class Client {
         Packet responsePackageSever = (Packet) inStream.readObject(); // ricevo la risposta - BLOCCANTE
 
         System.out.println("\nIl server ha risposto: " + responsePackageSever.getMsg()); // visualizzo la risposta del server a terminale
+
+        socket.close(); // chiude il client
+        outStream.flush(); // ripulisco il buffer di comunicazione (in rete) con il sever
+        outStream.close(); // chiude la stream di comunicazione con il server
     }
 }
