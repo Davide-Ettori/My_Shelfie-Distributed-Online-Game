@@ -6,6 +6,9 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class Server {
     public static final int PORT = 5000; // porta di default per RMI
+    public static void greet(Greetings server, String msg) throws Exception {
+        server.getClient().sendMsg("Ciao " + msg, true);
+    }
     public static void main(String[] args){
         try{
             Greetings server = new Greetings("Hello World"); // creo l'oggetto remoto

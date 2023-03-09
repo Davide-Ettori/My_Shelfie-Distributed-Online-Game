@@ -4,8 +4,7 @@ import java.rmi.Remote;
 import java.rmi.server.UnicastRemoteObject;
 
 interface GreetingsInterface extends Remote{ // interfaccia, non classe
-    public String getMsg() throws Exception; // devi sempre aggiungere questa eccezione
-    public void setMsg(String msg) throws Exception;
+    public void sendMsg(String msg, boolean fromServer) throws Exception; // devi sempre aggiungere questa eccezione
     public void setClient(GreetingsInterface g) throws Exception;
     public GreetingsInterface getClient() throws Exception;
 }
@@ -18,13 +17,13 @@ public class Greetings extends UnicastRemoteObject implements GreetingsInterface
         this.msg = msg;
     }
 
-    public String getMsg() throws Exception{
-        //System.out.println(this.msg);
-        return this.msg;
-    }
+    public void sendMsg(String msg, boolean fromServer){
+        if(fromServer){
 
-    public void setMsg(String msg){
-        this.msg = msg;
+        }else{
+
+        }
+        //this.msg = msg;
     }
 
     public void setClient(GreetingsInterface g){
