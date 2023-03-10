@@ -2,5 +2,3 @@ come chiudere il processo su una porta per liberarla (macOs):
 
     sudo lsof -i :portNumber
     sudo kill -9 PID
-
-farlo prima di restartare il server, porta 3000
