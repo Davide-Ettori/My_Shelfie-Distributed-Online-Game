@@ -1,0 +1,1 @@
+Semplice esempio di come prendere un input, salvarlo e rispondere in output, tutto da terminale
