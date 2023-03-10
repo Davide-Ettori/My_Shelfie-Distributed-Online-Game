@@ -16,10 +16,12 @@ public class Client{
     public void run(){ // tutta la logica del client va inserita in questa classe qui
         Scanner in = new Scanner(System.in); // inizializzo uno scanner sul terminale
         System.out.print("\nInserisci il tuo nome: ");
+
         String name = in.nextLine(); // prendo il nome dell'utente come input da terminale
 
         try {
-            GreetRemoteClient client = new GreetRemoteClient();
+            GreetRemoteClient client = new GreetRemoteClient(); // potresti passare this come parametro per
+            // modificare il Client direttamente dalla classe GreetRemoteClient (passi la reference)
 
             Registry registry = LocateRegistry.getRegistry(Server.PORT); // scarico il registry con gli oggetti remoti
             GreetInterfaceServer remoteServerObj = (GreetInterfaceServer) registry.lookup("RMI_Greet"); // prendo l'oggetto che ho creato sul server

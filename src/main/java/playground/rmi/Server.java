@@ -23,7 +23,8 @@ class GreetRemoteServer extends UnicastRemoteObject implements GreetInterfaceSer
     GreetRemoteServer() throws Exception{ // costruttore classico con eventuale logica aggiuntiva e la chiamata al costruttore della superclasse
         super();
         this.client = null;
-        // tutta la logica del server va inserita in questa classe qui
+        // tutta la logica del server va inserita in questa classe qui, queste funzioni saranno quindi chiamate dai vari client
+        // simulando una sorta d'interazione peer-to-peer --> tipico uso di RMI, molto diverso dalle socket
     }
     public String getResponse(String name) throws Exception {
         new Thread(() -> { // lancio il thread che tra 2.5 secondi chiuderà la connessione
@@ -31,7 +32,6 @@ class GreetRemoteServer extends UnicastRemoteObject implements GreetInterfaceSer
                 this.closeConnection();
             } catch (Exception e) {System.out.println("\nErrore nel lanciare il thread di chiusura: " + e.toString());}
         }).start();
-
         System.out.println("\nMessaggio dal client ricevuto correttamente");
         return "Ciao " + name + "!"; // risultato della computazione che verrà utilizzato dal client
     }
