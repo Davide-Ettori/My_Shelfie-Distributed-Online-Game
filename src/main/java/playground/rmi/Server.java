@@ -36,20 +36,19 @@ class GreetRemoteServer extends UnicastRemoteObject implements GreetInterfaceSer
         return "Ciao " + name + "!"; // risultato della computazione che verrà utilizzato dal client
     }
     public void closeConnection() throws Exception {
-        Thread.sleep(2500); // Dopo 2.5 secondi chiudo la connessione remota
         try {
             if(this.client != null) { // controllo di avere un client connesso
                 this.getClient().printExitMessage("La connessione si chiuderà a breve...");
             }
         }catch(Exception e){} // Altrimenti, mi dà errore quando faccio exit sul client. Comunque funziona in ogni caso
 
+        Thread.sleep(2500); // Dopo 2.5 secondi chiudo la connessione remota
         System.out.println("\nChiudo il server...");
         System.exit(0); // chiudo il server
     }
     public void setClient(GreetInterfaceClient client){
         this.client = client;
     }
-
     public GreetInterfaceClient getClient(){
         return this.client;
     }

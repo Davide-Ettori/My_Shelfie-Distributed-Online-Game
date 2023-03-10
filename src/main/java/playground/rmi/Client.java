@@ -6,7 +6,14 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 public class Client{
+    private final int id;
     public static void main(String args[]) throws Exception {
+        new Client().run();
+    }
+    public Client(){
+        this.id = 123456789;
+    }
+    public void run(){
         Scanner in = new Scanner(System.in); // inizializzo uno scanner sul terminale
         System.out.print("\nInserisci il tuo nome: ");
         String name = in.nextLine(); // prendo il nome dell'utente come input da terminale
@@ -16,9 +23,9 @@ public class Client{
 
             Registry registry = LocateRegistry.getRegistry(Server.PORT); // scarico il registry con gli oggetti remoti
             GreetInterfaceServer remoteServerObj = (GreetInterfaceServer) registry.lookup("RMI_Greet"); // prendo l'oggetto che ho creato sul server
-            String response = remoteServerObj.getResponse(name); // chiamo la funzione "getResponse" sull'oggetto preso dal server
-
             remoteServerObj.setClient(client); // setto questo oggetto come client e lo imposto sull'oggetto remoto del server
+
+            String response = remoteServerObj.getResponse(name); // chiamo la funzione "getResponse" sull'oggetto preso dal server
 
             System.out.println(response); // visualizzo la risposta a terminale
         }catch(Exception e) {
