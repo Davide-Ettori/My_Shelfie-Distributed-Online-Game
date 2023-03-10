@@ -6,7 +6,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 public class Client{
-    public static final int PORT = 5555;
     public static void main(String args[]) throws Exception {
         Scanner in = new Scanner(System.in); // inizializzo uno scanner sul terminale
         System.out.print("\nInserisci il tuo nome: ");
