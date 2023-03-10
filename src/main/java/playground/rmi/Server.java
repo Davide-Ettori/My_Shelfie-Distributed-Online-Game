@@ -19,23 +19,9 @@ public class Server {
             } // il server resta in ascolto, fino a che il client non gli comanda la fine
             // oppure finché non cade la connessione ed esce dal blocco try, ovviamente
             System.out.println("\nChiudo il server...");
+            System.exit(0); // chiudo il server
         } catch(Exception e) {
             System.out.println("\nErrore sul server: " + e.toString());
         }
-    }
-}
-
-class GreetRemote extends UnicastRemoteObject implements GreetInterface{
-    public boolean stop;
-    GreetRemote() throws Exception{ // costruttore classico con eventuale logica aggiuntiva e la chiamata al costruttore della superclasse
-        super();
-        this.stop = false;
-        // tutta la logica del server va inserita in questa classe qui
-    }
-    public String getResponse(String name) throws Exception {
-        return "Ciao " + name + "!"; // risultato della computazione che verrà utilizzato dal server
-    }
-    public void stopServer(){ // stoppo l'ascolto del server
-        this.stop = true;
     }
 }

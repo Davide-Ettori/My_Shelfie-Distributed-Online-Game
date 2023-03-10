@@ -16,7 +16,7 @@ public class Client{
             String response = remoteServerObj.getResponse(name); // chiamo la funzione "getResponse" sull'oggetto preso dal server
 
             System.out.println(response); // visualizzo la risposta a terminale
-            remoteServerObj.stopServer();
+            remoteServerObj.stopServer(); // blocco il server remoto
         }catch(Exception e) {
             System.out.println("\nErrore sul client: " + e.toString());
         }
