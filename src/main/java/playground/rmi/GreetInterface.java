@@ -7,7 +7,8 @@ interface GreetInterface{} // non serve a niente, però così posso mettere tutt
 
 interface GreetInterfaceServer extends Remote { // rendo questa interfaccia remota
     public String getResponse(String search) throws Exception; // specifico tutte le funzioni che voglio chiamare da remoto
-    public void stopServer() throws Exception;
+    public void setClient(GreetInterfaceClient client) throws Exception;
+    public GreetInterfaceClient getClient() throws Exception;
 }
 
 interface GreetInterfaceClient extends Remote { // rendo questa interfaccia remota
