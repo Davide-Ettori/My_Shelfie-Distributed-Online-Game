@@ -27,7 +27,7 @@ public class Client{
     }
 }
 
-class GreetRemoteClient extends UnicastRemoteObject implements GreetInterfaceClient{ // oggetto remoto lato client
+class GreetRemoteClient extends UnicastRemoteObject implements GreetInterfaceClient{ // oggetto utilizzatore lato client
     GreetRemoteClient() throws Exception{
         super();
         // tutta la logica del client va inserita in questa classe qui, se vuoi che riceva le notifiche dal server
