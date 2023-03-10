@@ -13,7 +13,7 @@ public class Client{
     public Client(){
         this.id = 123456789;
     }
-    public void run(){
+    public void run(){ // tutta la logica del client va inserita in questa classe qui
         Scanner in = new Scanner(System.in); // inizializzo uno scanner sul terminale
         System.out.print("\nInserisci il tuo nome: ");
         String name = in.nextLine(); // prendo il nome dell'utente come input da terminale
@@ -37,13 +37,11 @@ public class Client{
 class GreetRemoteClient extends UnicastRemoteObject implements GreetInterfaceClient{ // oggetto utilizzatore lato client
     GreetRemoteClient() throws Exception{
         super();
-        // tutta la logica del client va inserita in questa classe qui, se vuoi che riceva le notifiche dal server
     }
     public void printExitMessage(String msg) throws Exception{
         System.out.println("\n" + msg);
         this.stopClient();
     }
-
     public void stopClient() throws Exception {
         System.exit(0); // questa funzione è chiamata dal client quando deve stoppare il server
     }
