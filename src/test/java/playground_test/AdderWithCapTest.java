@@ -31,7 +31,7 @@ public class AdderWithCapTest { // questa classe fa la verifica automatica della
     public void add_over_cap(){
         assertEquals(adder.add(4, 8), -1);
     }
-    @Test (expected = IllegalArgumentException.class) // ecco come testare che vengano lanciate l giuste eccezioni
+    @Test (expected = IllegalArgumentException.class) // ecco come testare che vengano lanciate le giuste eccezioni
     public void input_negative_exception(){ // test 5
         adder.add(4, -2);
     }
