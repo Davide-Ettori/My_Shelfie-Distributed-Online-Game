@@ -25,4 +25,12 @@
     </dependency>
   </dependencies>
 </project>
+
         <!-- file fondamentale per il funzionamento di Maven come tool di dependency management-->
+        <!-- per aggiungere un dependency:  Code -> Generate -> Dependency Template -> setta i parametri che ti servono -->
+
+<!-- in alto a destra c'è la finestra di Maven:
+        Lifecycle: puoi eseguire tutte le operazioni tipiche del ciclo di vita del software
+        Plugins: puoi vedere tutti i plugin disponibili nel progetto corrente
+        Dependency: puoi visualizzare le dependency che stai usando, in questo caso solo JUnit
+-->
