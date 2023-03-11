@@ -25,4 +25,4 @@
     </dependency>
   </dependencies>
 </project>
-        <!-- file fondamentale per il funzionamento di Maven come tool di project management-->
+        <!-- file fondamentale per il funzionamento di Maven come tool di dependency management-->
