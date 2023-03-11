@@ -6,12 +6,14 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 public class Client{
+    public static int PORT; // la porta di default RMI è 1099
     private final int id;
     public static void main(String args[]) throws Exception {
-        new Client().run();
+        new Client(3000).run();
     }
-    public Client(){
+    public Client(int port){
         this.id = 123456789;
+        Client.PORT = port;
     }
     public void run(){ // tutta la logica del client va inserita in questa classe qui
         Scanner in = new Scanner(System.in); // inizializzo uno scanner sul terminale
@@ -22,8 +24,7 @@ public class Client{
         try {
             GreetRemoteClient client = new GreetRemoteClient(); // potresti passare this come parametro per
             // modificare il Client direttamente dalla classe GreetRemoteClient (passi la reference)
-
-            Registry registry = LocateRegistry.getRegistry(Server.PORT); // scarico il registry con gli oggetti remoti
+            Registry registry = LocateRegistry.getRegistry(Client.PORT); // scarico il registry con gli oggetti remoti
             GreetInterfaceServer remoteServerObj = (GreetInterfaceServer) registry.lookup("RMI_Greet"); // prendo l'oggetto che ho creato sul server
             remoteServerObj.setClient(client); // setto questo oggetto come client e lo imposto sull'oggetto remoto del server
 
@@ -35,7 +36,6 @@ public class Client{
         }
     }
 }
-
 class GreetRemoteClient extends UnicastRemoteObject implements GreetInterfaceClient{ // oggetto utilizzatore lato client
     GreetRemoteClient() throws Exception{
         super();

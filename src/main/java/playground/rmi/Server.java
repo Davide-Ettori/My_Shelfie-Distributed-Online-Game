@@ -15,9 +15,9 @@ public class Server {
     public void run(){
         try {
             GreetRemoteServer server = new GreetRemoteServer(this); // inizializzo l'oggetto remore che userò dal client
-
             Registry registry = LocateRegistry.createRegistry(Server.PORT); // setto il RMI sulla porta 3000
             registry.rebind("RMI_Greet", server); // chiamo l'oggetto con un nome riconoscibile
+
             System.out.println("\nRMI pronto sulla porta " + Server.PORT);
         } catch(Exception e) {
             System.out.println("\nErrore sul server: " + e.toString());
@@ -26,12 +26,12 @@ public class Server {
 }
 class GreetRemoteServer extends UnicastRemoteObject implements GreetInterfaceServer{ // oggetto remoto lato server
     private GreetInterfaceClient client; // nel caso di più client basterebbe mettere una lista o una mappa al posto di una variabile
-    private Server serverInstance; // questo è un puntatore alla classe server originale, può essere utile
-    // in questo caso non lo uso mai, perché è un esempio molto semplice. Posso fare la stessa cosa sul client
-    GreetRemoteServer(Server s) throws Exception{ // costruttore classico con eventuale logica aggiuntiva e la chiamata al costruttore della superclasse
+    private Server serverInstance; // questo è un puntatore all'oggetto server originale, può essere utile
+    // in questo caso non lo uso perché è un esempio semplice. La stessa cose si può fare sul client
+    GreetRemoteServer(Server server) throws Exception{ // costruttore classico con eventuale logica aggiuntiva e la chiamata al costruttore della superclasse
         super();
         this.client = null;
-        this.serverInstance = s;
+        this.serverInstance = server;
         // tutta la logica del server va inserita in questa classe qui, queste funzioni saranno quindi chiamate dai vari client
         // simulando una sorta d'interazione peer-to-peer --> tipico uso di RMI, molto diverso dalle socket
     }
@@ -41,6 +41,7 @@ class GreetRemoteServer extends UnicastRemoteObject implements GreetInterfaceSer
                 this.closeConnection();
             } catch (Exception e) {System.out.println("\nErrore nel lanciare il thread di chiusura: " + e.toString());}
         }).start();
+
         System.out.println("\nMessaggio dal client ricevuto correttamente");
         return "Ciao " + name + "!"; // risultato della computazione che verrà utilizzato dal client
     }
