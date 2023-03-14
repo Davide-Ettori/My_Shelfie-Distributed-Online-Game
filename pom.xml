@@ -2,35 +2,72 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.example</groupId>
-  <artifactId>Progetto_SWE</artifactId>
+  <groupId>it.polimi.ingsw</groupId>
+  <artifactId>PSP000</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Progetto_SWE</name>
+  <name>My Shelfie</name>
   <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>18</maven.compiler.source>
-    <maven.compiler.target>18</maven.compiler.target>
+    <maven.compiler.source>19</maven.compiler.source>
+    <maven.compiler.target>19</maven.compiler.target>
   </properties>
 
-  <dependencies> <!-- qui dentro specifici tutte le librerie che il tuo progetto utilizza -->
-    <dependency> <!-- inizio dichiarazione della libreria -->
-      <groupId>junit</groupId> <!-- nome della libreria -->
-      <artifactId>junit</artifactId> <!-- identificatore della libreria -->
-      <version>RELEASE</version> <!-- versione della libreria -->
-      <scope>test</scope> <!-- visibilità della libreria -->
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.11.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M9</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>4.0.0-M5</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.4.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
-
-        <!-- file fondamentale per il funzionamento di Maven come tool di dependency management-->
-        <!-- per aggiungere un dependency:  Code -> Generate -> Dependency Template -> setta i parametri che ti servono -->
-
-<!-- in alto a destra c'è la finestra di Maven:
-        Lifecycle: puoi eseguire tutte le operazioni tipiche del ciclo di vita del software
-        Plugins: puoi vedere tutti i plugin disponibili nel progetto corrente
-        Dependency: puoi visualizzare le dependency che stai usando, in questo caso solo JUnit
--->
