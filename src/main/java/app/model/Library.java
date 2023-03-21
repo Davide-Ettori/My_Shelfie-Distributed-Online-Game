@@ -8,7 +8,7 @@ public class Library {
     private final int ROWS = 6;
     private final int COLS = 5;
     public Card[][] library = new Card[ROWS][COLS];
-    private int[][] visitedMatrix = new int[ROWS][COLS];
+    private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
 
     public Library(){
@@ -57,15 +57,15 @@ public class Library {
     private boolean indexNotValid(int x, int y){
         return x < 0 || x >= ROWS || y < 0 || y >= COLS;
     }
-    private void recurse(int i, int j, Color color) {
+    private void dfs(int i, int j, Color color) {
         if (indexNotValid(i, j) || library[i][j].color != color || visitedMatrix[i][j] == 1)
             return;
         countVisitedCards++;
         visitedMatrix[i][j] = 1;
-        recurse(i + 1, j, color);
-        recurse(i - 1, j, color);
-        recurse(i, j + 1, color);
-        recurse(i, j - 1, color);
+        dfs(i + 1, j, color);
+        dfs(i - 1, j, color);
+        dfs(i, j + 1, color);
+        dfs(i, j - 1, color);
     }
     public int countGroupedPoints(){
         int points = 0;
@@ -74,7 +74,7 @@ public class Library {
             for(int j = 0; j < COLS; j++){
                 if(library[i][j].color != EMPTY) {
                     countVisitedCards = 0;
-                    recurse(i, j, library[i][j].color);
+                    dfs(i, j, library[i][j].color);
                     if(countVisitedCards == 3){
                         points += 2;
                     }

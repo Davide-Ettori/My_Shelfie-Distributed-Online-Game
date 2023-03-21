@@ -1,5 +1,7 @@
 package app.model;
 
+import static app.model.Color.*;
+
 class PrivateObjective extends Objective {
     private int[] arrayOfPoints;
     private Color[][] matrix;
@@ -10,15 +12,20 @@ class PrivateObjective extends Objective {
         this.matrix = matrix;
         this.objectiveId = objectiveId;
     }
-    public int countpoints(Card[][] cards) {
-
-        return 0;
+    public int countPoints(Card[][] cards) {
+        return arrayOfPoints[countMatch(cards)];
     };
 
-    private  int countmatch(Card[][] cards) {
-
-        return 0;
-    };
+    private  int countMatch(Card[][] cards) {
+        int count = 0;
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
+                if(matrix[i][j] != EMPTY && matrix[i][j] == cards[i][j].color)
+                    count++;
+            }
+        }
+        return count;
+    }
 
     public void draw() {return;}
 }
