@@ -1,29 +1,22 @@
-package app.model2;
+package app.model;
 
 public class CommonObjective extends Objective {
     private Strategy algorithm;
     public CommonObjective(Strategy algorithm){
         this.algorithm = algorithm;
     }
-    public void choose(){
-        //algorithm.checkMatch(serverBoard.board);  commentato altrimenti dà errore
-    }
-
-    public void draw() {
-
-    };
+    public void draw(){return;}
 }
 
 interface Strategy {
-    int rows = 5;
-    int colls = 6;
+    int ROWS = 5;
+    int COLS = 6;
 
     boolean checkMatch(Card[][] board);
-
 }
 
-
 // ---------------------------12 algoritmi------------------------------------------------//
+
 class Algo_CO_1 implements Strategy{
     @Override
     public boolean checkMatch(Card[][] board) {

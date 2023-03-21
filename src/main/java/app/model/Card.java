@@ -1,6 +1,6 @@
-package app.model_1;
+package app.model;
 
-import static app.model_1.Color.EMPTY;
+import static app.model.Color.EMPTY;
 
 public class Card {
     public Color color;

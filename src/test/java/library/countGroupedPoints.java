@@ -1,12 +1,11 @@
 package library;
 
-import app.model_1.Card;
-import app.model_1.Color;
+import app.model.Card;
 import org.junit.*;
 
-import static app.model_1.Color.*;
+import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
-import app.model_1.Library;
+import app.model.Library;
 
 public class countGroupedPoints {
     Library lib = null;

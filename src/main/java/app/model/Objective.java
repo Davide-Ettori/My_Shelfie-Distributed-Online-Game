@@ -1,10 +1,9 @@
-package app.model2;
-
+package app.model;
 
 abstract class Objective {
-    private int imagepath;
+    private int imagePath;
     public int index;
-    protected int colls;
+    protected int cols;
     protected int rows;
 }
 

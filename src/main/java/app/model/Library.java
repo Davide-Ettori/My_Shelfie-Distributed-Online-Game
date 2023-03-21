@@ -1,8 +1,8 @@
-package app.model_1;
+package app.model;
 
 import java.util.ArrayList;
 
-import static app.model_1.Color.EMPTY;
+import static app.model.Color.EMPTY;
 
 public class Library {
     private final int ROWS = 6;

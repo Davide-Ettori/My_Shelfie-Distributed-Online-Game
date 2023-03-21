@@ -1,8 +1,8 @@
-package app.model_1;
+package app.model;
 
 import java.util.ArrayList;
 
-import static app.model_1.State.NOT_ACTIVE;
+import static app.model.State.NOT_ACTIVE;
 
 public class Player {
     private String name;
