@@ -2,7 +2,8 @@ package app.model;
 
 public class CommonObjective extends Objective {
     private Strategy algorithm;
-    public CommonObjective(Strategy algorithm){
+    public CommonObjective(Strategy algorithm, String image){
+        this.imagePath = image;
         this.algorithm = algorithm;
     }
     public void draw(){return;}

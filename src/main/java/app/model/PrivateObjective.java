@@ -7,10 +7,11 @@ class PrivateObjective extends Objective {
     private Color[][] matrix;
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo
 
-    public PrivateObjective(Color[][] matrix, int objectiveId){
+    public PrivateObjective(Color[][] matrix, int objectiveId, String image){
         this.arrayOfPoints = new int[]{0,1,2,4,6,9,12};
         this.matrix = matrix;
         this.objectiveId = objectiveId;
+        this.imagePath = image;
     }
     public int countPoints(Card[][] cards) {
         return arrayOfPoints[countMatch(cards)];
