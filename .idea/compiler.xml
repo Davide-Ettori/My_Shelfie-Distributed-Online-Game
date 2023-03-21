@@ -10,5 +10,6 @@
         <module name="Progetto_SWE" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="19" />
   </component>
 </project>
