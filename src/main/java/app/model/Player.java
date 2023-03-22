@@ -83,7 +83,7 @@ public class Player {
         objective = obj;
     }
 
-    private boolean pickCards(ArrayList<Integer> coord) { // coordinate accoppiate
+    private boolean pickCards(ArrayList<Integer> coord) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
         ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < coord.size(); i += 2) {
             cards.add(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]);
