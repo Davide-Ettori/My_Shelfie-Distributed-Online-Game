@@ -2,7 +2,7 @@ package app.model;
 
 import static app.model.Color.*;
 
-class PrivateObjective extends Objective {
+public class PrivateObjective extends Objective {
     private int[] arrayOfPoints;
     private Color[][] matrix;
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo

@@ -20,13 +20,11 @@ public class ServerBoard implements Board {
     public LinkedList<Integer> pointsCO_2;
     private ArrayList<Card> bucketOfCards;
 
-    public ServerBoard(int numPlayers, CommonObjective CO_1, CommonObjective CO_2){
+    public ServerBoard(int numPlayers){
         for(int i = 0; i < DIM; i++){ // inizializzo la board con solo carte vuote, costruttore apposito
             for(int j = 0; j < DIM; j++)
                 gameBoard[i][j] = new Card(i, j);
         }
-        commonObjective_1 = CO_1;
-        commonObjective_2 = CO_2;
         if(numPlayers == 2){
             pointsCO_1 = new LinkedList<Integer>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
             pointsCO_2 = new LinkedList<Integer>(Arrays.asList(4, 8)); // li puoi vedere con il metodo list.peekLast() --> returna l'ultimo elemento

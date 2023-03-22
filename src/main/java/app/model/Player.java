@@ -15,16 +15,17 @@ public class Player {
     private State state;
     private ClientBoard board;
 
-    public Player(boolean isChair, String namePlayer, PrivateObjective obj, ClientBoard b){
+    public Player(boolean isChair, String namePlayer, ClientBoard b){
         name = namePlayer;
         isChairMan = isChair;
         library = new Library();
-        objective = obj;
         pointsUntilNow = 0;
         state = NOT_ACTIVE;
         board = b;
     }
 
+    public String getName(){return name;}
+    public void setPrivateObjective(PrivateObjective obj){objective = obj;}
     private boolean pickCards (ArrayList<Integer> coord){ // coordinate accoppiate
         ArrayList<Card> cards = new ArrayList<>();
         for(int i = 0; i < coord.size(); i += 2){
