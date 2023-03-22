@@ -56,7 +56,7 @@ public class ClientBoard implements Board {
     private boolean isBoardUnplayable() {
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
-                if(gameBoard[i][j].color != EMPTY && !isAlone(i, j)) // ha trovato una carta non vuota e che non è sola, quand la board non è ingiocabile
+                if(gameBoard[i][j].color != EMPTY && !isAlone(i, j)) // ha trovato una carta non vuota e che non è sola, quindi la board non è ingiocabile
                     return false;
             }
         }
@@ -79,10 +79,6 @@ public class ClientBoard implements Board {
                 return false;
         }
         return areCardsAligned(cardPositions);
-    }
-
-    private boolean isCardNear(int row, int col){ //aggiunto per consistenza con l'UML, ma va ancora implementato
-        return true;
     }
     private boolean areCardsAligned(ArrayList<Integer> cardPosition){
         boolean allInRow = true;

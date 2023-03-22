@@ -46,6 +46,8 @@ public class ServerBoard implements Board {
     public Card[][] getGameBoard(){return gameBoard;}
     public CommonObjective getCO_1(){return commonObjective_1;}
     public CommonObjective getCO_2(){return commonObjective_2;}
+    public void setCO_1(CommonObjective obj){commonObjective_1 = obj;} // questi 2 sono i setter usati inizialmente dalla classe Game
+    public void setCO_2(CommonObjective obj){commonObjective_2 = obj;}
     public LinkedList<Integer> getPCO_1(){return pointsCO_1;}
     public LinkedList<Integer> getPCO_2(){return pointsCO_2;}
 
