@@ -23,7 +23,13 @@ public class Game {
     }
 
     public Game(){
-        int numPlayers = 3; // questo dato sarà dato dall'utente
+        int numPlayers;
+        while(true){
+            numPlayers = 3; // questo dato sarà dato dall'utente
+            break; // in questo ciclo aspetta che i giocatori si connettano, massimo per un minuto ad esempio
+            // quando un giocatore si connette lo aggiungi alla lista dei giocatori
+            // il primo che si connette è anche il chairman
+        }
         board = new ServerBoard(numPlayers);
         startGame();
     }
