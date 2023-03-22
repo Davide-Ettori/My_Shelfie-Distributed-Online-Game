@@ -14,4 +14,5 @@ public class Card {
     public Card(){
         color = EMPTY;
     }
+    private void draw(){}
 }

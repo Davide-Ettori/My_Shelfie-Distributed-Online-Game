@@ -78,6 +78,10 @@ public class ClientBoard implements Board {
         }
         return areCardsAligned(cardPositions);
     }
+
+    private boolean isCardNear(int row, int col){ //aggiunto per consistenza con l'UML, ma va ancora implementato
+        return true;
+    }
     private boolean areCardsAligned(ArrayList<Integer> cardPosition){
         boolean allInRow = true;
         for(int i = 0; i < cardPosition.size(); i += 2){
