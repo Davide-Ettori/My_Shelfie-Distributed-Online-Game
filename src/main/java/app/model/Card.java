@@ -27,5 +27,8 @@ public class Card {
         color = EMPTY;
     }
 
+    public void setX(int posX){x = posX;}
+    public void setY(int posY){y = posY;}
+
     public void draw(){return;}
 }

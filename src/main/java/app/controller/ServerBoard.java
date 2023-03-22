@@ -42,18 +42,6 @@ public class ServerBoard implements Board {
         bucketOfCards = new ArrayList<>(); // andrebbe inizializzato con i 132 possibili valori delle carte
         createBoard(numPlayers);
     }
-
-    public void updateBoard(Board board) {
-        gameBoard = board.getGameBoard();
-        commonObjective_1 = board.getCO_1();
-        commonObjective_2 = board.getCO_2();
-        pointsCO_1 = board.getPCO_1();
-        pointsCO_2 = board.getPCO_2();
-    }
-    public void sendCurrentBoard() {
-        // serializza this e lo manda al server --> lo faremo in seguito
-        return;
-    }
     private void draw(){return;}
     public Card[][] getGameBoard(){return gameBoard;}
     public CommonObjective getCO_1(){return commonObjective_1;}
@@ -74,9 +62,10 @@ public class ServerBoard implements Board {
                 {0,0,0,0,0,0,0,0,0}
         };
         fillBoard(numPlayers);
-        sendCurrentBoard(); // manda ciò che ha creato al client
+        sendCurrentBoard(); // manda ciò che hai creato al client
     }
     public void fillBoard(int numPlayers){
+        Card card;
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 if(gameMatrix[i][j] == 0)
@@ -84,7 +73,10 @@ public class ServerBoard implements Board {
                 if(gameBoard[i][j].color != EMPTY)
                     continue;
                 if(numPlayers >= gameMatrix[i][j]){
-                    gameBoard[i][j] = bucketOfCards.get(0);
+                    card = bucketOfCards.get(0);
+                    card.setX(i);
+                    card.setY(j);
+                    gameBoard[i][j] = card;
                     bucketOfCards.remove(0);
                 }
             }
@@ -100,5 +92,16 @@ public class ServerBoard implements Board {
             bucketOfCards.set(i, bucketOfCards.get(j));
             bucketOfCards.set(j, temp);
         }
+    }
+    public void updateBoard(Board board) {
+        gameBoard = board.getGameBoard();
+        commonObjective_1 = board.getCO_1();
+        commonObjective_2 = board.getCO_2();
+        pointsCO_1 = board.getPCO_1();
+        pointsCO_2 = board.getPCO_2();
+    }
+    public void sendCurrentBoard() {
+        // serializza this e lo manda al server --> lo faremo in seguito
+        return;
     }
 }
