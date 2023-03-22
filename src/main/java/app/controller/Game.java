@@ -2,6 +2,7 @@ package app.controller;
 
 import app.model.*;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ public class Game {
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
     private ArrayList<Player> players;
+    private ArrayList<Socket> playersSocket;
     private Player activePlayer;
     private Player chairman;
     private ServerBoard board;
@@ -22,14 +24,35 @@ public class Game {
     }
 
     public Game(){
-        int numPlayers;
-        while(true){
-            numPlayers = 3; // questo dato sarà fornito dall'utente
-            break; // in questo ciclo aspetta che i giocatori si connettano, massimo per un minuto ad esempio
-            // quando un giocatore si connette lo aggiungi alla lista dei giocatori
-            // il primo che si connette è anche il chairman
+        int numPlayers = 0;
+        Player p;
+        // in questo ciclo aspetta che i giocatori si connettano, massimo per un minuto ad esempio
+        // il primo che si connette è anche il chairman
+        while(numPlayers < 4){
+            // riceve una richiesta di nickname, la accetta o rifiuta
+            // se la accetta crea un oggetto di tipo player e lo manda al client
+            // poi aggiunge il player alla lista e incrementa il player counter di 1
+
+            String name = "pippo";
+            if(isNameTaken(name))
+                continue;
+            if(numPlayers == 0){
+                p = new Player(true, name);
+                chairman = p;
+            }
+            else{
+                p = new Player(false, name);
+            }
+            players.add(p);
+            //playersSocket.add(socket); // aggiunge la socket del client che si è appena connesso. corrispondono univocamente con l'indice nel ArrayList
+            numPlayers++;
+            numPlayers = 3; // Esempio a caso che setta il numero di giocatori a tre. Ovviamente andrà eliminato
+
+            break;
         }
         board = new ServerBoard(numPlayers);
+        for(int i = 0; i < players.size(); i++)
+            players.get(i).setBoard(board);
         startGame();
     }
 
@@ -37,7 +60,7 @@ public class Game {
         setCommonObjective();
         setPrivateObjective();
         setActivePlayer(chairman);
-
+        sendStartingInfoToAllPlayers();
         return;
     }
     public void endGame(){return;} // chiude tutte le connessioni e termina la partita
@@ -48,6 +71,12 @@ public class Game {
                 return false;
         }
         return true;
+    }
+    private void sendStartingInfoToAllPlayers(){
+        for(int i = 0; i < players.size(); i++){
+            // manda il player i-esimo verso il socket i-esimo (chair, obiettivi e board)
+        }
+        return;
     }
     private void setCommonObjective(){
         board.setCO_1(bucketOfCO.get(0));
