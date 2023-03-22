@@ -1,12 +1,11 @@
 package app.controller;
 
-import app.model.Card;
-import app.model.CommonObjective;
-import app.model.Player;
-import app.model.PrivateObjective;
+import app.model.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static app.model.State.*;
 
 public class Game {
     public static final int MAX_PLAYERS = 4;
@@ -25,7 +24,7 @@ public class Game {
     public Game(){
         int numPlayers;
         while(true){
-            numPlayers = 3; // questo dato sarà dato dall'utente
+            numPlayers = 3; // questo dato sarà fornito dall'utente
             break; // in questo ciclo aspetta che i giocatori si connettano, massimo per un minuto ad esempio
             // quando un giocatore si connette lo aggiungi alla lista dei giocatori
             // il primo che si connette è anche il chairman
@@ -34,7 +33,13 @@ public class Game {
         startGame();
     }
 
-    public void startGame(){return;} // inizializza il server e comincia l'interazione con i client
+    public void startGame(){ // inizializza la serverBoard e comincia l'interazione con i client
+        setCommonObjective();
+        setPrivateObjective();
+        setActivePlayer(chairman);
+
+        return;
+    }
     public void endGame(){return;} // chiude tutte le connessioni e termina la partita
     public void restartGame(){return;} // ricomincia una partita interrotta a metà
     public boolean isNameTaken(String name){
@@ -52,7 +57,7 @@ public class Game {
         for(int i = 0; i < players.size(); i++)
             players.get(i).setPrivateObjective(bucketOfPO.get(i));
     }
-    private void shuffleObjBucket(){
+    private void shuffleObjBucket(){ // randomizza gli obbiettivi
         Random rand = new Random();
         CommonObjective temp_1;
         PrivateObjective temp_2;
@@ -70,5 +75,5 @@ public class Game {
             bucketOfPO.set(j, temp_2);
         }
     }
-    public void setActivePlayer(Player p){activePlayer = p;}
+    public void setActivePlayer(Player p){activePlayer = p; p.setState(ACTIVE);}
 }
