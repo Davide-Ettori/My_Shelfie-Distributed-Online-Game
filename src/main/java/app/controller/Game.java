@@ -104,5 +104,12 @@ public class Game {
             bucketOfPO.set(j, temp_2);
         }
     }
+    private Socket getSocketByName(String name){
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getName().equals(name))
+                return playersSocket.get(i);
+        }
+        return null;
+    }
     public void setActivePlayer(Player p){activePlayer = p; p.setState(ACTIVE);}
 }

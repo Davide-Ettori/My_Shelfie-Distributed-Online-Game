@@ -2,6 +2,7 @@ package app.model;
 
 import playground.rmi.Client;
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 import static app.model.State.NOT_ACTIVE;
