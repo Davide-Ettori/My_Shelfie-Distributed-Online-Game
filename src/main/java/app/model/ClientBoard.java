@@ -101,7 +101,7 @@ public class ClientBoard implements Board {
         pointsCO_2 = board.getPCO_2();
     }
     public void sendCurrentBoard() {
-        // serializza this e lo manda al server
+        // serializza this e lo manda al server, il quale dovrebbe copiarla su ServerBoard e mandarla in broadcast a tutti i client
         return;
     }
     private void draw() {return;}

@@ -19,6 +19,7 @@ public class Game {
     private ArrayList<CommonObjective> bucketOfCO;
     private ArrayList<PrivateObjective> bucketOfPO;
     private boolean time = true;
+    private Socket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a ServerBoard
     public static void main(String[] args){
         new Game();
     }
@@ -120,6 +121,21 @@ public class Game {
                 return playersSocket.get(i);
         }
         return null;
+    }
+    public void updatePlayers(Player p, String name){
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getName().equals(name))
+                players.set(i, p);
+        }
+    }
+    public ArrayList<Library> getOtherLibraries(String name){ // funzione chiamata dal client, da remoto
+        ArrayList<Library> res = new ArrayList<>();
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getName().equals(name))
+                continue;
+            res.add(players.get(i).getLibrary());
+        }
+        return res;
     }
     public void setActivePlayer(Player p){activePlayer = p; p.setState(ACTIVE);}
 }
