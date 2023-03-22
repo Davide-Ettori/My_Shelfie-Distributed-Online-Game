@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import static app.model.Color.EMPTY;
 
 public class Library {
-    private final int ROWS = 6;
-    private final int COLS = 5;
+    public final int ROWS = 6;
+    public final int COLS = 5;
     public Card[][] library = new Card[ROWS][COLS];
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
