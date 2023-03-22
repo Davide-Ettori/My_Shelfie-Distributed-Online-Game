@@ -51,15 +51,16 @@ public class ServerBoard implements Board {
 
     private void createBoard(int numPlayers){
         shuffleCardsBucket();
-        gameMatrix = new int[][]{
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0}
+        gameMatrix = new int[][]{ // questo è lo schema della board --> 0: sempre vuota, 2,3,4: numero di giocatori minimo per attivarla
+                {0,0,0,3,4,0,0,0,0},
+                {0,0,0,2,2,4,0,0,0},
+                {0,0,3,2,2,2,3,0,0},
+                {0,4,2,2,2,2,2,2,3},
+                {4,2,2,2,2,2,2,2,4},
+                {3,2,2,2,2,2,2,4,0},
+                {0,0,3,2,2,2,3,0,0},
+                {0,0,0,4,2,2,0,0,0},
+                {0,0,0,0,4,3,0,0,0}
         };
         fillBoard(numPlayers);
         sendCurrentBoard(); // manda ciò che hai creato al client
