@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import static app.model.Color.*;
 
 public class ClientBoard implements Board {
-    private int DIM = 9;
+    private final int DIM = 9;
     private Card[][] gameBoard = new Card[DIM][DIM];
     public CommonObjective commonObjective_1;
     public CommonObjective commonObjective_2;
@@ -15,23 +15,23 @@ public class ClientBoard implements Board {
     public LinkedList<Integer> pointCO_2;
     public Player player;
 
-    public ClientBoard(int numPlayers, CommonObjective commonObjective_1, CommonObjective commonObjective_2, Player player){
+    public ClientBoard(int numPlayers, CommonObjective CO_1, CommonObjective CO_2, Player p){
         createBoard(numPlayers);
-        this.commonObjective_1 = commonObjective_1;
-        this.commonObjective_2 = commonObjective_2;
+        commonObjective_1 = CO_1;
+        commonObjective_2 = CO_2;
         if(numPlayers == 2){
-            this.pointCO_1 = new LinkedList<Integer>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
-            this.pointCO_2 = new LinkedList<Integer>(Arrays.asList(4, 8));
+            pointCO_1 = new LinkedList<Integer>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
+            pointCO_2 = new LinkedList<Integer>(Arrays.asList(4, 8));
         }
         else if(numPlayers == 3){
-            this.pointCO_1 = new LinkedList<Integer>(Arrays.asList(4,6,8));
-            this.pointCO_2 = new LinkedList<Integer>(Arrays.asList(4,6,8));
+            pointCO_1 = new LinkedList<Integer>(Arrays.asList(4,6,8));
+            pointCO_2 = new LinkedList<Integer>(Arrays.asList(4,6,8));
         }
         else{
-            this.pointCO_1 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
-            this.pointCO_2 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
+            pointCO_1 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
+            pointCO_2 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
         }
-        this.player = player;
+        player = p;
     }
     public Card[][] getGameBoard(){return gameBoard;} // getter che saranno utili in seguito
     public CommonObjective getCO_1(){return commonObjective_1;}

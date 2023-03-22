@@ -21,7 +21,7 @@ interface Strategy {
     boolean checkMatch(Card[][] board);
 }
 
-// ---------------------------12 algoritmi------------------------------------------------//
+// --------------------------- 12 algoritmi ------------------------------------------------ //
 
 class DFSHelper{
     public static void resetVisitedMatrix(int[][] mat, int ROWS, int COLS){
