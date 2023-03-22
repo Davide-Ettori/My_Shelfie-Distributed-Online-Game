@@ -11,8 +11,8 @@ public class ClientBoard implements Board {
     private Card[][] gameBoard = new Card[DIM][DIM];
     public CommonObjective commonObjective_1;
     public CommonObjective commonObjective_2;
-    public LinkedList<Integer> pointCO_1;
-    public LinkedList<Integer> pointCO_2;
+    public LinkedList<Integer> pointsCO_1;
+    public LinkedList<Integer> pointsCO_2;
     public Player player;
 
     public ClientBoard(int numPlayers, CommonObjective CO_1, CommonObjective CO_2, Player p){
@@ -20,22 +20,24 @@ public class ClientBoard implements Board {
         commonObjective_1 = CO_1;
         commonObjective_2 = CO_2;
         if(numPlayers == 2){
-            pointCO_1 = new LinkedList<Integer>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
-            pointCO_2 = new LinkedList<Integer>(Arrays.asList(4, 8));
+            pointsCO_1 = new LinkedList<Integer>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
+            pointsCO_2 = new LinkedList<Integer>(Arrays.asList(4, 8));
         }
         else if(numPlayers == 3){
-            pointCO_1 = new LinkedList<Integer>(Arrays.asList(4,6,8));
-            pointCO_2 = new LinkedList<Integer>(Arrays.asList(4,6,8));
+            pointsCO_1 = new LinkedList<Integer>(Arrays.asList(4,6,8));
+            pointsCO_2 = new LinkedList<Integer>(Arrays.asList(4,6,8));
         }
         else{
-            pointCO_1 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
-            pointCO_2 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
+            pointsCO_1 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
+            pointsCO_2 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
         }
         player = p;
     }
     public Card[][] getGameBoard(){return gameBoard;} // getter che saranno utili in seguito
     public CommonObjective getCO_1(){return commonObjective_1;}
     public CommonObjective getCO_2(){return commonObjective_2;}
+    public LinkedList<Integer> getPCO_1(){return pointsCO_1;}
+    public LinkedList<Integer> getPCO_2(){return pointsCO_2;}
     private void createBoard(int numPlayers) {return;} // la crea lui oppure la crea solo il server e poi la manda a tutti i client all'inizio ? forse meglio la seconda ?
     private boolean isValidIndex(int x, int y){
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
@@ -95,6 +97,8 @@ public class ClientBoard implements Board {
         gameBoard = board.getGameBoard();
         commonObjective_1 = board.getCO_1();
         commonObjective_2 = board.getCO_2();
+        pointsCO_1 = board.getPCO_1();
+        pointsCO_2 = board.getPCO_2();
     }
     public void sendCurrentBoard() {
         // serializza this e lo manda al server
