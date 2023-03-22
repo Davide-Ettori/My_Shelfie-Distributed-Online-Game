@@ -1,11 +1,11 @@
 package app.model;
 
-import playground.rmi.Client;
+import app.controller.Game;
 
 import java.net.Socket;
 import java.util.ArrayList;
 
-import static app.model.State.NOT_ACTIVE;
+import static app.model.State.*;
 
 public class Player {
     private String name;
@@ -15,13 +15,22 @@ public class Player {
     public int pointsUntilNow;
     private State state;
     private ClientBoard board;
+    private ArrayList<Library> librariesOfOtherPlayers;
+    private Socket mySocket;
+    private Game gameRMI;
 
     public static void main(String[] args){
         // prendi da input il nickname del utente
+        // apri una connessione socket TCP con il server
+        // prendi il RMI del server
         // controlla se è già stato preso e nel caso chiedilo di nuovo
         // aspetta che il server gli mandi le informazioni iniziali
         // deserializza la classe Player che ti è arrivata tramite il buffer della socket
-        // new Player(player); // crea la classe Player effettiva con cui l'utente giocherà
+        Socket socket = null; // questa dovrebbe essere la socket TCP che ho inizializzato poco prima
+        Game gameRMIInstance = null; // questo dovrebbe essere l'oggetto remoto che sta sul server
+        Player player = new Player(false, "pluto"); // questo oggetto dovrebbe venire dal server, questo è un esempio
+        player.setSocket(socket); // setto la socket di questo player con quella che ho creato prima
+        new Player(player, gameRMIInstance); // crea la classe Player effettiva con cui l'utente giocherà, tengo il riferimento al RMI del server
     }
 
     public Player(boolean isChair, String namePlayer) {
@@ -31,7 +40,7 @@ public class Player {
         pointsUntilNow = 0;
         state = NOT_ACTIVE;
     }
-    public Player(Player p){
+    public Player(Player p, Game rmi){
         name = p.name;
         isChairMan = p.isChairMan;
         library = p.library;
@@ -39,12 +48,32 @@ public class Player {
         pointsUntilNow = p.pointsUntilNow;
         state = p.state;
         board = p.board;
+        gameRMI = rmi;
+        librariesOfOtherPlayers = new ArrayList<>();
         startGame();
     }
 
     public void startGame(){
-        // comincia ad ascoltare gli input che vengono dall'utente
+        startRedrawThread();
+        startGetRemoteBoardThread();
+        // aspetta che il server ti faccia iniziare la partita, ovvero aspetta il tuo primo turno
+        startTurn();
         return;
+    }
+    private void startTurn(){
+        librariesOfOtherPlayers = gameRMI.getOtherLibraries(name);
+        if(state == DISCONNECTED){
+            endTurn();
+            return;
+        }
+        setState(ACTIVE);
+        // esegui le operazioni del tuo turno
+        endTurn();
+    }
+    private void endTurn(){
+        gameRMI.updatePlayers(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
+        setState(NOT_ACTIVE);
+        // manda al server la notifica che hai finito il turno
     }
     public String getName() {
         return name;
@@ -58,6 +87,7 @@ public class Player {
         ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < coord.size(); i += 2) {
             cards.add(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]);
+            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(coord.get(i), coord.get(i + 1)); // dopo che hai preso una carta, tale posto diventa EMPTY
         }
 
         deployCards(chooseCol(cards.size()), chooseCardsOrder(cards));
@@ -103,4 +133,10 @@ public class Player {
         state = newState;
     }
     public void setBoard(Board b){board.updateBoard(b);}
+    public void setSocket(Socket s){mySocket = s;}
+    public Library getLibrary(){return library;}
+    private void startRedrawThread(){return;} // funzione che start il thread che andrà ad aggiornare la GUI ogni x millisecondi.
+    // potremmo usare anche altri approcci ma questo sembra semplice ed efficace
+    private void startGetRemoteBoardThread(){return;}
+    // Mentre non è il tuo turno (NOT_ACTIVE) devi chiedere al server ogni x ms la nuova versione per aggiornarla. Avremo un Thread dedicato a parte
 }
