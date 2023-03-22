@@ -18,7 +18,7 @@ public class Game {
     private ServerBoard board;
     private ArrayList<CommonObjective> bucketOfCO;
     private ArrayList<PrivateObjective> bucketOfPO;
-
+    private boolean time = true;
     public static void main(String[] args){
         new Game();
     }
@@ -26,14 +26,22 @@ public class Game {
     public Game(){
         int numPlayers = 0;
         Player p;
+        new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
+            try {
+                Thread.sleep(1000 * 60); // aspetto un minuto
+                time = false;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
         // in questo ciclo aspetta che i giocatori si connettano, massimo per un minuto ad esempio
         // il primo che si connette è anche il chairman
-        while(numPlayers < 4){
+        while(numPlayers < 4 && time){
             // riceve una richiesta di nickname, la accetta o rifiuta
             // se la accetta crea un oggetto di tipo player e lo manda al client
             // poi aggiunge il player alla lista e incrementa il player counter di 1
 
-            String name = "pippo";
+            String name = "pippo"; // Esempio a caso, il nome dovrebbe inserirlo l'utente sul client e poi viene mandato qui al server
             if(isNameTaken(name))
                 continue;
             if(numPlayers == 0){
@@ -48,8 +56,10 @@ public class Game {
             numPlayers++;
             numPlayers = 3; // Esempio a caso che setta il numero di giocatori a tre. Ovviamente andrà eliminato
 
-            break;
+            break; // per ora serve questi break perché non ci sono client che si possono connettere
         }
+        if(numPlayers < 2) // se non ci sono abbastanza giocatori chiudi il server e annulla la partita
+            System.exit(0);
         board = new ServerBoard(numPlayers);
         for(int i = 0; i < players.size(); i++)
             players.get(i).setBoard(board);
