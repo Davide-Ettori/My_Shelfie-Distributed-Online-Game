@@ -49,7 +49,7 @@ public class ServerBoard implements Board {
     public LinkedList<Integer> getPCO_1(){return pointsCO_1;}
     public LinkedList<Integer> getPCO_2(){return pointsCO_2;}
 
-    public void createBoard(int numPlayers){
+    private void createBoard(int numPlayers){
         shuffleCardsBucket();
         gameMatrix = new int[][]{
                 {0,0,0,0,0,0,0,0,0},
