@@ -105,6 +105,7 @@ public class ClientBoard implements Board {
         }
         return allInRow || allInCol;
     }
+    /** ------------------------------------------------------------------------------------------------------------- */
     public void updateBoard(Board board) {
         gameBoard = board.getGameBoard();
         commonObjective_1 = board.getCO_1();

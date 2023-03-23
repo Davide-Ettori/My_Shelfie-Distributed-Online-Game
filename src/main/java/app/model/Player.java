@@ -66,29 +66,6 @@ public class Player {
         mySocket = p.mySocket;
     }
 
-    public void startGame(){
-        gameRMI.addClient(this);
-        startRedrawThread();
-        startGetRemoteBoardThread();
-        // aspetta che il server ti faccia iniziare la partita, ovvero aspetta il tuo primo turno
-        startTurn();
-        return;
-    }
-    private void startTurn(){
-        librariesOfOtherPlayers = gameRMI.getOtherLibraries(name);
-        if(state == DISCONNECTED){
-            endTurn();
-            return;
-        }
-        setState(ACTIVE);
-        // esegui le operazioni del tuo turno
-        endTurn();
-    }
-    private void endTurn(){
-        gameRMI.updatePlayers(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
-        // manda al server la notifica che hai finito il turno
-        // sarà il server a metterti NOT_ACTIVE
-    }
     public String getName() {
         return name;
     }
@@ -139,6 +116,30 @@ public class Player {
             break;
         }
         return cards;
+    }
+    /** ------------------------------------------------------------------------------------------------------------- */
+    public void startGame(){
+        gameRMI.addClient(this);
+        startRedrawThread();
+        startGetRemoteBoardThread();
+        // aspetta che il server ti faccia iniziare la partita, ovvero aspetta il tuo primo turno
+        startTurn();
+        return;
+    }
+    private void startTurn(){
+        librariesOfOtherPlayers = gameRMI.getOtherLibraries(name);
+        if(state == DISCONNECTED){
+            endTurn();
+            return;
+        }
+        setState(ACTIVE);
+        // esegui le operazioni del tuo turno
+        endTurn();
+    }
+    private void endTurn(){
+        gameRMI.updatePlayers(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
+        // manda al server la notifica che hai finito il turno
+        // sarà il server a metterti NOT_ACTIVE
     }
     public State getState() {
         return state;
