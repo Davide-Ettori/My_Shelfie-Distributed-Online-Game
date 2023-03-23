@@ -33,6 +33,4 @@ public class Algo_CO_5 extends Strategy { // terzo prima colonna
         }
         return match >= 4;
     }
-
-    ;
 }
