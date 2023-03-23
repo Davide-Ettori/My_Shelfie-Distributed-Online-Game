@@ -1,4 +1,4 @@
-package algo;
+package common_objective;
 
 import app.model.Algo_CO_9;
 import app.model.Card;

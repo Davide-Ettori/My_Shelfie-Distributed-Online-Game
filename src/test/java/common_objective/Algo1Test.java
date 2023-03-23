@@ -1,4 +1,4 @@
-package algo;
+package common_objective;
 
 import app.model.*;
 
