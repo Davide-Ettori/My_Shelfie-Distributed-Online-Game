@@ -15,8 +15,8 @@ public class countMatchTest {
     Card[][] lib = null;
     @Before // eseguita prima dei test
     public void setUp(){
-        this.privateObjective =new PrivateObjective(null,0,"");
-        this.lib=new Card[6][5];
+        this.privateObjective = new PrivateObjective(null,0,"");
+        this.lib = new Card[6][5];
     }
     @After // eseguita dopo i test
     public void tearDown() {
