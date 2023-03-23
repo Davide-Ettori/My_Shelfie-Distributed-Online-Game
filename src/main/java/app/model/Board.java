@@ -139,7 +139,7 @@ public class Board{
                     card.setX(i);
                     card.setY(j);
                     gameBoard[i][j] = card;
-                    bucketOfCards.remove(0);
+                    bucketOfCards.remove(0); // bucketOfCards viene anche lui scambiato con il server tramite il client
                 }
             }
         }

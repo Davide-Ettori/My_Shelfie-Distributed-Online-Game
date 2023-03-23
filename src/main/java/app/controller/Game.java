@@ -70,7 +70,6 @@ public class Game {
         setCommonObjective();
         setPrivateObjective();
         setActivePlayer(chairman);
-        sendStartingInfoToAllPlayers();
         return;
     }
     public void endGame(){return;} // chiude tutte le connessioni e termina la partita
@@ -82,13 +81,7 @@ public class Game {
         }
         return true;
     }
-    private void sendStartingInfoToAllPlayers(){
-        for(int i = 0; i < players.size(); i++){
-            // manda il player i-esimo verso il socket i-esimo (chair, obiettivi e board)
-        }
-        return;
-    }
-    private void setCommonObjective(){
+    private void setCommonObjective(){ // la situazione iniziale è quella del chairman, gli altri si adattano e poi comincia il gioco
         chairman.board.setCO_1(bucketOfCO.get(0));
         chairman.board.setCO_2(bucketOfCO.get(1));
     }
@@ -121,13 +114,15 @@ public class Game {
         }
         return null;
     }
-    public void updatePlayers(Player p, String name){
+    public void updatePlayersBoard(Player p, String name){ // chiamato da remoto
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name))
-                players.set(i, p);
+                players.set(i, new Player(p));
+            else
+                players.get(i).board = new Board(p.board);
         }
     }
-    public ArrayList<Library> getOtherLibraries(String name){ // funzione chiamata dal client, da remoto
+    public ArrayList<Library> getOtherLibraries(String name){ // chiamato da remoto
         ArrayList<Library> res = new ArrayList<>();
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name))

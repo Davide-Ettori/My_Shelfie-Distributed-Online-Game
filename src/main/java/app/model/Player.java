@@ -121,7 +121,7 @@ public class Player {
     /** ------------------------------------------------------------------------------------------------------------- */
     public void startGame(){
         startRedrawThread();
-        startGetRemoteBoardThread();
+        startUpdatePlayerFromRemoteThread();
         // aspetta che il server ti faccia iniziare la partita, ovvero aspetta il tuo primo turno
         startTurn();
         return;
@@ -141,7 +141,7 @@ public class Player {
         endTurn();
     }
     private void endTurn(){
-        gameRMI.updatePlayers(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
+        gameRMI.updatePlayersBoard(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
         // manda al server la notifica che hai finito il turno
         // sarà il server a metterti NOT_ACTIVE
     }
@@ -155,6 +155,6 @@ public class Player {
     public void setSocket(Socket s){mySocket = s;}
     public Library getLibrary(){return library;}
     private void startRedrawThread(){return;} // funzione che start il thread che andrà ad aggiornare la GUI ogni x millisecondi.
-    private void startGetRemoteBoardThread(){return;}
+    private void startUpdatePlayerFromRemoteThread(){return;}
     // Mentre non è il tuo turno (NOT_ACTIVE) devi chiedere al server ogni x ms la nuova versione per aggiornarla. Avremo un Thread dedicato a parte
 }
