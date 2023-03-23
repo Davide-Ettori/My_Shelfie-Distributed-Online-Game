@@ -15,11 +15,10 @@ public class Game {
     private ArrayList<Socket> playersSocket;
     private Player activePlayer;
     private Player chairman;
-    private ServerBoard board;
     private ArrayList<CommonObjective> bucketOfCO;
     private ArrayList<PrivateObjective> bucketOfPO;
     private boolean time = true;
-    private Socket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a ServerBoard
+    private Socket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     public static void main(String[] args){
         new Game();
     }
@@ -61,13 +60,13 @@ public class Game {
         }
         if(numPlayers < 2) // se non ci sono abbastanza giocatori chiudi il server e annulla la partita
             System.exit(0);
-        board = new ServerBoard(numPlayers);
+        chairman.board.initBoard(numPlayers);
         for(int i = 0; i < players.size(); i++)
-            players.get(i).setBoard(board);
+            players.get(i).board = new Board(chairman.board);
         startGame();
     }
 
-    public void startGame(){ // inizializza la serverBoard e comincia l'interazione con i client
+    public void startGame(){ // inizializza la Board e comincia l'interazione con i client
         setCommonObjective();
         setPrivateObjective();
         setActivePlayer(chairman);
@@ -90,8 +89,8 @@ public class Game {
         return;
     }
     private void setCommonObjective(){
-        board.setCO_1(bucketOfCO.get(0));
-        board.setCO_2(bucketOfCO.get(1));
+        chairman.board.setCO_1(bucketOfCO.get(0));
+        chairman.board.setCO_2(bucketOfCO.get(1));
     }
     private void setPrivateObjective(){
         for(int i = 0; i < players.size(); i++)

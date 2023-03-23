@@ -14,7 +14,7 @@ public class Player {
     private PrivateObjective objective;
     public int pointsUntilNow;
     private State state;
-    private ClientBoard board;
+    public Board board;
     private ArrayList<Library> librariesOfOtherPlayers;
     private Socket mySocket;
     private Game gameRMI;
@@ -60,7 +60,7 @@ public class Player {
         objective = p.objective;
         pointsUntilNow = p.pointsUntilNow;
         state = p.state;
-        board = new ClientBoard(p.board);
+        board = new Board(p.board);
         gameRMI = p.gameRMI;
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
