@@ -1,6 +1,5 @@
-package Algo;
+package algo;
 
-import app.model.Algo_CO_1;
 import app.model.Algo_CO_12;
 import app.model.Card;
 import org.junit.After;

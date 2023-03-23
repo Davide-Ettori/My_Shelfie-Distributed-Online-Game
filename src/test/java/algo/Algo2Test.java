@@ -1,4 +1,4 @@
-package Algo;
+package algo;
 
 import app.model.*;
 

@@ -1,4 +1,4 @@
-package PrivateObjective;
+package private_objective;
 
 import app.model.Card;
 import app.model.PrivateObjective;

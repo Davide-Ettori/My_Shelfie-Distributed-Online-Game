@@ -1,6 +1,7 @@
-package Algo;
+package algo;
 
-import app.model.Algo_CO_4;
+
+import app.model.Algo_CO_7;
 import app.model.Card;
 import org.junit.After;
 import org.junit.Before;
@@ -9,14 +10,14 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertTrue;
 
-public class Algo4Test {
-    Algo_CO_4 algoCo4 = null;
+public class Algo7Test {
+    Algo_CO_7 algoCo7 = null;
 
     Card[][] mat = new Card[6][5];
 
     @Before // eseguita prima dei test
     public void setUp() {
-        this.algoCo4 = new Algo_CO_4();
+        this.algoCo7 = new Algo_CO_7();
     }
     @After // eseguita dopo i test
     public void tearDown() {
@@ -24,15 +25,15 @@ public class Algo4Test {
     }
 
     @Test // test 1
-    public void algo4_test1_general() {
+    public void algo7_test1_general() {
         mat[0][0] = new Card(PINK);
-        mat[0][1] = new Card(GREEN);
+        mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
         mat[0][3] = new Card(GREEN);
         mat[0][4] = new Card(YELLOW);
 
-        mat[1][0] = new Card(BLUE);
-        mat[1][1] = new Card(BLUE);
+        mat[1][0] = new Card(PINK);
+        mat[1][1] = new Card(PINK);
         mat[1][2] = new Card();
         mat[1][3] = new Card(YELLOW);
         mat[1][4] = new Card();
@@ -45,13 +46,13 @@ public class Algo4Test {
 
         mat[3][0] = new Card(PINK);
         mat[3][1] = new Card(YELLOW);
-        mat[3][2] = new Card(GREEN);
+        mat[3][2] = new Card();
         mat[3][3] = new Card(PINK);
         mat[3][4] = new Card(PINK);
 
         mat[4][0] = new Card(PINK);
-        mat[4][1] = new Card(PINK);
-        mat[4][2] = new Card();
+        mat[4][1] = new Card(GREEN);
+        mat[4][2] = new Card(GREEN);
         mat[4][3] = new Card(CYAN);
         mat[4][4] = new Card(CYAN);
 
@@ -61,7 +62,7 @@ public class Algo4Test {
         mat[5][3] = new Card(PINK);
         mat[5][4] = new Card(PINK);
 
-        assertTrue(algoCo4.checkMatch(mat));
+        assertTrue(algoCo7.checkMatch(mat));
     }
 
 }
