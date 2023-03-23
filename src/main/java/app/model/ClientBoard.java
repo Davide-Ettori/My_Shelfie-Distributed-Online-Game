@@ -33,6 +33,18 @@ public class ClientBoard implements Board {
         }
         player = p;
     }
+    public ClientBoard(ClientBoard c){ // copy constructor
+        for(int i = 0; i < DIM; i++){
+            for(int j = 0; j < DIM; j++){
+                gameBoard[i][j] = new Card(c.gameBoard[i][j]);
+            }
+        }
+        commonObjective_1 = c.commonObjective_1;
+        commonObjective_2 = c.commonObjective_2;
+        pointsCO_1 = new LinkedList<>(c.pointsCO_1);
+        pointsCO_2 = new LinkedList<>(c.pointsCO_2);
+        player = new Player(player);
+    }
     public Card[][] getGameBoard(){return gameBoard;} // getter che saranno utili in seguito
     public CommonObjective getCO_1(){return commonObjective_1;}
     public CommonObjective getCO_2(){return commonObjective_2;}

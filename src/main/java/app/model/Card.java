@@ -29,6 +29,12 @@ public class Card {
     public Card(){
         color = EMPTY;
     }
+    public Card(Card c){ // copy constructor
+        color = c.color;
+        imagePath = c.imagePath;
+        x = c.x;
+        y = c.y;
+    }
     /**
      * setter della coordinata x
      * @author Ettori Giammusso

@@ -53,6 +53,18 @@ public class Player {
         librariesOfOtherPlayers = new ArrayList<>();
         startGame();
     }
+    public Player(Player p){ // copy constructor
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new ClientBoard(p.board);
+        gameRMI = p.gameRMI;
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+    }
 
     public void startGame(){
         gameRMI.addClient(this);

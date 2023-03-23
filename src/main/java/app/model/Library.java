@@ -21,6 +21,14 @@ public class Library {
             }
         }
     }
+    public Library(Library l){ // copy constructor
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
+                library[i][j] = new Card(l.library[i][j]);
+            }
+        }
+        countVisitedCards = 0;
+    }
 
     /**
      * controlla se la library è piena
