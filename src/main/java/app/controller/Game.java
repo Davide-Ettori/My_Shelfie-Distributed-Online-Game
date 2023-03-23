@@ -41,7 +41,7 @@ public class Game {
             // se la accetta crea un oggetto di tipo player e lo manda al client
             // poi aggiunge il player alla lista e incrementa il player counter di 1
 
-            String name = "pippo"; // Esempio a caso, il nome dovrebbe inserirlo l'utente sul client e poi viene mandato qui al server
+            String name = "pippo"; // Esempio a caso, il nome dovrebbe inserirlo l'utente sul client e poi viene arriva qui al server
             if(isNameTaken(name))
                 continue;
             if(numPlayers == 0){

@@ -34,7 +34,7 @@ public class Player {
         // ovviamente, per adesso intellij da molti errore di NullPointer, spariranno quando implementeremo la network
     }
 
-    public Player(boolean isChair, String namePlayer) {
+    public Player(boolean isChair, String namePlayer) { // Costruttore semplice, di base. Lo usi quando ancora non hai molte informazioni
         name = namePlayer;
         isChairMan = isChair;
         library = new Library();
@@ -44,13 +44,14 @@ public class Player {
     public Player(Player p, Game rmi){
         name = p.name;
         isChairMan = p.isChairMan;
-        library = p.library;
+        library = new Library(p.library);
         objective = p.objective;
         pointsUntilNow = p.pointsUntilNow;
         state = p.state;
-        board = p.board;
+        board = new Board(p.board);
         gameRMI = rmi;
-        librariesOfOtherPlayers = new ArrayList<>();
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
         startGame();
     }
     public Player(Player p){ // copy constructor
@@ -127,6 +128,10 @@ public class Player {
     }
     private void startTurn(){
         librariesOfOtherPlayers = gameRMI.getOtherLibraries(name);
+        if(board.isBoardUnplayable()) {
+            board.fillBoard(librariesOfOtherPlayers.size() + 1); // trucchetto, non molto carino ma funziona
+            // manda
+        }
         if(state == DISCONNECTED){
             endTurn();
             return;
@@ -146,7 +151,7 @@ public class Player {
     public void setState(State newState) {
         state = newState;
     }
-    public void setBoard(Board b){board.updateBoard(b);}
+    public void setBoard(Board b){board = new Board(b);}
     public void setSocket(Socket s){mySocket = s;}
     public Library getLibrary(){return library;}
     private void startRedrawThread(){return;} // funzione che start il thread che andrà ad aggiornare la GUI ogni x millisecondi.

@@ -45,6 +45,7 @@ public class Board{
         commonObjective_2 = c.commonObjective_2;
         pointsCO_1 = new LinkedList<>(c.pointsCO_1);
         pointsCO_2 = new LinkedList<>(c.pointsCO_2);
+        bucketOfCards = new ArrayList<>(c.bucketOfCards);
         player = new Player(player);
     }
     public Card[][] getGameBoard(){return gameBoard;} // getter che saranno utili in seguito
@@ -66,16 +67,17 @@ public class Board{
             return false;
         return true;
     }
-    private boolean isBoardUnplayable() {
+    public boolean isBoardUnplayable() {
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 if(gameBoard[i][j].color != EMPTY && !isAlone(i, j)) // ha trovato una carta non vuota e che non è sola, quindi la board non è ingiocabile
                     return false;
             }
         }
+        // se è unplayable devi chiamare il metodo fillBoard(numeroDiGiocatori)
         return true;
     }
-    private boolean hasOneFreeSide(int x, int y){
+    public boolean hasOneFreeSide(int x, int y){
         if(!isValidIndex(x , y) || gameBoard[x][y].color == EMPTY) // controlla che la carda corrente sia sensata, poi controlla le carte vicine
             return false;
         if(isValidIndex(x + 1, y) && gameBoard[x + 1][y].color == EMPTY)
@@ -88,14 +90,14 @@ public class Board{
             return true;
         return false;
     }
-    private boolean areCardsPickable(ArrayList<Integer> cardPositions) {
+    public boolean areCardsPickable(ArrayList<Integer> cardPositions) {
         for(int i = 0; i < cardPositions.size(); i += 2 ){
             if(!hasOneFreeSide(cardPositions.get(i), cardPositions.get(i + 1)))
                 return false;
         }
         return areCardsAligned(cardPositions);
     }
-    private boolean areCardsAligned(ArrayList<Integer> cardPosition){
+    public boolean areCardsAligned(ArrayList<Integer> cardPosition){
         boolean allInRow = true;
         for(int i = 0; i < cardPosition.size(); i += 2){
             if(cardPosition.get(i) != cardPosition.get(0))
@@ -123,7 +125,6 @@ public class Board{
                 {0,0,0,0,4,3,0,0,0}
         };
         fillBoard(numPlayers);
-        sendCurrentBoard(); // manda ciò che hai creato al client
     }
     public void fillBoard(int numPlayers){
         Card card;
@@ -156,16 +157,5 @@ public class Board{
     }
     public void setCO_1(CommonObjective obj){commonObjective_1 = obj;} // questi 2 sono i setter usati inizialmente dalla classe Game
     public void setCO_2(CommonObjective obj){commonObjective_2 = obj;}
-    public void updateBoard(Board board) {
-        gameBoard = board.getGameBoard();
-        commonObjective_1 = board.getCO_1();
-        commonObjective_2 = board.getCO_2();
-        pointsCO_1 = board.getPCO_1();
-        pointsCO_2 = board.getPCO_2();
-    }
-    public void sendCurrentBoard() {
-        // serializza this e lo manda al server, il quale dovrebbe copiarla su ServerBoard e mandarla in broadcast a tutti i client
-        return;
-    }
     private void draw() {return;}
 }
