@@ -12,6 +12,14 @@ public class CommonObjective extends Objective {
 // --------------------------- 12 algoritmi ------------------------------------------------ //
 
 class DFSHelper{
+    /**
+     * resetta la matrice dei nodi visitati in DFS
+     * @author Ettori Giammusso
+     * @param: la matrice
+     * @param: numero righe
+     * @param: numero colonne
+     * @return: void
+     */
     public static void resetVisitedMatrix(int[][] mat, int ROWS, int COLS){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
