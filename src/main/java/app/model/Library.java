@@ -22,7 +22,7 @@ public class Library {
     public boolean isFull(){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                if(library[i][j].color != EMPTY)
+                if(library[i][j].color == EMPTY)
                     return false;
             }
         }
