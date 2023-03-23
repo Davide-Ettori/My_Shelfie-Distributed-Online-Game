@@ -146,5 +146,6 @@ public class Game {
         }
         // notifica tutti i giocatori che il turno è cambiato
     }
+    public void addClient(Player p){players.add(p);}
     public void setActivePlayer(Player p){activePlayer = p; p.setState(ACTIVE);}
 }

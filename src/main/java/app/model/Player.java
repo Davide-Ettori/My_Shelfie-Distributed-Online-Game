@@ -54,6 +54,7 @@ public class Player {
     }
 
     public void startGame(){
+        gameRMI.addClient(this);
         startRedrawThread();
         startGetRemoteBoardThread();
         // aspetta che il server ti faccia iniziare la partita, ovvero aspetta il tuo primo turno
