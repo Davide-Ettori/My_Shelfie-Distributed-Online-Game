@@ -136,7 +136,6 @@ public class Player {
     public void setSocket(Socket s){mySocket = s;}
     public Library getLibrary(){return library;}
     private void startRedrawThread(){return;} // funzione che start il thread che andrà ad aggiornare la GUI ogni x millisecondi.
-    // potremmo usare anche altri approcci ma questo sembra semplice ed efficace
     private void startGetRemoteBoardThread(){return;}
     // Mentre non è il tuo turno (NOT_ACTIVE) devi chiedere al server ogni x ms la nuova versione per aggiornarla. Avremo un Thread dedicato a parte
 }
