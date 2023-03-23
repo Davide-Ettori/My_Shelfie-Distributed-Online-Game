@@ -116,7 +116,7 @@ public class Game {
     }
     public void updatePlayersBoard(Player p, String name){ // chiamato da remoto
         for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getName().equals(name))
+            if(players.get(i).getName().equals(name)) // il nome è univoco
                 players.set(i, new Player(p));
             else
                 players.get(i).board = new Board(p.board);

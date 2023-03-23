@@ -119,6 +119,18 @@ public class Player {
         return cards;
     }
     /** ------------------------------------------------------------------------------------------------------------- */
+    public void clone(Player p){ // copia la versione sul server dentro a quella del client
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        gameRMI = p.gameRMI;
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+    }
     public void startGame(){
         startRedrawThread();
         startUpdatePlayerFromRemoteThread();
