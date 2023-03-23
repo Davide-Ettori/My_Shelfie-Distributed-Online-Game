@@ -15,9 +15,9 @@ public class Algo_CO_2 extends Strategy { // primo seconda colonna
 
     private boolean checkDiagonal_2(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
-            if (!DFSHelper.isIndexValid(x - i, y - i, ROWS, COLS))
+            if (!DFSHelper.isIndexValid(x - i, y + i, ROWS, COLS))
                 return false;
-            if (board[x - i][y - i].color != color)
+            if (board[x - i][y + i].color != color)
                 return false;
         }
         return true;
