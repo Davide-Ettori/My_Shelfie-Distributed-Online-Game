@@ -18,7 +18,7 @@ public class Algo_CO_4 extends Strategy { // secondo seconda colonna
                 if (!colors.contains(board[i][j].color))
                     colors.add(board[i][j].color);
             }
-            if (colors.size() <= 3)
+            if (colors.size() >= 1 && colors.size() <= 3)
                 count++;
         }
         return count >= 4;
