@@ -1,4 +1,4 @@
-package playground_test.private_objective;
+package private_objective;
 
 import app.model.Card;
 import app.model.PrivateObjective;
