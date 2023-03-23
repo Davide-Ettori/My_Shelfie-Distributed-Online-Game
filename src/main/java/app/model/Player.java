@@ -31,6 +31,7 @@ public class Player {
         Player player = new Player(false, "pluto"); // questo oggetto dovrebbe venire dal server, questo è un esempio
         player.setSocket(socket); // setto la socket di questo player con quella che ho creato prima
         new Player(player, gameRMIInstance); // crea la classe Player effettiva con cui l'utente giocherà, tengo il riferimento al RMI del server
+        // ovviamente, per adesso intellij da molti errore di NullPointer, spariranno quando implementeremo la network
     }
 
     public Player(boolean isChair, String namePlayer) {
