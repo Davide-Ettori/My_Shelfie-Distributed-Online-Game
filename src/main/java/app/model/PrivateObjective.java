@@ -4,10 +4,10 @@ import static app.model.Color.*;
 
 public class PrivateObjective extends Objective {
     private int[] arrayOfPoints;
-    private Color[][] matrix;
+    private Card[][] matrix;
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo
 
-    public PrivateObjective(Color[][] mat, int id, String image){
+    public PrivateObjective(Card[][] mat, int id, String image){
         arrayOfPoints = new int[]{0,1,2,4,6,9,12};
         matrix = mat;
         objectiveId = id;
@@ -21,7 +21,7 @@ public class PrivateObjective extends Objective {
         int count = 0;
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                if(matrix[i][j] != EMPTY && matrix[i][j] == cards[i][j].color)
+                if(matrix[i][j].color != EMPTY && matrix[i][j].color == cards[i][j].color)
                     count++;
             }
         }
@@ -29,4 +29,7 @@ public class PrivateObjective extends Objective {
     }
 
     public void draw() {return;}
+    public void setObjMatrix(Card[][] mat){
+        matrix = mat;
+    };
 }
