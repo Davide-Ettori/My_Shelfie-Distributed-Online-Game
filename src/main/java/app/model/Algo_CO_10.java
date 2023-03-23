@@ -20,7 +20,7 @@ public class Algo_CO_10 extends Strategy { // quinto seconda colonna
                 flag = true;
                 for (int k = 0; k < cells.size(); k += 2) {
                     if (!DFSHelper.isIndexValid(cells.get(k), cells.get(k + 1), ROWS, COLS))
-                        flag = false;
+                        continue;
                     if (board[cells.get(k)][cells.get(k + 1)].color != color)
                         flag = false;
                 }
