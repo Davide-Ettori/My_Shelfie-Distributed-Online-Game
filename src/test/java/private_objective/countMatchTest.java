@@ -182,7 +182,7 @@ public class countMatchTest {
         assertEquals(privateObjective.countPoints(lib), 2);
     }
     @Test
-    public void countMatch_personalgoal_5match(){
+    public void countMatch_personalGoal_5match(){
         Card[][] objMat = new Card[6][5];
         objMat[0][0] = new Card(PINK);
         objMat[0][1] = new Card();
@@ -262,7 +262,7 @@ public class countMatchTest {
     }
 
     @Test
-    public void countMatch_personalgoal_6match(){
+    public void countMatch_personalGoal_6match(){
         Card[][] objMat = new Card[6][5];
         objMat[0][0] = new Card(PINK);
         objMat[0][1] = new Card();
