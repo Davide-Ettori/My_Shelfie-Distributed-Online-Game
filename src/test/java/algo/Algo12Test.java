@@ -24,7 +24,7 @@ public class Algo12Test {
     }
 
     @Test // test 1
-    public void algo11_test1_general_decrescent() {
+    public void algo12_test1_general_decrescent() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -64,7 +64,7 @@ public class Algo12Test {
         assertTrue(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo11_test1_general_crescent() {
+    public void algo12_test1_general_crescent() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
