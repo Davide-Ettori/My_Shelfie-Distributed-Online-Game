@@ -27,9 +27,26 @@ class DFSHelper{
             }
         }
     }
+    /**
+     * controlla che l'indice stia nella matrice
+     * @author Ettori Giammusso
+     * @param: pos x
+     * @param: pos y
+     * @param: numero righe
+     * @param: numero colonne
+     * @return: true sse l'indice sta nella matrice
+     */
     public static boolean isIndexValid(int x, int y, int ROWS, int COLS){
         return x >= 0 && x < ROWS && y >= 0 && y < COLS;
     }
+    /**
+     * se il nodo è visitato, nel caso non lo sia lo visita
+     * @author Ettori Giammusso
+     * @param: pos x
+     * @param: pos y
+     * @param: matrice dei nodi visitati
+     * @return: true sse il nodo visitato
+     */
     public static boolean isVisited(int x, int y, int[][] mat){
         int temp = mat[x][y];
         mat[x][y] = 1;
