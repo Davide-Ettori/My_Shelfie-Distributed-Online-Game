@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static app.model.Color.EMPTY;
-
+/*
+Cinque tessere dello stesso tipo
+che formano una X.
+ */
 public class Algo_CO_10 extends Strategy { // quinto seconda colonna
     @Override
     public boolean checkMatch(Card[][] board) {

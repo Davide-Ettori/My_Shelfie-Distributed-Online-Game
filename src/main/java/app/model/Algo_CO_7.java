@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static app.model.Color.EMPTY;
-
+/*
+Due gruppi separati di 4 tessere dello
+stesso tipo che formano un quadrato 2x2.
+Le tessere dei due gruppi devono essere
+dello stesso tipo.
+ */
 public class Algo_CO_7 extends Strategy { // quarto prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];
 

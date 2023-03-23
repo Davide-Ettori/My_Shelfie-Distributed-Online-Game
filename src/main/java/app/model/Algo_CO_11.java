@@ -1,7 +1,11 @@
 package app.model;
 
 import static app.model.Color.*;
-
+/*
+Otto tessere dello stesso tipo. Non ci
+sono restrizioni sulla posizione di
+queste tessere.
+ */
 public class Algo_CO_11 extends Strategy { // sesto prima colonna
     private int map(Color color) {
         if (color == GREEN)

@@ -1,7 +1,10 @@
 package app.model;
 
 import java.util.ArrayList;
-
+/*
+Due colonne formate ciascuna
+da 6 diversi tipi di tessere.
+ */
 public class Algo_CO_6 extends Strategy { // terzo seconda colonna
     @Override
     public boolean checkMatch(Card[][] board) {

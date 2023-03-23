@@ -1,7 +1,13 @@
 package app.model;
 
 import static app.model.Color.EMPTY;
-
+/*
+Quattro gruppi separati formati ciascuno
+da quattro tessere adiacenti dello stesso
+tipo (non necessariamente come mostrato
+in figura). Le tessere di un gruppo possono
+essere diverse da quelle di un altro gruppo.
+ */
 public class Algo_CO_5 extends Strategy { // terzo prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;

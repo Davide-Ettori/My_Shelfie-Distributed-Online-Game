@@ -2,7 +2,14 @@ package app.model;
 
 import static app.model.Color.EMPTY;
 
-public class Algo_CO_12 extends Strategy { // sesto seconda colonna
+/*
+Cinque colonne di altezza crescente o
+decrescente: a partire dalla prima colonna
+a sinistra o a destra, ogni colonna successiva
+deve essere formata da una tessera in più.
+Le tessere possono essere di qualsiasi tipo.
+ */
+public class Algo_CO_12 extends Strategy {
     private boolean checkLowTriangle_1(Card[][] board) {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
