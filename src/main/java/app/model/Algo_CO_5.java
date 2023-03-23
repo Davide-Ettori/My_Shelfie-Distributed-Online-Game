@@ -2,7 +2,7 @@ package app.model;
 
 import static app.model.Color.EMPTY;
 
-class Algo_CO_5 extends Strategy { // terzo prima colonna
+public class Algo_CO_5 extends Strategy { // terzo prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
 

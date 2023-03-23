@@ -2,7 +2,7 @@ package app.model;
 
 import static app.model.Color.*;
 
-class Algo_CO_11 extends Strategy { // sesto prima colonna
+public class Algo_CO_11 extends Strategy { // sesto prima colonna
     private int map(Color color) {
         if (color == GREEN)
             return 0;

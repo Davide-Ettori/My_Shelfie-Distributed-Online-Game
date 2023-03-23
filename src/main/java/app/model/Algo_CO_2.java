@@ -2,7 +2,7 @@ package app.model;
 
 import static app.model.Color.EMPTY;
 
-class Algo_CO_2 extends Strategy { // primo seconda colonna
+public class Algo_CO_2 extends Strategy { // primo seconda colonna
     private boolean checkDiagonal(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
             if (!DFSHelper.isIndexValid(x + i, y + i, ROWS, COLS))

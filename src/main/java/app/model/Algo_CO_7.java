@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import static app.model.Color.EMPTY;
 
-class Algo_CO_7 extends Strategy { // quarto prima colonna
+public class Algo_CO_7 extends Strategy { // quarto prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];
 
     private void dfs(int i, int j, Color color, Card[][] board) {

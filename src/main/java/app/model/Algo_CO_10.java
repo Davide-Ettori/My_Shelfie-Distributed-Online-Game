@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import static app.model.Color.EMPTY;
 
-class Algo_CO_10 extends Strategy { // quinto seconda colonna
+public class Algo_CO_10 extends Strategy { // quinto seconda colonna
     @Override
     public boolean checkMatch(Card[][] board) {
         Color color;

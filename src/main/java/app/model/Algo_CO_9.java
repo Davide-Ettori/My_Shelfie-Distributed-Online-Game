@@ -2,7 +2,7 @@ package app.model;
 
 import java.util.ArrayList;
 
-class Algo_CO_9 extends Strategy { // quinto prima colonna
+public class Algo_CO_9 extends Strategy { // quinto prima colonna
     @Override
     public boolean checkMatch(Card[][] board) {
         int count = 0;
