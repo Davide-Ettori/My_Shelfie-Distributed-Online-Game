@@ -22,7 +22,7 @@ public class Player {
     public static void main(String[] args){
         // prendi da input il nickname del utente
         // apri una connessione socket TCP con il server
-        // prendi il RMI del server
+        // prendi il RMI del server usando il naming e l'ip giusto
         // controlla se è già stato preso e nel caso chiedilo di nuovo
         // aspetta che il server gli mandi le informazioni iniziali
         // deserializza la classe Player che ti è arrivata tramite il buffer della socket
