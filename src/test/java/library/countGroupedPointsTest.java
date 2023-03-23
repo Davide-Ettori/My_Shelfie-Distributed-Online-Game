@@ -7,7 +7,7 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
 import app.model.Library;
 
-public class countGroupedPoints {
+public class countGroupedPointsTest {
     Library lib = null;
     @Before // eseguita prima dei test
     public void setUp(){
