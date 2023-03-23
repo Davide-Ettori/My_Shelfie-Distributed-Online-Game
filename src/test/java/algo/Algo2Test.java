@@ -12,9 +12,6 @@ import static org.junit.Assert.assertTrue;
 //al posto di fare 12 test diversi, creo diverse shelfie e testo tutti gli obbiettivi comuni su ognuna
 public class Algo2Test {
     Algo_CO_2 algoCo2 = null;
-
-
-
     Card[][] mat = new Card[6][5];
 
     @Before // eseguita prima dei test
