@@ -72,8 +72,8 @@ public class Player {
     }
     private void endTurn(){
         gameRMI.updatePlayers(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
-        setState(NOT_ACTIVE);
         // manda al server la notifica che hai finito il turno
+        // sarà il server a metterti NOT_ACTIVE
     }
     public String getName() {
         return name;

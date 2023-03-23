@@ -137,5 +137,14 @@ public class Game {
         }
         return res;
     }
+    public void advanceTurn(){
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getState() == ACTIVE){
+                players.get(i).setState(NOT_ACTIVE);
+                players.get((i + 1) % players.size()).setState(ACTIVE);
+            }
+        }
+        // notifica tutti i giocatori che il turno è cambiato
+    }
     public void setActivePlayer(Player p){activePlayer = p; p.setState(ACTIVE);}
 }

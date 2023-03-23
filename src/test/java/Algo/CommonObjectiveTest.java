@@ -15,7 +15,7 @@ public class CommonObjectiveTest {
 
     @Before // eseguita prima dei test
     public void setUp() {
-        this.obj1 = new CommonObjective(new Algo_CO_1(), " ");
+        this.obj1 = new CommonObjective(new Algo_CO_1(), "");
 
     }
 

@@ -1,10 +1,5 @@
 package app.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static app.model.Color.*;
-
 public class CommonObjective extends Objective {
     public final Strategy algorithm;
     public CommonObjective(Strategy algorithm, String image){
