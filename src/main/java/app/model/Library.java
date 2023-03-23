@@ -149,4 +149,20 @@ public class Library {
         return points;
     }
     public void draw(){return;}
+    /**
+     * controlla che le due librerie abbiano le carte con lo stesso colore
+     * @author Ettori Giammusso
+     * @param: libreria da confrontare
+     * @return: true sse le librerie sono uguali
+     */
+    public boolean sameLibraryColor(Library lib){
+        for(int i=0; i<ROWS; i++){
+            for(int j=0; j<COLS; j++){
+                if(library[i][j].color != lib.library[i][j].color){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
