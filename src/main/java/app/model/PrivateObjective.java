@@ -2,6 +2,10 @@ package app.model;
 
 import static app.model.Color.*;
 
+/**
+ * classe che modellizza gli obbiettivi privati di ogni giocatore
+ * @author Ettori Giammusso
+ */
 public class PrivateObjective extends Objective {
     private int[] arrayOfPoints;
     private Card[][] matrix;
@@ -13,10 +17,21 @@ public class PrivateObjective extends Objective {
         objectiveId = id;
         imagePath = image;
     }
+    /**
+     * conta i punti che il giocatore ha fatto
+     * @author Ettori Giammusso
+     * @param: matrice della library del giocatore
+     * @return: il numero di punti fatti effettivamente
+     */
     public int countPoints(Card[][] cards) {
         return arrayOfPoints[countMatch(cards)];
-    };
-
+    }
+    /**
+     * conta quante carte il giocatore ha posizionato come nell'obbiettivo
+     * @author Ettori Giammusso
+     * @param: matrice della libraria del giocatore
+     * @return: numero di match trovati
+     */
     private  int countMatch(Card[][] cards) {
         int count = 0;
         for(int i = 0; i < ROWS; i++){
@@ -27,9 +42,14 @@ public class PrivateObjective extends Objective {
         }
         return count;
     }
-
-    public void draw() {return;}
+    /**
+     * setter per l'attributo matrix, ovvero la matrice da matchare
+     * @author Ettori Giammusso
+     * @param: la matrice da settare
+     * @return: void
+     */
     public void setObjMatrix(Card[][] mat){
         matrix = mat;
-    };
+    }
+    public void draw() {return;}
 }
