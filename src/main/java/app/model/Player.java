@@ -34,7 +34,7 @@ public class Player {
         // ovviamente, per adesso intellij da molti errore di NullPointer, spariranno quando implementeremo la network
     }
 
-    public Player(boolean isChair, String namePlayer) { // Costruttore semplice, di base. Lo usi quando ancora non hai molte informazioni
+    public Player(boolean isChair, String namePlayer) { // Costruttore semplice, di base. Ancora non so se servirà per davvero
         name = namePlayer;
         isChairMan = isChair;
         library = new Library();
@@ -66,15 +66,30 @@ public class Player {
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
     }
-
+    /**
+     * getter per il nome
+     * @author Ettori
+     * @param: void
+     * @return: il nome
+     */
     public String getName() {
         return name;
     }
-
+    /**
+     * setter per il PO
+     * @author Ettori
+     * @param: il PO da settare
+     * @return: void
+     */
     public void setPrivateObjective(PrivateObjective obj) {
         objective = obj;
     }
-
+    /**
+     * prende le carte dalla board e le trasferisce sulla library del giocatore
+     * @author Ettori
+     * @param: la lista di coordinate accoppiate delle carte da prendere
+     * @return: true sse il trasferiemento è andato a buon fine (carte in posizione corretta)
+     */
     private boolean pickCards(ArrayList<Integer> coord) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
         if(!board.areCardsPickable(coord))
             return false; // hai scelto delle carte che non possono essere prese
@@ -87,12 +102,23 @@ public class Player {
         deployCards(chooseCol(cards.size()), chooseCardsOrder(cards));
         return true;
     }
-
+    /**
+     * posizione fisicamente le carte nella colonna scelta
+     * @author Ettori
+     * @param: colonna
+     * @param: lista delle caret scelte
+     * @return: true sse va a buon fine
+     */
     private boolean deployCards(int col, ArrayList<Card> cards) {
         library.insertCards(col, cards);
         return true;
     }
-
+    /**
+     * fa scegliere all'utente la colonna dove vuole mettere le carte
+     * @author Ettori
+     * @param: numero delle carte
+     * @return: la colonna scelta (controlla anche che la colonna sia valida)
+     */
     private int chooseCol(int numCards) {
         int col;
         while (true) { // questo va fino a che l'utente sceglie la colonna, per ora lo forziamo a mano
@@ -105,14 +131,26 @@ public class Player {
         }
         return col;
     }
-
+    /**
+     * funzione di helper per scambiare le carte nella lista scelta dall'utente
+     * @author Ettori
+     * @param: lista delle carte
+     * @param: indice numero 1
+     * @param: indice numero 2
+     * @return: void
+     */
     private void swapCards(ArrayList<Card> cards, int i, int j) {
         Card temp = cards.get(i);
         cards.set(i, cards.get(j));
         cards.set(j, temp);
         return;
     }
-
+    /**
+     * fa scegliere all'utente l'ordine con cui posizionare le carte
+     * @author Ettori
+     * @param: lista delle carte
+     * @return: lista nell'ordine scelto dall'utente
+     */
     private ArrayList<Card> chooseCardsOrder(ArrayList<Card> cards) {
         while (true) { // questo va fino a che l'utente sceglie l'ordine delle carte, per ora lo forziamo a mano
             swapCards(cards, 0, 1); // scambio 2 carte a caso
