@@ -24,7 +24,7 @@ import static app.model.Color.*;
 
 
 public class Initaliazer { // Inizializza lo stato iniziale (casuale) del gioco
-    // solo classi statiche
+    // solo metodi statici
 
     public final int ROWS = 6;
     public final int COLS = 5;
