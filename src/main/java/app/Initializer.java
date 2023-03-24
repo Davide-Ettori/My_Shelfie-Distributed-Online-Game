@@ -23,7 +23,6 @@ import app.model.Algo_CO_12;
 
 import static app.model.Color.*;
 
-
 public class Initializer {
     public static final int ROWS = 6;
     public static final int COLS = 5;
