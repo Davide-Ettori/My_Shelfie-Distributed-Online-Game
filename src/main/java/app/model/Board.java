@@ -242,9 +242,9 @@ public class Board{
      */
     public void setCO_2(CommonObjective obj){commonObjective_2 = obj;}
     /**
-     * setter for the gameBoard (uso esclusivo del testing)
+     * setter for the gameBoard (only used by testing)
      * @author Gumus Giammusso
-     * @param: la matrice di carte da copiare
+     * @param: the matrix to copy in the board
      */
     public void setGameBoard(Card[][] g){
         for(int i = 0; i < DIM; i++){
