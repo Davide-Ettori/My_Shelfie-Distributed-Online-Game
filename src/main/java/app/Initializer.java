@@ -1,6 +1,5 @@
 package app;
 
-import app.model.Algo_CO_1;
 import app.model.Card;
 
 import app.model.CommonObjective;
@@ -9,6 +8,7 @@ import app.model.PrivateObjective;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import app.model.Algo_CO_1;
 import app.model.Algo_CO_2;
 import app.model.Algo_CO_3;
 import app.model.Algo_CO_4;
