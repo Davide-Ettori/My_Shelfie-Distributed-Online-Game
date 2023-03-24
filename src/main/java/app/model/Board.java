@@ -241,6 +241,11 @@ public class Board{
      * @author Ettori
      */
     public void setCO_2(CommonObjective obj){commonObjective_2 = obj;}
+    /**
+     * setter for the gameBoard
+     * @author Gumus Giammusso
+     * @param: Card[][]
+     */
     public void setGameBoard(Card[][] gameBoard1){
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
