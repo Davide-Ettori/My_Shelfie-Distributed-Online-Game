@@ -7,7 +7,7 @@ import app.model.CommonObjective;
 import app.model.PrivateObjective;
 
 import java.util.ArrayList;
-import app.model.Algo_CO_1;
+
 import app.model.Algo_CO_2;
 import app.model.Algo_CO_3;
 import app.model.Algo_CO_4;
@@ -23,7 +23,7 @@ import app.model.Algo_CO_12;
 import static app.model.Color.*;
 
 
-public class Initaliazer { // Inizializza lo stato iniziale (casuale) del gioco
+public class Initializer { // Inizializza lo stato iniziale (casuale) del gioco
     // solo metodi statici
 
     public final int ROWS = 6;
