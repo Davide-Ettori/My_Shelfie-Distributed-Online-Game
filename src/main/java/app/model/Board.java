@@ -246,10 +246,10 @@ public class Board{
      * @author Gumus Giammusso
      * @param: Card[][]
      */
-    public void setGameBoard(Card[][] gameBoard1){
+    public void setGameBoard(Card[][] g){
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
-                    gameBoard[i][j] = gameBoard1[i][j] ;
+                    gameBoard[i][j] = new Card(g[i][j]);
                 }
             }
     }
