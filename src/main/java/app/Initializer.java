@@ -24,9 +24,9 @@ import app.model.Algo_CO_12;
 import static app.model.Color.*;
 
 public class Initializer {
-    public static final int ROWS = 6;
-    public static final int COLS = 5;
-    public static Card[][] setEmpty() {
+    private static final int ROWS = 6;
+    private static final int COLS = 5;
+    private static Card[][] setEmpty() {
         Card[][] res = new Card[ROWS][COLS];
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++)
