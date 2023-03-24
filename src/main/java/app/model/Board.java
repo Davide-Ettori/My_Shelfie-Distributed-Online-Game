@@ -110,7 +110,6 @@ public class Board{
         }
         return allInRow || allInCol;
     }
-    /** ------------------------------------------------------------------------------------------------------------- */
     public void initBoard(int numPlayers){
         shuffleCardsBucket();
         gameMatrix = new int[][]{ // questo è lo schema della board --> 0: sempre vuota, 2,3,4: numero di giocatori minimo per attivarla
@@ -138,7 +137,7 @@ public class Board{
                     card = bucketOfCards.get(0);
                     card.setX(i);
                     card.setY(j);
-                    gameBoard[i][j] = card;
+                    gameBoard[i][j] = new Card(card);
                     bucketOfCards.remove(0); // bucketOfCards viene anche lui scambiato con il server tramite il client
                 }
             }

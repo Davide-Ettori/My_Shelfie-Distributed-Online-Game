@@ -10,7 +10,7 @@ import static app.model.State.*;
 public class Player {
     private String name;
     private boolean isChairMan;
-    private Library library;
+    public Library library;
     private PrivateObjective objective;
     public int pointsUntilNow;
     private State state;
@@ -76,9 +76,11 @@ public class Player {
     }
 
     private boolean pickCards(ArrayList<Integer> coord) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
+        if(!board.areCardsPickable(coord))
+            return false; // hai scelto delle carte che non possono essere prese
         ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < coord.size(); i += 2) {
-            cards.add(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]);
+            cards.add(new Card(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]));
             board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(coord.get(i), coord.get(i + 1)); // dopo che hai preso una carta, tale posto diventa EMPTY
         }
 
@@ -139,10 +141,9 @@ public class Player {
         return;
     }
     private void startTurn(){
-        librariesOfOtherPlayers = gameRMI.getOtherLibraries(name);
         if(board.isBoardUnplayable()) {
-            board.fillBoard(librariesOfOtherPlayers.size() + 1); // trucchetto, non molto carino ma funziona
-            // manda
+            board.fillBoard(librariesOfOtherPlayers.size() + 1); // così il player sa quanti giocatori ci sono e puo' refillare la board
+            // poi devi anche mandare la nuova board refillata al server
         }
         if(state == DISCONNECTED){
             endTurn();
@@ -153,9 +154,9 @@ public class Player {
         endTurn();
     }
     private void endTurn(){
-        gameRMI.updatePlayersBoard(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
+        state = NOT_ACTIVE;
+        gameRMI.updatePlayersBoardAfterEndTurn(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
         // manda al server la notifica che hai finito il turno
-        // sarà il server a metterti NOT_ACTIVE
     }
     public State getState() {
         return state;
@@ -163,9 +164,8 @@ public class Player {
     public void setState(State newState) {
         state = newState;
     }
-    public void setBoard(Board b){board = new Board(b);}
     public void setSocket(Socket s){mySocket = s;}
-    public Library getLibrary(){return library;}
+    public void setObjective(PrivateObjective obj){objective = obj;}
     private void startRedrawThread(){return;} // funzione che start il thread che andrà ad aggiornare la GUI ogni x millisecondi.
     private void startUpdatePlayerFromRemoteThread(){return;}
     // Mentre non è il tuo turno (NOT_ACTIVE) devi chiedere al server ogni x ms la nuova versione per aggiornarla. Avremo un Thread dedicato a parte

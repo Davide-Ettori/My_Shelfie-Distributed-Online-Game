@@ -13,7 +13,6 @@ public class Game {
     private int numPlayers;
     private ArrayList<Player> players;
     private ArrayList<Socket> playersSocket;
-    private Player activePlayer;
     private Player chairman;
     private ArrayList<CommonObjective> bucketOfCO;
     private ArrayList<PrivateObjective> bucketOfPO;
@@ -69,7 +68,7 @@ public class Game {
     public void startGame(){ // inizializza la Board e comincia l'interazione con i client
         setCommonObjective();
         setPrivateObjective();
-        setActivePlayer(chairman);
+        chairman.setState(ACTIVE);
         return;
     }
     public void endGame(){return;} // chiude tutte le connessioni e termina la partita
@@ -114,31 +113,37 @@ public class Game {
         }
         return null;
     }
-    public void updatePlayersBoard(Player p, String name){ // chiamato da remoto
+    public void updatePlayersBoardAfterEndTurn(Player p, String name){ // chiamato da remoto alla fine di ogni turno
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name)) // il nome è univoco
                 players.set(i, new Player(p));
             else
                 players.get(i).board = new Board(p.board);
         }
+        advanceTurn(name);
     }
     public ArrayList<Library> getOtherLibraries(String name){ // chiamato da remoto
         ArrayList<Library> res = new ArrayList<>();
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name))
                 continue;
-            res.add(players.get(i).getLibrary());
+            res.add(players.get(i).library);
         }
         return res;
     }
-    public void advanceTurn(){
+    public String getActivePlayer(){ // chiamato da remoto
         for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getState() == ACTIVE){
-                players.get(i).setState(NOT_ACTIVE);
+            if(players.get(i).getState() == ACTIVE)
+                return players.get(i).getName();
+        }
+        return "";
+    }
+    public void advanceTurn(String name){
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getName().equals(name)){
                 players.get((i + 1) % players.size()).setState(ACTIVE);
             }
         }
-        // notifica tutti i giocatori che il turno è cambiato
+        // notifica tutti i giocatori che il turno è cambiato tramite un messaggio socket, a quel punto loro richiederanno il nuovo stato
     }
-    public void setActivePlayer(Player p){activePlayer = p; p.setState(ACTIVE);}
 }
