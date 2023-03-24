@@ -7,6 +7,7 @@ import app.model.CommonObjective;
 import app.model.PrivateObjective;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import app.model.Algo_CO_2;
 import app.model.Algo_CO_3;
@@ -23,211 +24,144 @@ import app.model.Algo_CO_12;
 import static app.model.Color.*;
 
 
-public class Initializer { // Inizializza lo stato iniziale (casuale) del gioco
-    // solo metodi statici
-
-    public final int ROWS = 6;
-    public final int COLS = 5;
-    private ArrayList<PrivateObjective> bucketOfPO;
-    private ArrayList<CommonObjective> bucketOfCO;
-
-    public void setEmpty(Card[][] mat) {
+public class Initializer {
+    public static final int ROWS = 6;
+    public static final int COLS = 5;
+    public static Card[][] setEmpty() {
+        Card[][] res = new Card[ROWS][COLS];
         for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                if (mat[j][i].color == null) {
-                    mat[j][i] = new Card(EMPTY);
-                }
-
-            }
+            for (int j = 0; j < COLS; j++)
+                res[i][j] = new Card();
         }
+        return res;
     }
+    public static ArrayList<PrivateObjective> setBucketOfPO() {
+        Card[][] mat_1 = setEmpty();
+        Card[][] mat_2 = setEmpty();
+        Card[][] mat_3 = setEmpty();
+        Card[][] mat_4 = setEmpty();
+        Card[][] mat_5 = setEmpty();
+        Card[][] mat_6 = setEmpty();
+        Card[][] mat_7 = setEmpty();
+        Card[][] mat_8 = setEmpty();
+        Card[][] mat_9 = setEmpty();
+        Card[][] mat_10 = setEmpty();
+        Card[][] mat_11 = setEmpty();
+        Card[][] mat_12 = setEmpty();
 
-    public void setBucketOfPO() {
-        Card[][] mat = null;
+        mat_1[0][0] = new Card(PINK);
+        mat_1[0][2] = new Card(BLUE);
+        mat_1[1][5] = new Card(GREEN);
+        mat_1[2][4] = new Card(WHITE);
+        mat_1[3][1] = new Card(YELLOW);
+        mat_1[5][2] = new Card(BLUE);
 
-        PrivateObjective obj;
+        mat_2[1][1] = new Card(PINK);
+        mat_2[2][0] = new Card(GREEN);
+        mat_2[2][2] = new Card(YELLOW);
+        mat_2[3][4] = new Card(WHITE);
+        mat_2[4][3] = new Card(CYAN);
+        mat_2[5][4] = new Card(BLUE);
 
-        for (int i = 0; i < 12; i++) {
+        mat_3[1][0] = new Card(BLUE);
+        mat_3[1][3] = new Card(YELLOW);
+        mat_3[2][2] = new Card(PINK);
+        mat_3[3][1] = new Card(GREEN);
+        mat_3[3][4] = new Card(CYAN);
+        mat_3[5][0] = new Card(WHITE);
 
-            switch(i){
-                case 0:
-                    mat[0][0] = new Card(PINK);
-                    mat[0][2] = new Card(BLUE);
-                    mat[1][5] = new Card(GREEN);
-                    mat[2][4] = new Card(WHITE);
-                    mat[3][1] = new Card(YELLOW);
-                    mat[5][2] = new Card(BLUE);
-                    setEmpty(mat);
-                    break;
-                case 1:
-                    mat[1][1] = new Card(PINK);
-                    mat[2][0] = new Card(GREEN);
-                    mat[2][2] = new Card(YELLOW);
-                    mat[3][4] = new Card(WHITE);
-                    mat[4][3] = new Card(CYAN);
-                    mat[5][4] = new Card(BLUE);
-                    setEmpty(mat);
+        mat_4[0][4] = new Card(YELLOW);
+        mat_4[2][0] = new Card(CYAN);
+        mat_4[2][2] = new Card(BLUE);
+        mat_4[3][3] = new Card(PINK);
+        mat_4[4][1] = new Card(WHITE);
+        mat_4[4][2] = new Card(GREEN);
 
-                    break;
-                case 2:
-                    mat[1][0] = new Card(BLUE);
-                    mat[1][3] = new Card(YELLOW);
-                    mat[2][2] = new Card(PINK);
-                    mat[3][1] = new Card(GREEN);
-                    mat[3][4] = new Card(CYAN);
-                    mat[5][0] = new Card(WHITE);
-                    break;
-                case 3:
-                    mat[0][4] = new Card(YELLOW);
-                    mat[2][0] = new Card(CYAN);
-                    mat[2][2] = new Card(BLUE);
-                    mat[3][3] = new Card(PINK);
-                    mat[4][1] = new Card(WHITE);
-                    mat[4][2] = new Card(GREEN);
-                    break;
-                case 4:
-                    mat[1][1] = new Card(CYAN);
-                    mat[3][1] = new Card(BLUE);
-                    mat[3][2] = new Card(WHITE);
-                    mat[4][4] = new Card(PINK);
-                    mat[5][0] = new Card(YELLOW);
-                    mat[5][3] = new Card(GREEN);
-                    break;
-                case 5:
-                    mat[0][2] = new Card(CYAN);
-                    mat[0][4] = new Card(GREEN);
-                    mat[2][3] = new Card(WHITE);
-                    mat[4][1] = new Card(YELLOW);
-                    mat[4][3] = new Card(BLUE);
-                    mat[5][0] = new Card(PINK);
-                    setEmpty(mat);
+        mat_5[1][1] = new Card(CYAN);
+        mat_5[3][1] = new Card(BLUE);
+        mat_5[3][2] = new Card(WHITE);
+        mat_5[4][4] = new Card(PINK);
+        mat_5[5][0] = new Card(YELLOW);
+        mat_5[5][3] = new Card(GREEN);
 
-                    break;
-                case 6:
-                    mat[0][0] = new Card(GREEN);
-                    mat[1][4] = new Card(BLUE);
-                    mat[2][1] = new Card(PINK);
-                    mat[3][0] = new Card(CYAN);
-                    mat[4][4] = new Card(YELLOW);
-                    mat[5][3] = new Card(WHITE);
-                    setEmpty(mat);
+        mat_6[0][2] = new Card(CYAN);
+        mat_6[0][4] = new Card(GREEN);
+        mat_6[2][3] = new Card(WHITE);
+        mat_6[4][1] = new Card(YELLOW);
+        mat_6[4][3] = new Card(BLUE);
+        mat_6[5][0] = new Card(PINK);
 
-                    break;
-                case 7:
-                    mat[0][4] = new Card(BLUE);
-                    mat[1][1] = new Card(GREEN);
-                    mat[2][2] = new Card(CYAN);
-                    mat[3][0] = new Card(PINK);
-                    mat[4][3] = new Card(WHITE);
-                    mat[5][3] = new Card(YELLOW);
-                    setEmpty(mat);
+        mat_7[0][0] = new Card(GREEN);
+        mat_7[1][4] = new Card(BLUE);
+        mat_7[2][1] = new Card(PINK);
+        mat_7[3][0] = new Card(CYAN);
+        mat_7[4][4] = new Card(YELLOW);
+        mat_7[5][3] = new Card(WHITE);
 
-                    break;
-                case 8:
-                    mat[0][2] = new Card(YELLOW);
-                    mat[2][2] = new Card(GREEN);
-                    mat[3][4] = new Card(WHITE);
-                    mat[4][1] = new Card(CYAN);
-                    mat[4][4] = new Card(PINK);
-                    mat[5][0] = new Card(BLUE);
-                    setEmpty(mat);
+        mat_8[0][4] = new Card(BLUE);
+        mat_8[1][1] = new Card(GREEN);
+        mat_8[2][2] = new Card(CYAN);
+        mat_8[3][0] = new Card(PINK);
+        mat_8[4][3] = new Card(WHITE);
+        mat_8[5][3] = new Card(YELLOW);
 
-                    break;
-                case 9:
-                    mat[0][4] = new Card(CYAN);
-                    mat[1][1] = new Card(YELLOW);
-                    mat[2][0] = new Card(WHITE);
-                    mat[3][3] = new Card(GREEN);
-                    mat[4][1] = new Card(BLUE);
-                    mat[5][3] = new Card(PINK);
-                    setEmpty(mat);
+        mat_9[0][2] = new Card(YELLOW);
+        mat_9[2][2] = new Card(GREEN);
+        mat_9[3][4] = new Card(WHITE);
+        mat_9[4][1] = new Card(CYAN);
+        mat_9[4][4] = new Card(PINK);
+        mat_9[5][0] = new Card(BLUE);
 
-                    break;
-                case 10:
-                    mat[0][2] = new Card(PINK);
-                    mat[1][1] = new Card(WHITE);
-                    mat[2][0] = new Card(YELLOW);
-                    mat[3][2] = new Card(BLUE);
-                    mat[4][4] = new Card(GREEN);
-                    mat[5][3] = new Card(CYAN);
-                    setEmpty(mat);
+        mat_10[0][4] = new Card(CYAN);
+        mat_10[1][1] = new Card(YELLOW);
+        mat_10[2][0] = new Card(WHITE);
+        mat_10[3][3] = new Card(GREEN);
+        mat_10[4][1] = new Card(BLUE);
+        mat_10[5][3] = new Card(PINK);
 
-                    break;
-                case 11:
-                    mat[0][2] = new Card(WHITE);
-                    mat[1][1] = new Card(PINK);
-                    mat[2][2] = new Card(BLUE);
-                    mat[3][3] = new Card(CYAN);
-                    mat[4][4] = new Card(YELLOW);
-                    mat[5][0] = new Card(GREEN);
-                    setEmpty(mat);
+        mat_11[0][2] = new Card(PINK);
+        mat_11[1][1] = new Card(WHITE);
+        mat_11[2][0] = new Card(YELLOW);
+        mat_11[3][2] = new Card(BLUE);
+        mat_11[4][4] = new Card(GREEN);
+        mat_11[5][3] = new Card(CYAN);
 
-                    break;
-            }
-            obj = new PrivateObjective(mat, 1, "");
-            bucketOfPO.add(obj);
-        }
+        mat_12[0][2] = new Card(WHITE);
+        mat_12[1][1] = new Card(PINK);
+        mat_12[2][2] = new Card(BLUE);
+        mat_12[3][3] = new Card(CYAN);
+        mat_12[4][4] = new Card(YELLOW);
+        mat_12[5][0] = new Card(GREEN);
+
+        return (ArrayList<PrivateObjective>) Arrays.asList(
+                new PrivateObjective(mat_1, 1, ""),
+                new PrivateObjective(mat_2, 2, ""),
+                new PrivateObjective(mat_3, 3, ""),
+                new PrivateObjective(mat_4, 4, ""),
+                new PrivateObjective(mat_5, 5, ""),
+                new PrivateObjective(mat_6, 6, ""),
+                new PrivateObjective(mat_7, 7, ""),
+                new PrivateObjective(mat_8, 8, ""),
+                new PrivateObjective(mat_9, 9, ""),
+                new PrivateObjective(mat_10, 10, ""),
+                new PrivateObjective(mat_11, 11, ""),
+                new PrivateObjective(mat_12, 12, "")
+        );
     }
-    public void setBucketOfCO() {
-        CommonObjective obj;
-
-
-        for (int i = 0; i < 12; i++) {
-            switch (i){
-                case 0:
-                    Algo_CO_1 algoCo0 = new Algo_CO_1();
-                    obj = new CommonObjective(algoCo0, "");
-                    break;
-                case 1:
-                    Algo_CO_2 algoCo1 = new Algo_CO_2();
-                    obj = new CommonObjective(algoCo1, "");
-                    break;
-                case 2:
-                    Algo_CO_3 algoCo2 = new Algo_CO_3();
-                    obj = new CommonObjective(algoCo2, "");
-                    break;
-                case 3:
-                    Algo_CO_4 algoCo3 = new Algo_CO_4();
-                    obj = new CommonObjective(algoCo3, "");
-                    break;
-                case 4:
-                    Algo_CO_5 algoCo4 = new Algo_CO_5();
-                    obj = new CommonObjective(algoCo4, "");
-                    break;
-                case 5:
-                    Algo_CO_6 algoCo5 = new Algo_CO_6();
-                    obj = new CommonObjective(algoCo5, "");
-                    break;
-                case 6:
-                    Algo_CO_7 algoCo6 = new Algo_CO_7();
-                    obj = new CommonObjective(algoCo6, "");
-                    break;
-                case 7:
-                    Algo_CO_8 algoCo7 = new Algo_CO_8();
-                    obj = new CommonObjective(algoCo7, "");
-                    break;
-                case 8:
-                    Algo_CO_9 algoCo8 = new Algo_CO_9();
-                    obj = new CommonObjective(algoCo8, "");
-                    break;
-                case 9:
-                    Algo_CO_10 algoCo9 = new Algo_CO_10();
-                    obj = new CommonObjective(algoCo9, "");
-                    break;
-                case 10:
-                    Algo_CO_11 algoCo10 = new Algo_CO_11();
-                    obj = new CommonObjective(algoCo10, "");
-                    break;
-                case 11:
-                    Algo_CO_12 algoCo11 = new Algo_CO_12();
-                    obj = new CommonObjective(algoCo11, "");
-                    break;
-                default:
-                    obj=null;
-            }
-            bucketOfCO.add(obj);
-        }
+    public static ArrayList<CommonObjective> setBucketOfCO() {
+        return (ArrayList<CommonObjective>) Arrays.asList(
+                new CommonObjective(new Algo_CO_1(), ""),
+                new CommonObjective(new Algo_CO_2(), ""),
+                new CommonObjective(new Algo_CO_3(), ""),
+                new CommonObjective(new Algo_CO_4(), ""),
+                new CommonObjective(new Algo_CO_5(), ""),
+                new CommonObjective(new Algo_CO_6(), ""),
+                new CommonObjective(new Algo_CO_7(), ""),
+                new CommonObjective(new Algo_CO_8(), ""),
+                new CommonObjective(new Algo_CO_9(), ""),
+                new CommonObjective(new Algo_CO_10(), ""),
+                new CommonObjective(new Algo_CO_11(), ""),
+                new CommonObjective(new Algo_CO_12(), "")
+        );
     }
 }
-
-
