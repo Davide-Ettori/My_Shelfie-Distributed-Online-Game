@@ -6,7 +6,17 @@ Otto tessere dello stesso tipo. Non ci
 sono restrizioni sulla posizione di
 queste tessere.
  */
+/**
+ * Classe che rappresenta l'undicesimo algoritmo di CO
+ * @author Ettori Faccincani
+ */
 public class Algo_CO_11 extends Strategy { // sesto prima colonna
+    /**
+     * mappa un numero univoco (indice) a ogni colore
+     * @author Ettori
+     * @param: colore
+     * @return: indice univoco
+     */
     private int map(Color color) {
         if (color == GREEN)
             return 0;
@@ -22,7 +32,12 @@ public class Algo_CO_11 extends Strategy { // sesto prima colonna
             return 5;
         return -1;
     }
-
+    /**
+     * controlla se la matrice matcha con l'obbiettivo
+     * @author Ettori
+     * @param: la matrice della board
+     * @return: true sse ha trovato un match
+     */
     @Override
     public boolean checkMatch(Card[][] board) {
         int[] colorsCounter = new int[]{0, 0, 0, 0, 0, 0};

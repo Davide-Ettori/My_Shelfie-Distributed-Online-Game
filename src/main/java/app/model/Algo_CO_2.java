@@ -5,7 +5,21 @@ import static app.model.Color.EMPTY;
 Cinque tessere dello stesso tipo che
 formano una diagonale.
  */
+/**
+ * Classe che rappresenta il secondo algoritmo di CO
+ * @author Ettori Faccincani
+ */
 public class Algo_CO_2 extends Strategy {
+    /**
+     * controlla la diagonale dx to sx
+     * @author Ettori
+     * @param: pos x
+     * @param: pos y
+     * @param: colore
+     * @param: matrice
+     * @return: true sse trova la diagonale
+     */
+
     private boolean checkDiagonal_1(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
             if (!DFSHelper.isIndexValid(x + i, y + i, ROWS, COLS))
@@ -15,7 +29,15 @@ public class Algo_CO_2 extends Strategy {
         }
         return true;
     }
-
+    /**
+     * controlla la diagonale sx to dx
+     * @author Ettori
+     * @param: pos x
+     * @param: pos y
+     * @param: colore
+     * @param: matrice
+     * @return: true sse trova la diagonale
+     */
     private boolean checkDiagonal_2(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
             if (!DFSHelper.isIndexValid(x - i, y + i, ROWS, COLS))
@@ -25,7 +47,12 @@ public class Algo_CO_2 extends Strategy {
         }
         return true;
     }
-
+    /**
+     * controlla se la matrice matcha con l'obbiettivo
+     * @author Ettori
+     * @param: la matrice della board
+     * @return: true sse ha trovato un match
+     */
     @Override
     public boolean checkMatch(Card[][] board) {
         for (int i = 0; i < ROWS; i++) {

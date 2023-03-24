@@ -8,7 +8,17 @@ import static app.model.Color.EMPTY;
 Cinque tessere dello stesso tipo
 che formano una X.
  */
+/**
+ * Classe che rappresenta il decimo algoritmo di CO
+ * @author Ettori Faccincani
+ */
 public class Algo_CO_10 extends Strategy { // quinto seconda colonna
+    /**
+     * controlla se la matrice matcha con l'obbiettivo
+     * @author Ettori
+     * @param: la matrice della board
+     * @return: true sse ha trovato un match
+     */
     @Override
     public boolean checkMatch(Card[][] board) {
         Color color;

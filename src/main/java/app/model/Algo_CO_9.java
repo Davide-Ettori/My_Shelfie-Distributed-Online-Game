@@ -10,7 +10,18 @@ Tre colonne formate ciascuna da
 Colonne diverse possono avere
 combinazioni diverse di tipi di tessere.
  */
+/**
+ * Classe che rappresenta il nono algoritmo di CO
+ * @author Ettori Faccincani
+ */
 public class Algo_CO_9 extends Strategy { // quinto prima colonna
+    /**
+     * controlla che la colonna in questione non abbia empty
+     * @author Ettori
+     * @param: matrice
+     * @param: colonna
+     * @return: true sse non ci sono empty sulla colonna
+     */
     private boolean notEmptyOnCol(Card[][] board, int c){
         for(int i = 0; i < ROWS; i++){
             if(board[i][c].color == EMPTY)
@@ -18,6 +29,12 @@ public class Algo_CO_9 extends Strategy { // quinto prima colonna
         }
         return true;
     }
+    /**
+     * controlla se la matrice matcha con l'obbiettivo
+     * @author Ettori
+     * @param: la matrice della board
+     * @return: true sse ha trovato un match
+     */
     @Override
     public boolean checkMatch(Card[][] board) {
         int count = 0;
