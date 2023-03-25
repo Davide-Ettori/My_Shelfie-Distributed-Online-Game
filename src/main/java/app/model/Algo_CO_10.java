@@ -33,7 +33,7 @@ public class Algo_CO_10 extends Strategy { // quinto seconda colonna
                 cells = new ArrayList<>(Arrays.asList(i, j, i - 1, j - 1, i + 1, j + 1, i - 1, j + 1, i + 1, j - 1));
                 flag = true;
                 for (int k = 0; k < cells.size(); k += 2) {
-                    if (!DFSHelper.isIndexValid(cells.get(k), cells.get(k + 1), ROWS, COLS)) {
+                    if (!DFSHelper.isIndexValid(cells.get(k), cells.get(k + 1))) {
                         flag = false;
                         continue;
                     }

@@ -23,7 +23,7 @@ public class Algo_CO_2 extends Strategy {
 
     private boolean checkDiagonal_1(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
-            if (!DFSHelper.isIndexValid(x + i, y + i, ROWS, COLS))
+            if (!DFSHelper.isIndexValid(x + i, y + i))
                 return false;
             if (board[x + i][y + i].color != color)
                 return false;
@@ -41,7 +41,7 @@ public class Algo_CO_2 extends Strategy {
      */
     private boolean checkDiagonal_2(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
-            if (!DFSHelper.isIndexValid(x - i, y + i, ROWS, COLS))
+            if (!DFSHelper.isIndexValid(x - i, y + i))
                 return false;
             if (board[x - i][y + i].color != color)
                 return false;

@@ -27,7 +27,7 @@ public class Algo_CO_1 extends Strategy {
      * @param board matrix of the board
      */
     private void dfs(int i, int j, Color color, Card[][] board) {
-        if (!DFSHelper.isIndexValid(i, j, ROWS, COLS) || board[i][j].color != color || visitedMatrix[i][j] == 1)
+        if (!DFSHelper.isIndexValid(i, j) || board[i][j].color != color || visitedMatrix[i][j] == 1)
             return;
         countVisitedCards++;
         visitedMatrix[i][j] = 1;
@@ -46,7 +46,7 @@ public class Algo_CO_1 extends Strategy {
     @Override
     public boolean checkMatch(Card[][] board) {
         int match = 0;
-        DFSHelper.resetVisitedMatrix(visitedMatrix, ROWS, COLS);
+        DFSHelper.resetVisitedMatrix(visitedMatrix);
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 if (board[i][j].color == EMPTY)

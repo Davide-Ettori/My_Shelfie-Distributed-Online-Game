@@ -26,7 +26,7 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
      * @param board matrix of the board
      */
     private void dfs(int i, int j, Color color, Card[][] board) {
-        if (!DFSHelper.isIndexValid(i, j, ROWS, COLS) || board[i][j].color != color || DFSHelper.isVisited(i, j, visitedMatrix))
+        if (!DFSHelper.isIndexValid(i, j) || board[i][j].color != color || DFSHelper.isVisited(i, j, visitedMatrix))
             return;
         dfs(i + 1, j, color, board);
         dfs(i - 1, j, color, board);
@@ -45,7 +45,7 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
     private boolean checkForSquare(int x, int y, Color color, Card[][] board) {
         ArrayList<Integer> cells = new ArrayList<>(Arrays.asList(x, y, x + 1, y, x, y + 1, x + 1, y + 1));
         for (int i = 0; i < cells.size(); i += 2) {
-            if (!DFSHelper.isIndexValid(cells.get(i), cells.get(i + 1), ROWS, COLS))
+            if (!DFSHelper.isIndexValid(cells.get(i), cells.get(i + 1)))
                 return false;
             if (visitedMatrix[cells.get(i)][cells.get(i + 1)] == 1)
                 return false;
@@ -65,7 +65,7 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
         int count = 0;
         boolean foundSquare;
         ArrayList<Color> colors = new ArrayList<>();
-        DFSHelper.resetVisitedMatrix(visitedMatrix, ROWS, COLS);
+        DFSHelper.resetVisitedMatrix(visitedMatrix);
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 if (board[i][j].color == EMPTY)

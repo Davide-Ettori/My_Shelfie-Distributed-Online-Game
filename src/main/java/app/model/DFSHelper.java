@@ -7,15 +7,15 @@ package app.model;
  * immutable
  */
 public class DFSHelper {
+    private static final int ROWS = 6;
+    private static final int COLS = 5;
     /**
      * reset the matrix of the nodes visited in the DFS
      *
      * @param mat  the matrix
-     * @param ROWS number of rows
-     * @param COLS number of cols
      * @author Ettori Giammusso
      */
-    public static void resetVisitedMatrix(int[][] mat, int ROWS, int COLS) {
+    public static void resetVisitedMatrix(int[][] mat) {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 mat[i][j] = 0;
@@ -27,12 +27,10 @@ public class DFSHelper {
      *
      * @param x    position x
      * @param y    posizione y
-     * @param ROWS number of rows
-     * @param COLS numbers of columns
      * @return true iff the index is in the matrix
      * @author Ettori Giammusso
      */
-    public static boolean isIndexValid(int x, int y, int ROWS, int COLS) {
+    public static boolean isIndexValid(int x, int y) {
         return x >= 0 && x < ROWS && y >= 0 && y < COLS;
     }
     /**
