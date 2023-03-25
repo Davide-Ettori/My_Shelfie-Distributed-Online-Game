@@ -81,6 +81,19 @@ public class Player implements Serializable {
         return name;
     }
     /**
+     * setter for the board
+     * @author Ettori
+     * @param b the board which will be set
+     * @return void
+     */
+    public void setBoard(Board b){board = new Board(b);}
+    /**
+     * getter for the board
+     * @author Ettori
+     * @return the current board of this player
+     */
+    public Board getBoard(Board b){return board;}
+    /**
      * setter for the PO
      * @author Ettori
      * @param obj  the PO that needs to be set
