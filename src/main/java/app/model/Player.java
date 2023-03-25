@@ -11,7 +11,7 @@ import static app.model.State.*;
  * class which represent the player on the client side
  * @author Ettori Faccincani
  * mutable
- * implements Serializable because it will be sent in the soket network
+ * implements Serializable because it will be sent in the socket network
  */
 public class Player implements Serializable {
     private String name;
@@ -73,28 +73,28 @@ public class Player implements Serializable {
         mySocket = p.mySocket;
     }
     /**
-     * getter per il nome
+     * getter for the name
      * @author Ettori
      * @param: void
-     * @return: il nome
+     * @return: the name of the player
      */
     public String getName() {
         return name;
     }
     /**
-     * setter per il PO
+     * setter for the PO
      * @author Ettori
-     * @param: il PO da settare
+     * @param: the PO that needs to be set
      * @return: void
      */
     public void setPrivateObjective(PrivateObjective obj) {
         objective = obj;
     }
     /**
-     * prende le carte dalla board e le trasferisce sulla library del giocatore
+     * take the cards from the board and transfer them in the player library
      * @author Ettori
-     * @param: la lista di coordinate accoppiate delle carte da prendere
-     * @return: true sse il trasferiemento è andato a buon fine (carte in posizione corretta)
+     * @param: the list of coupled coordinates of the cards that the player want to take from the board
+     * @return: true iff the transfer of the cards was successful (the cards are in the correct position)
      */
     private boolean pickCards(ArrayList<Integer> coord) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
         if(!board.areCardsPickable(coord))
@@ -109,21 +109,21 @@ public class Player implements Serializable {
         return true;
     }
     /**
-     * posizione fisicamente le carte nella colonna scelta
+     * physically position the cards in the chosen column
      * @author Ettori
-     * @param: colonna
-     * @param: lista delle caret scelte
-     * @return: true sse va a buon fine
+     * @param: column
+     * @param: list of the chosen cards
+     * @return: true iff is successful
      */
     private boolean deployCards(int col, ArrayList<Card> cards) {
         library.insertCards(col, cards);
         return true;
     }
     /**
-     * fa scegliere all'utente la colonna dove vuole mettere le carte
+     * allow the player to choose in which column he/she want to put the cards
      * @author Ettori
-     * @param: numero delle carte
-     * @return: la colonna scelta (controlla anche che la colonna sia valida)
+     * @param: number of cards
+     * @return: the chosen column (check also if the column is valid)
      */
     private int chooseCol(int numCards) {
         int col;
@@ -138,12 +138,12 @@ public class Player implements Serializable {
         return col;
     }
     /**
-     * funzione di helper per scambiare le carte nella lista scelta dall'utente
+     * helper function to trade the order of cards in the list chosen by the player
      * @author Ettori
-     * @param: lista delle carte
-     * @param: indice numero 1
-     * @param: indice numero 2
-     * @return: void
+     * @param: list of cards
+     * @param: index number 1
+     * @param: index number 2
+     * @return void
      */
     private void swapCards(ArrayList<Card> cards, int i, int j) {
         Card temp = cards.get(i);
@@ -152,10 +152,10 @@ public class Player implements Serializable {
         return;
     }
     /**
-     * fa scegliere all'utente l'ordine con cui posizionare le carte
+     * allow the player to choose in which order place the chosen cards inside the library
      * @author Ettori
-     * @param: lista delle carte
-     * @return: lista nell'ordine scelto dall'utente
+     * @param: list of cards
+     * @return: list of cards in the order chosen by the player
      */
     private ArrayList<Card> chooseCardsOrder(ArrayList<Card> cards) {
         while (true) { // questo va fino a che l'utente sceglie l'ordine delle carte, per ora lo forziamo a mano
