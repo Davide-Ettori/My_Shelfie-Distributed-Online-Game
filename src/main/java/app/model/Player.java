@@ -2,12 +2,13 @@ package app.model;
 
 import app.controller.Game;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import static app.model.State.*;
 
-public class Player {
+public class Player implements Serializable { // implementa serializable perché dovrà essere spedita sulla network
     private String name;
     private boolean isChairMan;
     public Library library;
