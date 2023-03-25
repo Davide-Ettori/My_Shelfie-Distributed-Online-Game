@@ -17,8 +17,8 @@ public class Algo_CO_10 extends Strategy { // quinto seconda colonna
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

@@ -18,8 +18,8 @@ public class Algo_CO_12 extends Strategy {
     /**
      * check for triangle, with diagonal
      * @author Ettori
-     * @param: matrix
-     * @return: true iff it find a triangle
+     * @param board matrix
+     * @return true iff it find a triangle
      */
     private boolean checkLowTriangle_1(Card[][] board) {
         for (int i = 0; i < ROWS; i++) {
@@ -35,8 +35,8 @@ public class Algo_CO_12 extends Strategy {
     /**
      * check for triangle, no diagonal
      * @author Ettori
-     * @param: matrix
-     * @return: true iff it find a triangle
+     * @param board matrix
+     * @return true iff it find a triangle
      */
     private boolean checkLowTriangle_2(Card[][] board) {
         for (int i = 0; i < ROWS; i++) {
@@ -52,8 +52,8 @@ public class Algo_CO_12 extends Strategy {
     /**
      * invert all the rows of a matrix and return a new one
      * @author Ettori
-     * @param: matrix
-     * @return: matrix with all the rows inverted
+     * @param board matrix
+     * @return matrix with all the rows inverted
      */
     private Card[][]invert(Card[][] board){
         Card[][] res = new Card[ROWS][COLS];
@@ -69,8 +69,8 @@ public class Algo_CO_12 extends Strategy {
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

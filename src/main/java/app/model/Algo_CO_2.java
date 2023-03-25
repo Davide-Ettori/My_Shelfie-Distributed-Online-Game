@@ -14,11 +14,11 @@ public class Algo_CO_2 extends Strategy {
     /**
      * check the diagonal from right to left
      * @author Ettori
-     * @param: pos x
-     * @param: pos y
-     * @param: color
-     * @param: matrix
-     * @return: true iff found the diagonal
+     * @param x pos x
+     * @param y pos y
+     * @param color color
+     * @param board matrix
+     * @return true iff found the diagonal
      */
 
     private boolean checkDiagonal_1(int x, int y, Color color, Card[][] board) {
@@ -33,11 +33,11 @@ public class Algo_CO_2 extends Strategy {
     /**
      * check the diagonal from left to right
      * @author Ettori
-     * @param: pos x
-     * @param: pos y
-     * @param: color
-     * @param: matrix
-     * @return: true iff found the diagonal
+     * @param x pos x
+     * @param y pos y
+     * @param color color
+     * @param board matrix
+     * @return true iff found the diagonal
      */
     private boolean checkDiagonal_2(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
@@ -51,8 +51,8 @@ public class Algo_CO_2 extends Strategy {
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

@@ -19,9 +19,9 @@ public class Algo_CO_4 extends Strategy { // secondo seconda colonna
     /**
      * check if the chosen colon has no empty
      * @author Ettori
-     * @param: matrix
-     * @param: row
-     * @return: true iff there is no empty
+     * @param board matrix
+     * @param r row
+     * @return true iff there is no empty
      */
     private boolean notEmptyOnRow(Card[][] board, int r){
         for(int i = 0; i < COLS; i++){
@@ -33,8 +33,8 @@ public class Algo_CO_4 extends Strategy { // secondo seconda colonna
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

@@ -19,11 +19,11 @@ public class Algo_CO_5 extends Strategy { // terzo prima colonna
     /**
      * classic dfs
      * @author Ettori
-     * @param: pos x
-     * @param: pos y
-     * @param: color
-     * @param: matrix of the board
-     * @return: void
+     * @param i pos x
+     * @param j pos y
+     * @param color color
+     * @param board matrix of the board
+     * @return void
      */
     private void dfs(int i, int j, Color color, Card[][] board) {
         if (!DFSHelper.isIndexValid(i, j, ROWS, COLS) || board[i][j].color != color || visitedMatrix[i][j] == 1)
@@ -38,8 +38,8 @@ public class Algo_CO_5 extends Strategy { // terzo prima colonna
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

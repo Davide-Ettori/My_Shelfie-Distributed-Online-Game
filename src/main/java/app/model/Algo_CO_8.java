@@ -16,11 +16,11 @@ da 5 diversi tipi di tessere.
 
 public class Algo_CO_8 extends Strategy { // quarto seconda colonna
     /**
-     * check if the chosen row has no empty
+     * check if the chosen row has no empty cards
      * @author Ettori
-     * @param: matrix
-     * @param: row
-     * @return: true iff there are no empty on teh row
+     * @param board matrix
+     * @param r row
+     * @return true iff there are no empty on the row
      */
     private boolean notEmptyOnRow(Card[][] board, int r){
         for(int i = 0; i < COLS; i++){
@@ -32,8 +32,8 @@ public class Algo_CO_8 extends Strategy { // quarto seconda colonna
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

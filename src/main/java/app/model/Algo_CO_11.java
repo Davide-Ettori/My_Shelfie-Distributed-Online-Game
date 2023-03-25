@@ -15,8 +15,8 @@ public class Algo_CO_11 extends Strategy { // sesto prima colonna
     /**
      * map every color to his unique index (integer from 0 to 5)
      * @author Ettori
-     * @param: color
-     * @return: unique index
+     * @param color color
+     * @return unique index
      */
     private int map(Color color) {
         if (color == GREEN)
@@ -36,8 +36,8 @@ public class Algo_CO_11 extends Strategy { // sesto prima colonna
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

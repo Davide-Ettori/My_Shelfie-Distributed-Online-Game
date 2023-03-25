@@ -17,9 +17,9 @@ public class Algo_CO_6 extends Strategy { // terzo seconda colonna
     /**
      * check if there are no empty on the chosen column
      * @author Ettori
-     * @param: matrix
-     * @param: column
-     * @return: true iff there are no empty on the column
+     * @param board matrix
+     * @param c column
+     * @return true iff there are no empty on the column
      */
     private boolean notEmptyOnCol(Card[][] board, int c){
         for(int i = 0; i < ROWS; i++){
@@ -31,8 +31,8 @@ public class Algo_CO_6 extends Strategy { // terzo seconda colonna
     /**
      * check if the matrix match with the objective
      * @author Ettori
-     * @param: the matrix of the board
-     * @return: true iff it found a match
+     * @param board the matrix of the board
+     * @return true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {
