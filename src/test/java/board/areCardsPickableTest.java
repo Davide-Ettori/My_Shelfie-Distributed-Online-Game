@@ -100,7 +100,7 @@ public class areCardsPickableTest {
     }
 
     @Test//test3 - non passa
-    public void notAdiacent_Allineated_FreeSide(){
+    public void notAdiacent_Allineated_FreeSide_Vertical(){
         //inizializzo la matrice con degli EMPTY
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
@@ -119,6 +119,39 @@ public class areCardsPickableTest {
         gameBoard1[4][4].color = BLUE;
 
         cardXY = new ArrayList<>(Arrays.asList(1,3,2,3,4,3));
+
+        //uso il setter definito in Board
+        board1.setGameBoard(gameBoard1);
+
+        assertEquals(board1.areCardsPickable(cardXY), false);
+    }
+
+    @Test //test 3 - BIS
+    public void notAdiacent_Allineated_FreeSide_Orizontal(){
+        //inizializzo la matrice con degli EMPTY
+        for(int i=0; i<DIM; i++){
+            for(int j=0; j<DIM; j++){
+                gameBoard1[i][j] = new Card(EMPTY);
+            }
+        }
+        //metto le carte colorate dove mi interessano
+        gameBoard1[3][3].color = BLUE;
+        gameBoard1[4][3].color = BLUE;
+        gameBoard1[5][3].color = BLUE;
+
+        gameBoard1[3][4].color = BLUE;
+        gameBoard1[4][4].color = BLUE;
+        gameBoard1[5][4].color = BLUE;
+
+        gameBoard1[3][5].color = BLUE;
+        gameBoard1[4][5].color = BLUE;
+        gameBoard1[5][5].color = BLUE;
+
+        gameBoard1[3][6].color = BLUE;
+        gameBoard1[4][6].color = BLUE;
+        gameBoard1[5][6].color = BLUE;
+
+        cardXY = new ArrayList<>(Arrays.asList(3,3,3,4,3,6));
 
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
@@ -281,7 +314,7 @@ public class areCardsPickableTest {
         assertEquals(board1.areCardsPickable(cardXY), false);
     }
 
-    @Test //test 7
+    @Test //test 9
     public void Adiacent_Allineated_FreeSide_ButPickedNotInOrder(){//cioè le "picca" vicine ma non in ordine consecutivo
         //inizializzo la matrice con degli EMPTY
         for(int i=0; i<DIM; i++){
