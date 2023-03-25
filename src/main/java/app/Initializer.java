@@ -30,6 +30,12 @@ import static app.model.Color.*;
 public class Initializer {
     private static final int ROWS = 6;
     private static final int COLS = 5;
+    /**
+     * return a new full matrix of empty cards - STATIC
+     * @author Ettori Faccincani
+     * @param: void
+     * @return: the new matrix
+     */
     private static Card[][] setEmpty() {
         Card[][] res = new Card[ROWS][COLS];
         for (int i = 0; i < ROWS; i++) {
@@ -38,6 +44,12 @@ public class Initializer {
         }
         return res;
     }
+    /**
+     * return the list of initialized private objective - STATIC
+     * @author Ettori Faccincani
+     * @param: void
+     * @return: the list of all the possible private objective
+     */
     public static ArrayList<PrivateObjective> setBucketOfPO() {
         Card[][] mat_1 = setEmpty();
         Card[][] mat_2 = setEmpty();
@@ -151,6 +163,12 @@ public class Initializer {
                 new PrivateObjective(mat_12, 12, "")
         );
     }
+    /**
+     * return the list of initialized common objective - STATIC
+     * @author Ettori Faccincani
+     * @param: void
+     * @return: the list of all the possible common objective
+     */
     public static ArrayList<CommonObjective> setBucketOfCO() {
         return (ArrayList<CommonObjective>) Arrays.asList(
                 new CommonObjective(new Algo_CO_1(), ""),
@@ -167,5 +185,11 @@ public class Initializer {
                 new CommonObjective(new Algo_CO_12(), "")
         );
     }
+    /**
+     * return the list of initialized cards - STATIC
+     * @author Ettori
+     * @param: void
+     * @return: the list of all the possible cards present in the game (132)
+     */
     public static ArrayList<Card> setBucketOfCards(){return null;}
 }
