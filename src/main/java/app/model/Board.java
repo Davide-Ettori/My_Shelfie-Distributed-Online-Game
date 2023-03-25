@@ -6,7 +6,11 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import static app.model.Color.*;
-
+/**
+ * class which represent the common board where the players choose the cards
+ * @author Ettori Faccincani
+ * mutable
+ */
 public class Board{
     private final int DIM = 9;
     private Card[][] gameBoard = new Card[DIM][DIM];

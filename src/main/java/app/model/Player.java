@@ -7,8 +7,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import static app.model.State.*;
-
-public class Player implements Serializable { // implementa serializable perché dovrà essere spedita sulla network
+/**
+ * class which represent the player on the client side
+ * @author Ettori Faccincani
+ * mutable
+ * implements Serializable because it will be sent in the soket network
+ */
+public class Player implements Serializable {
     private String name;
     private boolean isChairMan;
     public Library library;
