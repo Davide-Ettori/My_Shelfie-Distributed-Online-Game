@@ -80,9 +80,9 @@ public class Board{
     /**
      * check if the index is valid in the current board
      * @author Ettori
-     * @param: pos x
-     * @param: pos y
-     * @return: true iif index is valid
+     * @param x pos x
+     * @param y pos y
+     * @return true iff index is valid
      */
     private boolean isValidIndex(int x, int y){
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
@@ -90,9 +90,9 @@ public class Board{
     /**
      * check if the card has other card near
      * @author Ettori
-     * @param: pos x
-     * @param: pos y
-     * @return: true iif the card is alone
+     * @param x pos x
+     * @param y pos y
+     * @return true iff the card is alone
      */
     private boolean isAlone(int x, int y){ // returna true sse la carta è da sola, ovvero non ha nessuna carta adiacente
         if(isValidIndex(x + 1, y) && gameBoard[x + 1][y].color != EMPTY)
@@ -108,8 +108,7 @@ public class Board{
     /**
      * check if the current board is unplayable
      * @author Ettori
-     * @param: void
-     * @return: true iif it is unplayable
+     * @return true iff it is unplayable
      */
     public boolean isBoardUnplayable() {
         for(int i = 0; i < DIM; i++){
@@ -124,9 +123,9 @@ public class Board{
     /**
      * check if the card has at least one free side
      * @author Ettori
-     * @param: pos x
-     * @param: pos y
-     * @return: true iif it has at least one free side
+     * @param x pos x
+     * @param y pos y
+     * @return true iff it has at least one free side
      */
     public boolean hasOneFreeSide(int x, int y){
         if(!isValidIndex(x , y) || gameBoard[x][y].color == EMPTY) // controlla che la carda corrente sia sensata, poi controlla le carte vicine
@@ -144,8 +143,8 @@ public class Board{
     /**
      * check if the cards picked are all near one to the other
      * @author Ettori
-     * @param: list of paired coordinates
-     * @return: true iif for each position it exists (at least) one card adjacent to it
+     * @param coords list of paired coordinates
+     * @return true iff for each position it exists (at least) one card adjacent to it
      */
     private boolean areCardsNear(ArrayList<Integer> coords){
         boolean flag;
@@ -163,8 +162,8 @@ public class Board{
     /**
      * check if the cards picked are in a valid position
      * @author Ettori
-     * @param: list of paired coordinates
-     * @return: true iif they are in a valid position
+     * @param cardPositions list of paired coordinates
+     * @return true iff they are in a valid position
      */
     public boolean areCardsPickable(ArrayList<Integer> cardPositions) {
         for(int i = 0; i < cardPositions.size(); i += 2 ){
@@ -176,8 +175,8 @@ public class Board{
     /**
      * check if the cards are on a straight line
      * @author Ettori
-     * @param: list of paired coordinates
-     * @return: true iif they are on a straight line
+     * @param cardPosition list of paired coordinates
+     * @return true iff they are on a straight line
      */
     public boolean areCardsAligned(ArrayList<Integer> cardPosition){
         boolean allInRow = true;
@@ -195,8 +194,8 @@ public class Board{
     /**
      * initialize a new board
      * @author Ettori
-     * @param: number of players
-     * @return: void
+     * @param numPlayers number of players
+     * @return void
      */
     public void initBoard(int numPlayers){
         shuffleCardsBucket();
@@ -216,8 +215,8 @@ public class Board{
     /**
      * fill the board (start of the game or when it is unplayable)
      * @author Ettori
-     * @param: number of players
-     * @return: void
+     * @param numPlayers number of players
+     * @return void
      */
     public void fillBoard(int numPlayers){
         Card card;
@@ -240,8 +239,7 @@ public class Board{
     /**
      * randomize the card array so that we get a random board
      * @author Ettori
-     * @param: void
-     * @return: void
+     * @return void
      */
     public void shuffleCardsBucket(){
         Random rand = new Random();
@@ -267,7 +265,7 @@ public class Board{
     /**
      * setter for the gameBoard (only used by testing)
      * @author Gumus Giammusso
-     * @param: the matrix to copy in the board
+     * @param g the matrix to copy in the board
      */
     public void setGameBoard(Card[][] g){
         for(int i = 0; i < DIM; i++){
