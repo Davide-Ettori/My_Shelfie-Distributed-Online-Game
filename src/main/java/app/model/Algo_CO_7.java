@@ -13,6 +13,7 @@ dello stesso tipo.
 /**
  * Classe che rappresenta il settimo algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_7 extends Strategy { // quarto prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];

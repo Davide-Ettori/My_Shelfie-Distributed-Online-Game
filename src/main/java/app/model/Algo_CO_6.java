@@ -11,6 +11,7 @@ da 6 diversi tipi di tessere.
 /**
  * Classe che rappresenta il sesto algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_6 extends Strategy { // terzo seconda colonna
     /**

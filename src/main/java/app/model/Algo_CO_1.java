@@ -12,6 +12,7 @@ essere diverse da quelle di un altro gruppo.
 /**
  * Classe che rappresenta il primo algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_1 extends Strategy {
     private final int[][] visitedMatrix = new int[ROWS][COLS];

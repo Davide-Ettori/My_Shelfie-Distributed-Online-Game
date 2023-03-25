@@ -11,6 +11,7 @@ da 5 diversi tipi di tessere.
 /**
  * Classe che rappresenta l'ottavo algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 
 public class Algo_CO_8 extends Strategy { // quarto seconda colonna

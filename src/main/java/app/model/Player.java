@@ -2,12 +2,18 @@ package app.model;
 
 import app.controller.Game;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import static app.model.State.*;
-
-public class Player {
+/**
+ * class which represent the player on the client side
+ * @author Ettori Faccincani
+ * mutable
+ * implements Serializable because it will be sent in the soket network
+ */
+public class Player implements Serializable {
     private String name;
     private boolean isChairMan;
     public Library library;
