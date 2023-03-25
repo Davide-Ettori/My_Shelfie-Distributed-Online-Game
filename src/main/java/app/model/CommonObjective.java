@@ -21,12 +21,12 @@ public class CommonObjective extends Objective {
  */
 class DFSHelper{
     /**
-     * resetta la matrice dei nodi visitati in DFS
+     * reset the matrix of the nodes visited in the DFS
      * @author Ettori Giammusso
-     * @param: la matrice
-     * @param: numero righe
-     * @param: numero colonne
-     * @return: void
+     * @param mat the matrix
+     * @param ROWS number of rows
+     * @param COLS number of cols
+     * @return void
      */
     public static void resetVisitedMatrix(int[][] mat, int ROWS, int COLS){
         for(int i = 0; i < ROWS; i++){
@@ -36,24 +36,24 @@ class DFSHelper{
         }
     }
     /**
-     * controlla che l'indice stia nella matrice
+     * check if the index is in the matrix
      * @author Ettori Giammusso
-     * @param: pos x
-     * @param: pos y
-     * @param: numero righe
-     * @param: numero colonne
-     * @return: true sse l'indice sta nella matrice
+     * @param x position x
+     * @param y posizione y
+     * @param ROWS number of rows
+     * @param COLS numbers of columns
+     * @return true iff the index is in the matrix
      */
     public static boolean isIndexValid(int x, int y, int ROWS, int COLS){
         return x >= 0 && x < ROWS && y >= 0 && y < COLS;
     }
     /**
-     * controlla se il nodo è visitato, nel caso non lo sia lo visita
+     * check if the node was already visited, otherwise visit the node
      * @author Ettori Giammusso
-     * @param: pos x
-     * @param: pos y
-     * @param: matrice dei nodi visitati
-     * @return: true sse il nodo visitato
+     * @param x position x
+     * @param y position y
+     * @param mat matrix of visited nodes
+     * @return true iff the node was visited
      */
     public static boolean isVisited(int x, int y, int[][] mat){
         int temp = mat[x][y];
