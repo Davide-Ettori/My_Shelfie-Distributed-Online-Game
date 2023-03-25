@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static app.model.Color.EMPTY;
 /**
- * classe che rappresenta la libreria privata di ogni giocatore
+ * class representing each player's private library
  * @author Ettori Giammusso
  * mutable
  * */
@@ -32,10 +32,10 @@ public class Library {
     }
 
     /**
-     * controlla se la library è piena
+     * check if the library is full
      * @author Ettori Giammusso
      * @param: void
-     * @return true o false a seconda se la libreria è piena o no
+     * @return true or false, depending on if library is full or not
      */
     public boolean isFull(){
         for(int i = 0; i < ROWS; i++){
@@ -47,21 +47,21 @@ public class Library {
         return true;
     }
     /**
-     * controlla se la colonna scelta ha spazio sufficiente per le carte
+     * check if the chosen column have enough space for the cards
      * @author Ettori Giammusso
-     * @param: indice di colonna
-     * @param: numero carte
-     * @return true sse le carte ci stanno
+     * @param: index of column
+     * @param: number of cards
+     * @return true iff the cards can stay inside the library column
      */
     public boolean checkCol(int col, int numCards){
         int freeCard = getFirstFreeCard(col) + 1;
         return freeCard >= numCards;
     }
     /**
-     * prende l'indice della prima cella libera della colonna, parti dal basso e vai verso l'alto
+     * take the index of the first free cell of the column, starting from the lower position and going up
      * @author Ettori Giammusso
-     * @param: l'indice della colonna
-     * @return l'indice della prima cella (riga) libera
+     * @param: index of column
+     * @return row index of the first free cell
      */
     private int getFirstFreeCard(int col){
         for(int i = ROWS - 1; i >= 0; i--){
@@ -72,10 +72,10 @@ public class Library {
         return -1;
     }
     /**
-     * inserisce le carte nella libreria del player corrente
+     * insert the cards in the library of the current player
      * @author Ettori Giammusso
-     * @param: indice della colonna in cui inserire
-     * @param: carte da inserire fisicamente in libreria
+     * @param: index of the column in which insert the cards
+     * @param: the cards that needs to be physically inserted in the library
      * @return: void
      */
     public void insertCards(int col, ArrayList<Card> cards){
@@ -86,7 +86,7 @@ public class Library {
         return;
     }
     /**
-     * resetta la matrice usata nella dfs per memorizzare i nodi visitati
+     * reset the matrix used in the DFS to memorize the visited nodes
      * @author Ettori Giammusso
      * @param: void
      * @return: void
@@ -99,21 +99,21 @@ public class Library {
         }
     }
     /**
-     * controlla se la posizione è valida nella matrice
+     * check if the position in the matrix is valid
      * @author Ettori Giammusso
-     * @param: posizione X
-     * @param: posizione y
-     * @return: true sse la posizione è valida
+     * @param: position X
+     * @param: position Y
+     * @return: true iff the position is valid
      */
     private boolean indexNotValid(int x, int y){
         return x < 0 || x >= ROWS || y < 0 || y >= COLS;
     }
     /**
-     * classico algoritmo di ricerca in profondità
+     * classic algorithm of in-depth-research (or depth-first search)
      * @author Ettori Giammusso
-     * @param: posizione x iniziale
-     * @param: posizione y finale
-     * @param: colore da seguire
+     * @param: initial X position
+     * @param: final Y position
+     * @param: color to follow
      * @return: void
      */
     private void dfs(int i, int j, Color color) {
@@ -127,10 +127,10 @@ public class Library {
         dfs(i, j - 1, color);
     }
     /**
-     * conta i punti che vengono dati per la tessere adiacenti
+     * count the points gained thanks to adiacent cards
      * @author Ettori Giammusso
      * @param: void
-     * @return: il numero di punti fatti da questo player
+     * @return: the number of points made by this player
      */
     public int countGroupedPoints(){
         int points = 0;
@@ -159,10 +159,10 @@ public class Library {
     }
     public void draw(){return;}
     /**
-     * controlla che le due librerie abbiano le carte con lo stesso colore
+     * check that the 2 library have the cards with the same color
      * @author Ettori Giammusso
-     * @param: libreria da confrontare
-     * @return: true sse le librerie sono uguali
+     * @param: library that need to be checked
+     * @return: true iff the library are equals
      */
     public boolean sameLibraryColor(Library lib){
         for(int i=0; i<ROWS; i++){
