@@ -1,5 +1,10 @@
 package app.model;
 
+/**
+ * class which represent the common objectives which all the players must try to achieve
+ * @author Ettori Faccincani
+ * immutable
+ */
 public class CommonObjective extends Objective {
     public final Strategy algorithm;
     public CommonObjective(Strategy algorithm, String image){
@@ -9,8 +14,11 @@ public class CommonObjective extends Objective {
     public void draw(){return;}
 }
 
-// --------------------------- 12 algoritmi ------------------------------------------------ //
-
+/**
+ * helper class for the Depth First Search algorithm
+ * @author Ettori Faccincani
+ * immutable
+ */
 class DFSHelper{
     /**
      * resetta la matrice dei nodi visitati in DFS
@@ -40,7 +48,7 @@ class DFSHelper{
         return x >= 0 && x < ROWS && y >= 0 && y < COLS;
     }
     /**
-     * se il nodo è visitato, nel caso non lo sia lo visita
+     * controlla se il nodo è visitato, nel caso non lo sia lo visita
      * @author Ettori Giammusso
      * @param: pos x
      * @param: pos y

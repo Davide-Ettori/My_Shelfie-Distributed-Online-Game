@@ -11,6 +11,7 @@ essere diverse da quelle di un altro gruppo.
 /**
  * Classe che rappresenta il quinto algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 
 public class Algo_CO_5 extends Strategy { // terzo prima colonna

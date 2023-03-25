@@ -13,6 +13,7 @@ combinazioni diverse di tipi di tessere.
 /**
  * Classe che rappresenta il quarto algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_4 extends Strategy { // secondo seconda colonna
     /**

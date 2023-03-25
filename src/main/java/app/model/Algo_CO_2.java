@@ -8,6 +8,7 @@ formano una diagonale.
 /**
  * Classe che rappresenta il secondo algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_2 extends Strategy {
     /**

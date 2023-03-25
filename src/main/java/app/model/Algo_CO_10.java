@@ -11,6 +11,7 @@ che formano una X.
 /**
  * Classe che rappresenta il decimo algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_10 extends Strategy { // quinto seconda colonna
     /**
