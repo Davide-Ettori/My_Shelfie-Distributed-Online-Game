@@ -3,7 +3,7 @@ package app.model;
 import static app.model.Color.*;
 
 /**
- * classe che modellizza gli obbiettivi privati di ogni giocatore
+ * class which represent the private objective for each player
  * @author Ettori Giammusso
  * immutable
  */
@@ -19,19 +19,19 @@ public class PrivateObjective extends Objective {
         imagePath = image;
     }
     /**
-     * conta i punti che il giocatore ha fatto
+     * count the points accumulated by the player
      * @author Ettori Giammusso
-     * @param: matrice della library del giocatore
-     * @return: il numero di punti fatti effettivamente
+     * @param cards matrix of the player's library
+     * @return: number of total actual points
      */
     public int countPoints(Card[][] cards) {
         return arrayOfPoints[countMatch(cards)];
     }
     /**
-     * conta quante carte il giocatore ha posizionato come nell'obbiettivo
+     * count how many cards the player matched with the objective
      * @author Ettori Giammusso
-     * @param: matrice della libraria del giocatore
-     * @return: numero di match trovati
+     * @param cards matrix of the player's library
+     * @return number of match found
      */
     private  int countMatch(Card[][] cards) {
         int count = 0;
