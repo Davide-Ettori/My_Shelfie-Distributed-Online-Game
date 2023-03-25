@@ -23,7 +23,6 @@ public class DFSHelper {
             }
         }
     }
-
     /**
      * check if the index is in the matrix
      *
@@ -37,7 +36,6 @@ public class DFSHelper {
     public static boolean isIndexValid(int x, int y, int ROWS, int COLS) {
         return x >= 0 && x < ROWS && y >= 0 && y < COLS;
     }
-
     /**
      * check if the node was already visited, otherwise visit the node
      *
