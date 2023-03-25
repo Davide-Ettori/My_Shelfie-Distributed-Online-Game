@@ -22,10 +22,7 @@ public class areCardsPickableTest {
     Strategy strategy2 = null;
     CommonObjective CO1 = null;
     CommonObjective CO2 = null;
-    Player player1 = null;
-    Player player2 = null;
-    Player player3 = null;
-    Player player4 = null;
+    Player player = null;
     Board board1 = null;
     Card[][] gameBoard1 = null;
     ArrayList<Integer> cardXY = null;
@@ -37,12 +34,9 @@ public class areCardsPickableTest {
         CO1 = new CommonObjective(strategy1,"");
         CO2 = new CommonObjective(strategy2, "");
 
-        player1 = new Player(true,"peppino");
-        player2 = new Player(true,"peppone");
-        player3 = new Player(true,"peppuzzo");
-        player4 = new Player(true,"iopippo");
+        player = new Player(true,"peppino");
 
-        board1 = new Board(4,CO1,CO2,player1);
+        board1 = new Board(4,CO1,CO2,player);
         gameBoard1 = new Card[DIM][DIM];
     }
 
@@ -341,5 +335,4 @@ public class areCardsPickableTest {
 
         assertTrue(board1.areCardsPickable(cardXY));
     }
-
 }
