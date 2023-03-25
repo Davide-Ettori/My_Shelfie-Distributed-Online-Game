@@ -2,7 +2,7 @@ package app.model;
 
 import static app.model.Color.*;
 /**
- * classe che rappresenta le carte, sia della libreria che della board
+ * class that represent the cards, both in the library and in the board
  * @author Ettori Giammusso
  * mutable
  */
@@ -37,16 +37,16 @@ public class Card {
         y = c.y;
     }
     /**
-     * setter della coordinata x
+     * setter of the x coordinate
      * @author Ettori Giammusso
-     * @param: posizione da settare
+     * @param: position that needs to be set
      * @return: void
      */
     public void setX(int posX){x = posX;}
     /**
-     * setter della coordinata y
+     * setter of the y coordinate
      * @author Ettori Giammusso
-     * @param: posizione da settare
+     * @param: position that needs to be set
      * @return: void
      */
     public void setY(int posY){y = posY;}
