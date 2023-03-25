@@ -65,6 +65,7 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
     public boolean checkMatch(Card[][] board) {
         int count = 0;
         boolean foundSquare;
+        ArrayList<Color> colors = new ArrayList<>();
         DFSHelper.resetVisitedMatrix(visitedMatrix, ROWS, COLS);
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -73,9 +74,13 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
                 foundSquare = checkForSquare(i, j, board[i][j].color, board);
                 dfs(i, j, board[i][j].color, board);
                 if (foundSquare)
-                    count++;
+                    colors.add(board[i][j].color);
             }
         }
-        return count >= 2;
+        for(int i = 0; i < colors.size() - 1; i++){
+            if(colors.subList(i + 1, colors.size()).contains(colors.get(i)))
+                return true;
+        }
+        return false;
     }
 }

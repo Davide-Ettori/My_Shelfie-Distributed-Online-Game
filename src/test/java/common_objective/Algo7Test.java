@@ -26,7 +26,7 @@ public class Algo7Test {
     }
 
     @Test // test 1
-    public void algo7_test1_T() {
+    public void algo7_test1_F() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -63,7 +63,7 @@ public class Algo7Test {
         mat[5][3] = new Card(PINK);
         mat[5][4] = new Card(PINK);
 
-        assertTrue(algoCo7.checkMatch(mat));
+        assertFalse(algoCo7.checkMatch(mat));
     }
     @Test // test 1
     public void algo7_test1_F_3x3() {
@@ -103,10 +103,50 @@ public class Algo7Test {
         mat[5][3] = new Card(PINK);
         mat[5][4] = new Card(PINK);
 
+        assertFalse(algoCo7.checkMatch(mat));
+    }
+    @Test // test 1
+    public void algo7_test1_T_3x3_same_colors() {
+        mat[0][0] = new Card(PINK);
+        mat[0][1] = new Card(PINK);
+        mat[0][2] = new Card(PINK);
+        mat[0][3] = new Card(GREEN);
+        mat[0][4] = new Card(YELLOW);
+
+        mat[1][0] = new Card(PINK);
+        mat[1][1] = new Card(PINK);
+        mat[1][2] = new Card(PINK);
+        mat[1][3] = new Card(YELLOW);
+        mat[1][4] = new Card();
+
+        mat[2][0] = new Card(CYAN);
+        mat[2][1] = new Card(CYAN);
+        mat[2][2] = new Card(YELLOW);
+        mat[2][3] = new Card(BLUE);
+        mat[2][4] = new Card(BLUE);
+
+        mat[3][0] = new Card(PINK);
+        mat[3][1] = new Card(YELLOW);
+        mat[3][2] = new Card();
+        mat[3][3] = new Card(PINK);
+        mat[3][4] = new Card(PINK);
+
+        mat[4][0] = new Card(PINK);
+        mat[4][1] = new Card(GREEN);
+        mat[4][2] = new Card(GREEN);
+        mat[4][3] = new Card(PINK);
+        mat[4][4] = new Card(PINK);
+
+        mat[5][0] = new Card(PINK);
+        mat[5][1] = new Card(GREEN);
+        mat[5][2] = new Card(GREEN);
+        mat[5][3] = new Card(PINK);
+        mat[5][4] = new Card(PINK);
+
         assertTrue(algoCo7.checkMatch(mat));
     }
     @Test // test 1
-    public void algo7_test1_different_types() {
+    public void algo7_test1_only_one_square() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
