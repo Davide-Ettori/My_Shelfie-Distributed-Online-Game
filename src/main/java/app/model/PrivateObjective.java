@@ -5,6 +5,7 @@ import static app.model.Color.*;
 /**
  * classe che modellizza gli obbiettivi privati di ogni giocatore
  * @author Ettori Giammusso
+ * immutable
  */
 public class PrivateObjective extends Objective {
     private int[] arrayOfPoints;
@@ -41,15 +42,6 @@ public class PrivateObjective extends Objective {
             }
         }
         return count;
-    }
-    /**
-     * setter per l'attributo matrix, ovvero la matrice da matchare
-     * @author Ettori Giammusso
-     * @param: la matrice da settare
-     * @return: void
-     */
-    public void setObjMatrix(Card[][] mat){
-        matrix = mat;
     }
     public void draw() {return;}
 }

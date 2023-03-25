@@ -4,6 +4,7 @@ import static app.model.Color.*;
 /**
  * classe che rappresenta le carte, sia della libreria che della board
  * @author Ettori Giammusso
+ * mutable
  */
 public class Card {
     public Color color;
