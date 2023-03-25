@@ -11,8 +11,8 @@ public class Strategy {
     /**
      * check if the objective is achieved by the player library
      * @author Ettori
-     * @param: the state of the library
-     * @return: true iif the objective is achieved
+     * @param board the state of the library
+     * @return true iif the objective is achieved
      */
     public boolean checkMatch(Card[][] board){return true;};
 }

@@ -33,8 +33,7 @@ public class Initializer {
     /**
      * return a new full matrix of empty cards - STATIC
      * @author Ettori Faccincani
-     * @param: void
-     * @return: the new matrix
+     * @return the new matrix
      */
     private static Card[][] setEmpty() {
         Card[][] res = new Card[ROWS][COLS];
@@ -47,8 +46,7 @@ public class Initializer {
     /**
      * return the list of initialized private objective - STATIC
      * @author Ettori Faccincani
-     * @param: void
-     * @return: the list of all the possible private objective
+     * @return the list of all the possible private objective
      */
     public static ArrayList<PrivateObjective> setBucketOfPO() {
         Card[][] mat_1 = setEmpty();
@@ -166,8 +164,7 @@ public class Initializer {
     /**
      * return the list of initialized common objective - STATIC
      * @author Ettori Faccincani
-     * @param: void
-     * @return: the list of all the possible common objective
+     * @return the list of all the possible common objective
      */
     public static ArrayList<CommonObjective> setBucketOfCO() {
         return (ArrayList<CommonObjective>) Arrays.asList(
@@ -188,8 +185,7 @@ public class Initializer {
     /**
      * return the list of initialized cards - STATIC
      * @author Ettori
-     * @param: void
-     * @return: the list of all the possible cards present in the game (132)
+     * @return the list of all the possible cards present in the game (132)
      */
     public static ArrayList<Card> setBucketOfCards(){return null;}
 }

@@ -34,7 +34,6 @@ public class Library {
     /**
      * check if the library is full
      * @author Ettori Giammusso
-     * @param: void
      * @return true or false, depending on if library is full or not
      */
     public boolean isFull(){
@@ -49,8 +48,8 @@ public class Library {
     /**
      * check if the chosen column have enough space for the cards
      * @author Ettori Giammusso
-     * @param: index of column
-     * @param: number of cards
+     * @param col index of column
+     * @param numCards number of cards
      * @return true iff the cards can stay inside the library column
      */
     public boolean checkCol(int col, int numCards){
@@ -60,7 +59,7 @@ public class Library {
     /**
      * take the index of the first free cell of the column, starting from the lower position and going up
      * @author Ettori Giammusso
-     * @param: index of column
+     * @param col index of column
      * @return row index of the first free cell
      */
     private int getFirstFreeCard(int col){
@@ -74,9 +73,9 @@ public class Library {
     /**
      * insert the cards in the library of the current player
      * @author Ettori Giammusso
-     * @param: index of the column in which insert the cards
-     * @param: the cards that needs to be physically inserted in the library
-     * @return: void
+     * @param col index of the column in which insert the cards
+     * @param cards the cards that needs to be physically inserted in the library
+     * @return void
      */
     public void insertCards(int col, ArrayList<Card> cards){
         int place = getFirstFreeCard(col);
@@ -88,8 +87,7 @@ public class Library {
     /**
      * reset the matrix used in the DFS to memorize the visited nodes
      * @author Ettori Giammusso
-     * @param: void
-     * @return: void
+     * @return void
      */
     private void resetVisitedMatrix(){
         for(int i = 0; i < ROWS; i++){
@@ -101,9 +99,9 @@ public class Library {
     /**
      * check if the position in the matrix is valid
      * @author Ettori Giammusso
-     * @param: position X
-     * @param: position Y
-     * @return: true iff the position is valid
+     * @param x position X
+     * @param y position Y
+     * @return true iff the position is valid
      */
     private boolean indexNotValid(int x, int y){
         return x < 0 || x >= ROWS || y < 0 || y >= COLS;
@@ -111,10 +109,10 @@ public class Library {
     /**
      * classic algorithm of in-depth-research (or depth-first search)
      * @author Ettori Giammusso
-     * @param: initial X position
-     * @param: final Y position
-     * @param: color to follow
-     * @return: void
+     * @param i initial X position
+     * @param j final Y position
+     * @param color color to follow
+     * @return void
      */
     private void dfs(int i, int j, Color color) {
         if (indexNotValid(i, j) || library[i][j].color != color || visitedMatrix[i][j] == 1)
@@ -127,10 +125,9 @@ public class Library {
         dfs(i, j - 1, color);
     }
     /**
-     * count the points gained thanks to adiacent cards
+     * count the points gained thanks to adjacent cards
      * @author Ettori Giammusso
-     * @param: void
-     * @return: the number of points made by this player
+     * @return the number of points made by this player
      */
     public int countGroupedPoints(){
         int points = 0;
@@ -161,8 +158,8 @@ public class Library {
     /**
      * check that the 2 library have the cards with the same color
      * @author Ettori Giammusso
-     * @param: library that need to be checked
-     * @return: true iff the library are equals
+     * @param lib library that need to be checked
+     * @return true iff the library are equals
      */
     public boolean sameLibraryColor(Library lib){
         for(int i=0; i<ROWS; i++){
