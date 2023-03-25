@@ -13,7 +13,6 @@ public class DFSHelper {
      * @param mat  the matrix
      * @param ROWS number of rows
      * @param COLS number of cols
-     * @return void
      * @author Ettori Giammusso
      */
     public static void resetVisitedMatrix(int[][] mat, int ROWS, int COLS) {

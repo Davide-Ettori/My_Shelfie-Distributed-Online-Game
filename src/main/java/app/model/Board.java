@@ -195,7 +195,6 @@ public class Board{
      * initialize a new board
      * @author Ettori
      * @param numPlayers number of players
-     * @return void
      */
     public void initBoard(int numPlayers){
         shuffleCardsBucket();
@@ -216,7 +215,6 @@ public class Board{
      * fill the board (start of the game or when it is unplayable)
      * @author Ettori
      * @param numPlayers number of players
-     * @return void
      */
     public void fillBoard(int numPlayers){
         Card card;
@@ -239,7 +237,6 @@ public class Board{
     /**
      * randomize the card array so that we get a random board
      * @author Ettori
-     * @return void
      */
     public void shuffleCardsBucket(){
         Random rand = new Random();

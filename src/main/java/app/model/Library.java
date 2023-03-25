@@ -75,7 +75,6 @@ public class Library {
      * @author Ettori Giammusso
      * @param col index of the column in which insert the cards
      * @param cards the cards that needs to be physically inserted in the library
-     * @return void
      */
     public void insertCards(int col, ArrayList<Card> cards){
         int place = getFirstFreeCard(col);
@@ -87,7 +86,6 @@ public class Library {
     /**
      * reset the matrix used in the DFS to memorize the visited nodes
      * @author Ettori Giammusso
-     * @return void
      */
     private void resetVisitedMatrix(){
         for(int i = 0; i < ROWS; i++){
@@ -112,7 +110,6 @@ public class Library {
      * @param i initial X position
      * @param j final Y position
      * @param color color to follow
-     * @return void
      */
     private void dfs(int i, int j, Color color) {
         if (indexNotValid(i, j) || library[i][j].color != color || visitedMatrix[i][j] == 1)

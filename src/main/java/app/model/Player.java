@@ -84,7 +84,6 @@ public class Player implements Serializable {
      * setter for the board
      * @author Ettori
      * @param b the board which will be set
-     * @return void
      */
     public void setBoard(Board b){board = new Board(b);}
     /**
@@ -97,7 +96,6 @@ public class Player implements Serializable {
      * setter for the PO
      * @author Ettori
      * @param obj  the PO that needs to be set
-     * @return void
      */
     public void setPrivateObjective(PrivateObjective obj) {
         objective = obj;
@@ -155,7 +153,6 @@ public class Player implements Serializable {
      * @param cards list of cards
      * @param i index number 1
      * @param j index number 2
-     * @return void
      */
     private void swapCards(ArrayList<Card> cards, int i, int j) {
         Card temp = cards.get(i);

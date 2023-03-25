@@ -23,7 +23,6 @@ public class Algo_CO_5 extends Strategy { // terzo prima colonna
      * @param j pos y
      * @param color color
      * @param board matrix of the board
-     * @return void
      */
     private void dfs(int i, int j, Color color, Card[][] board) {
         if (!DFSHelper.isIndexValid(i, j, ROWS, COLS) || board[i][j].color != color || visitedMatrix[i][j] == 1)
