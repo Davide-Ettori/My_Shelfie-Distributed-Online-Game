@@ -39,15 +39,15 @@ public class Card {
     /**
      * setter of the x coordinate
      * @author Ettori Giammusso
-     * @param: position that needs to be set
-     * @return: void
+     * @param posX position that needs to be set
+     * @return void
      */
     public void setX(int posX){x = posX;}
     /**
      * setter of the y coordinate
      * @author Ettori Giammusso
-     * @param: position that needs to be set
-     * @return: void
+     * @param posY position that needs to be set
+     * @return void
      */
     public void setY(int posY){y = posY;}
 
