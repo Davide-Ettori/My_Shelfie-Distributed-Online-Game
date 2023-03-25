@@ -13,6 +13,7 @@ combinazioni diverse di tipi di tessere.
 /**
  * Classe che rappresenta il nono algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_9 extends Strategy { // quinto prima colonna
     /**

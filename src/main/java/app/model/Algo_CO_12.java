@@ -12,8 +12,8 @@ Le tessere possono essere di qualsiasi tipo.
 /**
  * Classe che rappresenta il dodicesimo algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
-
 public class Algo_CO_12 extends Strategy {
     /**
      * controlla che ci sia un triangolo, con la diagonale

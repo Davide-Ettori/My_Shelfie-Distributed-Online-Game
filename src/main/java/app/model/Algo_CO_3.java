@@ -7,7 +7,8 @@ ai quattro angoli della Libreria.
  */
 /**
  * Classe che rappresenta il terzo algoritmo di CO
- * @author Ettori Faccincani
+ * @author Ettori Faccincani+
+ * immutable
  */
 public class Algo_CO_3 extends Strategy {
     /**

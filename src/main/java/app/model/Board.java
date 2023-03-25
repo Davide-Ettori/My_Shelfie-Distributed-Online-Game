@@ -6,7 +6,11 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import static app.model.Color.*;
-
+/**
+ * class which represent the common board where the players choose the cards
+ * @author Ettori Faccincani
+ * mutable
+ */
 public class Board{
     private final int DIM = 9;
     private Card[][] gameBoard = new Card[DIM][DIM];
@@ -138,6 +142,25 @@ public class Board{
         return false;
     }
     /**
+     * check if the cards picked are all near one to the other
+     * @author Ettori
+     * @param: list of paired coordinates
+     * @return: true iif for each position it exists (at least) one card adjacent to it
+     */
+    private boolean areCardsNear(ArrayList<Integer> coords){
+        boolean flag;
+        for(int i = 0; i < coords.size(); i += 2){
+            flag = false;
+            for(int j = 0; j < coords.size(); j += 2){
+                if(Math.abs(coords.get(i) - coords.get(j)) + Math.abs(coords.get(i + 1) - coords.get(j + 1)) == 1)
+                    flag = true;
+            }
+            if(!flag)
+                return false;
+        }
+        return true;
+    }
+    /**
      * check if the cards picked are in a valid position
      * @author Ettori
      * @param: list of paired coordinates
@@ -148,7 +171,7 @@ public class Board{
             if(!hasOneFreeSide(cardPositions.get(i), cardPositions.get(i + 1)))
                 return false;
         }
-        return areCardsAligned(cardPositions);
+        return areCardsAligned(cardPositions) && areCardsNear(cardPositions);
     }
     /**
      * check if the cards are on a straight line

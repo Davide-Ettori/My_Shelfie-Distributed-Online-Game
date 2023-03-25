@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static app.model.State.*;
-
+/**
+ * class which represent the instance of the current game
+ * @author Ettori Faccincani
+ * in theory it is mutable, but it is only instanced one time, at the start of the server
+ */
 public class Game {
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;

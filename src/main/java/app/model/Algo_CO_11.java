@@ -9,6 +9,7 @@ queste tessere.
 /**
  * Classe che rappresenta l'undicesimo algoritmo di CO
  * @author Ettori Faccincani
+ * immutable
  */
 public class Algo_CO_11 extends Strategy { // sesto prima colonna
     /**

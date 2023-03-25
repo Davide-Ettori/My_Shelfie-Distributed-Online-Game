@@ -6,6 +6,7 @@ import static app.model.Color.EMPTY;
 /**
  * classe che rappresenta la libreria privata di ogni giocatore
  * @author Ettori Giammusso
+ * mutable
  * */
 public class Library {
     public final int ROWS = 6;

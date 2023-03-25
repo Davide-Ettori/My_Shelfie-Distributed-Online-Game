@@ -11,11 +11,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class countMatchTest {
-    PrivateObjective privateObjective = null;
     Card[][] lib = null;
     @Before // eseguita prima dei test
     public void setUp(){
-        this.privateObjective = new PrivateObjective(null,0,"");
         this.lib = new Card[6][5];
     }
     @After // eseguita dopo i test
@@ -99,8 +97,7 @@ public class countMatchTest {
         lib[5][3] = new Card();
         lib[5][4] = new Card(YELLOW);
 
-        privateObjective.setObjMatrix(objMat);
-        assertEquals(privateObjective.countPoints(lib), 0);
+        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 0);
     }
     @Test
     public void countMatch_personalGoal_2match(){
@@ -178,8 +175,7 @@ public class countMatchTest {
         lib[5][3] = new Card(PINK);
         lib[5][4] = new Card(PINK);
 
-        privateObjective.setObjMatrix(objMat);
-        assertEquals(privateObjective.countPoints(lib), 2);
+        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 2);
     }
     @Test
     public void countMatch_personalGoal_5match(){
@@ -257,8 +253,7 @@ public class countMatchTest {
         lib[5][3] = new Card(CYAN);
         lib[5][4] = new Card(PINK);
 
-        privateObjective.setObjMatrix(objMat);
-        assertEquals(privateObjective.countPoints(lib), 9);
+        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 9);
     }
 
     @Test
@@ -337,7 +332,6 @@ public class countMatchTest {
         lib[5][3] = new Card(CYAN);
         lib[5][4] = new Card(PINK);
 
-        privateObjective.setObjMatrix(objMat);
-        assertEquals(privateObjective.countPoints(lib), 12);
+        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 12);
     }
 }

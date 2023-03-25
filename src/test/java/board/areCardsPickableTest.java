@@ -4,7 +4,8 @@ import app.model.Card;
 import org.junit.*;
 
 import static app.model.Color.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
 import app.model.Board;
 import app.model.CommonObjective;
 import app.model.Player;
@@ -69,7 +70,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), true);
+        assertTrue(board1.areCardsPickable(cardXY));
     }
 
     @Test //test2
@@ -96,7 +97,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertFalse(board1.areCardsPickable(cardXY));
     }
 
     @Test//test3 - non passa
@@ -123,7 +124,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertFalse(board1.areCardsPickable(cardXY));
     }
 
     @Test //test 3 - BIS
@@ -188,7 +189,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertFalse(board1.areCardsPickable(cardXY));
     }
 
     @Test //test 5
@@ -220,7 +221,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertFalse(board1.areCardsPickable(cardXY));
     }
 
     @Test //test 6
@@ -252,7 +253,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertFalse(board1.areCardsPickable(cardXY));
     }
 
     @Test //test 7
@@ -279,7 +280,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertFalse(board1.areCardsPickable(cardXY));
     }
 
     @Test //test 8
@@ -311,7 +312,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertFalse(board1.areCardsPickable(cardXY));
     }
 
     @Test //test 9
@@ -338,7 +339,7 @@ public class areCardsPickableTest {
         //uso il setter definito in Board
         board1.setGameBoard(gameBoard1);
 
-        assertEquals(board1.areCardsPickable(cardXY), false);
+        assertTrue(board1.areCardsPickable(cardXY));
     }
 
 }
