@@ -22,7 +22,7 @@ public class PrivateObjective extends Objective {
      * count the points accumulated by the player
      * @author Ettori Giammusso
      * @param cards matrix of the player's library
-     * @return: number of total actual points
+     * @return number of total actual points
      */
     public int countPoints(Card[][] cards) {
         return arrayOfPoints[countMatch(cards)];
