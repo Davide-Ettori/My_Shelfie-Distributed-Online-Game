@@ -22,7 +22,11 @@ import app.model.Algo_CO_11;
 import app.model.Algo_CO_12;
 
 import static app.model.Color.*;
-
+/**
+ * helper class to initialize all the bucket of cards and objective that are needed for the start of the game
+ * @author Ettori Faccincani
+ * immutable
+ */
 public class Initializer {
     private static final int ROWS = 6;
     private static final int COLS = 5;
@@ -163,4 +167,5 @@ public class Initializer {
                 new CommonObjective(new Algo_CO_12(), "")
         );
     }
+    public static ArrayList<Card> setBucketOfCards(){return null;}
 }
