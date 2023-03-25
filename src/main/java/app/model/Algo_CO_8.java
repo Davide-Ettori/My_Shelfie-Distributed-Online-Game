@@ -9,18 +9,18 @@ Due righe formate ciascuna
 da 5 diversi tipi di tessere.
  */
 /**
- * Classe che rappresenta l'ottavo algoritmo di CO
+ * class which represent the number eight objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 
 public class Algo_CO_8 extends Strategy { // quarto seconda colonna
     /**
-     * controlla che la riga in questione non abbia empty
+     * check if the chosen row has no empty
      * @author Ettori
-     * @param: matrice
-     * @param: riga
-     * @return: true sse non ci sono empty sulla riga
+     * @param: matrix
+     * @param: row
+     * @return: true iff there are no empty on teh row
      */
     private boolean notEmptyOnRow(Card[][] board, int r){
         for(int i = 0; i < COLS; i++){
@@ -30,10 +30,10 @@ public class Algo_CO_8 extends Strategy { // quarto seconda colonna
         return true;
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

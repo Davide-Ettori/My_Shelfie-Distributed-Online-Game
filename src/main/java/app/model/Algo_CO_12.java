@@ -10,16 +10,16 @@ deve essere formata da una tessera in più.
 Le tessere possono essere di qualsiasi tipo.
  */
 /**
- * Classe che rappresenta il dodicesimo algoritmo di CO
+ * class which represent the number twelve objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_12 extends Strategy {
     /**
-     * controlla che ci sia un triangolo, con la diagonale
-     * @author Ettor
-     * @param: matrice
-     * @return: true sse trova il triangolo
+     * check for triangle, with diagonal
+     * @author Ettori
+     * @param: matrix
+     * @return: true iff it find a triangle
      */
     private boolean checkLowTriangle_1(Card[][] board) {
         for (int i = 0; i < ROWS; i++) {
@@ -33,10 +33,10 @@ public class Algo_CO_12 extends Strategy {
         return true;
     }
     /**
-     * controlla che ci sia un triangolo, senza la diagonale
+     * check for triangle, no diagonal
      * @author Ettori
-     * @param: matrice
-     * @return: true sse trova il triangolo
+     * @param: matrix
+     * @return: true iff it find a triangle
      */
     private boolean checkLowTriangle_2(Card[][] board) {
         for (int i = 0; i < ROWS; i++) {
@@ -50,10 +50,10 @@ public class Algo_CO_12 extends Strategy {
         return true;
     }
     /**
-     * inverte tutte le righe di una matrice e la returna nuova
+     * invert all the rows of a matrix and return a new one
      * @author Ettori
-     * @param: matrice
-     * @return: matrice con le righe invertite
+     * @param: matrix
+     * @return: matrix with all the rows inverted
      */
     private Card[][]invert(Card[][] board){
         Card[][] res = new Card[ROWS][COLS];
@@ -67,10 +67,10 @@ public class Algo_CO_12 extends Strategy {
         return res;
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

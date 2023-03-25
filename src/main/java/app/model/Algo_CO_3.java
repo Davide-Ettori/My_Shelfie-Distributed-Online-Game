@@ -6,18 +6,17 @@ Quattro tessere dello stesso tipo
 ai quattro angoli della Libreria.
  */
 /**
- * Classe che rappresenta il terzo algoritmo di CO
- * @author Ettori Faccincani+
+ * class which represent the number three objective (common)
+ * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_3 extends Strategy {
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
-
     @Override
     public boolean checkMatch(Card[][] board) {
         Color color = board[0][0].color;

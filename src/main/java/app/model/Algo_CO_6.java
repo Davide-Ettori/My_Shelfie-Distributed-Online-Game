@@ -9,17 +9,17 @@ Due colonne formate ciascuna
 da 6 diversi tipi di tessere.
  */
 /**
- * Classe che rappresenta il sesto algoritmo di CO
+ * class which represent the number six objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_6 extends Strategy { // terzo seconda colonna
     /**
-     * controlla che non ci siano empty sulla colonna in questione
+     * check if there are no empty on the chosen column
      * @author Ettori
-     * @param: matrice
-     * @param: colonna
-     * @return: true sse non ci sono empty sulla colonna
+     * @param: matrix
+     * @param: column
+     * @return: true iff there are no empty on the column
      */
     private boolean notEmptyOnCol(Card[][] board, int c){
         for(int i = 0; i < ROWS; i++){
@@ -29,10 +29,10 @@ public class Algo_CO_6 extends Strategy { // terzo seconda colonna
         return true;
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

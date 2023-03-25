@@ -11,17 +11,17 @@ differenti. Righe diverse possono avere
 combinazioni diverse di tipi di tessere.
  */
 /**
- * Classe che rappresenta il quarto algoritmo di CO
+ * class which represent the number four objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_4 extends Strategy { // secondo seconda colonna
     /**
-     * controlla che la riga scelta non abbia nessun empty
+     * check if the chosen colon has no empty
      * @author Ettori
-     * @param: matrice
-     * @param: riga
-     * @return: true sse non c'è nessun empty
+     * @param: matrix
+     * @param: row
+     * @return: true iff there is no empty
      */
     private boolean notEmptyOnRow(Card[][] board, int r){
         for(int i = 0; i < COLS; i++){
@@ -31,10 +31,10 @@ public class Algo_CO_4 extends Strategy { // secondo seconda colonna
         return true;
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

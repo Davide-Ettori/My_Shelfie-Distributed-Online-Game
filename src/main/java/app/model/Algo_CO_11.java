@@ -7,16 +7,16 @@ sono restrizioni sulla posizione di
 queste tessere.
  */
 /**
- * Classe che rappresenta l'undicesimo algoritmo di CO
+ * class which represent the number eleven objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_11 extends Strategy { // sesto prima colonna
     /**
-     * mappa un numero univoco (indice) a ogni colore
+     * map every color to his unique index (integer from 0 to 5)
      * @author Ettori
-     * @param: colore
-     * @return: indice univoco
+     * @param: color
+     * @return: unique index
      */
     private int map(Color color) {
         if (color == GREEN)
@@ -34,10 +34,10 @@ public class Algo_CO_11 extends Strategy { // sesto prima colonna
         return -1;
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

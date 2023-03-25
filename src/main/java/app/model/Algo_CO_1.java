@@ -10,20 +10,21 @@ essere diverse da quelle di un altro gruppo.
  */
 
 /**
- * Classe che rappresenta il primo algoritmo di CO
+ * class which represent the number one objective (common)
  * @author Ettori Faccincani
  * immutable
  */
+
 public class Algo_CO_1 extends Strategy {
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
     /**
-     * classica ricerca in profondità
+     * classic dfs
      * @author Ettori
      * @param: pos x
      * @param: pos y
-     * @param: colore
-     * @param: matrice della board
+     * @param: color
+     * @param: matrix of the board
      * @return: void
      */
     private void dfs(int i, int j, Color color, Card[][] board) {
@@ -37,11 +38,12 @@ public class Algo_CO_1 extends Strategy {
         dfs(i, j - 1, color, board);
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
+
     @Override
     public boolean checkMatch(Card[][] board) {
         int match = 0;

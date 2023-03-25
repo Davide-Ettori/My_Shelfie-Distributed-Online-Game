@@ -9,21 +9,20 @@ in figura). Le tessere di un gruppo possono
 essere diverse da quelle di un altro gruppo.
  */
 /**
- * Classe che rappresenta il quinto algoritmo di CO
+ * class which represent the number five objective (common)
  * @author Ettori Faccincani
  * immutable
  */
-
 public class Algo_CO_5 extends Strategy { // terzo prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
     /**
-     * classica ricerca in profondità
+     * classic dfs
      * @author Ettori
      * @param: pos x
      * @param: pos y
-     * @param: colore
-     * @param: matrice della board
+     * @param: color
+     * @param: matrix of the board
      * @return: void
      */
     private void dfs(int i, int j, Color color, Card[][] board) {
@@ -37,10 +36,10 @@ public class Algo_CO_5 extends Strategy { // terzo prima colonna
         dfs(i, j - 1, color, board);
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

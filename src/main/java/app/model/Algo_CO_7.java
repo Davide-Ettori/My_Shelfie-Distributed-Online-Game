@@ -11,19 +11,19 @@ Le tessere dei due gruppi devono essere
 dello stesso tipo.
  */
 /**
- * Classe che rappresenta il settimo algoritmo di CO
+ * class which represent the number seven objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_7 extends Strategy { // quarto prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     /**
-     * classica ricerca in profondità
+     * classic dfs
      * @author Ettori
      * @param: pos x
      * @param: pos y
-     * @param: colore
-     * @param: matrice della board
+     * @param: color
+     * @param: matrix of the board
      * @return: void
      */
     private void dfs(int i, int j, Color color, Card[][] board) {
@@ -35,13 +35,13 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
         dfs(i, j - 1, color, board);
     }
     /**
-     * controlla se dal punto in questione (alto a sx) parte un quadrato 2x2 dello stesso colore
+     * check if it starts a 2x2 square of the same color from the chose cell (high sx)
      * @author Ettori
      * @param: pos x
      * @param: pos y
-     * @param: colore
-     * @param: matrice
-     * @return: true sse trova un quadrato dello stesso colore
+     * @param: color
+     * @param: matrix
+     * @return: true iff it find a square of the same color
      */
     private boolean checkForSquare(int x, int y, Color color, Card[][] board) {
         ArrayList<Integer> cells = new ArrayList<>(Arrays.asList(x, y, x + 1, y, x, y + 1, x + 1, y + 1));
@@ -56,10 +56,10 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
         return true;
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

@@ -6,19 +6,19 @@ Cinque tessere dello stesso tipo che
 formano una diagonale.
  */
 /**
- * Classe che rappresenta il secondo algoritmo di CO
+ * class which represent the number two objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_2 extends Strategy {
     /**
-     * controlla la diagonale dx to sx
+     * check the diagonal from right to left
      * @author Ettori
      * @param: pos x
      * @param: pos y
-     * @param: colore
-     * @param: matrice
-     * @return: true sse trova la diagonale
+     * @param: color
+     * @param: matrix
+     * @return: true iff found the diagonal
      */
 
     private boolean checkDiagonal_1(int x, int y, Color color, Card[][] board) {
@@ -31,13 +31,13 @@ public class Algo_CO_2 extends Strategy {
         return true;
     }
     /**
-     * controlla la diagonale sx to dx
+     * check the diagonal from left to right
      * @author Ettori
      * @param: pos x
      * @param: pos y
-     * @param: colore
-     * @param: matrice
-     * @return: true sse trova la diagonale
+     * @param: color
+     * @param: matrix
+     * @return: true iff found the diagonal
      */
     private boolean checkDiagonal_2(int x, int y, Color color, Card[][] board) {
         for (int i = 0; i < 5; i++) {
@@ -49,10 +49,10 @@ public class Algo_CO_2 extends Strategy {
         return true;
     }
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {

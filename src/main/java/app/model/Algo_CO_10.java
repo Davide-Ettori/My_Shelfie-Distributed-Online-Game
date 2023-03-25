@@ -9,16 +9,16 @@ Cinque tessere dello stesso tipo
 che formano una X.
  */
 /**
- * Classe che rappresenta il decimo algoritmo di CO
+ * class which represent the number ten objective (common)
  * @author Ettori Faccincani
  * immutable
  */
 public class Algo_CO_10 extends Strategy { // quinto seconda colonna
     /**
-     * controlla se la matrice matcha con l'obbiettivo
+     * check if the matrix match with the objective
      * @author Ettori
-     * @param: la matrice della board
-     * @return: true sse ha trovato un match
+     * @param: the matrix of the board
+     * @return: true iff it found a match
      */
     @Override
     public boolean checkMatch(Card[][] board) {
