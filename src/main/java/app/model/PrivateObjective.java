@@ -33,7 +33,7 @@ public class PrivateObjective extends Objective {
      * @param cards matrix of the player's library
      * @return number of match found
      */
-    private  int countMatch(Card[][] cards) {
+    private int countMatch(Card[][] cards) {
         int count = 0;
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
