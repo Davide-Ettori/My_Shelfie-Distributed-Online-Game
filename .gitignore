@@ -9,8 +9,6 @@
 
 # Ignore game assets
 assets/*
-# organization file (by and for) the developer
-organization/*
 
 # User-specific stuff
 .idea/**/workspace.xml
