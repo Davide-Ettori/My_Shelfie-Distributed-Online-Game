@@ -2,7 +2,6 @@ package playground.GUI.swing;
 
 import javax.swing.*;
 import java.awt.*;
-
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class GUI{
