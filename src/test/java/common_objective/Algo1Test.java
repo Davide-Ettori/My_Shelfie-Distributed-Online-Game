@@ -10,7 +10,6 @@ import static org.junit.Assert.assertTrue;
 
 public class Algo1Test {
     Algo_CO_1 algoCo1 = null;
-
     Card[][] mat = new Card[6][5];
 
     @Before // eseguita prima dei test
