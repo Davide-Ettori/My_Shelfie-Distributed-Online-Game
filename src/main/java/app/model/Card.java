@@ -48,6 +48,13 @@ public class Card {
      * @param posY position that needs to be set
      */
     public void setY(int posY){y = posY;}
+    /**
+     * setter of the x and y coordinate
+     * @author Ettori Giammusso
+     * @param x position on x-axis that needs to be set
+     * @param y position on y-axis that needs to be set
+     */
+    public void setCoords(int x, int y){setX(x); setY(y);}
 
     public void draw(){return;}
 }

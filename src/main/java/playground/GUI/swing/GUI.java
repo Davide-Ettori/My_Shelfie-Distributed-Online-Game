@@ -14,11 +14,11 @@ public class GUI{
 
     public static void main(String[] args) {
         new GUI();
-    }
+    } // inizializzo la GUI
     public GUI(){
-        frame = new JFrame();
+        frame = new JFrame(); // creo la finestra
 
-        JButton buttonUp = new JButton("Aggiungi");
+        JButton buttonUp = new JButton("Aggiungi"); // bottone per aggiungere punti, con relativa callback
         buttonUp.addActionListener((e) ->{
             if(count == maxPoints){
                 showMessageDialog(null, "Punti massimi raggiunti (" + maxPoints + ")");
@@ -27,35 +27,37 @@ public class GUI{
             label.setText("Numero di punti: " + ++count);
         });
 
-        JButton buttonDown = new JButton("Togli");
+        JButton buttonDown = new JButton("Togli"); // bottone per togliere punti, con relativa callback
         buttonDown.addActionListener((e) ->{
             if(count == 0)
                 return;
             label.setText("Numero di punti: " + --count);
         });
 
-        JButton buttonReset = new JButton("Resetta");
+        JButton buttonReset = new JButton("Resetta"); // bottone per resettare punti, con relativa callback
         buttonReset.addActionListener((e) ->{
             count = -1;
             label.setText("Numero di punti: " + ++count);
         });
 
-        JButton buttonPrint = new JButton("Stampa");
+        JButton buttonPrint = new JButton("Stampa"); // bottone per stampare punti, con relativa callback
         buttonPrint.addActionListener((e) ->{
             showMessageDialog(null, "\nBravo " + text.getText() + ", hai fatto " + count + " punti!");
         });
 
-        label = new JLabel("Numero di punti: " + count);
+        label = new JLabel("Numero di punti: " + count); // casella di testo
 
-        text = new JTextField(20);
+        text = new JTextField(20); // textbox input dall'utente
         text .setBounds(100, 20, 165, 25);
         text.setText("Inserisci il tuo nome");
 
-        panel = new JPanel();
+        panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
         panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
-        panel.setLayout(new GridLayout(0,3));
+        panel.setLayout(new GridLayout(0,3)); // griglia con o righe e 3 colonne
+        // da qui in poi aggiungo tutti gli elementi che ho creato al pannello
+        // inizio
         panel.add(text);
-        panel.add(new JPanel());
+        panel.add(new JPanel()); // elemento placeholder per impaginare bene
         panel.add(buttonPrint);
         panel.add(buttonUp);
         panel.add(new JPanel());
@@ -65,11 +67,12 @@ public class GUI{
         panel.add(new JPanel());
         panel.add(new JPanel());
         panel.add(label);
+        // fine
 
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("GUI di Prova");
-        frame.pack();
-        frame.setVisible(true);
+        frame.pack(); // preparo la finestra
+        frame.setVisible(true); // mostro il tutto a schermo, GUI
     }
 }
