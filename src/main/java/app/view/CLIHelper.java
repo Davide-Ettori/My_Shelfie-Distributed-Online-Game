@@ -4,7 +4,6 @@ import app.model.Card;
 import app.model.Color;
 
 import static app.model.Color.*;
-import app.model.Color;
 
 public class CLIHelper {
     public static boolean active = true;
