@@ -13,7 +13,7 @@ import static app.model.Color.*;
  */
 public class Board{
     private final int DIM = 9;
-    private Card[][] gameBoard = new Card[DIM][DIM];
+    private final Card[][] gameBoard = new Card[DIM][DIM];
     public CommonObjective commonObjective_1;
     public CommonObjective commonObjective_2;
     public LinkedList<Integer> pointsCO_1;
