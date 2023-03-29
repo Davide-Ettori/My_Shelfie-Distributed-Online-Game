@@ -18,8 +18,8 @@ public class Game {
     private ArrayList<Player> players;
     private ArrayList<Socket> playersSocket;
     private Player chairman;
-    private ArrayList<CommonObjective> bucketOfCO;
-    private ArrayList<PrivateObjective> bucketOfPO;
+    private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
+    private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean time = true;
     private Socket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     public static void main(String[] args){
