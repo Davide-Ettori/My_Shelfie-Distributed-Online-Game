@@ -40,7 +40,7 @@ public class Game {
         Player p;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
-                Thread.sleep(1000 * 60 * 5); // aspetto un minuto
+                Thread.sleep(1000 * 60 * 5); // aspetto 5 minuti
                 time = false;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
