@@ -68,7 +68,8 @@ public class Game {
             players.get(i).board = new Board(chairman.board);
         startGame();
     }
-
+    private void getUserName(Socket s){return;}
+    private void listenForReconnection(){return;}
     public void startGame(){ // inizializza la Board e comincia l'interazione con i client
         setCommonObjective();
         setPrivateObjective();
@@ -150,4 +151,5 @@ public class Game {
         }
         // notifica tutti i giocatori che il turno è cambiato tramite un messaggio socket, a quel punto loro richiederanno il nuovo stato
     }
+    private void sendFinalScoresToAll(){return;}
 }
