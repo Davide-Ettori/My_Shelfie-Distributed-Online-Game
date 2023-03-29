@@ -83,12 +83,13 @@ public class Game {
     }
     public void endGame(){return;} // chiude tutte le connessioni e termina la partita
     public void restartGame(){return;} // ricomincia una partita interrotta a metà
-    public boolean isNameTaken(String name){
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getName().equals(name))
-                return false;
+    private boolean isNameTaken(String name){return names.contains(name);}
+    private int getNameIndex(String name){
+        for(int i = 0; i < names.size(); i++){
+            if(names.get(i).equals(name))
+                return i;
         }
-        return true;
+        return -1;
     }
     private void setCommonObjective(){ // la situazione iniziale è quella del chairman, gli altri si adattano e poi comincia il gioco
         chairman.board.setCO_1(bucketOfCO.get(0));
