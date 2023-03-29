@@ -1,4 +1,4 @@
-package app.view;
+package app.view.CLI;
 
 import app.model.Card;
 import app.model.Color;
