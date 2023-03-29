@@ -16,6 +16,7 @@ public class Game {
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
     private ArrayList<Player> players;
+    private ArrayList<String> names;
     private ArrayList<Socket> playersSocket;
     private Player chairman;
     private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
