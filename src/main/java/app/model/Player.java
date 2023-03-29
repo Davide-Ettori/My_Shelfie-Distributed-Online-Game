@@ -2,6 +2,8 @@ package app.model;
 
 import app.controller.Game;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public class Player implements Serializable {
     public Board board;
     private ArrayList<Library> librariesOfOtherPlayers;
     private Socket mySocket;
+    private ObjectOutputStream outStream;
+    private ObjectInputStream inputStream;
     private Game gameRMI;
 
     public static void main(String[] args){

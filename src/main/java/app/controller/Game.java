@@ -2,6 +2,8 @@ package app.controller;
 
 import app.model.*;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,6 +20,8 @@ public class Game {
     private ArrayList<Player> players;
     private ArrayList<String> names;
     private ArrayList<Socket> playersSocket;
+    private ArrayList<ObjectOutputStream> outStreams;
+    private ArrayList<ObjectInputStream> inStreams;
     private Player chairman;
     private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
