@@ -30,6 +30,7 @@ import static app.model.Color.*;
 public class Initializer {
     private static final int ROWS = 6;
     private static final int COLS = 5;
+    private static final int cardNum = 22;
     /**
      * return a new full matrix of empty cards - STATIC
      * @author Ettori Faccincani
@@ -187,5 +188,16 @@ public class Initializer {
      * @author Ettori
      * @return the list of all the possible cards present in the game (132)
      */
-    public static ArrayList<Card> setBucketOfCards(){return null;}
+    public static ArrayList<Card> setBucketOfCards(){
+        ArrayList<Card> res = new ArrayList<>();
+        for(int i = 0; i < cardNum; i++) {
+            res.add(new Card(CYAN));
+            res.add(new Card(BLUE));
+            res.add(new Card(YELLOW));
+            res.add(new Card(WHITE));
+            res.add(new Card(GREEN));
+            res.add(new Card(PINK));
+        }
+        return res;
+    }
 }
