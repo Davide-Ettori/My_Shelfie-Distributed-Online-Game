@@ -1,5 +1,7 @@
 package app.model;
 
+import app.controller.Initializer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -218,6 +220,7 @@ public class Board{
      */
     public void fillBoard(int numPlayers){
         Card card;
+        bucketOfCards = Initializer.setBucketOfCards();
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 if(gameMatrix[i][j] == 0)
