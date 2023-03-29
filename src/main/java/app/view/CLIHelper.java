@@ -11,22 +11,24 @@ public class CLIHelper {
      * method which maps every color to a corresponding letter or symbol
      * @author Ettori
      * @param c the color to map
-     * @return the String mapped to the input color
+     * @return the char mapped to the input color
      */
-    private static String mapColor(Color c){
+    private static char mapColor(Color c){
         if(c == PINK)
-            return "P";
+            return 'P';
         if(c == CYAN)
-            return "C";
+            return 'C';
         if(c == BLUE)
-            return "B";
+            return 'B';
         if(c == GREEN)
-            return "G";
+            return 'G';
         if(c == YELLOW)
-            return "Y";
+            return 'Y';
+        if(c == WHITE)
+            return 'W';
         if(c == EMPTY)
-            return "#";
-        return "?";
+            return '#';
+        return '?';
     }
     /**
      * method which prints a generic matrix on the user terminal
@@ -38,6 +40,7 @@ public class CLIHelper {
      */
     public static void drawMatrix(Card[][] mat, int r, int c, String title) {
         System.out.println("\n" + title);
+        System.out.print("  ");
         for (int i = 0; i < c; i++)
             System.out.print(i + " ");
         System.out.println();
