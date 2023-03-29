@@ -65,7 +65,7 @@ public class Initializer {
 
         mat_1[0][0] = new Card(PINK);
         mat_1[0][2] = new Card(BLUE);
-        mat_1[1][5] = new Card(GREEN);
+        mat_1[1][4] = new Card(GREEN);
         mat_1[2][4] = new Card(WHITE);
         mat_1[3][1] = new Card(YELLOW);
         mat_1[5][2] = new Card(BLUE);
@@ -147,7 +147,7 @@ public class Initializer {
         mat_12[4][4] = new Card(YELLOW);
         mat_12[5][0] = new Card(GREEN);
 
-        return (ArrayList<PrivateObjective>) Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 new PrivateObjective(mat_1, 1, ""),
                 new PrivateObjective(mat_2, 2, ""),
                 new PrivateObjective(mat_3, 3, ""),
@@ -160,7 +160,7 @@ public class Initializer {
                 new PrivateObjective(mat_10, 10, ""),
                 new PrivateObjective(mat_11, 11, ""),
                 new PrivateObjective(mat_12, 12, "")
-        );
+        ));
     }
     /**
      * return the list of initialized common objective - STATIC
@@ -168,7 +168,7 @@ public class Initializer {
      * @return the list of all the possible common objective
      */
     public static ArrayList<CommonObjective> setBucketOfCO() {
-        return (ArrayList<CommonObjective>) Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 new CommonObjective(new Algo_CO_1(), ""),
                 new CommonObjective(new Algo_CO_2(), ""),
                 new CommonObjective(new Algo_CO_3(), ""),
@@ -181,7 +181,7 @@ public class Initializer {
                 new CommonObjective(new Algo_CO_10(), ""),
                 new CommonObjective(new Algo_CO_11(), ""),
                 new CommonObjective(new Algo_CO_12(), "")
-        );
+        ));
     }
     /**
      * return the list of initialized cards - STATIC

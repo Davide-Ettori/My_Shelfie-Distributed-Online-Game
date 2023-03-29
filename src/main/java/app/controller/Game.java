@@ -1,13 +1,16 @@
 package app.controller;
 
 import app.model.*;
+import playground.socket.Packet;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static app.controller.NameStatus.*;
 import static app.model.State.*;
 /**
  * class which represent the instance of the current game
@@ -15,18 +18,19 @@ import static app.model.State.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game {
+    private final int PORT = 3000;
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
     private ArrayList<Player> players;
-    private ArrayList<String> names;
-    private ArrayList<Socket> playersSocket;
-    private ArrayList<ObjectOutputStream> outStreams;
-    private ArrayList<ObjectInputStream> inStreams;
+    private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<Socket> playersSocket = new ArrayList<>();
+    private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
+    private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
     private Player chairman;
     private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean time = true;
-    private Socket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a Board
+    private ServerSocket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     public static void main(String[] args){
         new Game();
     }
@@ -36,45 +40,59 @@ public class Game {
         Player p;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
-                Thread.sleep(1000 * 60); // aspetto un minuto
+                Thread.sleep(1000 * 60 * 5); // aspetto un minuto
                 time = false;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }).start();
-        // in questo ciclo aspetta che i giocatori si connettano, massimo per un minuto ad esempio
-        // il primo che si connette è anche il chairman
+
+        try{serverSocket = new ServerSocket(PORT);}
+        catch(Exception e){System.out.println(e.toString());}
+        Thread th = null;
+        System.out.println("\nServer listening...");
         while(numPlayers < 4 && time){
-            // riceve una richiesta di nickname, la accetta o rifiuta
-            // se la accetta crea un oggetto di tipo player e lo manda al client
-            // poi aggiunge il player alla lista e incrementa il player counter di 1
-
-            String name = "pippo"; // Esempio a caso, il nome dovrebbe inserirlo l'utente sul client e poi viene arriva qui al server
-            if(isNameTaken(name))
-                continue;
-            if(numPlayers == 0){
-                p = new Player(true, name);
-                chairman = p;
+            try{
+                playersSocket.add(serverSocket.accept());
+                th = new Thread(() ->{
+                    try{getUserName(playersSocket.get(playersSocket.size() - 1));}
+                    catch(Exception e){System.out.println(e.toString());}
+                });
+                th.start();
+                numPlayers++;
             }
-            else{
-                p = new Player(false, name);
-            }
-            players.add(p);
-            //playersSocket.add(socket); // aggiunge la socket del client che si è appena connesso. corrispondono univocamente con l'indice nel ArrayList
-            numPlayers++;
-            numPlayers = 3; // Esempio a caso che setta il numero di giocatori a tre. Ovviamente andrà eliminato
-
-            break; // per ora serve questi break perché non ci sono client che si possono connettere
+            catch(Exception e){System.out.println(e.toString());}
         }
-        if(numPlayers < 2) // se non ci sono abbastanza giocatori chiudi il server e annulla la partita
+        if(th == null || numPlayers < 2)
             System.exit(0);
+        try{th.join();}
+        catch(Exception e){System.out.println(e.toString());}
+
+        System.out.println("\nThe game starts!");
+        System.exit(0);
+
         chairman.board.initBoard(numPlayers);
         for(int i = 0; i < players.size(); i++)
             players.get(i).board = new Board(chairman.board);
         startGame();
     }
-    private void getUserName(Socket s){return;}
+    synchronized private void getUserName(Socket socket) throws Exception{
+        outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
+        inStreams.add(new ObjectInputStream(socket.getInputStream()));
+        while(true){
+            String name = (String) inStreams.get(inStreams.size() - 1).readObject();
+            if(isNameTaken(name)){
+                outStreams.get(outStreams.size() - 1).writeObject(TAKEN);
+                continue;
+            }
+            outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);
+            names.add(name);
+            return;
+        }
+    }
     private void listenForReconnection(){return;}
+    private String getChairmanName(){return names.get(0);}
+    private Player getChairman(){return players.get(0);}
     public void startGame(){ // inizializza la Board e comincia l'interazione con i client
         setCommonObjective();
         setPrivateObjective();

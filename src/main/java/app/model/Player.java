@@ -1,6 +1,8 @@
 package app.model;
 
 import app.controller.Game;
+import app.controller.*;
+import playground.socket.Server;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,6 +10,9 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import java.util.Scanner;
+
+import static app.controller.NameStatus.*;
 import static app.model.State.*;
 /**
  * class which represent the player on the client side
@@ -26,25 +31,35 @@ public class Player implements Serializable {
     private ArrayList<Library> librariesOfOtherPlayers;
     private Socket mySocket;
     private ObjectOutputStream outStream;
-    private ObjectInputStream inputStream;
+    private ObjectInputStream inStream;
     private Game gameRMI;
 
-    public static void main(String[] args){
-        // prendi da input il nickname del utente
-        // apri una connessione socket TCP con il server
-        // prendi il RMI del server usando il naming e l'ip giusto
-        // controlla se è già stato preso e nel caso chiedilo di nuovo
-        // aspetta che il server gli mandi le informazioni iniziali
-        // deserializza la classe Player che ti è arrivata tramite il buffer della socket
-        Socket socket = null; // questa dovrebbe essere la socket TCP che ho inizializzato poco prima
-        Game gameRMIInstance = null; // questo dovrebbe essere l'oggetto remoto che sta sul server
-        Player player = new Player(false, "pluto"); // questo oggetto dovrebbe venire dal server, questo è un esempio
-        player.setSocket(socket); // setto la socket di questo player con quella che ho creato prima
-        new Player(player, gameRMIInstance); // crea la classe Player effettiva con cui l'utente giocherà, tengo il riferimento al RMI del server
-        // ovviamente, per adesso intellij da molti errore di NullPointer, spariranno quando implementeremo la network
-    }
+    public static void main(String[] args){new Player();}
+    public Player() { // Costruttore iniziale
+        try {
+            Socket socket = new Socket("127.0.0.1", Server.PORT);
+            outStream = new ObjectOutputStream(socket.getOutputStream());
+            inStream = new ObjectInputStream(socket.getInputStream());
+        }catch (Exception e){System.out.println(e.toString());}
+        System.out.println("\nClient connected");
+        while(true){
+            Scanner in = new Scanner(System.in);
+            System.out.print("\nInsert your name: ");
+            name = in.nextLine();
+            NameStatus status = TAKEN;
+            try {
+                outStream.writeObject(name);
+                status = (NameStatus) inStream.readObject();
+            }catch(Exception e){System.out.println(e.toString());};
 
-    public Player(boolean isChair, String namePlayer) { // Costruttore semplice, di base. Ancora non so se servirà per davvero
+            if(status == NOT_TAKEN)
+                break;
+            System.out.println("Name Taken, choose another name");
+        }
+        System.out.println("\nName: '" + name + "' accepted by the server!");
+        while(true){}
+    }
+    public Player(boolean isChair, String namePlayer) { // Costruttore semplice. Ancora non so se servirà per davvero
         name = namePlayer;
         isChairMan = isChair;
         library = new Library();
