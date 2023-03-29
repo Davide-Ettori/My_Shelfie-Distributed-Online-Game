@@ -32,7 +32,6 @@ public class Player implements Serializable {
     private Socket mySocket;
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
-    private Game gameRMI;
 
     public static void main(String[] args){new Player();}
     public Player() { // Costruttore iniziale
@@ -74,7 +73,6 @@ public class Player implements Serializable {
         pointsUntilNow = p.pointsUntilNow;
         state = p.state;
         board = new Board(p.board);
-        gameRMI = rmi;
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
         startGame();
@@ -87,7 +85,6 @@ public class Player implements Serializable {
         pointsUntilNow = p.pointsUntilNow;
         state = p.state;
         board = new Board(p.board);
-        gameRMI = p.gameRMI;
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
     }
@@ -201,7 +198,6 @@ public class Player implements Serializable {
         pointsUntilNow = p.pointsUntilNow;
         state = p.state;
         board = new Board(p.board);
-        gameRMI = p.gameRMI;
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
     }
@@ -227,7 +223,7 @@ public class Player implements Serializable {
     }
     private void endTurn(){
         state = NOT_ACTIVE;
-        gameRMI.updatePlayersBoardAfterEndTurn(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
+        //gameRMI.updatePlayersBoardAfterEndTurn(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
         // manda al server la notifica che hai finito il turno
     }
     public State getState() {
