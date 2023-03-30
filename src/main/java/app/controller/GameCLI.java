@@ -40,7 +40,7 @@ public class GameCLI implements Serializable {
     public GameCLI(){
         if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
             clone(FILEHelper.loadServerCLI());
-            // da qui in poi fai continuare il server che hai caricato
+            // da qui in poi fai continuare il server che hai caricato dalla cache
         }
         shuffleObjBucket();
         int numPlayers = 0;
