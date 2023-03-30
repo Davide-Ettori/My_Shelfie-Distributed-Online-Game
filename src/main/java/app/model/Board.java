@@ -274,6 +274,10 @@ public class Board implements Serializable {
                     gameBoard[i][j] = new Card(g[i][j]);
             }
     }
+    /**
+     * method that call drawMatrix to print the board
+     * @author Gumus
+     */
     public void draw() {
         drawMatrix(gameBoard,DIM,DIM,"Game board:\n");
     }

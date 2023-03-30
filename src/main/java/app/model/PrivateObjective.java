@@ -44,6 +44,10 @@ public class PrivateObjective extends Objective {
         }
         return count;
     }
+    /**
+     * method that call drawMatrix to print the PO
+     * @author Gumus
+     */
     public void draw() {
         drawMatrix(matrix,matrix.length,matrix[0].length,"Your private objective:\n");
     }

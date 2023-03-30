@@ -285,8 +285,13 @@ public class PlayerCLI implements Serializable{
             }
         }
     }
+    /**
+     * print the name of the active player, the 2 CO, the PO, the board, the libraries,
+     * and then prints spaces before the next execution of drawAll
+     * @author Gumus
+     */
     public void drawAll(){
-        /*System.out.print("\033[H\033[2J");
+        /*System.out.print("\033[H\033[2J"); //\033[H porta il cursore all'inizio, \033[2J cancella tutto quello che c'è dopo il cursore; ma non funziona
         System.out.flush();*/
         System.out.println(activeName+"'s round");
         board.commonObjective_1.draw();
