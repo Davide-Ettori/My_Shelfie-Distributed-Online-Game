@@ -145,8 +145,8 @@ public class PlayerCLI implements Serializable{
                 coords.add(Integer.parseInt(rawCoords[i]));
                 coords.add(Integer.parseInt(rawCoords[i + 1]));
             }
-            // controlla che le carte siano pickable
-            break;
+            if(board.areCardsPickable(coords))
+                break;
         }
         int index_1, index_2;
         while(true){
@@ -163,15 +163,23 @@ public class PlayerCLI implements Serializable{
             temp = coords.get(index_1);
             coords.set(index_1, index_2);
             coords.set(index_2, temp);
-            // aggiorna la library
-            try {
-                int timer = 5;
-                Thread.sleep(1000 * timer);
-            }catch(Exception e){System.out.println(e);}
-            // controlla se hai fatto un CO
-            // controlla se la library è piena
-            // notifica turno
         }
+        int col;
+        while(true){
+            System.out.print("\nInsert the column where you wish to put the cards: ");
+            col = Integer.parseInt(in.nextLine());
+            if(library.checkCol(col, coords.size() / 2))
+                break;
+            System.out.println("\nInvalid selection");
+        }
+        // aggiorna la library
+        try {
+            int timer = 5;
+            Thread.sleep(1000 * timer);
+        }catch(Exception e){System.out.println(e);}
+        // controlla se hai fatto un CO
+        // controlla se la library è piena
+        // notifica turno
     }
     private boolean isCharValid(int index_1, int index_2, int size){
         return index_1 > 0 && index_1 <= size && index_2 > 0 && index_2 < size;

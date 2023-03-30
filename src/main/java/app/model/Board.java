@@ -162,6 +162,9 @@ public class Board implements Serializable {
         }
         return true;
     }
+    public ArrayList<Card> pickCard(ArrayList<Integer> coords){
+        return null;
+    }
     /**
      * check if the cards picked are in a valid position
      * @author Ettori

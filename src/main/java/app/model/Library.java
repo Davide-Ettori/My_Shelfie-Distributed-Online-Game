@@ -57,6 +57,8 @@ public class Library implements Serializable {
      * @return true iff the cards can stay inside the library column
      */
     public boolean checkCol(int col, int numCards){
+        if(col < 0 || col >= COLS)
+            return false;
         int freeCard = getFirstFreeCard(col) + 1;
         return freeCard >= numCards;
     }
