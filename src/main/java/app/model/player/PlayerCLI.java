@@ -39,7 +39,7 @@ public class PlayerCLI implements Serializable{
         if(netMode.equals("r"))
             return;
         try {
-            Socket socket = new Socket(DAVIDE_POLIMI_IP, Server.PORT);
+            Socket socket = new Socket(DAVIDE_HOTSPOT_IP, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
             String resp = (String) inStream.readObject();
