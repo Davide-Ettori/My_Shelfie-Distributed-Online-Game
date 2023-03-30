@@ -45,6 +45,7 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
     private final String DAVIDE_XIAOMI_IP_G = "192.168.86.95";
+    private final String DAVIDE_IP_MILANO = "172.17.0.129";
 
     public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
     public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
@@ -68,7 +69,7 @@ public class PlayerCLI implements Serializable{
         if(netMode == RMI)
             return;
         try {
-            Socket socket = new Socket(DAVIDE_XIAOMI_IP_G, Server.PORT);
+            Socket socket = new Socket(DAVIDE_IP_MILANO, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
             String resp = (String) inStream.readObject();
