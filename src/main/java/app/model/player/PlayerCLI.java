@@ -33,12 +33,13 @@ public class PlayerCLI implements Serializable{
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
+    private final String DAVIDE_POLIMI_IP = "10.168.91.35";
 
     public PlayerCLI(String netMode) { // Costruttore iniziale
         if(netMode.equals("r"))
             return;
         try {
-            Socket socket = new Socket(DAVIDE_HOTSPOT_IP, Server.PORT);
+            Socket socket = new Socket(DAVIDE_POLIMI_IP, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
             String resp = (String) inStream.readObject();
