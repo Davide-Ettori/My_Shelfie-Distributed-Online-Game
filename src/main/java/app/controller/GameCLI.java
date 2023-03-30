@@ -5,6 +5,7 @@ import app.model.player.PlayerCLI;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import static app.model.State.*;
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
-public class GameCLI {
+public class GameCLI implements Serializable {
     private final int PORT = 3000;
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
