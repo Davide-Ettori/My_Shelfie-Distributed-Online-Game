@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import static app.model.Color.*;
+import static app.view.CLI.CLIHelper.*;
+
 /**
  * class which represent the common board where the players choose the cards
  * @author Ettori Faccincani
@@ -274,6 +276,6 @@ public class Board implements Serializable {
             }
     }
     public void draw() {
-        CLIHelper.drawMatrix(gameBoard,DIM,DIM,"Game board:\n");
+        drawMatrix(gameBoard,DIM,DIM,"Game board:\n");
     }
 }

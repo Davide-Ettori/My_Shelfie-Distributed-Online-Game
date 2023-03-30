@@ -3,6 +3,7 @@ package app.model;
 import app.view.CLI.CLIHelper;
 
 import static app.model.Color.*;
+import static app.view.CLI.CLIHelper.*;
 
 /**
  * class which represent the private objective for each player
@@ -46,6 +47,6 @@ public class PrivateObjective extends Objective {
         return count;
     }
     public void draw() {
-        CLIHelper.drawMatrix(matrix,matrix.length,matrix[0].length,"Your private objective:\n");
+        drawMatrix(matrix,matrix.length,matrix[0].length,"Your private objective:\n");
     }
 }
