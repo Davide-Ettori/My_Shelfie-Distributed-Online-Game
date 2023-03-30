@@ -22,6 +22,7 @@ public class Board{
     public LinkedList<Integer> pointsCO_2;
     private ArrayList<Card> bucketOfCards;
     private int[][] gameMatrix;
+    public String name;
 
     public Board(int numPlayers, CommonObjective CO_1, CommonObjective CO_2){
         commonObjective_1 = CO_1;

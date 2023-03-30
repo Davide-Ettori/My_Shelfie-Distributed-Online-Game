@@ -14,6 +14,7 @@ public class Library {
     public Card[][] library = new Card[ROWS][COLS];
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
+    public String name;
 
     public Library(){
         for(int i = 0; i < ROWS; i++){
