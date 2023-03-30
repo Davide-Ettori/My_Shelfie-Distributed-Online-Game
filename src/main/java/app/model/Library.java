@@ -1,5 +1,6 @@
 package app.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static app.model.Color.EMPTY;
@@ -10,7 +11,7 @@ import static app.view.CLI.CLIHelper.drawMatrix;
  * @author Ettori Giammusso
  * mutable
  * */
-public class Library {
+public class Library implements Serializable {
     public final int ROWS = 6;
     public final int COLS = 5;
     public Card[][] library = new Card[ROWS][COLS];

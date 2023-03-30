@@ -22,6 +22,7 @@ import static app.model.State.*;
  */
 public class PlayerCLI implements Serializable{
     private String name;
+    private String activeName;
     private boolean isChairMan;
     public Library library;
     private PrivateObjective objective;

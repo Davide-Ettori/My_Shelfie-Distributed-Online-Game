@@ -3,6 +3,7 @@ package app.model;
 import app.controller.Initializer;
 import app.view.CLI.CLIHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ import static app.model.Color.*;
  * @author Ettori Faccincani
  * mutable
  */
-public class Board{
+public class Board implements Serializable {
     private final int DIM = 9;
     private final Card[][] gameBoard = new Card[DIM][DIM];
     public CommonObjective commonObjective_1;

@@ -90,6 +90,7 @@ public class GameCLI {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){System.out.println(e);}
         }
+
     }
     synchronized private void getUserName(Socket socket) throws Exception{
         outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
