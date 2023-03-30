@@ -310,7 +310,11 @@ public class PlayerCLI implements Serializable{
     public void drawAll(){
         /*System.out.print("\033[H\033[2J"); //\033[H porta il cursore all'inizio, \033[2J cancella tutto quello che c'è dopo il cursore; ma non funziona
         System.out.flush();*/
-        System.out.println(activeName+"'s round");
+        if(activeName.equals(name)){
+            System.out.println("Wake up! It's your turn!");
+        }else{
+            System.out.println("Now "+activeName+"is playing...");
+        }
         board.commonObjective_1.draw();
         board.commonObjective_1.draw();
         objective.draw();
