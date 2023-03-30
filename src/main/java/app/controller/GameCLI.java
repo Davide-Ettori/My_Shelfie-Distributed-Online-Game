@@ -30,9 +30,10 @@ public class GameCLI {
     private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean time = true;
-    private ServerSocket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a Board
+    private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
 
     public GameCLI(){
+        shuffleObjBucket();
         int numPlayers = 0;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
@@ -87,12 +88,15 @@ public class GameCLI {
             p.setPrivateObjective(getPrivateObjective());
             p.pointsUntilNow = 0;
             p.setState(NOT_ACTIVE);
+            p.setActiveName(getChairmanName());
+            for(int j = 0; j < numPlayers; j++)
+                p.librariesOfOtherPlayers.add(new Library());
+            p.numPlayers = numPlayers;
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){System.out.println(e);}
         }
         advanceTurn();
-        notifyNewTurn();
     }
     synchronized private void getUserName(Socket socket) throws Exception{
         outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
@@ -140,11 +144,6 @@ public class GameCLI {
     private void listenForReconnection(){return;}
     private String getChairmanName(){return names.get(0);}
     private PlayerCLI getChairman(){return players.get(0);}
-    public void startGame(){ // inizializza la Board e comincia l'interazione con i client
-        return;
-    }
-    public void endGame(){return;} // chiude tutte le connessioni e termina la partita
-    public void restartGame(){return;} // ricomincia una partita interrotta a metà
     private boolean isNameTaken(String name){return names.contains(name);}
     private int getNameIndex(String name){
         for(int i = 0; i < names.size(); i++){
@@ -176,38 +175,6 @@ public class GameCLI {
             bucketOfPO.set(j, temp_2);
         }
     }
-    private Socket getSocketByName(String name){
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getName().equals(name))
-                return playersSocket.get(i);
-        }
-        return null;
-    }
-    public void updatePlayersBoardAfterEndTurn(PlayerCLI p, String name){ // chiamato da remoto alla fine di ogni turno
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getName().equals(name)) // il nome è univoco
-                players.set(i, new PlayerCLI(p));
-            else
-                players.get(i).board = new Board(p.board);
-        }
-        advanceTurn();
-    }
-    public ArrayList<Library> getOtherLibraries(String name){ // chiamato da remoto
-        ArrayList<Library> res = new ArrayList<>();
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getName().equals(name))
-                continue;
-            res.add(players.get(i).library);
-        }
-        return res;
-    }
-    public String getActivePlayer(){ // chiamato da remoto
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getState() == ACTIVE)
-                return players.get(i).getName();
-        }
-        return "";
-    }
     public void advanceTurn(){
         if(activePlayer == -1) {
             activePlayer++;
@@ -217,13 +184,6 @@ public class GameCLI {
         activePlayer = (activePlayer + 1) % numPlayers;
         players.get(activePlayer).setState(ACTIVE);
         notifyNewTurn();
-    }
-    private int getPlayerIndex(String name){
-        for(int i = 0; i < names.size(); i++){
-            if(names.get(i).equals(name))
-                return i;
-        }
-        return -1;
     }
     private void sendFinalScoresToAll(){return;}
 }

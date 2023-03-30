@@ -23,6 +23,7 @@ import static app.model.State.*;
  */
 public class PlayerCLI implements Serializable{
     private String name;
+    public int numPlayers;
     private String activeName = "";
     private boolean isChairMan;
     public Library library;
@@ -30,7 +31,7 @@ public class PlayerCLI implements Serializable{
     public int pointsUntilNow;
     private State state;
     public Board board;
-    private ArrayList<Library> librariesOfOtherPlayers;
+    public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
     private Socket mySocket;
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
@@ -288,6 +289,7 @@ public class PlayerCLI implements Serializable{
     }
     public State getState(){return state;}
     public void setState(State s){state = s;}
+    public void setActiveName(String n){activeName = n;}
     /**
      * print the name of the active player, the 2 CO, the PO, the board, the libraries,
      * and then prints spaces before the next execution of drawAll
