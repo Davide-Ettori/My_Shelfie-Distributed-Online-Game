@@ -39,7 +39,7 @@ public class drawTest {
     }
 
     @Test //test1
-    public void drawBoard() {
+    public void drawBoard(){
         //inizializzo la matrice con degli EMPTY
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
@@ -63,6 +63,5 @@ public class drawTest {
         board1.setGameBoard(gameBoard1);
 
         board1.draw();
-
     }
 }
