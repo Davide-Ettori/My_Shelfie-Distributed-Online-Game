@@ -28,6 +28,8 @@ public class PlayerCLI implements Serializable{
     private String name;
     public NetMode netMode;
     public int numPlayers;
+    private boolean CO_1_Done = false;
+    private boolean CO_2_Done = false;
     private String activeName = "";
     private boolean isChairMan;
     public Library library;
@@ -55,6 +57,8 @@ public class PlayerCLI implements Serializable{
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
     }
     public PrivateObjective getPrivateObjective(){
         return objective;
@@ -181,10 +185,14 @@ public class PlayerCLI implements Serializable{
             System.out.println("\nInvalid selection");
         }
         pickCards(coords, col);
-        if(board.commonObjective_1.algorithm.checkMatch(library.library))
+        if(board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) {
             pointsUntilNow += board.pointsCO_1.pop();
-        if(board.commonObjective_2.algorithm.checkMatch(library.library))
+            CO_1_Done = true;
+        }
+        if(board.commonObjective_2.algorithm.checkMatch(library.library) && !CO_2_Done) {
             pointsUntilNow += board.pointsCO_2.pop();
+            CO_2_Done = true;
+        }
 
         // controlla se la library è piena --> lo fai sul server, viene più comodo
         HashMap<String, Object> map = new HashMap<>();
@@ -257,9 +265,8 @@ public class PlayerCLI implements Serializable{
      * @param cards list of the chosen cards
      * @return true iff is successful
      */
-    private boolean deployCards(int col, ArrayList<Card> cards) {
+    private void deployCards(int col, ArrayList<Card> cards) {
         library.insertCards(col, cards);
-        return true;
     }
     /**
      * print the personal library and then print the other players libraries
@@ -267,7 +274,7 @@ public class PlayerCLI implements Serializable{
      */
     private void printLibrary(){
         library.draw("My Library");
-        for(int i=0; i<librariesOfOtherPlayers.size(); i++){
+        for(int i = 0; i < librariesOfOtherPlayers.size(); i++){
             if(!librariesOfOtherPlayers.get(i).name.equals(name)){ //if it is not my personal library
                 librariesOfOtherPlayers.get(i).draw("Library of"+librariesOfOtherPlayers.get(i).name);
             }
@@ -287,14 +294,14 @@ public class PlayerCLI implements Serializable{
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
         }else{
-            System.out.println("Now "+activeName+"is playing...");
+            System.out.println("Now "+activeName+" is playing...");
         }
-        board.commonObjective_1.draw();
-        board.commonObjective_1.draw();
+        board.commonObjective_1.draw(board.pointsCO_1.size() != 0 ? board.pointsCO_1.peek() : 0);
+        board.commonObjective_2.draw(board.pointsCO_2.size() != 0 ? board.pointsCO_2.peek() : 0);
         objective.draw();
         board.draw();
         printLibrary();
-        for(int i=0;i<12;i++){
+        for(int i = 0;i < 12; i++){
             System.out.println();
         }
     }

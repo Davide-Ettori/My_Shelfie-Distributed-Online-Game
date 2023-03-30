@@ -15,8 +15,8 @@ public class CommonObjective extends Objective {
      * method that call drawMatrix to print the CO index
      * @author Gumus
      */
-    public void draw(){
-        System.out.println("Common objective number:"+ this.imagePath+"\n");
+    public void draw(int points){
+        System.out.println("Common objective number: " + this.imagePath + ", Points available: " + points);
     }
 }
 

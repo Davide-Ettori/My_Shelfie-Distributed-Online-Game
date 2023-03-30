@@ -187,9 +187,13 @@ public class GameCLI {
             activePlayer++;
             players.get(activePlayer).setState(ACTIVE);
         }
-        players.get(activePlayer).setState(NOT_ACTIVE);
-        activePlayer = (activePlayer + 1) % numPlayers;
-        players.get(activePlayer).setState(ACTIVE);
+        else {
+            players.get(activePlayer).setState(NOT_ACTIVE);
+            do {
+                activePlayer = (activePlayer + 1) % numPlayers;
+            }while(players.get(activePlayer).getState() == DISCONNECTED);
+            players.get(activePlayer).setState(ACTIVE);
+        }
         notifyNewTurn();
     }
     private String getFinalScore(){return null;}
