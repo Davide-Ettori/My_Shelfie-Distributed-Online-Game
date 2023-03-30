@@ -120,11 +120,22 @@ public class GameCLI {
         }
         waitMoveFromClient();
     }
-    public void waitMoveFromClient(){
+    private void waitMoveFromClient(){
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
+            for(int i = 0; i < numPlayers; i++)
+                outStreams.get(i).writeObject(msg);
         }catch(Exception e){System.out.println(e);}
-
+        waitForEndTurn();
+    }
+    private void waitForEndTurn(){
+        try {
+            Message msg = (Message) inStreams.get(activePlayer).readObject();
+            if(msg.getType().equals("end turn")){
+                players.get(activePlayer).clone((PlayerCLI) msg.getContent());
+                advanceTurn();
+            }
+        }catch(Exception e){System.out.println(e);}
     }
     private void listenForReconnection(){return;}
     private String getChairmanName(){return names.get(0);}
@@ -205,6 +216,7 @@ public class GameCLI {
         players.get(activePlayer).setState(NOT_ACTIVE);
         activePlayer = (activePlayer + 1) % numPlayers;
         players.get(activePlayer).setState(ACTIVE);
+        notifyNewTurn();
     }
     private int getPlayerIndex(String name){
         for(int i = 0; i < names.size(); i++){

@@ -122,10 +122,12 @@ public class PlayerCLI implements Serializable{
                     if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                         librariesOfOtherPlayers.set(i, new Library((Library) map.get("library")));
                 }
+                waitForTurn();
             }
         }catch(Exception e){System.out.println(e);}
     }
     private void waitForMove(){
+        // controlla se la board è unplayble
         String coordString, coordOrder;
         String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();
@@ -162,6 +164,13 @@ public class PlayerCLI implements Serializable{
             coords.set(index_1, index_2);
             coords.set(index_2, temp);
             // aggiorna la library
+            try {
+                int timer = 5;
+                Thread.sleep(1000 * timer);
+            }catch(Exception e){System.out.println(e);}
+            // controlla se hai fatto un CO
+            // controlla se la library è piena
+            // notifica turno
         }
     }
     private boolean isCharValid(int index_1, int index_2, int size){
