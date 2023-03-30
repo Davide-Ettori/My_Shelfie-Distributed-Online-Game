@@ -275,7 +275,7 @@ public class Board implements Serializable {
     public void setGameBoard(Card[][] g){
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++)
-                    gameBoard[i][j] = new Card(g[i][j]);
+                gameBoard[i][j] = new Card(g[i][j]);
             }
     }
     /**
