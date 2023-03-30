@@ -59,15 +59,7 @@ public class PlayerCLI implements Serializable{
         inStream = p.inStream;
         outStream = p.outStream;
     }
-
-    public void DrawAll(PlayerCLI player){
-        board.commonObjective_1.draw(player.board.commonObjective_1);
-        board.commonObjective_1.draw(player.board.commonObjective_2);
-        PrivateObjectiveGetter().draw();
-        board.draw();
-        printLibrary();
-    }
-    public PrivateObjective PrivateObjectiveGetter(){
+    public PrivateObjective getPrivateObjective(){
         return objective;
     }
     public PlayerCLI(String netMode) { // Costruttore iniziale
@@ -275,6 +267,15 @@ public class PlayerCLI implements Serializable{
                 librariesOfOtherPlayers.get(i).draw("Library of"+librariesOfOtherPlayers.get(i).name);
             }
         }
+    }
+    public void drawAll(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        board.commonObjective_1.draw();
+        board.commonObjective_1.draw();
+        getPrivateObjective().draw();
+        board.draw();
+        printLibrary();
     }
     /** ------------------------------------------------------------------------------------------------------------- */
     public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client

@@ -11,8 +11,8 @@ public class CommonObjective extends Objective {
         this.imagePath = image;
         this.algorithm = algorithm;
     }
-    public void draw(CommonObjective commonObjective){
-        System.out.println("Common objective number:"+ commonObjective.imagePath+"\n");
+    public void draw(){
+        System.out.println("Common objective number:"+ this.imagePath+"\n");
     }
 }
 
