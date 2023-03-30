@@ -117,6 +117,10 @@ public class PlayerCLI implements Serializable{
                     activeName = msg.getAuthor();
                     waitForTurn();
                 }
+                case UPDATE_BOARD -> {
+                    board = new Board((Board) msg.getContent());
+                    waitForTurn();
+                }
                 case UPDATE_GAME -> {
                     HashMap<String, Object> map = new HashMap<>();
                     map = (HashMap<String, Object>) msg.getContent();
@@ -130,7 +134,7 @@ public class PlayerCLI implements Serializable{
                     waitForTurn();
                 }
                 case FINAL_SCORE -> {
-                    System.out.println("\nThe game is finished, this is the final scoreboard" + (String) msg.getContent());
+                    System.out.println("\nThe game is finished, this is the final scoreboard\n" + (String) msg.getContent());
                     Thread.sleep(1000 * 5);
                     System.exit(0);
                 }
@@ -138,8 +142,12 @@ public class PlayerCLI implements Serializable{
         }catch(Exception e){System.out.println(e);}
     }
     private void waitForMove(){
-        // controlla se la board è unplayble
-        // nel caso la refilla e poi la manda al server così che la rimandi in broadcast
+        if(board.isBoardUnplayable()){
+            board.fillBoard(numPlayers);
+            try {
+                outStream.writeObject(new Message(UPDATE_BOARD, name, board));
+            }catch (Exception e){System.out.println(e);}
+        }
         String coordString, coordOrder;
         String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();

@@ -135,9 +135,9 @@ public class GameCLI {
     }
     private void waitMoveFromClient(){
         try {
-            Message msg = (Message) inStreams.get(activePlayer).readObject();
-            for(int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
-                if(i != activePlayer)
+            Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve sia UPDATE_GAME che UPDATE_BOARD, ma fa sempre la stessa cosa (come è giusto che sia)
+            for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                if (i != activePlayer)
                     outStreams.get(i).writeObject(msg);
             }
         }catch(Exception e){System.out.println(e);}
