@@ -274,7 +274,7 @@ public class PlayerCLI implements Serializable{
         System.out.flush();
         board.commonObjective_1.draw();
         board.commonObjective_1.draw();
-        getPrivateObjective().draw();
+        objective.draw();
         board.draw();
         printLibrary();
     }
