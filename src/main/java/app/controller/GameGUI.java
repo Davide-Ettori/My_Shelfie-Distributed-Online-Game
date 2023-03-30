@@ -26,7 +26,6 @@ public class GameGUI {
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
     private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
-    private PlayerGUI chairman;
     private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean time = true;
@@ -68,9 +67,9 @@ public class GameGUI {
         System.out.println("\nThe game starts!");
         System.exit(0);
 
-        chairman.board.initBoard(numPlayers);
+        getChairman().board.initBoard(numPlayers);
         for(int i = 0; i < players.size(); i++)
-            players.get(i).board = new Board(chairman.board);
+            players.get(i).board = new Board(getChairman().board);
         startGame();
     }
     synchronized private void getUserName(Socket socket) throws Exception{
@@ -94,7 +93,7 @@ public class GameGUI {
     public void startGame(){ // inizializza la Board e comincia l'interazione con i client
         setCommonObjective();
         setPrivateObjective();
-        chairman.setState(ACTIVE);
+        getChairman().setState(ACTIVE);
         return;
     }
     public void endGame(){return;} // chiude tutte le connessioni e termina la partita
@@ -107,9 +106,9 @@ public class GameGUI {
         }
         return -1;
     }
-    private void setCommonObjective(){ // la situazione iniziale è quella del chairman, gli altri si adattano e poi comincia il gioco
-        chairman.board.setCO_1(bucketOfCO.get(0));
-        chairman.board.setCO_2(bucketOfCO.get(1));
+    private void setCommonObjective(){ // la situazione iniziale è quella del getChairman(), gli altri si adattano e poi comincia il gioco
+        getChairman().board.setCO_1(bucketOfCO.get(0));
+        getChairman().board.setCO_2(bucketOfCO.get(1));
     }
     private void setPrivateObjective(){
         for(int i = 0; i < players.size(); i++)
