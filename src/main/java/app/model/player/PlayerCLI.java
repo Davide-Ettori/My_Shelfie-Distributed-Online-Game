@@ -113,6 +113,7 @@ public class PlayerCLI implements Serializable{
             switch (msg.getType()) {
                 case YOUR_TURN -> {
                     activeName = name;
+                    drawAll();
                     waitForMove();
                 }
                 case CHANGE_TURN -> {
@@ -139,7 +140,7 @@ public class PlayerCLI implements Serializable{
                 case FINAL_SCORE -> {
                     System.out.println("\nThe game is finished, this is the final scoreboard\n" + (String) msg.getContent());
                     Thread.sleep(1000 * 5);
-                    System.exit(0);
+                    System.exit(0); // il gioco finisce e tutto si chiude forzatamente
                 }
             }
         }catch(Exception e){System.out.println(e);}
@@ -204,8 +205,7 @@ public class PlayerCLI implements Serializable{
             pointsUntilNow += board.pointsCO_2.pop();
             CO_2_Done = true;
         }
-
-        // controlla se la library è piena --> lo fai sul server, viene più comodo
+        drawAll();
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
         map.put("library", library);
