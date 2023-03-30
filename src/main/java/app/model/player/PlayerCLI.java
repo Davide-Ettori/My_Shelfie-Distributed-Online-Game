@@ -197,7 +197,7 @@ public class PlayerCLI implements Serializable{
             System.out.println("\nInvalid selection");
         }
         pickCards(coords, col);
-        if(board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) {
+        if(board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
             pointsUntilNow += board.pointsCO_1.pop();
             CO_1_Done = true;
         }
