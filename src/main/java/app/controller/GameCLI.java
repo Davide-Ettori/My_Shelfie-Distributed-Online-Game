@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.model.*;
-import playground.socket.Packet;
+import app.model.player.PlayerCLI;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,27 +17,24 @@ import static app.model.State.*;
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
-public class Game {
+public class GameCLI {
     private final int PORT = 3000;
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
-    private ArrayList<Player> players;
+    private ArrayList<PlayerCLI> players;
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
     private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
-    private Player chairman;
+    private PlayerCLI chairman;
     private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean time = true;
     private ServerSocket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a Board
-    public static void main(String[] args){
-        new Game();
-    }
 
-    public Game(){
+    public GameCLI(){
         int numPlayers = 0;
-        Player p;
+        PlayerCLI p;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
                 Thread.sleep(1000 * 60 * 5); // aspetto 5 minuti
@@ -49,8 +46,10 @@ public class Game {
 
         try{serverSocket = new ServerSocket(PORT);}
         catch(Exception e){System.out.println(e.toString());}
-        Thread th = null;
+        ArrayList<Thread> ths = new ArrayList<>();
+        Thread th;
         System.out.println("\nServer listening...");
+
         while(numPlayers < 4 && time){
             try{
                 playersSocket.add(serverSocket.accept());
@@ -59,15 +58,19 @@ public class Game {
                     catch(Exception e){System.out.println(e.toString());}
                 });
                 th.start();
+                ths.add(th);
                 numPlayers++;
             }
             catch(Exception e){System.out.println(e.toString());}
         }
-        if(th == null || numPlayers < 2)
+        for(Thread t: ths){
+            try{t.join();}
+            catch(Exception e){System.out.println(e.toString());}
+        }
+        if(numPlayers < 2){
+            System.out.println("\nGiocatori insufficienti");
             System.exit(0);
-        try{th.join();}
-        catch(Exception e){System.out.println(e.toString());}
-
+        }
         System.out.println("\nThe game starts!");
         System.exit(0);
 
@@ -79,6 +82,7 @@ public class Game {
     synchronized private void getUserName(Socket socket) throws Exception{
         outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
         inStreams.add(new ObjectInputStream(socket.getInputStream()));
+        outStreams.get(outStreams.size() - 1).writeObject("CLI");
         while(true){
             String name = (String) inStreams.get(inStreams.size() - 1).readObject();
             if(isNameTaken(name)){
@@ -92,7 +96,7 @@ public class Game {
     }
     private void listenForReconnection(){return;}
     private String getChairmanName(){return names.get(0);}
-    private Player getChairman(){return players.get(0);}
+    private PlayerCLI getChairman(){return players.get(0);}
     public void startGame(){ // inizializza la Board e comincia l'interazione con i client
         setCommonObjective();
         setPrivateObjective();
@@ -142,10 +146,10 @@ public class Game {
         }
         return null;
     }
-    public void updatePlayersBoardAfterEndTurn(Player p, String name){ // chiamato da remoto alla fine di ogni turno
+    public void updatePlayersBoardAfterEndTurn(PlayerCLI p, String name){ // chiamato da remoto alla fine di ogni turno
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name)) // il nome è univoco
-                players.set(i, new Player(p));
+                players.set(i, new PlayerCLI(p));
             else
                 players.get(i).board = new Board(p.board);
         }

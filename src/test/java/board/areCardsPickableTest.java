@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 
 import app.model.Board;
 import app.model.CommonObjective;
-import app.model.Player;
 import app.model.Strategy;
 import app.model.Algo_CO_1;
 import app.model.Algo_CO_2;
@@ -22,7 +21,6 @@ public class areCardsPickableTest {
     Strategy strategy2 = null;
     CommonObjective CO1 = null;
     CommonObjective CO2 = null;
-    Player player = null;
     Board board1 = null;
     Card[][] gameBoard1 = null;
     ArrayList<Integer> cardXY = null;
@@ -34,9 +32,8 @@ public class areCardsPickableTest {
         CO1 = new CommonObjective(strategy1,"");
         CO2 = new CommonObjective(strategy2, "");
 
-        player = new Player(true,"peppino");
 
-        board1 = new Board(4,CO1,CO2,player);
+        board1 = new Board(4,CO1,CO2);
         gameBoard1 = new Card[DIM][DIM];
     }
 

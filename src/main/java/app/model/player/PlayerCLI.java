@@ -1,7 +1,7 @@
-package app.model;
+package app.model.player;
 
-import app.controller.Game;
 import app.controller.*;
+import app.model.*;
 import playground.socket.Server;
 
 import java.io.ObjectInputStream;
@@ -20,7 +20,7 @@ import static app.model.State.*;
  * mutable
  * implements Serializable because it will be sent in the socket network
  */
-public class Player implements Serializable {
+public class PlayerCLI implements Serializable{
     private String name;
     private boolean isChairMan;
     public Library library;
@@ -33,12 +33,18 @@ public class Player implements Serializable {
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
 
-    public static void main(String[] args){new Player();}
-    public Player() { // Costruttore iniziale
+    public PlayerCLI(String netMode) { // Costruttore iniziale
+        if(netMode.equals("r"))
+            return;
         try {
             Socket socket = new Socket("127.0.0.1", Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
+            String resp = (String) inStream.readObject();
+            if(!resp.equals("CLI")){
+                System.out.println("\nClient unable to connect, wrong UI choice");
+                System.exit(0);
+            }
         }catch (Exception e){System.out.println(e.toString());}
         System.out.println("\nClient connected");
         while(true){
@@ -58,14 +64,14 @@ public class Player implements Serializable {
         System.out.println("\nName: '" + name + "' accepted by the server!");
         while(true){}
     }
-    public Player(boolean isChair, String namePlayer) { // Costruttore semplice. Ancora non so se servirà per davvero
+    public PlayerCLI(boolean isChair, String namePlayer) { // Costruttore semplice. Ancora non so se servirà per davvero
         name = namePlayer;
         isChairMan = isChair;
         library = new Library();
         pointsUntilNow = 0;
         state = NOT_ACTIVE;
     }
-    public Player(Player p, Game rmi){
+    public PlayerCLI(PlayerCLI p){ // copy constructor
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -75,18 +81,8 @@ public class Player implements Serializable {
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
-        startGame();
-    }
-    public Player(Player p){ // copy constructor
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
+        inStream = p.inStream;
+        outStream = p.outStream;
     }
     /**
      * getter for the name
@@ -190,7 +186,7 @@ public class Player implements Serializable {
         return cards;
     }
     /** ------------------------------------------------------------------------------------------------------------- */
-    public void clone(Player p){ // copia la versione sul server dentro a quella del client
+    public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);

@@ -20,11 +20,10 @@ public class Board{
     public CommonObjective commonObjective_2;
     public LinkedList<Integer> pointsCO_1;
     public LinkedList<Integer> pointsCO_2;
-    public Player player;
     private ArrayList<Card> bucketOfCards;
     private int[][] gameMatrix;
 
-    public Board(int numPlayers, CommonObjective CO_1, CommonObjective CO_2, Player p){
+    public Board(int numPlayers, CommonObjective CO_1, CommonObjective CO_2){
         commonObjective_1 = CO_1;
         commonObjective_2 = CO_2;
         if(numPlayers == 2){
@@ -39,7 +38,6 @@ public class Board{
             pointsCO_1 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
             pointsCO_2 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
         }
-        player = p;
     }
     public Board(Board c){ // copy constructor
         for(int i = 0; i < DIM; i++){
@@ -52,7 +50,6 @@ public class Board{
         pointsCO_1 = new LinkedList<>(c.pointsCO_1);
         pointsCO_2 = new LinkedList<>(c.pointsCO_2);
         bucketOfCards = new ArrayList<>(c.bucketOfCards);
-        player = new Player(player);
     }
     /**
      * getter for the game board

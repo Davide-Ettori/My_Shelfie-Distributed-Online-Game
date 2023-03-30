@@ -13,7 +13,7 @@ public class hasOneFreeSideTest {
     Card[][] gameBoard1 = null;
     @Before
     public void setUp(){
-        board1 = new Board(4,null,null,null);
+        board1 = new Board(4,null,null);
         gameBoard1 = new Card[DIM][DIM];
     }
     @Test
