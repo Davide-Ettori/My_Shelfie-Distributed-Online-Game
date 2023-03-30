@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
 import static app.model.player.NetMode.*;
@@ -102,15 +103,15 @@ public class PlayerCLI implements Serializable{
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
-                case "your turn" -> {
+                case YOUR_TURN -> {
                     activeName = name;
                     waitForMove();
                 }
-                case "change turn" -> {
+                case CHANGE_TURN -> {
                     activeName = msg.getAuthor();
                     waitForTurn();
                 }
-                case "update game" -> {
+                case UPDATE_GAME -> {
                     HashMap<String, Object> map = new HashMap<>();
                     map = (HashMap<String, Object>) msg.getContent();
                     board = new Board((Board) map.get("board"));
@@ -122,7 +123,7 @@ public class PlayerCLI implements Serializable{
                     System.out.println("\nPlayer: " + msg.getAuthor() + " made his move");
                     waitForTurn();
                 }
-                case "final score" -> {
+                case FINAL_SCORE -> {
                     System.out.println("\nThe game is finished, this is the final scoreboard" + (String) msg.getContent());
                     Thread.sleep(1000 * 5);
                     System.exit(0);
@@ -188,11 +189,11 @@ public class PlayerCLI implements Serializable{
         map.put("board", board);
         map.put("library", library);
         try {
-            outStream.writeObject(new Message("update game", name, map));
+            outStream.writeObject(new Message(UPDATE_GAME, name, map));
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
-            outStream.writeObject(new Message("end turn", name, this)); // notifico la fine turno
+            outStream.writeObject(new Message(END_TURN, name, this)); // notifico la fine turno
         }catch(Exception e){System.out.println(e);}
         waitForTurn(); // mi metto in attesa che diventi il mio turno
     }

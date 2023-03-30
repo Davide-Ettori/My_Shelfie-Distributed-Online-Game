@@ -7,10 +7,10 @@ import java.io.Serializable;
  * @author Ettori
  */
 public class Message implements Serializable {
-    private final String type;
+    private final MessageType type;
     private final String author;
     private final Object content;
-    public Message(String t, String p, Object cont){ // li costruisci in maniera completa una e una sola volta
+    public Message(MessageType t, String p, Object cont){ // li costruisci in maniera completa una e una sola volta
         type = t;
         author = p;
         content = cont;
@@ -21,7 +21,7 @@ public class Message implements Serializable {
      * @author Ettori
      * @return the type of message sent, which identify his purpose
      */
-    public String getType(){return type;}
+    public MessageType getType(){return type;}
     /**
      * getter for the author of the message
      * @author Ettori

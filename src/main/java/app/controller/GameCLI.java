@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
 /**
@@ -116,9 +117,9 @@ public class GameCLI {
         for(int i = 0; i < numPlayers; i++){
             try {
                 if (i == activePlayer)
-                    outStreams.get(i).writeObject(new Message("your turn", "server", null));
+                    outStreams.get(i).writeObject(new Message(YOUR_TURN, "server", null));
                 else
-                    outStreams.get(i).writeObject(new Message("change turn", "server", names.get(activePlayer)));
+                    outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
             }catch (Exception e){System.out.println(e);}
         }
         waitMoveFromClient();
