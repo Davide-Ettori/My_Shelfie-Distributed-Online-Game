@@ -37,6 +37,29 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
     private final String DAVIDE_XIAOMI_IP_G = "192.168.86.95";
 
+    public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
+
+    public PlayerCLI(boolean isChair, String namePlayer) { // Costruttore semplice. Ancora non so se servirà per davvero
+        name = namePlayer;
+        isChairMan = isChair;
+        library = new Library();
+        pointsUntilNow = 0;
+        state = NOT_ACTIVE;
+    }
+    public PlayerCLI(PlayerCLI p){ // copy constructor
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        inStream = p.inStream;
+        outStream = p.outStream;
+    }
+
     public void DrawAll(PlayerCLI player){
         board.commonObjective_1.draw(player.board.commonObjective_1);
         board.commonObjective_1.draw(player.board.commonObjective_2);
@@ -76,27 +99,69 @@ public class PlayerCLI implements Serializable{
             System.out.println("Name Taken, choose another name");
         }
         System.out.println("\nName: '" + name + "' accepted by the server!");
-        while(true){}
+        getInitialState();
     }
-    public PlayerCLI(boolean isChair, String namePlayer) { // Costruttore semplice. Ancora non so se servirà per davvero
-        name = namePlayer;
-        isChairMan = isChair;
-        library = new Library();
-        pointsUntilNow = 0;
-        state = NOT_ACTIVE;
+    private void getInitialState(){
+        PlayerCLI p;
+        try {
+            p = (PlayerCLI) inStream.readObject();
+            clone(p);
+        }catch(Exception e){System.out.println(e); System.exit(0);}
+        waitForTurn();
     }
-    public PlayerCLI(PlayerCLI p){ // copy constructor
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-        inStream = p.inStream;
-        outStream = p.outStream;
+    private void waitForTurn(){
+        try {
+            State newState = (State) inStream.readObject();
+            setState(newState);
+            waitForMove();
+        }catch(Exception e){System.out.println(e);}
+    }
+    private void waitForMove(){
+        String coordString, coordOrder;
+        String[] rawCoords;
+        ArrayList<Integer> coords = new ArrayList<>();
+        Scanner in = new Scanner(System.in);
+        int temp; // helper per fare gli scambi
+        while(true){
+            System.out.print("\nInsert coords of the cards to pick: ");
+            coordString = in.nextLine();
+            rawCoords = coordString.split(" ");
+            if(rawCoords.length % 2 == 1){
+                System.out.println("\nInvalid selection");
+                continue;
+            }
+            for(int i = 0; i < rawCoords.length; i += 2){
+                coords.add(Integer.parseInt(rawCoords[i]));
+                coords.add(Integer.parseInt(rawCoords[i + 1]));
+            }
+            // controlla che le carte siano pickable
+            break;
+        }
+        int index_1, index_2;
+        while(true){
+            printCurOrder(coords);
+            System.out.print("\nInsert which cards to switch (-1 for exit): ");
+            coordOrder = in.nextLine();
+            if(coordOrder.equals("-1"))
+                break;
+            index_1 = Character.getNumericValue(coordOrder.charAt(0));
+            index_2 = Character.getNumericValue(coordOrder.charAt(2));
+            if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
+                System.out.println("\nInvalid selection");
+            }
+            temp = coords.get(index_1);
+            coords.set(index_1, index_2);
+            coords.set(index_2, temp);
+            // aggiorna la library
+        }
+    }
+    private boolean isCharValid(int index_1, int index_2, int size){
+        return index_1 > 0 && index_1 <= size && index_2 > 0 && index_2 < size;
+    }
+    private void printCurOrder(ArrayList<Integer> arr){
+        System.out.print(arr.get(0) + ", " + arr.get(1));
+        for(int i = 2; i < arr.size(); i += 2)
+            System.out.println(" - " + arr.get(i) + ", " + arr.get(i + 1));
     }
     /**
      * getter for the name

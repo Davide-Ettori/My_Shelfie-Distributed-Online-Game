@@ -21,7 +21,7 @@ public class GameCLI {
     private final int PORT = 3000;
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
-    private ArrayList<PlayerCLI> players;
+    private ArrayList<PlayerCLI> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
@@ -33,7 +33,6 @@ public class GameCLI {
 
     public GameCLI(){
         int numPlayers = 0;
-        PlayerCLI p;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
                 Thread.sleep(1000 * 60 * 5); // aspetto 5 minuti
@@ -72,11 +71,25 @@ public class GameCLI {
         }
         System.out.println("\nThe game starts!");
         System.exit(0);
+        PlayerCLI p;
 
-        getChairman().board.initBoard(numPlayers);
-        for(int i = 0; i < players.size(); i++)
-            players.get(i).board = new Board(getChairman().board);
-        startGame();
+        for(int i = 0; i < names.size(); i++){
+            p = new PlayerCLI(names.get(i), i == 0);
+            p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
+            p.board.name = names.get(i);
+            if(i == 0)
+                p.board.fillBoard(numPlayers);
+            else
+                p.board = new Board(getChairman().board);
+            p.library = new Library();
+            p.library.name = names.get(i);
+            p.setPrivateObjective(getPrivateObjective());
+            p.pointsUntilNow = 0;
+            p.setState(NOT_ACTIVE);
+            try {
+                outStreams.get(i).writeObject(p);
+            }catch (Exception e){System.out.println(e);}
+        }
     }
     synchronized private void getUserName(Socket socket) throws Exception{
         outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
@@ -97,9 +110,6 @@ public class GameCLI {
     private String getChairmanName(){return names.get(0);}
     private PlayerCLI getChairman(){return players.get(0);}
     public void startGame(){ // inizializza la Board e comincia l'interazione con i client
-        setCommonObjective();
-        setPrivateObjective();
-        getChairman().setState(ACTIVE);
         return;
     }
     public void endGame(){return;} // chiude tutte le connessioni e termina la partita
@@ -112,13 +122,10 @@ public class GameCLI {
         }
         return -1;
     }
-    private void setCommonObjective(){ // la situazione iniziale è quella del getChairman(), gli altri si adattano e poi comincia il gioco
-        getChairman().board.setCO_1(bucketOfCO.get(0));
-        getChairman().board.setCO_2(bucketOfCO.get(1));
-    }
-    private void setPrivateObjective(){
-        for(int i = 0; i < players.size(); i++)
-            players.get(i).setPrivateObjective(bucketOfPO.get(i));
+    private PrivateObjective getPrivateObjective(){
+        PrivateObjective res = bucketOfPO.get(0);
+        bucketOfPO.remove(0);
+        return res;
     }
     private void shuffleObjBucket(){ // randomizza gli obbiettivi
         Random rand = new Random();
@@ -177,6 +184,13 @@ public class GameCLI {
             }
         }
         // notifica tutti i giocatori che il turno è cambiato tramite un messaggio socket, a quel punto loro richiederanno il nuovo stato
+    }
+    private int getPlayerIndex(String name){
+        for(int i = 0; i < names.size(); i++){
+            if(names.get(i).equals(name))
+                return i;
+        }
+        return -1;
     }
     private void sendFinalScoresToAll(){return;}
 }
