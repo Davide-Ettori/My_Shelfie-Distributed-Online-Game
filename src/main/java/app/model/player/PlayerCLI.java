@@ -100,8 +100,10 @@ public class PlayerCLI implements Serializable{
     private void getInitialState(){
         PlayerCLI p;
         try {
+            System.out.println("\nBe patient, the game will start soon...");
             p = (PlayerCLI) inStream.readObject();
             clone(p);
+            drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}
         waitForTurn();
     }
@@ -119,6 +121,7 @@ public class PlayerCLI implements Serializable{
                 }
                 case UPDATE_BOARD -> {
                     board = new Board((Board) msg.getContent());
+                    drawAll();
                     waitForTurn();
                 }
                 case UPDATE_GAME -> {
