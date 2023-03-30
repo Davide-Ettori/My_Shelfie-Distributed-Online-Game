@@ -21,6 +21,7 @@ public class GameCLI {
     private final int PORT = 3000;
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
+    private int activePlayer = -1;
     private ArrayList<PlayerCLI> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
@@ -90,7 +91,8 @@ public class GameCLI {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){System.out.println(e);}
         }
-
+        advanceTurn();
+        notifyNewTurn();
     }
     synchronized private void getUserName(Socket socket) throws Exception{
         outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
@@ -106,6 +108,23 @@ public class GameCLI {
             names.add(name);
             return;
         }
+    }
+    private void notifyNewTurn(){
+        for(int i = 0; i < numPlayers; i++){
+            try {
+                if (i == activePlayer)
+                    outStreams.get(i).writeObject(new Message("your turn", "server", null));
+                else
+                    outStreams.get(i).writeObject(new Message("change turn", "server", names.get(activePlayer)));
+            }catch (Exception e){System.out.println(e);}
+        }
+        waitMoveFromClient();
+    }
+    public void waitMoveFromClient(){
+        try {
+            Message msg = (Message) inStreams.get(activePlayer).readObject();
+        }catch(Exception e){System.out.println(e);}
+
     }
     private void listenForReconnection(){return;}
     private String getChairmanName(){return names.get(0);}
@@ -160,7 +179,7 @@ public class GameCLI {
             else
                 players.get(i).board = new Board(p.board);
         }
-        advanceTurn(name);
+        advanceTurn();
     }
     public ArrayList<Library> getOtherLibraries(String name){ // chiamato da remoto
         ArrayList<Library> res = new ArrayList<>();
@@ -178,13 +197,14 @@ public class GameCLI {
         }
         return "";
     }
-    public void advanceTurn(String name){
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getName().equals(name)){
-                players.get((i + 1) % players.size()).setState(ACTIVE);
-            }
+    public void advanceTurn(){
+        if(activePlayer == -1) {
+            activePlayer++;
+            players.get(activePlayer).setState(ACTIVE);
         }
-        // notifica tutti i giocatori che il turno è cambiato tramite un messaggio socket, a quel punto loro richiederanno il nuovo stato
+        players.get(activePlayer).setState(NOT_ACTIVE);
+        activePlayer = (activePlayer + 1) % numPlayers;
+        players.get(activePlayer).setState(ACTIVE);
     }
     private int getPlayerIndex(String name){
         for(int i = 0; i < names.size(); i++){

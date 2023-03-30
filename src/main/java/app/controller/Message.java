@@ -1,14 +1,16 @@
 package app.controller;
 
+import java.io.Serializable;
+
 /**
  * class which represent the messages that will be exchanged within the network
  * @author Ettori
  */
-public class Message {
+public class Message implements Serializable {
     private final String type;
     private final String author;
     private final Object content;
-    public Message(String t, Object cont, String p){ // li costruisci in maniera completa una e una sola volta
+    public Message(String t, String p, Object cont){ // li costruisci in maniera completa una e una sola volta
         type = t;
         author = p;
         content = cont;
