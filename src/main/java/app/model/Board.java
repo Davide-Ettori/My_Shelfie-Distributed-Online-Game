@@ -23,7 +23,7 @@ public class Board implements Serializable {
     public CommonObjective commonObjective_2;
     public LinkedList<Integer> pointsCO_1;
     public LinkedList<Integer> pointsCO_2;
-    private ArrayList<Card> bucketOfCards;
+    private ArrayList<Card> bucketOfCards = null;
     private int[][] gameMatrix;
     public String name;
 
@@ -224,7 +224,8 @@ public class Board implements Serializable {
      */
     public void fillBoard(int numPlayers){
         Card card;
-        bucketOfCards = Initializer.setBucketOfCards();
+        if(bucketOfCards == null)
+            bucketOfCards = Initializer.setBucketOfCards();
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 if(gameMatrix[i][j] == 0)

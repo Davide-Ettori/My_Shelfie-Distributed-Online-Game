@@ -61,6 +61,17 @@ public class PlayerCLI implements Serializable{
         inStream = p.inStream;
         outStream = p.outStream;
     }
+    public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+    }
     public PrivateObjective getPrivateObjective(){
         return objective;
     }
@@ -106,28 +117,38 @@ public class PlayerCLI implements Serializable{
     private void waitForTurn(){ // qui riceve 3 possibili messaggi, funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
-            if(msg.getType().equals("your turn")){
-                activeName = name;
-                waitForMove();
-            }
-            else if(msg.getType().equals("change turn")){
-                activeName = msg.getAuthor();
-                waitForTurn();
-            }
-            else if(msg.getType().equals("update game")){
-                HashMap<String, Object> map = new HashMap<>();
-                map = (HashMap<String, Object>)msg.getContent();
-                board = new Board((Board)map.get("board"));
-                for(int i = 0; i < librariesOfOtherPlayers.size(); i++){
-                    if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                        librariesOfOtherPlayers.set(i, new Library((Library) map.get("library")));
+            switch (msg.getType()) {
+                case "your turn" -> {
+                    activeName = name;
+                    waitForMove();
                 }
-                waitForTurn();
+                case "change turn" -> {
+                    activeName = msg.getAuthor();
+                    waitForTurn();
+                }
+                case "update game" -> {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map = (HashMap<String, Object>) msg.getContent();
+                    board = new Board((Board) map.get("board"));
+                    for (int i = 0; i < librariesOfOtherPlayers.size(); i++) {
+                        if (librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
+                            librariesOfOtherPlayers.set(i, new Library((Library) map.get("library")));
+                    }
+                    drawAll();
+                    System.out.println("\nPlayer: " + msg.getAuthor() + " made his move");
+                    waitForTurn();
+                }
+                case "final score" -> {
+                    System.out.println("\nThe game is finished, this is the final scoreboard" + (String) msg.getContent());
+                    Thread.sleep(1000 * 5);
+                    System.exit(0);
+                }
             }
         }catch(Exception e){System.out.println(e);}
     }
     private void waitForMove(){
         // controlla se la board è unplayble
+        // nel caso la refilla e poi la manda al server così che la rimandi in broadcast
         String coordString, coordOrder;
         String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();
@@ -172,14 +193,24 @@ public class PlayerCLI implements Serializable{
                 break;
             System.out.println("\nInvalid selection");
         }
-        // aggiorna la library
+        pickCards(coords, col);
+        if(board.commonObjective_1.algorithm.checkMatch(library.library))
+            pointsUntilNow += board.pointsCO_1.pop();
+        if(board.commonObjective_2.algorithm.checkMatch(library.library))
+            pointsUntilNow += board.pointsCO_2.pop();
+
+        // controlla se la library è piena --> lo fai sul server, viene più comodo
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("board", board);
+        map.put("library", library);
         try {
+            outStream.writeObject(new Message("update game", name, map));
             int timer = 5;
-            Thread.sleep(1000 * timer);
+            Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+            state = NOT_ACTIVE;
+            outStream.writeObject(new Message("end turn", name, this)); // notifico la fine turno
         }catch(Exception e){System.out.println(e);}
-        // controlla se hai fatto un CO
-        // controlla se la library è piena
-        // notifica turno
+        waitForTurn(); // mi metto in attesa che diventi il mio turno
     }
     private boolean isCharValid(int index_1, int index_2, int size){
         return index_1 > 0 && index_1 <= size && index_2 > 0 && index_2 < size;
@@ -223,17 +254,14 @@ public class PlayerCLI implements Serializable{
      * @param coord the list of coupled coordinates of the cards that the player want to take from the board
      * @return true iff the transfer of the cards was successful (the cards are in the correct position)
      */
-    private boolean pickCards(ArrayList<Integer> coord) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
-        if(!board.areCardsPickable(coord))
-            return false; // hai scelto delle carte che non possono essere prese
+    private void pickCards(ArrayList<Integer> coord, int col) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
         ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < coord.size(); i += 2) {
             cards.add(new Card(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]));
             board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(coord.get(i), coord.get(i + 1)); // dopo che hai preso una carta, tale posto diventa EMPTY
         }
 
-        deployCards(chooseCol(cards.size()), chooseCardsOrder(cards));
-        return true;
+        deployCards(col, cards);
     }
     /**
      * physically position the cards in the chosen column
@@ -247,50 +275,6 @@ public class PlayerCLI implements Serializable{
         return true;
     }
     /**
-     * allow the player to choose in which column he/she want to put the cards
-     * @author Ettori
-     * @param numCards number of cards
-     * @return the chosen column (check also if the column is valid)
-     */
-    private int chooseCol(int numCards) {
-        int col;
-        while (true) { // questo va fino a che l'utente sceglie la colonna, per ora lo forziamo a mano
-            col = 2;
-            if (col <= 0 || col > library.COLS) // scelta non valida
-                continue;
-            if (!library.checkCol(col, numCards)) // scelta non valida
-                continue;
-            break;
-        }
-        return col;
-    }
-    /**
-     * helper function to trade the order of cards in the list chosen by the player
-     * @author Ettori
-     * @param cards list of cards
-     * @param i index number 1
-     * @param j index number 2
-     */
-    private void swapCards(ArrayList<Card> cards, int i, int j) {
-        Card temp = cards.get(i);
-        cards.set(i, cards.get(j));
-        cards.set(j, temp);
-        return;
-    }
-    /**
-     * allow the player to choose in which order place the chosen cards inside the library
-     * @author Ettori
-     * @param cards list of cards
-     * @return list of cards in the order chosen by the player
-     */
-    private ArrayList<Card> chooseCardsOrder(ArrayList<Card> cards) {
-        while (true) { // questo va fino a che l'utente sceglie l'ordine delle carte, per ora lo forziamo a mano
-            swapCards(cards, 0, 1); // scambio 2 carte a caso
-            break;
-        }
-        return cards;
-    }
-    /**
      * print the personal library and then print the other players libraries
      * @author Giammusso
      */
@@ -302,6 +286,8 @@ public class PlayerCLI implements Serializable{
             }
         }
     }
+    public State getState(){return state;}
+    public void setState(State s){state = s;}
     /**
      * print the name of the active player, the 2 CO, the PO, the board, the libraries,
      * and then prints spaces before the next execution of drawAll
@@ -324,52 +310,4 @@ public class PlayerCLI implements Serializable{
             System.out.println();
         }
     }
-    /** ------------------------------------------------------------------------------------------------------------- */
-    public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-    }
-    public void startGame(){
-        startRedrawThread();
-        startUpdatePlayerFromRemoteThread();
-        // aspetta che il server ti faccia iniziare la partita, ovvero aspetta il tuo primo turno
-        startTurn();
-        return;
-    }
-    private void startTurn(){
-        if(board.isBoardUnplayable()) {
-            board.fillBoard(librariesOfOtherPlayers.size() + 1); // così il player sa quanti giocatori ci sono e puo' refillare la board
-            // poi devi anche mandare la nuova board refillata al server
-        }
-        if(state == DISCONNECTED){
-            endTurn();
-            return;
-        }
-        setState(ACTIVE);
-        // esegui le operazioni del tuo turno
-        endTurn();
-    }
-    private void endTurn(){
-        state = NOT_ACTIVE;
-        //gameRMI.updatePlayersBoardAfterEndTurn(this, name); // In realtà qui dentro stai anche già mandando la library. Pensa a possibile ridondanza
-        // manda al server la notifica che hai finito il turno
-    }
-    public State getState() {
-        return state;
-    }
-    public void setState(State newState) {
-        state = newState;
-    }
-    public void setSocket(Socket s){mySocket = s;}
-    public void setObjective(PrivateObjective obj){objective = obj;}
-    private void startRedrawThread(){return;} // funzione che start il thread che andrà ad aggiornare la GUI ogni x millisecondi.
-    private void startUpdatePlayerFromRemoteThread(){return;}
-    // Mentre non è il tuo turno (NOT_ACTIVE) devi chiedere al server ogni x ms la nuova versione per aggiornarla. Avremo un Thread dedicato a parte
 }
