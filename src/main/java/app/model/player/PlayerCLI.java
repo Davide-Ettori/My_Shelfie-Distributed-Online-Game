@@ -32,7 +32,7 @@ public class PlayerCLI implements Serializable{
     private Socket mySocket;
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
-    private final String DAVIDE_HOTSPOT_IP = "172.10.10.3" ;
+    private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
 
     public PlayerCLI(String netMode) { // Costruttore iniziale
         if(netMode.equals("r"))
