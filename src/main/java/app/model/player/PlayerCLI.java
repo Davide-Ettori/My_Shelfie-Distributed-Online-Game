@@ -126,8 +126,7 @@ public class PlayerCLI implements Serializable{
                     waitForTurn();
                 }
                 case UPDATE_GAME -> {
-                    HashMap<String, Object> map = new HashMap<>();
-                    map = (HashMap<String, Object>) msg.getContent();
+                    HashMap<String, Object> map = (HashMap<String, Object>) msg.getContent();
                     board = new Board((Board) map.get("board"));
                     for (int i = 0; i < librariesOfOtherPlayers.size(); i++) {
                         if (librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
