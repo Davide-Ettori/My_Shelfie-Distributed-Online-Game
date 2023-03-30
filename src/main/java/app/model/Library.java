@@ -156,8 +156,8 @@ public class Library implements Serializable {
         return points;
     }
     /**
-     * print the library
-     * @author Ettori Giammusso
+     * method that call drawMatrix to print the Library
+     * @author Gumus
      */
     public void draw(String text){
         drawMatrix(library, library.length, library[0].length, text);

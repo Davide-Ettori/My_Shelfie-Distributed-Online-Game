@@ -1,7 +1,6 @@
 package app.model;
 
 import app.controller.Initializer;
-import app.view.CLI.CLIHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +9,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import static app.model.Color.*;
+import static app.view.CLI.CLIHelper.*;
+
 /**
  * class which represent the common board where the players choose the cards
  * @author Ettori Faccincani
@@ -273,7 +274,11 @@ public class Board implements Serializable {
                     gameBoard[i][j] = new Card(g[i][j]);
             }
     }
+    /**
+     * method that call drawMatrix to print the board
+     * @author Gumus
+     */
     public void draw() {
-        CLIHelper.drawMatrix(gameBoard,DIM,DIM,"Game board:\n");
+        drawMatrix(gameBoard,DIM,DIM,"Game board:\n");
     }
 }
