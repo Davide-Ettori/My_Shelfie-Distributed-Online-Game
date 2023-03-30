@@ -277,6 +277,7 @@ public class PlayerCLI implements Serializable{
         objective.draw();
         board.draw();
         printLibrary();
+        System.out.println(activeName+"'s round");
     }
     /** ------------------------------------------------------------------------------------------------------------- */
     public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
