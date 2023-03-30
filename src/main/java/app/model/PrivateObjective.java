@@ -1,5 +1,7 @@
 package app.model;
 
+import app.view.CLI.CLIHelper;
+
 import static app.model.Color.*;
 
 /**
@@ -43,5 +45,7 @@ public class PrivateObjective extends Objective {
         }
         return count;
     }
-    public void draw() {return;}
+    public void draw() {
+        CLIHelper.drawMatrix(matrix,matrix.length,matrix[0].length,"Your private objective:\n");
+    }
 }

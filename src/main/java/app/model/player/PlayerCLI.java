@@ -37,6 +37,16 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
     private final String DAVIDE_XIAOMI_IP_G = "192.168.86.95";
 
+    public void DrawAll(PlayerCLI player){
+        board.commonObjective_1.draw(player.board.commonObjective_1);
+        board.commonObjective_1.draw(player.board.commonObjective_2);
+        PrivateObjectiveGetter().draw();
+        board.draw();
+        printLibrary();
+    }
+    public PrivateObjective PrivateObjectiveGetter(){
+        return objective;
+    }
     public PlayerCLI(String netMode) { // Costruttore iniziale
         if(netMode.equals("r"))
             return;

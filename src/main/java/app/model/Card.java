@@ -56,5 +56,5 @@ public class Card {
      */
     public void setCoords(int x, int y){setX(x); setY(y);}
 
-    public void draw(){return;}
+    public void draw(Card card){System.out.print(card.color);}
 }

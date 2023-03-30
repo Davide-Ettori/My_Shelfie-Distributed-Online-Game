@@ -1,6 +1,7 @@
 package app.model;
 
 import app.controller.Initializer;
+import app.view.CLI.CLIHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -271,5 +272,7 @@ public class Board{
                     gameBoard[i][j] = new Card(g[i][j]);
             }
     }
-    private void draw() {return;}
+    public void draw() {
+        CLIHelper.drawMatrix(gameBoard,DIM,DIM,"Game board:\n");
+    }
 }
