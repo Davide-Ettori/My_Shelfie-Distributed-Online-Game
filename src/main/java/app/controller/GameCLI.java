@@ -69,7 +69,7 @@ public class GameCLI {
             catch(Exception e){System.out.println(e.toString());}
         }
         if(numPlayers < 2){
-            System.out.println("\nGiocatori insufficienti");
+            System.out.println("\nPlayer number not sufficient");
             System.exit(0);
         }
         System.out.println("\nThe game starts!");
@@ -102,6 +102,11 @@ public class GameCLI {
         outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
         inStreams.add(new ObjectInputStream(socket.getInputStream()));
         outStreams.get(outStreams.size() - 1).writeObject("CLI");
+        String resp = (String) inStreams.get(inStreams.size() - 1).readObject();
+        if(resp.equals("FAIL")){
+            numPlayers--;
+            return;
+        }
         while(true){
             String name = (String) inStreams.get(inStreams.size() - 1).readObject();
             if(isNameTaken(name)){
@@ -127,15 +132,17 @@ public class GameCLI {
     private void waitMoveFromClient(){
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
-            for(int i = 0; i < numPlayers; i++)
-                outStreams.get(i).writeObject(msg);
+            for(int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                if(i != activePlayer)
+                    outStreams.get(i).writeObject(msg);
+            }
         }catch(Exception e){System.out.println(e);}
         waitForEndTurn();
     }
     private void waitForEndTurn(){
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
-            if(msg.getType().equals("end turn")){
+            if(msg.getType() == END_TURN){
                 players.get(activePlayer).clone((PlayerCLI) msg.getContent());
                 advanceTurn();
             }
@@ -185,5 +192,6 @@ public class GameCLI {
         players.get(activePlayer).setState(ACTIVE);
         notifyNewTurn();
     }
+    private String getFinalScore(){return null;}
     private void sendFinalScoresToAll(){return;}
 }

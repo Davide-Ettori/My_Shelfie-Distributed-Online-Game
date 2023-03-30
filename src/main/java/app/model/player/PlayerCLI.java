@@ -70,8 +70,10 @@ public class PlayerCLI implements Serializable{
             String resp = (String) inStream.readObject();
             if(!resp.equals("CLI")){
                 System.out.println("\nClient unable to connect, wrong UI choice");
+                outStream.writeObject("FAIL");
                 System.exit(0);
             }
+            outStream.writeObject("SUCCESS");
         }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
         System.out.println("\nClient connected");
         while(true){
