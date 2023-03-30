@@ -8,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 import static app.controller.MessageType.*;
@@ -22,6 +24,7 @@ public class GameCLI {
     private final int PORT = 3000;
     public static final int MAX_PLAYERS = 4;
     private int numPlayers;
+    private int endPlayer;
     private int activePlayer = -1;
     private ArrayList<PlayerCLI> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
@@ -145,8 +148,10 @@ public class GameCLI {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){
                 players.get(activePlayer).clone((PlayerCLI) msg.getContent());
-                if(players.get(activePlayer).library.isFull()) // se la library ricevuta è piena entro nella fase finale del gioco
+                if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
+                    endPlayer = activePlayer;
+                }
                 advanceTurn();
             }
         }catch(Exception e){System.out.println(e);}
@@ -201,6 +206,35 @@ public class GameCLI {
             sendFinalScoresToAll();
         notifyNewTurn();
     }
-    private String getFinalScore(){return null;}
-    private void sendFinalScoresToAll(){return;}
+    private String getFinalScore(){
+        ArrayList<Integer> scores = new ArrayList<>();
+        StringBuilder res = new StringBuilder();
+        PlayerCLI p;
+        for(int i = 0; i < numPlayers; i++){
+            p = players.get(i);
+            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.library) + i == endPlayer ? 1 : 0);
+        }
+        names.sort((a, b) -> {
+            int n, m;
+            n = scores.get(names.indexOf(a));
+            m = scores.get(names.indexOf(b));
+            if (n == m)
+                return 0;
+            if (n > m)
+                return 1;
+            return -1;
+        });
+        scores.sort(null);
+        Collections.reverse(names);
+        Collections.reverse(scores);
+        for(int i = 0; i < numPlayers; i++)
+            res.append("Place number ").append(i + 1).append(": ").append(names.get(i)).append(" with ").append(scores.get(i)).append(" points\n");
+        return res.toString();
+    }
+    private void sendFinalScoresToAll(){
+        for(int i = 0; i < numPlayers; i++)
+            try{
+                outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", getFinalScore()));
+            }catch (Exception e){System.out.println(e);}
+    }
 }
