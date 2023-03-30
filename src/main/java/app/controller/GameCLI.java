@@ -30,6 +30,7 @@ public class GameCLI {
     private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
     private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
+    private boolean endGameSituation = false;
     private boolean time = true;
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
 
@@ -144,6 +145,8 @@ public class GameCLI {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){
                 players.get(activePlayer).clone((PlayerCLI) msg.getContent());
+                if(players.get(activePlayer).library.isFull()) // se la library ricevuta è piena entro nella fase finale del gioco
+                    endGameSituation = true;
                 advanceTurn();
             }
         }catch(Exception e){System.out.println(e);}
@@ -194,6 +197,8 @@ public class GameCLI {
             }while(players.get(activePlayer).getState() == DISCONNECTED);
             players.get(activePlayer).setState(ACTIVE);
         }
+        if(activePlayer == 0 && endGameSituation)
+            sendFinalScoresToAll();
         notifyNewTurn();
     }
     private String getFinalScore(){return null;}
