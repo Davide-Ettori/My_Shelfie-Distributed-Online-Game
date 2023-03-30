@@ -189,6 +189,18 @@ public class PlayerCLI implements Serializable{
         }
         return cards;
     }
+    /**
+     * print the personal library and then print the other players libraries
+     * @author Giammusso
+     */
+    private void printLibrary(){
+        library.draw("My Library");
+        for(int i=0; i<librariesOfOtherPlayers.size(); i++){
+            if(!librariesOfOtherPlayers.get(i).name.equals(name)){ //if it is not my personal library
+                librariesOfOtherPlayers.get(i).draw("Library of"+librariesOfOtherPlayers.get(i).name);
+            }
+        }
+    }
     /** ------------------------------------------------------------------------------------------------------------- */
     public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
         name = p.name;

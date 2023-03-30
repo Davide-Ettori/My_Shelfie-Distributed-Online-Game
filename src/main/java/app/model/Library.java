@@ -3,6 +3,8 @@ package app.model;
 import java.util.ArrayList;
 
 import static app.model.Color.EMPTY;
+import static app.view.CLI.CLIHelper.drawMatrix;
+
 /**
  * class representing each player's private library
  * @author Ettori Giammusso
@@ -152,7 +154,14 @@ public class Library {
         }
         return points;
     }
-    public void draw(){return;}
+    /**
+     * print the library
+     * @author Ettori Giammusso
+     */
+    public void draw(String text){
+        drawMatrix(library, library.length, library[0].length, text);
+        return;
+    }
     /**
      * check that the 2 library have the cards with the same color
      * @author Ettori Giammusso
