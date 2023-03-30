@@ -1,7 +1,5 @@
 package app.model;
 
-import app.view.CLI.CLIHelper;
-
 import static app.model.Color.*;
 import static app.view.CLI.CLIHelper.*;
 

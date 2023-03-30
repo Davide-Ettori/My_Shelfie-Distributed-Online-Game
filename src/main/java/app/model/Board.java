@@ -1,7 +1,6 @@
 package app.model;
 
 import app.controller.Initializer;
-import app.view.CLI.CLIHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
