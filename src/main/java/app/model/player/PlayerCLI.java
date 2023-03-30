@@ -32,12 +32,13 @@ public class PlayerCLI implements Serializable{
     private Socket mySocket;
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
+    private final String DAVIDE_HOTSPOT_IP = "172.10.10.3" ;
 
     public PlayerCLI(String netMode) { // Costruttore iniziale
         if(netMode.equals("r"))
             return;
         try {
-            Socket socket = new Socket("127.0.0.1", Server.PORT);
+            Socket socket = new Socket(DAVIDE_HOTSPOT_IP, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
             String resp = (String) inStream.readObject();
@@ -45,7 +46,7 @@ public class PlayerCLI implements Serializable{
                 System.out.println("\nClient unable to connect, wrong UI choice");
                 System.exit(0);
             }
-        }catch (Exception e){System.out.println(e.toString());}
+        }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
         System.out.println("\nClient connected");
         while(true){
             Scanner in = new Scanner(System.in);
