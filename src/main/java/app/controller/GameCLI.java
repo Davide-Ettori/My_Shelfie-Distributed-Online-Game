@@ -31,13 +31,16 @@ public class GameCLI {
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
     private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
-    private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
-    private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
+    private ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
+    private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean endGameSituation = false;
     private boolean time = true;
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
-
     public GameCLI(){
+        if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
+            clone(FILEHelper.loadServerCLI());
+            // da qui in poi fai continuare il server che hai caricato
+        }
         shuffleObjBucket();
         int numPlayers = 0;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
@@ -233,9 +236,27 @@ public class GameCLI {
         return res.toString();
     }
     private void sendFinalScoresToAll(){
-        for(int i = 0; i < numPlayers; i++)
-            try{
+        for(int i = 0; i < numPlayers; i++) {
+            try {
                 outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", getFinalScore()));
-            }catch (Exception e){System.out.println(e);}
+            } catch (Exception e) {System.out.println(e);}
+        }
+        FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
+        System.exit(0);
+    }
+    private void clone(GameCLI g){ // clono il server, utile per la persistenza
+        numPlayers = g.numPlayers;
+        endPlayer = g.endPlayer;
+        endGameSituation = g.endGameSituation;
+        activePlayer = g.activePlayer;
+        players = g.players;
+        names = g.names;
+        playersSocket = g.playersSocket;
+        outStreams = g.outStreams;
+        inStreams = g.inStreams;
+        bucketOfCO = g.bucketOfCO;
+        bucketOfPO = g.bucketOfPO;
+        time = g.time;
+        serverSocket = g.serverSocket;
     }
 }
