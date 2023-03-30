@@ -19,8 +19,8 @@ public class insertCardsTest {
 
     @Before // eseguita prima dei test
     public void setUp(){
-        this.beforeLib = new Library();
-        this.afterLib = new Library();
+        this.beforeLib = new Library("");
+        this.afterLib = new Library("");
     }
     @After // eseguita dopo i test
     public void tearDown(){

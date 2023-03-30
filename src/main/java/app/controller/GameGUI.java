@@ -139,15 +139,6 @@ public class GameGUI {
         }
         return null;
     }
-    public void updatePlayersBoardAfterEndTurn(PlayerGUI p, String name){ // chiamato da remoto alla fine di ogni turno
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getName().equals(name)) // il nome è univoco
-                players.set(i, new PlayerGUI(p));
-            else
-                players.get(i).board = new Board(p.board);
-        }
-        advanceTurn(name);
-    }
     public ArrayList<Library> getOtherLibraries(String name){ // chiamato da remoto
         ArrayList<Library> res = new ArrayList<>();
         for(int i = 0; i < players.size(); i++){

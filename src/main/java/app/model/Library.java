@@ -19,12 +19,13 @@ public class Library implements Serializable {
     private int countVisitedCards;
     public String name;
 
-    public Library(){
+    public Library(String n){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
                 library[i][j] = new Card();
             }
         }
+        name = n;
     }
     public Library(Library l){ // copy constructor
         for(int i = 0; i < ROWS; i++){
@@ -33,6 +34,7 @@ public class Library implements Serializable {
             }
         }
         countVisitedCards = 0;
+        name = l.name;
     }
 
     /**

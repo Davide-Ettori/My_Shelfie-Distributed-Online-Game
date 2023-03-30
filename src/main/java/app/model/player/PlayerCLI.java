@@ -15,6 +15,8 @@ import java.util.Scanner;
 
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
+import static app.model.player.NetMode.*;
+
 /**
  * class which represent the player on the client side
  * @author Ettori Faccincani
@@ -23,6 +25,7 @@ import static app.model.State.*;
  */
 public class PlayerCLI implements Serializable{
     private String name;
+    public NetMode netMode;
     public int numPlayers;
     private String activeName = "";
     private boolean isChairMan;
@@ -41,27 +44,6 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_XIAOMI_IP_G = "192.168.86.95";
 
     public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
-
-    public PlayerCLI(boolean isChair, String namePlayer) { // Costruttore semplice. Ancora non so se servirà per davvero
-        name = namePlayer;
-        isChairMan = isChair;
-        library = new Library();
-        pointsUntilNow = 0;
-        state = NOT_ACTIVE;
-    }
-    public PlayerCLI(PlayerCLI p){ // copy constructor
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-        inStream = p.inStream;
-        outStream = p.outStream;
-    }
     public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
         name = p.name;
         isChairMan = p.isChairMan;
@@ -76,8 +58,9 @@ public class PlayerCLI implements Serializable{
     public PrivateObjective getPrivateObjective(){
         return objective;
     }
-    public PlayerCLI(String netMode) { // Costruttore iniziale
-        if(netMode.equals("r"))
+    public PlayerCLI(NetMode mode) { // Costruttore iniziale
+        netMode = mode;
+        if(netMode == RMI)
             return;
         try {
             Socket socket = new Socket(DAVIDE_XIAOMI_IP_G, Server.PORT);

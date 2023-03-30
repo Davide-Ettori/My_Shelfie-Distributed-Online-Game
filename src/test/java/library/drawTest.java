@@ -12,7 +12,7 @@ public class drawTest {
     Library lib = null;
     @Before // eseguita prima dei test
     public void setUp(){
-        lib = new Library();
+        lib = new Library("");
         lib.name = "sam";
     }
     @After // eseguita dopo i test

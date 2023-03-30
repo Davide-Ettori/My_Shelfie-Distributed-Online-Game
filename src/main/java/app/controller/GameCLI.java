@@ -83,14 +83,13 @@ public class GameCLI {
                 p.board.fillBoard(numPlayers);
             else
                 p.board = new Board(getChairman().board);
-            p.library = new Library();
-            p.library.name = names.get(i);
+            p.library = new Library(names.get(i));
             p.setPrivateObjective(getPrivateObjective());
             p.pointsUntilNow = 0;
             p.setState(NOT_ACTIVE);
             p.setActiveName(getChairmanName());
             for(int j = 0; j < numPlayers; j++)
-                p.librariesOfOtherPlayers.add(new Library());
+                p.librariesOfOtherPlayers.add(new Library(names.get(j)));
             p.numPlayers = numPlayers;
             try {
                 outStreams.get(i).writeObject(p);

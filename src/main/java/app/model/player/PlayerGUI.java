@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import static app.model.State.*;
+import static app.model.player.NetMode.*;
+
 /**
  * class which represent the player on the client side
  * @author Ettori Faccincani
@@ -17,6 +19,8 @@ import static app.model.State.*;
  */
 public class PlayerGUI implements Serializable{
     private String name;
+    public NetMode netMode;
+    public int numPlayers;
     private boolean isChairMan;
     public Library library;
     private PrivateObjective objective;
@@ -28,8 +32,9 @@ public class PlayerGUI implements Serializable{
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
 
-    public PlayerGUI(String netMode) { // Costruttore iniziale
-        if(netMode.equals("r"))
+    public PlayerGUI(NetMode mode) { // Costruttore iniziale
+        netMode = mode;
+        if(netMode == RMI)
             return;
         try {
             Socket socket = new Socket("127.0.0.1", Server.PORT);
@@ -48,14 +53,7 @@ public class PlayerGUI implements Serializable{
         //System.out.println("\nName: '" + name + "' accepted by the server!");
         //while(true){}
     }
-    public PlayerGUI(boolean isChair, String namePlayer) { // Costruttore semplice. Ancora non so se servirà per davvero
-        name = namePlayer;
-        isChairMan = isChair;
-        library = new Library();
-        pointsUntilNow = 0;
-        state = NOT_ACTIVE;
-    }
-    public PlayerGUI(PlayerGUI p){ // copy constructor
+    public void clone(PlayerGUI p){ // copia la versione sul server dentro a quella del client
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -65,8 +63,6 @@ public class PlayerGUI implements Serializable{
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
-        inStream = p.inStream;
-        outStream = p.outStream;
     }
     /**
      * getter for the name
@@ -170,17 +166,6 @@ public class PlayerGUI implements Serializable{
         return cards;
     }
     /** ------------------------------------------------------------------------------------------------------------- */
-    public void clone(PlayerGUI p){ // copia la versione sul server dentro a quella del client
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-    }
     public void startGame(){
         startRedrawThread();
         startUpdatePlayerFromRemoteThread();

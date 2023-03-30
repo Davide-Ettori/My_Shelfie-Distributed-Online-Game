@@ -12,7 +12,7 @@ public class checkColTest {
     Library lib = null;
     @Before // eseguita prima dei test
     public void setUp(){
-        this.lib = new Library();
+        this.lib = new Library("");
     }
     @After // eseguita dopo i test
     public void tearDown(){

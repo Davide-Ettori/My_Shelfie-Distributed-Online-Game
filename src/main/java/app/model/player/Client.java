@@ -2,7 +2,10 @@ package app.model.player;
 
 import app.model.player.PlayerGUI;
 
+import java.net.Socket;
 import java.util.Scanner;
+
+import static app.model.player.NetMode.*;
 
 public class Client {
     public static void main(String[] args){
@@ -14,14 +17,14 @@ public class Client {
         net = in.nextLine();
         if(ui.equals("CLI")){
             if(net.equals("Socket"))
-                new PlayerCLI("s");
+                new PlayerCLI(SOCKET);
             else if(net.equals("rmi"))
-                new PlayerCLI("r");
+                new PlayerCLI(RMI);
         } else if(ui.equals("GUI")){
             if(net.equals("Socket"))
-                new PlayerGUI("s");
+                new PlayerGUI(SOCKET);
             else if(net.equals("rmi"))
-                new PlayerGUI("r");
+                new PlayerGUI(RMI);
         }
         else
             System.out.println("\nInvalid choice, try again");
