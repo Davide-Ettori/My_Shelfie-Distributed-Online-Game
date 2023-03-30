@@ -270,8 +270,11 @@ public class PlayerCLI implements Serializable{
         }
     }
     public void drawAll(){
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        /*System.out.print("\033[H\033[2J");
+        System.out.flush();*/
+        for(int i=0;i<12;i++){
+            System.out.println();
+        }
         System.out.println(activeName+"'s round");
         board.commonObjective_1.draw();
         board.commonObjective_1.draw();
