@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 import static app.controller.NameStatus.*;
@@ -102,11 +103,26 @@ public class PlayerCLI implements Serializable{
         }catch(Exception e){System.out.println(e); System.exit(0);}
         waitForTurn();
     }
-    private void waitForTurn(){
+    private void waitForTurn(){ // qui riceve 3 possibili messaggi, funzione principale di attesa
         try {
-            State newState = (State) inStream.readObject();
-            setState(newState);
-            waitForMove();
+            Message msg = (Message) inStream.readObject();
+            if(msg.getType().equals("your turn")){
+                activeName = name;
+                waitForMove();
+            }
+            else if(msg.getType().equals("change turn")){
+                activeName = msg.getAuthor();
+                waitForTurn();
+            }
+            else if(msg.getType().equals("update game")){
+                HashMap<String, Object> map = new HashMap<>();
+                map = (HashMap<String, Object>)msg.getContent();
+                board = new Board((Board)map.get("board"));
+                for(int i = 0; i < librariesOfOtherPlayers.size(); i++){
+                    if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
+                        librariesOfOtherPlayers.set(i, new Library((Library) map.get("library")));
+                }
+            }
         }catch(Exception e){System.out.println(e);}
     }
     private void waitForMove(){
