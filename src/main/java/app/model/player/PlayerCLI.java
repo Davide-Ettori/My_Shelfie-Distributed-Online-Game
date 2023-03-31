@@ -41,6 +41,7 @@ public class PlayerCLI implements Serializable{
     public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
     private Socket mySocket;
     private ObjectOutputStream outStream;
+    private Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private ObjectInputStream inStream;
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
@@ -107,6 +108,12 @@ public class PlayerCLI implements Serializable{
             clone(p);
             drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}
+        chatThread = new Thread(() ->{
+            Scanner in = new Scanner(System.in);
+            while(true)
+                sendChatMsg(in.nextLine());
+        });
+        chatThread.start();
         waitForTurn();
     }
     private void waitForTurn(){ // qui riceve 3 possibili messaggi, funzione principale di attesa
@@ -139,7 +146,7 @@ public class PlayerCLI implements Serializable{
                     waitForTurn();
                 }
                 case FINAL_SCORE -> {
-                    System.out.println("\nThe game is finished, this is the final scoreboard\n" + (String) msg.getContent());
+                    System.out.println("\nThe game is finished, this is the final scoreboard\n" + msg.getContent());
                     Thread.sleep(1000 * 5);
                     System.exit(0); // il gioco finisce e tutto si chiude forzatamente
                 }
@@ -147,13 +154,16 @@ public class PlayerCLI implements Serializable{
         }catch(Exception e){System.out.println(e);}
     }
     private void waitForMove(){
+        chatThread.interrupt();
+        chatThread = null;
+        // ora mi aspetto le mosse, non voglio più avere il thread della chat attivo
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
             try {
                 outStream.writeObject(new Message(UPDATE_BOARD, name, board));
             }catch (Exception e){System.out.println(e);}
         }
-        String coordString, coordOrder;
+        String coordString, coordOrder, column;
         String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();
         Scanner in = new Scanner(System.in);
@@ -162,6 +172,10 @@ public class PlayerCLI implements Serializable{
             System.out.print("\nInsert coords of the cards to pick: ");
             coordString = in.nextLine();
             rawCoords = coordString.split(" ");
+            if(coordString.charAt(0) == '@'){
+                sendChatMsg(coordString);
+                continue;
+            }
             if(rawCoords.length % 2 == 1){
                 System.out.println("\nInvalid selection");
                 continue;
@@ -180,6 +194,10 @@ public class PlayerCLI implements Serializable{
             coordOrder = in.nextLine();
             if(coordOrder.equals("-1"))
                 break;
+            if(coordOrder.charAt(0) == '@'){
+                sendChatMsg(coordOrder);
+                continue;
+            }
             index_1 = Character.getNumericValue(coordOrder.charAt(0));
             index_2 = Character.getNumericValue(coordOrder.charAt(2));
             if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
@@ -192,7 +210,12 @@ public class PlayerCLI implements Serializable{
         int col;
         while(true){
             System.out.print("\nInsert the column where you wish to put the cards: ");
-            col = Integer.parseInt(in.nextLine());
+            column = in.nextLine();
+            if(column.charAt(0) == '@'){
+                sendChatMsg(column);
+                continue;
+            }
+            col = Integer.parseInt(column);
             if(library.checkCol(col, coords.size() / 2))
                 break;
             System.out.println("\nInvalid selection");
@@ -207,7 +230,7 @@ public class PlayerCLI implements Serializable{
             CO_2_Done = true;
         }
         drawAll();
-        System.out.println("\nYou made your move, now wait for other players to acknowledge it");
+        System.out.println("\nYou made your move, now wait for other players to acknowledge it...");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
         map.put("library", library);
@@ -217,13 +240,19 @@ public class PlayerCLI implements Serializable{
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
             new Thread(() -> {
-                System.out.println("Your turn is over");
+                System.out.println("Your turn is over...");
                 try {
                     Thread.sleep(1000);
                     outStream.writeObject(new Message(END_TURN, name, this));
                 } catch (Exception e) {System.out.println(e);}
             }).start(); // notifico la fine turno
+
         }catch(Exception e){System.out.println(e);}
+        chatThread = new Thread(() ->{
+            while(true)
+                sendChatMsg(in.nextLine());
+        });
+        chatThread.start();
         waitForTurn(); // mi metto in attesa che diventi il mio turno
     }
     private boolean isCharValid(int index_1, int index_2, int size){
@@ -234,6 +263,14 @@ public class PlayerCLI implements Serializable{
         System.out.print(arr.get(0) + ", " + arr.get(1));
         for(int i = 2; i < arr.size(); i += 2)
             System.out.println(" - " + arr.get(i) + ", " + arr.get(i + 1));
+    }
+    private void sendChatMsg(String msg){
+        String dest = msg.substring(1, msg.indexOf(' '));
+        msg = msg.substring(msg.indexOf(' '));
+        msg = name + " says: " + msg;
+        try{
+            outStream.writeObject(new Message(CHAT, dest, msg));
+        }catch(Exception e){System.out.println(e);}
     }
     /**
      * getter for the name
