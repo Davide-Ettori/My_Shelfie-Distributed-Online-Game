@@ -76,6 +76,7 @@ public class PlayerCLI implements Serializable{
     /**
      * start the main game process on the client side
      * @param mode type of the network chosen by the user
+     * @author Ettori
      */
     public PlayerCLI(NetMode mode) { // Costruttore iniziale
         netMode = mode;
