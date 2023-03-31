@@ -161,7 +161,7 @@ public class GameCLI implements Serializable {
             }
         }
         try {
-            Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD e CHAT
+            Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1 e CO_2
             if(msg.getType() == CHAT){
                 sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
                 waitMoveFromClient();
@@ -170,8 +170,10 @@ public class GameCLI implements Serializable {
                 if (i != activePlayer)
                     outStreams.get(i).writeObject(msg);
             }
+            if(msg.getType() == UPDATE_GAME)
+                waitForEndTurn();
+            waitMoveFromClient();
         }catch(Exception e){System.out.println(e);}
-        waitForEndTurn();
     }
     private void sendChatToClients(String from, String to, String msg){
         try {

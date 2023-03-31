@@ -4,6 +4,7 @@ import app.controller.*;
 import app.model.*;
 import playground.socket.Server;
 
+import javax.sound.sampled.AudioSystem;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -41,6 +42,7 @@ public class PlayerCLI implements Serializable{
     private Socket mySocket;
     private ObjectOutputStream outStream;
     private Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
+    private String fullChat = "";
     private ObjectInputStream inStream;
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
@@ -151,7 +153,16 @@ public class PlayerCLI implements Serializable{
                     System.exit(0); // il gioco finisce e tutto si chiude forzatamente
                 }
                 case CHAT -> {
-                    System.out.println(msg.getContent());
+                    fullChat += msg.getContent() + "\n";
+                    drawAll();
+                    waitForTurn();
+                }
+                case CO_1 ->{
+                    System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+                    waitForTurn();
+                }
+                case CO_2 ->{
+                    System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
                     waitForTurn();
                 }
             }
@@ -163,8 +174,10 @@ public class PlayerCLI implements Serializable{
             try{
                 while(true){
                     Message msg = (Message) inStream.readObject();
-                    if(msg.getType() == CHAT)
+                    if(msg.getType() == CHAT) {
                         System.out.println(msg.getContent());
+                        fullChat += msg.getContent() + "\n";
+                    }
                     else
                         System.out.println("\nHere i am only expecting chat message, no other types");
                 }
@@ -236,14 +249,25 @@ public class PlayerCLI implements Serializable{
             System.out.println("\nInvalid selection");
         }
         pickCards(coords, col);
-        if(board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
-            pointsUntilNow += board.pointsCO_1.pop();
-            CO_1_Done = true;
-        }
-        if(board.commonObjective_2.algorithm.checkMatch(library.library) && !CO_2_Done) {
-            pointsUntilNow += board.pointsCO_2.pop();
-            CO_2_Done = true;
-        }
+        int points;
+        try {
+            if (board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
+                points = board.pointsCO_1.pop();
+                pointsUntilNow += points;
+                CO_1_Done = true;
+                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
+                System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points");
+                Thread.sleep(1000);
+            }
+            if (board.commonObjective_2.algorithm.checkMatch(library.library) && !CO_2_Done) {
+                points = board.pointsCO_2.pop();
+                pointsUntilNow += points;
+                CO_2_Done = true;
+                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
+                System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points");
+                Thread.sleep(1000);
+            }
+        }catch(Exception e){System.out.println(e);}
         drawAll();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it...");
         HashMap<String, Object> map = new HashMap<>();
@@ -264,7 +288,7 @@ public class PlayerCLI implements Serializable{
 
         }catch(Exception e){System.out.println(e);}
         chatThread.interrupt();
-        chatThread = new Thread(() ->{
+        chatThread = new Thread(() ->{ // inzio il thread che ascolta i comandi da terminale
             while(true)
                 sendChatMsg(in.nextLine());
         });
@@ -376,6 +400,7 @@ public class PlayerCLI implements Serializable{
         objective.draw();
         board.draw();
         printLibrary();
+        System.out.println(fullChat);
         for(int i = 0;i < 12; i++){
             System.out.println();
         }
