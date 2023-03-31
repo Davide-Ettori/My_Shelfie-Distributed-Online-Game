@@ -52,7 +52,7 @@ public class PlayerCLI implements Serializable{
     public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
 
     /**
-     * Clone the player on the server in the player on the client
+     * Clone the player on the client in the player on the server
      * @author Ettori
      */
     public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
@@ -73,8 +73,8 @@ public class PlayerCLI implements Serializable{
     }
 
     /**
-     * Allow the user to choose the NetMode
-     * @param mode type of the netmode
+     * start the main game process on the client side
+     * @param mode type of the network chosen by the user
      */
     public PlayerCLI(NetMode mode) { // Costruttore iniziale
         netMode = mode;
