@@ -142,7 +142,7 @@ public class GameCLI implements Serializable {
         waitMoveFromClient();
     }
     private void waitMoveFromClient(){
-        if(chatThreads.size() == 0){
+        if(chatThreads.size() == 0){ // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE
             for(int i = 0; i < numPlayers; i++){
                 if(i == activePlayer)
                     continue;
@@ -302,5 +302,6 @@ public class GameCLI implements Serializable {
         bucketOfPO = g.bucketOfPO;
         time = g.time;
         serverSocket = g.serverSocket;
+        chatThreads = g.chatThreads;
     }
 }
