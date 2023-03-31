@@ -4,7 +4,6 @@ import app.controller.*;
 import app.model.*;
 import playground.socket.Server;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -167,7 +166,7 @@ public class PlayerCLI implements Serializable{
                     if(msg.getType() == CHAT)
                         System.out.println(msg.getContent());
                     else
-                        System.out.println("\nChat received in the wrong moment");
+                        System.out.println("\nHere i am only expecting chat message, no other types");
                 }
             }catch(Exception e){System.out.println(e);}
         });
