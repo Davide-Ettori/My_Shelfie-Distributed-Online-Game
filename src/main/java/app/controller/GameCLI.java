@@ -171,10 +171,6 @@ public class GameCLI implements Serializable {
                     outStreams.get(i).writeObject(msg);
             }
         }catch(Exception e){System.out.println(e);}
-        for (Thread chatThread : chatThreads) {
-            chatThread.interrupt();
-        }
-        chatThreads = new ArrayList<>();
         waitForEndTurn();
     }
     private void sendChatToClients(String from, String to, String msg){
@@ -193,6 +189,12 @@ public class GameCLI implements Serializable {
     private void waitForEndTurn(){
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
+            // spengo momentaneamente i thread che ascoltano i messaggi dalla chat (in questa fase non possono arrivare)
+            for (Thread chatThread : chatThreads) {
+                chatThread.interrupt();
+            }
+            chatThreads = new ArrayList<>();
+            //
             if(msg.getType() == END_TURN){
                 players.get(activePlayer).clone((PlayerCLI) msg.getContent());
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
