@@ -24,7 +24,7 @@ public class FILEHelper {
         }catch(Exception e){System.out.println();}
         return false;
     }
-    public static void writeServer(GameCLI server){
+    public static void writeServer(GameTUI server){
         try {
             FileOutputStream fos = new FileOutputStream("src/main/java/app/controller/cache/server.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -32,12 +32,12 @@ public class FILEHelper {
             oos.close();
         }catch(Exception e){System.out.println(e);}
     }
-    public static GameCLI loadServerCLI(){
-        GameCLI server = null;
+    public static GameTUI loadServerCLI(){
+        GameTUI server = null;
         try {
             FileInputStream fin = new FileInputStream("src/main/java/app/controller/cache/server.txt");
             ObjectInputStream ois = new ObjectInputStream(fin);
-            server = (GameCLI) ois.readObject();
+            server = (GameTUI) ois.readObject();
             ois.close();
         }catch(Exception e){System.out.println(e);}
         return server;

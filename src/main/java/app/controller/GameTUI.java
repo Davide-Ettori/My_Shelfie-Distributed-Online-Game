@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.model.*;
-import app.model.player.PlayerCLI;
+import app.model.player.PlayerTUI;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,13 +20,13 @@ import static app.model.State.*;
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
-public class GameCLI implements Serializable {
+public class GameTUI implements Serializable {
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
     private int endPlayer;
     private int activePlayer = -1;
-    private ArrayList<PlayerCLI> players = new ArrayList<>();
+    private ArrayList<PlayerTUI> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
@@ -37,7 +37,7 @@ public class GameCLI implements Serializable {
     private boolean time = true;
     private ArrayList<Thread> chatThreads = new ArrayList<>();
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
-    public GameCLI(int maxP){
+    public GameTUI(int maxP){
         targetPlayers = maxP;
         if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
             clone(FILEHelper.loadServerCLI());
@@ -84,10 +84,10 @@ public class GameCLI implements Serializable {
         }
         System.out.println("\nThe game starts!");
         //System.exit(0);
-        PlayerCLI p;
+        PlayerTUI p;
 
         for(int i = 0; i < names.size(); i++){
-            p = new PlayerCLI(names.get(i), i == 0);
+            p = new PlayerTUI(names.get(i), i == 0);
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
             p.board.name = names.get(i);
             if(i == 0)
@@ -105,7 +105,7 @@ public class GameCLI implements Serializable {
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){System.out.println(e);}
-            players.add(new PlayerCLI().clone(p));
+            players.add(new PlayerTUI().clone(p));
         }
         advanceTurn();
     }
@@ -231,7 +231,7 @@ public class GameCLI implements Serializable {
                 }
                 chatThreads = new ArrayList<>();
                 //
-                players.get(activePlayer).clone((PlayerCLI) msg.getContent());
+                players.get(activePlayer).clone((PlayerTUI) msg.getContent());
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     endPlayer = activePlayer;
@@ -244,7 +244,7 @@ public class GameCLI implements Serializable {
     }
     private void listenForReconnection(){return;}
     private String getChairmanName(){return names.get(0);}
-    private PlayerCLI getChairman(){return players.get(0);}
+    private PlayerTUI getChairman(){return players.get(0);}
     private boolean isNameTaken(String name){return names.contains(name);}
     private int getNameIndex(String name){
         for(int i = 0; i < names.size(); i++){
@@ -312,7 +312,7 @@ public class GameCLI implements Serializable {
     private String getFinalScore(){
         ArrayList<Integer> scores = new ArrayList<>();
         StringBuilder res = new StringBuilder();
-        PlayerCLI p;
+        PlayerTUI p;
         for(int i = 0; i < numPlayers; i++){
             p = players.get(i);
             scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.library) + i == endPlayer ? 1 : 0);
@@ -354,7 +354,7 @@ public class GameCLI implements Serializable {
      * @param g server status
      * @author Ettori
      */
-    private void clone(GameCLI g){
+    private void clone(GameTUI g){
         targetPlayers = g.targetPlayers;
         numPlayers = g.numPlayers;
         endPlayer = g.endPlayer;

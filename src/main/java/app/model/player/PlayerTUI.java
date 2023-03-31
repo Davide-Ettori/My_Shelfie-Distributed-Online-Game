@@ -4,7 +4,6 @@ import app.controller.*;
 import app.model.*;
 import playground.socket.Server;
 
-import javax.sound.sampled.AudioSystem;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -24,7 +23,7 @@ import static app.model.player.NetMode.*;
  * implements Serializable because it will be sent in the socket network
  * @author Ettori Faccincani
  */
-public class PlayerCLI implements Serializable{
+public class PlayerTUI implements Serializable{
     private String name;
     public NetMode netMode;
     public int numPlayers;
@@ -50,8 +49,8 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
 
-    public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
-    public PlayerCLI(){
+    public PlayerTUI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
+    public PlayerTUI(){
         // costruttore vuoto
     }
 
@@ -59,7 +58,7 @@ public class PlayerCLI implements Serializable{
      * Clone the player on the client in the player on the server
      * @author Ettori
      */
-    public PlayerCLI clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
+    public PlayerTUI clone(PlayerTUI p){ // copia la versione sul server dentro a quella del client
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -82,7 +81,7 @@ public class PlayerCLI implements Serializable{
      * @param mode type of the network chosen by the user
      * @author Ettori
      */
-    public PlayerCLI(NetMode mode) { // Costruttore iniziale
+    public PlayerTUI(NetMode mode) { // Costruttore iniziale
         netMode = mode;
         if(netMode == RMI)
             return;
@@ -122,10 +121,10 @@ public class PlayerCLI implements Serializable{
      * @author Ettori Faccincani
      */
     private void getInitialState(){
-        PlayerCLI p;
+        PlayerTUI p;
         try {
             System.out.println("\nBe patient, the game will start soon...");
-            p = (PlayerCLI) inStream.readObject();
+            p = (PlayerTUI) inStream.readObject();
             System.out.println("ciao");
             clone(p);
             drawAll();
