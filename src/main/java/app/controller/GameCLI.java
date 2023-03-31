@@ -351,6 +351,7 @@ public class GameCLI implements Serializable {
     /**
      * Make a clone of the server, helps for the persistance
      * @param g server status
+     * @author Ettori
      */
     private void clone(GameCLI g){
         targetPlayers = g.targetPlayers;
