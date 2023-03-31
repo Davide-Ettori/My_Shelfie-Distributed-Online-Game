@@ -8,29 +8,34 @@ import java.util.Scanner;
 import static app.model.player.NetMode.*;
 
 public class Client {
-    public static void main(String[] args){
-        String ui, net;
+    public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        while(true){
+
+        while(true) {
             System.out.print("\nChoose game mode (CLI or GUI): ");
-            ui = in.nextLine();
+            String ui = in.nextLine();
             System.out.print("\nChoose game mode (Socket or rmi): ");
-            net = in.nextLine();
-            if(ui.equals("CLI")){
-                if(net.equals("Socket"))
-                    new PlayerCLI(SOCKET);
-                else if(net.equals("rmi"))
-                    new PlayerCLI(RMI);
-                break;
-            } else if(ui.equals("GUI")){
-                if(net.equals("Socket"))
-                    new PlayerGUI(SOCKET);
-                else if(net.equals("rmi"))
-                    new PlayerGUI(RMI);
+            String net = in.nextLine();
+            if (ui.equals("CLI")) {
+                if (net.equals("Socket")) {
+                    new PlayerCLI(NetMode.SOCKET);
+                } else if (net.equals("rmi")) {
+                    new PlayerCLI(NetMode.RMI);
+                }
                 break;
             }
-            else
-                System.out.println("\nInvalid choice, try again");
+
+            if (ui.equals("GUI")) {
+                if (net.equals("Socket")) {
+                    new PlayerGUI(NetMode.SOCKET);
+                } else if (net.equals("rmi")) {
+                    new PlayerGUI(NetMode.RMI);
+                }
+                break;
+            }
+
+            System.out.println("\nInvalid choice, try again");
         }
+
     }
 }
