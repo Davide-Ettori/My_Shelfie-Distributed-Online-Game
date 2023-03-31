@@ -11,9 +11,8 @@ differenti. Righe diverse possono avere
 combinazioni diverse di tipi di tessere.
  */
 /**
- * class which represent the number four objective (common)
+ * class which represent the number four objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_4 extends Strategy { // secondo seconda colonna
     /**

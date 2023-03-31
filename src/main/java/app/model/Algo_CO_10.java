@@ -9,9 +9,8 @@ Cinque tessere dello stesso tipo
 che formano una X.
  */
 /**
- * class which represent the number ten objective (common)
+ * class which represent the number ten objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_10 extends Strategy { // quinto seconda colonna
     /**

@@ -10,9 +10,9 @@ essere diverse da quelle di un altro gruppo.
  */
 
 /**
- * class which represent the number one objective (common)
+ * class which represent the number one objective (common).
+ * Immutable
  * @author Ettori Faccincani
- * immutable
  */
 
 public class Algo_CO_1 extends Strategy {

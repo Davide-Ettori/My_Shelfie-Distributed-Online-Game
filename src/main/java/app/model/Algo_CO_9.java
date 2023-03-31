@@ -11,9 +11,8 @@ Colonne diverse possono avere
 combinazioni diverse di tipi di tessere.
  */
 /**
- * class which represent the number nine objective (common)
+ * class which represent the number nine objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_9 extends Strategy { // quinto prima colonna
     /**

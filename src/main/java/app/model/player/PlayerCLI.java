@@ -20,10 +20,9 @@ import static app.model.State.*;
 import static app.model.player.NetMode.*;
 
 /**
- * class which represent the player on the client side
- * @author Ettori Faccincani
- * mutable
+ * class which represent the player on the client side, mutable,
  * implements Serializable because it will be sent in the socket network
+ * @author Ettori Faccincani
  */
 public class PlayerCLI implements Serializable{
     private String name;
@@ -51,6 +50,11 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
 
     public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
+
+    /**
+     * Clone the player on the server in the player on the client
+     * @author Ettori
+     */
     public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
         name = p.name;
         isChairMan = p.isChairMan;
@@ -67,6 +71,11 @@ public class PlayerCLI implements Serializable{
     public PrivateObjective getPrivateObjective(){
         return objective;
     }
+
+    /**
+     * Allow the user to choose the NetMode
+     * @param mode type of the netmode
+     */
     public PlayerCLI(NetMode mode) { // Costruttore iniziale
         netMode = mode;
         if(netMode == RMI)
@@ -101,6 +110,11 @@ public class PlayerCLI implements Serializable{
         System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
     }
+
+    /**
+     * Receive the status of the player from the server and attend the start of the game
+     * @author Ettori Faccincani
+     */
     private void getInitialState(){
         PlayerCLI p;
         try {
@@ -117,6 +131,11 @@ public class PlayerCLI implements Serializable{
         chatThread.start();
         waitForTurn();
     }
+
+    /**
+     * Attend the start of the turn, meanwhile can update the board if someone else changes it
+     * @author Ettori Faccincani
+     */
     private void waitForTurn(){ // qui riceve 3 possibili messaggi, funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
@@ -168,6 +187,11 @@ public class PlayerCLI implements Serializable{
             }
         }catch(Exception e){System.out.println(e);}
     }
+
+    /**
+     * Attend the move of the player and start the chat, after the move check if the move is correct
+     * @author Ettori Faccincani
+     */
     private void waitForMove(){
         chatThread.interrupt();
         chatThread = new Thread(() ->{
@@ -295,15 +319,36 @@ public class PlayerCLI implements Serializable{
         chatThread.start();
         waitForTurn(); // mi metto in attesa che diventi il mio turno
     }
+
+    /**
+     * Check if the index of the columns to switch are valid
+     * @param index_1 column to switch
+     * @param index_2 column to switch
+     * @param size  number of columns asked to switch
+     * @return true if the index are valid
+     * @author Ettori Faccincani
+     */
     private boolean isCharValid(int index_1, int index_2, int size){
         return index_1 > 0 && index_1 <= size && index_2 > 0 && index_2 < size;
     }
+
+    /**
+     * Return to the player the current order of the cards to be placed
+     * @param arr list of the cards
+     * @author Ettori Faccincani
+     */
     private void printCurOrder(ArrayList<Integer> arr){
         System.out.println("\nThe current order of your cards is: ");
         System.out.print(arr.get(0) + ", " + arr.get(1));
         for(int i = 2; i < arr.size(); i += 2)
             System.out.println(" - " + arr.get(i) + ", " + arr.get(i + 1));
     }
+
+    /**
+     * Send with socket the message of the chat
+     * @param msg content of the message
+     * @author Ettori
+     */
     private void sendChatMsg(String msg){
         if(msg.charAt(0) != '@')
             return;

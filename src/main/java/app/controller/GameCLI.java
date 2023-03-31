@@ -108,6 +108,13 @@ public class GameCLI implements Serializable {
         }
         advanceTurn();
     }
+
+    /**
+     * Check if the name that the client choose is already TAKEN
+     * @param socket socket of the client that send his name
+     * @throws Exception
+     * @author Ettori
+     */
     synchronized private void getUserName(Socket socket) throws Exception{
         outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
         inStreams.add(new ObjectInputStream(socket.getInputStream()));
@@ -128,6 +135,12 @@ public class GameCLI implements Serializable {
             return;
         }
     }
+
+    /**
+     * Send the message to the client that a new turn start,
+     * two cases if is the turn of the client or is the turn of another client
+     * @author Ettori Faccincani
+     */
     private void notifyNewTurn(){
         for(int i = 0; i < numPlayers; i++){
             try {
@@ -141,6 +154,12 @@ public class GameCLI implements Serializable {
         }
         waitMoveFromClient();
     }
+
+    /**
+     * Wait the move of the client that are playing and set the chat,
+     * when the client made the move and send it to server update Board and Library
+     * @author Ettori Faccincani
+     */
     private void waitMoveFromClient(){
         if(chatThreads.size() == 0){ // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             for(int i = 0; i < numPlayers; i++){
@@ -175,6 +194,14 @@ public class GameCLI implements Serializable {
             waitMoveFromClient();
         }catch(Exception e){System.out.println(e);}
     }
+
+    /**
+     * Send message in the chat to other client
+     * @param from who send the message
+     * @param to who receive the message
+     * @param msg text inside the message
+     * @author Ettori
+     */
     private void sendChatToClients(String from, String to, String msg){
         try {
             if (to.equals("all")) {
@@ -188,6 +215,11 @@ public class GameCLI implements Serializable {
             }
         }catch (Exception e){System.out.println(e);}
     }
+
+    /**
+     * Wait the end of the turn of the client and check if the library is full
+     * @author Ettori Faccincani
+     */
     private void waitForEndTurn(){
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
@@ -225,6 +257,11 @@ public class GameCLI implements Serializable {
         bucketOfPO.remove(0);
         return res;
     }
+
+    /**
+     * Make a random choose of the objective (Common and Private)
+     * @author Ettori
+     */
     private void shuffleObjBucket(){ // randomizza gli obbiettivi
         Random rand = new Random();
         CommonObjective temp_1;
@@ -243,6 +280,11 @@ public class GameCLI implements Serializable {
             bucketOfPO.set(j, temp_2);
         }
     }
+
+    /**
+     * Set the status of the players for the next turn and assign activePlayer to who play this turn
+     * @author Ettori Faccincani
+     */
     public void advanceTurn(){
         if(activePlayer == -1) {
             activePlayer++;
@@ -259,6 +301,13 @@ public class GameCLI implements Serializable {
             sendFinalScoresToAll();
         notifyNewTurn();
     }
+
+    /**
+     * Count the points at the end of the game (not private or common objective)
+     * and sum to the points made until now
+     * @return the order of the player each one with his score
+     * @author Ettori
+     */
     private String getFinalScore(){
         ArrayList<Integer> scores = new ArrayList<>();
         StringBuilder res = new StringBuilder();
@@ -284,6 +333,11 @@ public class GameCLI implements Serializable {
             res.append("Place number ").append(i + 1).append(": ").append(names.get(i)).append(" with ").append(scores.get(i)).append(" points\n");
         return res.toString();
     }
+
+    /**
+     * Send the final score to client
+     * @author Ettori
+     */
     private void sendFinalScoresToAll(){
         for(int i = 0; i < numPlayers; i++) {
             try {
@@ -293,7 +347,12 @@ public class GameCLI implements Serializable {
         FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
         System.exit(0);
     }
-    private void clone(GameCLI g){ // clono il server, utile per la persistenza
+
+    /**
+     * Make a clone of the server, helps for the persistance
+     * @param g server status
+     */
+    private void clone(GameCLI g){
         targetPlayers = g.targetPlayers;
         numPlayers = g.numPlayers;
         endPlayer = g.endPlayer;

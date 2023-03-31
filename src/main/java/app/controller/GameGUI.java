@@ -13,9 +13,10 @@ import java.util.Random;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
 /**
- * class which represent the instance of the current game
- * @author Ettori Faccincani
+ * class which represent the instance of the current game;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
+ * @author Ettori Faccincani
+ *
  */
 public class GameGUI {
     private final int PORT = 3000;

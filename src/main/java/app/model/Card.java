@@ -2,9 +2,8 @@ package app.model;
 
 import static app.model.Color.*;
 /**
- * class that represent the cards, both in the library and in the board
+ * class that represent the cards, both in the library and in the board. Mutable
  * @author Ettori Giammusso
- * mutable
  */
 public class Card {
     public Color color;

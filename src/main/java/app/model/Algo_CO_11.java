@@ -7,9 +7,8 @@ sono restrizioni sulla posizione di
 queste tessere.
  */
 /**
- * class which represent the number eleven objective (common)
+ * class which represent the number eleven objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_11 extends Strategy { // sesto prima colonna
     /**

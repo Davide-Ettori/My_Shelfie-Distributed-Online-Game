@@ -1,8 +1,8 @@
 package app.model;
 /**
- * class which represent the parent of all the objective (private and common) of the game
+ * class which represent the parent of all the objective (private and common) of the game. Immutable
  * @author Ettori Faccincani
- * immutable
+ *
  */
 abstract class Objective {
     protected String imagePath;

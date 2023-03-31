@@ -9,9 +9,8 @@ Due righe formate ciascuna
 da 5 diversi tipi di tessere.
  */
 /**
- * class which represent the number eight objective (common)
+ * class which represent the number eight objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 
 public class Algo_CO_8 extends Strategy { // quarto seconda colonna
