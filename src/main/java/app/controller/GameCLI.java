@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -131,8 +130,10 @@ public class GameCLI implements Serializable {
     private void notifyNewTurn(){
         for(int i = 0; i < numPlayers; i++){
             try {
-                if (i == activePlayer)
+                if (i == activePlayer) {
                     outStreams.get(i).writeObject(new Message(YOUR_TURN, "server", null));
+                    players.get(i).setState(ACTIVE);
+                }
                 else
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
             }catch (Exception e){System.out.println(e);}

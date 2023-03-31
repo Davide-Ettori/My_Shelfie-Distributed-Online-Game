@@ -4,6 +4,7 @@ import app.controller.*;
 import app.model.*;
 import playground.socket.Server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -206,6 +207,7 @@ public class PlayerCLI implements Serializable{
             CO_2_Done = true;
         }
         drawAll();
+        System.out.println("\nYou made your move, now wait for other players to acknowledge it");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
         map.put("library", library);
@@ -214,7 +216,13 @@ public class PlayerCLI implements Serializable{
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
-            outStream.writeObject(new Message(END_TURN, name, this)); // notifico la fine turno
+            new Thread(() -> {
+                System.out.println("Your turn is over");
+                try {
+                    Thread.sleep(1000);
+                    outStream.writeObject(new Message(END_TURN, name, this));
+                } catch (Exception e) {System.out.println(e);}
+            }).start(); // notifico la fine turno
         }catch(Exception e){System.out.println(e);}
         waitForTurn(); // mi metto in attesa che diventi il mio turno
     }
@@ -222,6 +230,7 @@ public class PlayerCLI implements Serializable{
         return index_1 > 0 && index_1 <= size && index_2 > 0 && index_2 < size;
     }
     private void printCurOrder(ArrayList<Integer> arr){
+        System.out.println("\nThe current order of your cards is: ");
         System.out.print(arr.get(0) + ", " + arr.get(1));
         for(int i = 2; i < arr.size(); i += 2)
             System.out.println(" - " + arr.get(i) + ", " + arr.get(i + 1));
