@@ -14,8 +14,12 @@ public class Client {
         while(true) {
             System.out.print("\nChoose game mode (CLI or GUI): ");
             String ui = in.nextLine();
+            if(ui.length() == 0)
+                ui = "CLI";
             System.out.print("\nChoose game mode (Socket or rmi): ");
             String net = in.nextLine();
+            if(net.length() == 0)
+                net = "Socket";
             if (ui.equals("CLI")) {
                 if (net.equals("Socket")) {
                     new PlayerCLI(NetMode.SOCKET);

@@ -16,7 +16,7 @@ import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
 /**
- * class which represent the instance of the current game
+ * class which represent the instance of the -current game
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
@@ -83,7 +83,7 @@ public class GameCLI implements Serializable {
             System.exit(0);
         }
         System.out.println("\nThe game starts!");
-        System.exit(0);
+        //System.exit(0);
         PlayerCLI p;
 
         for(int i = 0; i < names.size(); i++){
@@ -91,7 +91,7 @@ public class GameCLI implements Serializable {
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
             p.board.name = names.get(i);
             if(i == 0)
-                p.board.fillBoard(numPlayers);
+                p.board.initBoard(numPlayers);
             else
                 p.board = new Board(getChairman().board);
             p.library = new Library(names.get(i));

@@ -48,6 +48,7 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
     private final String DAVIDE_XIAOMI_IP_G = "192.168.86.95";
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
+    private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
 
     public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
 
@@ -81,7 +82,7 @@ public class PlayerCLI implements Serializable{
         if(netMode == RMI)
             return;
         try {
-            Socket socket = new Socket(DAVIDE_IP_MILANO, Server.PORT);
+            Socket socket = new Socket(DAVIDE_IP_MANTOVA, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
             String resp = (String) inStream.readObject();
@@ -120,6 +121,7 @@ public class PlayerCLI implements Serializable{
         try {
             System.out.println("\nBe patient, the game will start soon...");
             p = (PlayerCLI) inStream.readObject();
+            System.out.println("ciao");
             clone(p);
             drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}
