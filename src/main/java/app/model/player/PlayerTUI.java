@@ -451,6 +451,8 @@ public class PlayerTUI implements Serializable{
         objective.draw();
         board.draw();
         printLibrary();
+        if(isChairMan)
+            System.out.println("\nYou are the Chairman on this game!");
         System.out.println(fullChat);
         for(int i = 0;i < 12; i++){
             System.out.println();
