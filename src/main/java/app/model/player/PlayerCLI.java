@@ -127,6 +127,7 @@ public class PlayerCLI implements Serializable{
                 }
                 case CHANGE_TURN -> {
                     activeName = msg.getAuthor();
+                    drawAll();
                     waitForTurn();
                 }
                 case UPDATE_BOARD -> {
@@ -150,12 +151,27 @@ public class PlayerCLI implements Serializable{
                     Thread.sleep(1000 * 5);
                     System.exit(0); // il gioco finisce e tutto si chiude forzatamente
                 }
+                case CHAT -> {
+                    System.out.println(msg.getContent());
+                    waitForTurn();
+                }
             }
         }catch(Exception e){System.out.println(e);}
     }
     private void waitForMove(){
         chatThread.interrupt();
-        chatThread = null;
+        chatThread = new Thread(() ->{
+            try{
+                while(true){
+                    Message msg = (Message) inStream.readObject();
+                    if(msg.getType() == CHAT)
+                        System.out.println(msg.getContent());
+                    else
+                        System.out.println("\nChat received in the wrong moment");
+                }
+            }catch(Exception e){System.out.println(e);}
+        });
+        chatThread.start();
         // ora mi aspetto le mosse, non voglio più avere il thread della chat attivo
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
@@ -248,6 +264,7 @@ public class PlayerCLI implements Serializable{
             }).start(); // notifico la fine turno
 
         }catch(Exception e){System.out.println(e);}
+        chatThread.interrupt();
         chatThread = new Thread(() ->{
             while(true)
                 sendChatMsg(in.nextLine());
@@ -265,6 +282,8 @@ public class PlayerCLI implements Serializable{
             System.out.println(" - " + arr.get(i) + ", " + arr.get(i + 1));
     }
     private void sendChatMsg(String msg){
+        if(msg.charAt(0) != '@')
+            return;
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
         msg = name + " says: " + msg;

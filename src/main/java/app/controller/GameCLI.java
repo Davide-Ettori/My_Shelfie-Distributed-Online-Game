@@ -35,6 +35,7 @@ public class GameCLI implements Serializable {
     private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean endGameSituation = false;
     private boolean time = true;
+    private ArrayList<Thread> chatThreads = new ArrayList<>();
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     public GameCLI(int maxP){
         targetPlayers = maxP;
@@ -141,14 +142,53 @@ public class GameCLI implements Serializable {
         waitMoveFromClient();
     }
     private void waitMoveFromClient(){
+        if(chatThreads.size() == 0){
+            for(int i = 0; i < numPlayers; i++){
+                if(i == activePlayer)
+                    continue;
+                int finalI = i;
+                chatThreads.add(new Thread(() ->{
+                    int index = finalI;
+                    while(true){
+                        try{
+                            Message msg = (Message) inStreams.get(index).readObject();
+                            sendChatToClients(names.get(index), msg.getAuthor(), (String)msg.getContent());
+                        }
+                        catch(Exception e){System.out.println(e);}
+                    }
+                }));
+                chatThreads.get(chatThreads.size() - 1).start();
+            }
+        }
         try {
-            Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve sia UPDATE_GAME che UPDATE_BOARD, ma fa sempre la stessa cosa (come è giusto che sia)
+            Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD e CHAT
+            if(msg.getType() == CHAT){
+                sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
+                waitMoveFromClient();
+            }
             for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
                 if (i != activePlayer)
                     outStreams.get(i).writeObject(msg);
             }
         }catch(Exception e){System.out.println(e);}
+        for (Thread chatThread : chatThreads) {
+            chatThread.interrupt();
+        }
+        chatThreads = new ArrayList<>();
         waitForEndTurn();
+    }
+    private void sendChatToClients(String from, String to, String msg){
+        try {
+            if (to.equals("all")) {
+                for (int i = 0; i < numPlayers; i++) {
+                    if (!names.get(i).equals(from))
+                        outStreams.get(i).writeObject(new Message(CHAT, "", msg));
+                }
+            }
+            else{
+                outStreams.get(getNameIndex(to)).writeObject(new Message(CHAT, "", msg));
+            }
+        }catch (Exception e){System.out.println(e);}
     }
     private void waitForEndTurn(){
         try {
