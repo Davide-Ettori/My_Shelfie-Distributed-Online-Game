@@ -10,7 +10,7 @@ public class Server {
         while (true){
             System.out.print("\nChoose game mode (CLI or GUI): ");
             ui = in.nextLine();
-            System.out.print("\nChoose game mode (CLI or GUI): ");
+            System.out.print("\nChoose the number of players (2, 3, or 4): ");
             numP = Integer.parseInt(in.nextLine());
 
             if(numP < 2 || numP > 4){
