@@ -31,7 +31,7 @@ public class GameGUI {
     private boolean time = true;
     private ServerSocket serverSocket; // Questa è la unica socket del server. Potresti aver bisogno di passarla come argomento a Board
 
-    public GameGUI(){
+    public GameGUI(int maxP){
         int numPlayers = 0;
         PlayerGUI p;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client

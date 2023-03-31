@@ -23,7 +23,7 @@ import static app.model.State.*;
  */
 public class GameCLI implements Serializable {
     private final int PORT = 3000;
-    public static final int MAX_PLAYERS = 4;
+    private int targetPlayers;
     private int numPlayers;
     private int endPlayer;
     private int activePlayer = -1;
@@ -37,7 +37,8 @@ public class GameCLI implements Serializable {
     private boolean endGameSituation = false;
     private boolean time = true;
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
-    public GameCLI(){
+    public GameCLI(int maxP){
+        targetPlayers = maxP;
         if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
             clone(FILEHelper.loadServerCLI());
             // da qui in poi fai continuare il server che hai caricato dalla cache
@@ -60,7 +61,7 @@ public class GameCLI implements Serializable {
         Thread th;
         System.out.println("\nServer listening...");
 
-        while(numPlayers < 4 && time){
+        while(numPlayers < targetPlayers && time){
             try{
                 playersSocket.add(serverSocket.accept());
                 th = new Thread(() ->{
@@ -77,7 +78,7 @@ public class GameCLI implements Serializable {
             try{t.join();}
             catch(Exception e){System.out.println(e.toString());}
         }
-        if(numPlayers < 2){
+        if(numPlayers < targetPlayers){
             System.out.println("\nPlayer number not sufficient");
             System.exit(0);
         }
@@ -246,6 +247,7 @@ public class GameCLI implements Serializable {
         System.exit(0);
     }
     private void clone(GameCLI g){ // clono il server, utile per la persistenza
+        targetPlayers = g.targetPlayers;
         numPlayers = g.numPlayers;
         endPlayer = g.endPlayer;
         endGameSituation = g.endGameSituation;
