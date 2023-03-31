@@ -10,9 +10,8 @@ deve essere formata da una tessera in più.
 Le tessere possono essere di qualsiasi tipo.
  */
 /**
- * class which represent the number twelve objective (common)
+ * class which represent the number twelve objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_12 extends Strategy {
     /**

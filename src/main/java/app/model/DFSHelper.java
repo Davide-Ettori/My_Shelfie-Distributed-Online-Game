@@ -1,10 +1,10 @@
 package app.model;
 
 /**
- * helper class for the Depth First Search algorithm
+ * helper class for the Depth First Search algorithm. Immutable
  *
  * @author Ettori Faccincani
- * immutable
+ *
  */
 public class DFSHelper {
     private static final int ROWS = 6;

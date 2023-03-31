@@ -12,9 +12,9 @@ import static app.model.Color.*;
 import static app.view.CLI.CLIHelper.*;
 
 /**
- * class which represent the common board where the players choose the cards
+ * class which represent the common board where the players choose the cards. Mutable
  * @author Ettori Faccincani
- * mutable
+ *
  */
 public class Board implements Serializable {
     private final int DIM = 9;

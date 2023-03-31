@@ -7,9 +7,9 @@ import static app.model.Color.EMPTY;
 import static app.view.CLI.CLIHelper.drawMatrix;
 
 /**
- * class representing each player's private library
+ * class representing each player's private library. Mutable
  * @author Ettori Giammusso
- * mutable
+ *
  * */
 public class Library implements Serializable {
     public final int ROWS = 6;

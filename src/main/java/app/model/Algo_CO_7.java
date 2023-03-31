@@ -11,9 +11,8 @@ Le tessere dei due gruppi devono essere
 dello stesso tipo.
  */
 /**
- * class which represent the number seven objective (common)
+ * class which represent the number seven objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_7 extends Strategy { // quarto prima colonna
     private final int[][] visitedMatrix = new int[ROWS][COLS];

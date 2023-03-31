@@ -1,9 +1,8 @@
 package app.model;
 
 /**
- * class which represent the common objectives which all the players must try to achieve
+ * class which represent the common objectives which all the players must try to achieve. Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class CommonObjective extends Objective {
     public final Strategy algorithm;

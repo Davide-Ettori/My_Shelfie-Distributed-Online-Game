@@ -1,9 +1,9 @@
 package app.model;
 
 /**
- * class which formalize the Strategy Pattern
+ * class which formalize the Strategy Pattern. Immutable
  * @author Ettori Faccincani
- * immutable
+ *
  */
 public class Strategy {
     int ROWS = 6;

@@ -6,9 +6,9 @@ Cinque tessere dello stesso tipo che
 formano una diagonale.
  */
 /**
- * class which represent the number two objective (common)
+ * class which represent the number two objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
+ *
  */
 public class Algo_CO_2 extends Strategy {
     /**

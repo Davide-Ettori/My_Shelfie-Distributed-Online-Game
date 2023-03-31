@@ -9,9 +9,8 @@ Due colonne formate ciascuna
 da 6 diversi tipi di tessere.
  */
 /**
- * class which represent the number six objective (common)
+ * class which represent the number six objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_6 extends Strategy { // terzo seconda colonna
     /**

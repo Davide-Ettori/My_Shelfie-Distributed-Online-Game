@@ -6,9 +6,8 @@ Quattro tessere dello stesso tipo
 ai quattro angoli della Libreria.
  */
 /**
- * class which represent the number three objective (common)
+ * class which represent the number three objective (common). Immutable
  * @author Ettori Faccincani
- * immutable
  */
 public class Algo_CO_3 extends Strategy {
     /**

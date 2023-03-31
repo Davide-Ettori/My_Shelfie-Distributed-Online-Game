@@ -4,9 +4,9 @@ import static app.model.Color.*;
 import static app.view.CLI.CLIHelper.*;
 
 /**
- * class which represent the private objective for each player
+ * class which represent the private objective for each player. Immutable
  * @author Ettori Giammusso
- * immutable
+ *
  */
 public class PrivateObjective extends Objective {
     private int[] arrayOfPoints;
