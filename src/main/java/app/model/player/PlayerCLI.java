@@ -286,7 +286,7 @@ public class PlayerCLI implements Serializable{
             return;
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
-        msg = name + " says: " + msg;
+        msg = name + " says:" + msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){System.out.println(e);}

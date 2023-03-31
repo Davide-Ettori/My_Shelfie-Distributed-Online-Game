@@ -152,7 +152,7 @@ public class GameCLI implements Serializable {
                     while(true){
                         try{
                             Message msg = (Message) inStreams.get(index).readObject();
-                            sendChatToClients(names.get(index), msg.getAuthor(), (String)msg.getContent());
+                            sendChatToClients(names.get(index), msg.getAuthor(), (String)msg.getContent()); // in questo caso l'author è il destinatario
                         }
                         catch(Exception e){System.out.println(e);}
                     }
