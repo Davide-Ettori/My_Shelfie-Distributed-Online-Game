@@ -125,7 +125,6 @@ public class PlayerTUI implements Serializable{
         try {
             System.out.println("\nBe patient, the game will start soon...");
             p = (PlayerTUI) inStream.readObject();
-            System.out.println("ciao");
             clone(p);
             drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}
