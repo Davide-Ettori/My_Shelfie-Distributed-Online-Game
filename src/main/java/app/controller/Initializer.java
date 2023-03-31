@@ -23,9 +23,10 @@ import app.model.Algo_CO_12;
 
 import static app.model.Color.*;
 /**
- * helper class to initialize all the bucket of cards and objective that are needed for the start of the game
+ * helper class to initialize all the bucket of cards and objective that are needed for the start of the game.
+ * Immutable
  * @author Ettori Faccincani
- * immutable
+ *
  */
 public class Initializer {
     private static final int ROWS = 6;
