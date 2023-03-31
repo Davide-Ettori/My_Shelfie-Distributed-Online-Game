@@ -105,6 +105,7 @@ public class GameCLI implements Serializable {
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){System.out.println(e);}
+            players.add(new PlayerCLI().clone(p));
         }
         advanceTurn();
     }

@@ -1,11 +1,13 @@
 package app.model;
 
+import java.io.Serializable;
+
 /**
  * class which formalize the Strategy Pattern. Immutable
  * @author Ettori Faccincani
  *
  */
-public class Strategy {
+public class Strategy implements Serializable {
     int ROWS = 6;
     int COLS = 5;
     /**

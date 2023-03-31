@@ -51,12 +51,15 @@ public class PlayerCLI implements Serializable{
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
 
     public PlayerCLI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
+    public PlayerCLI(){
+        // costruttore vuoto
+    }
 
     /**
      * Clone the player on the client in the player on the server
      * @author Ettori
      */
-    public void clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
+    public PlayerCLI clone(PlayerCLI p){ // copia la versione sul server dentro a quella del client
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -68,6 +71,7 @@ public class PlayerCLI implements Serializable{
         mySocket = p.mySocket;
         CO_1_Done = p.CO_1_Done;
         CO_2_Done = p.CO_2_Done;
+        return this;
     }
     public PrivateObjective getPrivateObjective(){
         return objective;
@@ -423,7 +427,7 @@ public class PlayerCLI implements Serializable{
         library.draw("My Library");
         for(int i = 0; i < librariesOfOtherPlayers.size(); i++){
             if(!librariesOfOtherPlayers.get(i).name.equals(name)){ //if it is not my personal library
-                librariesOfOtherPlayers.get(i).draw("Library of"+librariesOfOtherPlayers.get(i).name);
+                librariesOfOtherPlayers.get(i).draw("Library of "+librariesOfOtherPlayers.get(i).name);
             }
         }
     }

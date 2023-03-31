@@ -1,11 +1,13 @@
 package app.model;
 
+import java.io.Serializable;
+
 import static app.model.Color.*;
 /**
  * class that represent the cards, both in the library and in the board. Mutable
  * @author Ettori Giammusso
  */
-public class Card {
+public class Card implements Serializable {
     public Color color;
     private String imagePath;
     private int x;

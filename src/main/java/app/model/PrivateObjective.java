@@ -1,5 +1,7 @@
 package app.model;
 
+import java.io.Serializable;
+
 import static app.model.Color.*;
 import static app.view.CLI.CLIHelper.*;
 
@@ -8,7 +10,7 @@ import static app.view.CLI.CLIHelper.*;
  * @author Ettori Giammusso
  *
  */
-public class PrivateObjective extends Objective {
+public class PrivateObjective extends Objective implements Serializable {
     private int[] arrayOfPoints;
     private Card[][] matrix;
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo

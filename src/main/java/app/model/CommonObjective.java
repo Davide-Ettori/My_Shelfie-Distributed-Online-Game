@@ -1,10 +1,12 @@
 package app.model;
 
+import java.io.Serializable;
+
 /**
  * class which represent the common objectives which all the players must try to achieve. Immutable
  * @author Ettori Faccincani
  */
-public class CommonObjective extends Objective {
+public class CommonObjective extends Objective implements Serializable {
     public final Strategy algorithm;
     public CommonObjective(Strategy algorithm, String image){
         this.imagePath = image;

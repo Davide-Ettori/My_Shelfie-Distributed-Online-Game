@@ -23,7 +23,7 @@ public class Board implements Serializable {
     public CommonObjective commonObjective_2;
     public LinkedList<Integer> pointsCO_1;
     public LinkedList<Integer> pointsCO_2;
-    private ArrayList<Card> bucketOfCards = null;
+    private ArrayList<Card> bucketOfCards = Initializer.setBucketOfCards();
     private int[][] gameMatrix;
     public String name;
 
@@ -204,6 +204,10 @@ public class Board implements Serializable {
      */
     public void initBoard(int numPlayers){
         shuffleCardsBucket();
+        for(int i = 0; i < DIM; i++){
+            for(int j = 0; j < DIM; j++)
+                gameBoard[i][j] = new Card();
+        }
         gameMatrix = new int[][]{ // questo è lo schema della board --> 0: sempre vuota, 2,3,4: numero di giocatori minimo per attivarla
                 {0,0,0,3,4,0,0,0,0},
                 {0,0,0,2,2,4,0,0,0},
