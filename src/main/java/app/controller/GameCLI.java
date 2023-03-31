@@ -142,7 +142,7 @@ public class GameCLI implements Serializable {
         waitMoveFromClient();
     }
     private void waitMoveFromClient(){
-        if(chatThreads.size() == 0){ // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE
+        if(chatThreads.size() == 0){ // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             for(int i = 0; i < numPlayers; i++){
                 if(i == activePlayer)
                     continue;
@@ -189,13 +189,13 @@ public class GameCLI implements Serializable {
     private void waitForEndTurn(){
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
-            // spengo momentaneamente i thread che ascoltano i messaggi dalla chat (in questa fase non possono arrivare)
-            for (Thread chatThread : chatThreads) {
-                chatThread.interrupt();
-            }
-            chatThreads = new ArrayList<>();
-            //
             if(msg.getType() == END_TURN){
+                // spengo momentaneamente i thread che ascoltano i messaggi dalla chat (in questa fase non possono arrivare)
+                for (Thread chatThread : chatThreads) {
+                    chatThread.interrupt();
+                }
+                chatThreads = new ArrayList<>();
+                //
                 players.get(activePlayer).clone((PlayerCLI) msg.getContent());
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
@@ -203,6 +203,8 @@ public class GameCLI implements Serializable {
                 }
                 advanceTurn();
             }
+            else
+                System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
         }catch(Exception e){System.out.println(e);}
     }
     private void listenForReconnection(){return;}
