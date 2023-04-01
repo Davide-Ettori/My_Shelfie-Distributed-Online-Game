@@ -312,6 +312,7 @@ public class PlayerTUI implements Serializable{
         drawAll();
         try {
             if (library.isFull()) {
+                pointsUntilNow++;
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName);
                 Thread.sleep(1000);
             }
@@ -468,6 +469,7 @@ public class PlayerTUI implements Serializable{
             if(!librariesOfOtherPlayers.get(i).name.equals(name))
                 librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name);
         }
+        System.out.println("\nYou have achieved " + pointsUntilNow + " points from the common objectives, until now");
         if(isChairMan)
             System.out.println("\nYou are the Chairman on this game!");
         else
