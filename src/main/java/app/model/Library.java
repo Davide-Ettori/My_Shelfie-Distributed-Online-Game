@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import static app.model.Color.EMPTY;
-import static app.view.TUI.TUIHelper.*;
 
 /**
  * class representing each player's private library. Mutable

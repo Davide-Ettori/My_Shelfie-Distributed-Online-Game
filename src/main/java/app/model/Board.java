@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import static app.model.Color.*;
-import static app.view.TUI.TUIHelper.*;
 
 /**
  * class which represent the common board where the players choose the cards. Mutable

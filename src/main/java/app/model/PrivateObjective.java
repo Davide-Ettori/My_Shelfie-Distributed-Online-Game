@@ -3,7 +3,6 @@ package app.model;
 import java.io.Serializable;
 
 import static app.model.Color.*;
-import static app.view.TUI.TUIHelper.*;
 
 /**
  * class which represent the private objective for each player. Immutable
@@ -51,6 +50,18 @@ public class PrivateObjective extends Objective implements Serializable {
      * @author Gumus
      */
     public void draw() {
-        drawMatrix(matrix,matrix.length,matrix[0].length,"Your private objective:");
+        System.out.println("\nYour own private objective");
+        System.out.print("  ");
+        for (int i = 0; i < COLS; i++)
+            System.out.print(i + " ");
+        System.out.println();
+        for (int i = 0; i < ROWS; i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < COLS; j++) {
+                matrix[i][j].draw();
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
     }
 }

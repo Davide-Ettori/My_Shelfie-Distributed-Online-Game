@@ -1,7 +1,5 @@
 package app.model;
 
-import app.view.TUI.TUIHelper;
-
 import java.io.Serializable;
 
 import static app.model.Color.*;
