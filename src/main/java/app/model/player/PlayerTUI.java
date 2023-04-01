@@ -295,6 +295,7 @@ public class PlayerTUI implements Serializable{
         pickCards(coords, col);
         drawAll();
         int points;
+        boolean change = false;
         try {
             if (board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
                 points = board.pointsCO_1.pop();
@@ -303,6 +304,7 @@ public class PlayerTUI implements Serializable{
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points");
                 Thread.sleep(1000);
+                change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.library) && !CO_2_Done) {
                 points = board.pointsCO_2.pop();
@@ -311,6 +313,7 @@ public class PlayerTUI implements Serializable{
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points");
                 Thread.sleep(1000);
+                change = true;
             }
         }catch(Exception e){System.out.println(e);}
         try {
@@ -320,8 +323,11 @@ public class PlayerTUI implements Serializable{
                 outStream.writeObject(new Message(LIB_FULL, name, null));
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName);
                 Thread.sleep(1000);
+                change = true;
             }
         }catch (Exception e){System.out.println(e);}
+        if(change)
+            drawAll();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it...");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
