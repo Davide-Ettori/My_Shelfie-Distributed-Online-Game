@@ -320,13 +320,9 @@ public class PlayerTUI implements Serializable{
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
-            new Thread(() -> {
-                System.out.println("Your turn is over...");
-                try {
-                    Thread.sleep(1000);
-                    outStream.writeObject(new Message(END_TURN, name, this));
-                } catch (Exception e) {System.out.println(e);}
-            }).start(); // notifico la fine turno
+            System.out.println("Your turn is over...");
+            Thread.sleep(1000);
+            outStream.writeObject(new Message(END_TURN, name, this));
 
         }catch(Exception e){System.out.println(e);}
         chatThread.interrupt();

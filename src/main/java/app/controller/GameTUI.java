@@ -307,9 +307,11 @@ public class GameTUI implements Serializable {
         }
         if(activePlayer == 0 && endGameSituation)
             sendFinalScoresToAll();
+        try { // dai tempo al client active di andare in waitForTurn()
+            Thread.sleep(1000);
+        } catch (Exception e){System.out.println(e);}
         notifyNewTurn();
     }
-
     /**
      * Count the points at the end of the game (not private or common objective)
      * and sum to the points made until now
