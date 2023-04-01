@@ -149,18 +149,18 @@ public class Initializer {
         mat_12[5][0] = new Card(GREEN);
 
         return new ArrayList<>(Arrays.asList(
-                new PrivateObjective(mat_1, 1, ""),
-                new PrivateObjective(mat_2, 2, ""),
-                new PrivateObjective(mat_3, 3, ""),
-                new PrivateObjective(mat_4, 4, ""),
-                new PrivateObjective(mat_5, 5, ""),
-                new PrivateObjective(mat_6, 6, ""),
-                new PrivateObjective(mat_7, 7, ""),
-                new PrivateObjective(mat_8, 8, ""),
-                new PrivateObjective(mat_9, 9, ""),
-                new PrivateObjective(mat_10, 10, ""),
-                new PrivateObjective(mat_11, 11, ""),
-                new PrivateObjective(mat_12, 12, "")
+                new PrivateObjective(mat_1, 1),
+                new PrivateObjective(mat_2, 2),
+                new PrivateObjective(mat_3, 3),
+                new PrivateObjective(mat_4, 4),
+                new PrivateObjective(mat_5, 5),
+                new PrivateObjective(mat_6, 6),
+                new PrivateObjective(mat_7, 7),
+                new PrivateObjective(mat_8, 8),
+                new PrivateObjective(mat_9, 9),
+                new PrivateObjective(mat_10, 10),
+                new PrivateObjective(mat_11, 11),
+                new PrivateObjective(mat_12, 12)
         ));
     }
     /**

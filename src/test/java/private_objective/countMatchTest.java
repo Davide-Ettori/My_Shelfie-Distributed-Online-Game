@@ -97,7 +97,7 @@ public class countMatchTest {
         lib[5][3] = new Card();
         lib[5][4] = new Card(YELLOW);
 
-        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 0);
+        assertEquals(new PrivateObjective(objMat, 1).countPoints(lib), 0);
     }
     @Test
     public void countMatch_personalGoal_2match(){
@@ -175,7 +175,7 @@ public class countMatchTest {
         lib[5][3] = new Card(PINK);
         lib[5][4] = new Card(PINK);
 
-        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 2);
+        assertEquals(new PrivateObjective(objMat, 1).countPoints(lib), 2);
     }
     @Test
     public void countMatch_personalGoal_5match(){
@@ -253,7 +253,7 @@ public class countMatchTest {
         lib[5][3] = new Card(CYAN);
         lib[5][4] = new Card(PINK);
 
-        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 9);
+        assertEquals(new PrivateObjective(objMat, 1).countPoints(lib), 9);
     }
 
     @Test
@@ -332,6 +332,6 @@ public class countMatchTest {
         lib[5][3] = new Card(CYAN);
         lib[5][4] = new Card(PINK);
 
-        assertEquals(new PrivateObjective(objMat, 1, "").countPoints(lib), 12);
+        assertEquals(new PrivateObjective(objMat, 1).countPoints(lib), 12);
     }
 }

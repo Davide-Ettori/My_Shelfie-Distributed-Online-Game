@@ -68,6 +68,7 @@ public class PlayerTUI implements Serializable{
         state = p.state;
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        System.out.println(librariesOfOtherPlayers.size());
         mySocket = p.mySocket;
         CO_1_Done = p.CO_1_Done;
         CO_2_Done = p.CO_2_Done;

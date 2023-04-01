@@ -8,9 +8,10 @@ import java.io.Serializable;
  */
 public class CommonObjective extends Objective implements Serializable {
     public final Strategy algorithm;
-    public CommonObjective(Strategy algorithm, String image){
-        this.imagePath = image;
-        this.algorithm = algorithm;
+    public final String imagePath;
+    public CommonObjective(Strategy algo, String image){
+        imagePath = image;
+        algorithm = algo;
     }
     /**
      * method that call drawMatrix to print the CO index

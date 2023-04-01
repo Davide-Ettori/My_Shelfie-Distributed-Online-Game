@@ -14,11 +14,10 @@ public class PrivateObjective extends Objective implements Serializable {
     private Card[][] matrix;
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo
 
-    public PrivateObjective(Card[][] mat, int id, String image){
+    public PrivateObjective(Card[][] mat, int id){
         arrayOfPoints = new int[]{0,1,2,4,6,9,12};
         matrix = mat;
         objectiveId = id;
-        imagePath = image;
     }
     /**
      * count the points accumulated by the player
