@@ -471,7 +471,7 @@ public class PlayerTUI implements Serializable{
             System.out.println("\nYou are the Chairman on this game!");
         else
             System.out.println("\nThe chairman of this game is: " + chairmanName);
-        System.out.println("\n Game Chat: \n" + fullChat);
+        System.out.println("\nGame Chat: \n" + fullChat);
     }
     private void clearScreen(){
         for(int i = 0;i < 12; i++){
