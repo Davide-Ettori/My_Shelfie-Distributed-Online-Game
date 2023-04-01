@@ -163,8 +163,31 @@ public class Library implements Serializable {
      * method that call drawMatrix to print the Library
      * @author Gumus
      */
-    public void draw(String text){
-        drawMatrix(library, library.length, library[0].length, text);
+    public void draw(){
+        System.out.println("\nYour own library");
+        System.out.print("  ");
+        for (int i = 0; i < COLS; i++)
+            System.out.print(i + " ");
+        System.out.println();
+        for (int i = 0; i < ROWS; i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < COLS; j++)
+                library[i][j].draw();
+            System.out.println();
+        }
+    }
+    public void draw(String title){
+        System.out.println(title);
+        System.out.print("  ");
+        for (int i = 0; i < COLS; i++)
+            System.out.print(i + " ");
+        System.out.println();
+        for (int i = 0; i < ROWS; i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < COLS; j++)
+                library[i][j].draw();
+            System.out.println();
+        }
     }
     /**
      * check that the 2 library have the cards with the same color

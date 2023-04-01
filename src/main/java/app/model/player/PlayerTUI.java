@@ -450,23 +450,28 @@ public class PlayerTUI implements Serializable{
     public void drawAll(){
         /*System.out.print("\033[H\033[2J"); //\033[H porta il cursore all'inizio, \033[2J cancella tutto quello che c'è dopo il cursore; ma non funziona
         System.out.flush();*/
-        for(int i = 0;i < 12; i++){
-            System.out.println();
-        }
+        clearScreen();
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
         }else{
-            System.out.println("Now "+activeName+" is playing...");
+            System.out.println("Now " + activeName + " is playing...");
         }
-        board.commonObjective_1.draw(board.pointsCO_1.size() != 0 ? board.pointsCO_1.peek() : 0);
-        board.commonObjective_2.draw(board.pointsCO_2.size() != 0 ? board.pointsCO_2.peek() : 0);
-        objective.draw();
         board.draw();
-        printLibrary();
+        objective.draw();
+        library.draw();
+        for(int i = 0; i < numPlayers; i++){
+            if(!librariesOfOtherPlayers.get(i).name.equals(name))
+                librariesOfOtherPlayers.get(i).draw("Library of " + librariesOfOtherPlayers.get(i).name);
+        }
         if(isChairMan)
             System.out.println("\nYou are the Chairman on this game!");
         else
             System.out.println("\nThe chairman of this game is: " + chairmanName);
         System.out.println("\n Game Chat: \n" + fullChat);
+    }
+    private void clearScreen(){
+        for(int i = 0;i < 12; i++){
+            System.out.println();
+        }
     }
 }

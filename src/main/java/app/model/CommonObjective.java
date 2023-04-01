@@ -17,7 +17,7 @@ public class CommonObjective extends Objective implements Serializable {
      * @author Gumus
      */
     public void draw(int points){
-        System.out.println("Common objective number: " + this.imagePath + ", Points available: " + points);
+        System.out.println("Common objective number: " + imagePath + ", Points available: " + points);
     }
 }
 

@@ -287,6 +287,18 @@ public class Board implements Serializable {
      * @author Gumus
      */
     public void draw() {
-        drawMatrix(gameBoard,DIM,DIM,"Game board:\n");
+        System.out.println("\nThe main board of the game");
+        System.out.print("  ");
+        for (int i = 0; i < DIM; i++)
+            System.out.print(i + " ");
+        System.out.println();
+        for (int i = 0; i < DIM; i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < DIM; j++)
+                gameBoard[i][j].draw();
+            System.out.println();
+        }
+        commonObjective_1.draw(pointsCO_1.size() != 0 ? pointsCO_1.peek() : 0);
+        commonObjective_2.draw(pointsCO_2.size() != 0 ? pointsCO_2.peek() : 0);
     }
 }
