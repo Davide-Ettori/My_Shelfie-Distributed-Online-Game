@@ -193,7 +193,8 @@ public class GameTUI implements Serializable {
             }
             if(msg.getType() == UPDATE_GAME)
                 waitForEndTurn();
-            waitMoveFromClient();
+            else
+                waitMoveFromClient();
         }catch(Exception e){System.out.println(e);}
     }
 
@@ -236,6 +237,10 @@ public class GameTUI implements Serializable {
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     endPlayer = activePlayer;
+                    for(int i = 0; i < names.size(); i++){
+                        if(i != activePlayer)
+                            outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(i), null));
+                    }
                 }
                 advanceTurn();
             }

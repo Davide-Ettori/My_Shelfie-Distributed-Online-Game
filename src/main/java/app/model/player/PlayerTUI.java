@@ -305,6 +305,12 @@ public class PlayerTUI implements Serializable{
             }
         }catch(Exception e){System.out.println(e);}
         drawAll();
+        try {
+            if (library.isFull()) {
+                System.out.println("\nWell done, you are the first to complete the library, the gam will continue until the next turn of " + chairmanName);
+                Thread.sleep(1000);
+            }
+        }catch (Exception e){System.out.println(e);}
         System.out.println("\nYou made your move, now wait for other players to acknowledge it...");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
@@ -448,6 +454,9 @@ public class PlayerTUI implements Serializable{
     public void drawAll(){
         /*System.out.print("\033[H\033[2J"); //\033[H porta il cursore all'inizio, \033[2J cancella tutto quello che c'è dopo il cursore; ma non funziona
         System.out.flush();*/
+        for(int i = 0;i < 12; i++){
+            System.out.println();
+        }
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
         }else{
@@ -462,9 +471,6 @@ public class PlayerTUI implements Serializable{
             System.out.println("\nYou are the Chairman on this game!");
         else
             System.out.println("\nThe chairman of this game is: " + chairmanName);
-        System.out.println(fullChat);
-        for(int i = 0;i < 12; i++){
-            System.out.println();
-        }
+        System.out.println("\n Game Chat: \n" + fullChat);
     }
 }
