@@ -1,11 +1,11 @@
-package app.view.CLI;
+package app.view.TUI;
 
 import app.model.Card;
 import app.model.Color;
 
 import static app.model.Color.*;
 
-public class CLIHelper {
+public class TUIHelper {
     public static boolean active = true;
     /**
      * method which maps every color to a corresponding letter or symbol
@@ -13,7 +13,7 @@ public class CLIHelper {
      * @param c the color to map
      * @return the char mapped to the input color
      */
-    private static char mapColor(Color c){
+    public static char mapColor(Color c){
         if(c == PINK)
             return 'P';
         if(c == CYAN)

@@ -3,7 +3,7 @@ package app.model;
 import java.io.Serializable;
 
 import static app.model.Color.*;
-import static app.view.CLI.CLIHelper.*;
+import static app.view.TUI.TUIHelper.*;
 
 /**
  * class which represent the private objective for each player. Immutable

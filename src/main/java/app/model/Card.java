@@ -1,5 +1,7 @@
 package app.model;
 
+import app.view.TUI.TUIHelper;
+
 import java.io.Serializable;
 
 import static app.model.Color.*;
@@ -57,5 +59,5 @@ public class Card implements Serializable {
      */
     public void setCoords(int x, int y){setX(x); setY(y);}
 
-    public void draw(Card card){System.out.print(card.color);}
+    public void draw(){System.out.println(TUIHelper.mapColor(color));}
 }

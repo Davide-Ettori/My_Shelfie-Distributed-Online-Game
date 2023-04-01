@@ -25,6 +25,7 @@ import static app.model.player.NetMode.*;
  */
 public class PlayerTUI implements Serializable{
     private String name;
+    public String chairmanName;
     public NetMode netMode;
     public int numPlayers;
     private boolean CO_1_Done = false;
@@ -70,6 +71,8 @@ public class PlayerTUI implements Serializable{
         mySocket = p.mySocket;
         CO_1_Done = p.CO_1_Done;
         CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
         return this;
     }
     public PrivateObjective getPrivateObjective(){
@@ -141,7 +144,7 @@ public class PlayerTUI implements Serializable{
      * Attend the start of the turn, meanwhile can update the board if someone else changes it
      * @author Ettori Faccincani
      */
-    private void waitForTurn(){ // qui riceve 3 possibili messaggi, funzione principale di attesa
+    private void waitForTurn(){ // funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
@@ -189,6 +192,10 @@ public class PlayerTUI implements Serializable{
                     System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
                     waitForTurn();
                 }
+                case LIB_FULL ->{
+                    System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+                    waitForTurn();
+                }
             }
         }catch(Exception e){System.out.println(e);}
     }
@@ -213,7 +220,7 @@ public class PlayerTUI implements Serializable{
             }catch(Exception e){System.out.println(e);}
         });
         chatThread.start();
-        // ora mi aspetto le mosse, non voglio più avere il thread della chat attivo
+        // ora mi aspetto le mosse, voglio quindi attivare i thread che ascoltano le chat degli altri
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
             try {
@@ -344,9 +351,10 @@ public class PlayerTUI implements Serializable{
      */
     private void printCurOrder(ArrayList<Integer> arr){
         System.out.println("\nThe current order of your cards is: ");
-        System.out.print(arr.get(0) + ", " + arr.get(1));
-        for(int i = 2; i < arr.size(); i += 2)
-            System.out.println(" - " + arr.get(i) + ", " + arr.get(i + 1));
+        for(int i = 0; i < arr.size(); i += 2) {
+            board.getGameBoard()[arr.get(i)][arr.get(i + 1)].draw();
+            System.out.print(" ");
+        }
     }
 
     /**
@@ -452,6 +460,8 @@ public class PlayerTUI implements Serializable{
         printLibrary();
         if(isChairMan)
             System.out.println("\nYou are the Chairman on this game!");
+        else
+            System.out.println("\nThe chairman of this game is: " + chairmanName);
         System.out.println(fullChat);
         for(int i = 0;i < 12; i++){
             System.out.println();
