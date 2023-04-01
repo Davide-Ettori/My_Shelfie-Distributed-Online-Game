@@ -165,7 +165,6 @@ public class Library implements Serializable {
      */
     public void draw(String text){
         drawMatrix(library, library.length, library[0].length, text);
-        return;
     }
     /**
      * check that the 2 library have the cards with the same color
