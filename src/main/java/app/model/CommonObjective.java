@@ -8,9 +8,9 @@ import java.io.Serializable;
  */
 public class CommonObjective extends Objective implements Serializable {
     public final Strategy algorithm;
-    public final String imagePath;
-    public CommonObjective(Strategy algo, String image){
-        imagePath = image;
+    public final int id;
+    public CommonObjective(Strategy algo, int identify){
+        id = identify;
         algorithm = algo;
     }
     /**
@@ -18,7 +18,7 @@ public class CommonObjective extends Objective implements Serializable {
      * @author Gumus
      */
     public void draw(int points){
-        System.out.println("Common objective number: " + imagePath + ", Points available: " + points);
+        System.out.println("Common objective number: " + id + ", Points available: " + points);
     }
 }
 

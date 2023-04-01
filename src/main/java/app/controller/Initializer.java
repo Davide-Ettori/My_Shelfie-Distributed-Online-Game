@@ -170,18 +170,18 @@ public class Initializer {
      */
     public static ArrayList<CommonObjective> setBucketOfCO() {
         return new ArrayList<>(Arrays.asList(
-                new CommonObjective(new Algo_CO_1(), "1"),
-                new CommonObjective(new Algo_CO_2(), "2"),
-                new CommonObjective(new Algo_CO_3(), "3"),
-                new CommonObjective(new Algo_CO_4(), "4"),
-                new CommonObjective(new Algo_CO_5(), "5"),
-                new CommonObjective(new Algo_CO_6(), "6"),
-                new CommonObjective(new Algo_CO_7(), "7"),
-                new CommonObjective(new Algo_CO_8(), "8"),
-                new CommonObjective(new Algo_CO_9(), "9"),
-                new CommonObjective(new Algo_CO_10(), "10"),
-                new CommonObjective(new Algo_CO_11(), "11"),
-                new CommonObjective(new Algo_CO_12(), "12")
+                new CommonObjective(new Algo_CO_1(), 1),
+                new CommonObjective(new Algo_CO_2(), 2),
+                new CommonObjective(new Algo_CO_3(), 3),
+                new CommonObjective(new Algo_CO_4(), 4),
+                new CommonObjective(new Algo_CO_5(), 5),
+                new CommonObjective(new Algo_CO_6(), 6),
+                new CommonObjective(new Algo_CO_7(), 7),
+                new CommonObjective(new Algo_CO_8(), 8),
+                new CommonObjective(new Algo_CO_9(), 9),
+                new CommonObjective(new Algo_CO_10(), 10),
+                new CommonObjective(new Algo_CO_11(), 11),
+                new CommonObjective(new Algo_CO_12(), 12)
         ));
     }
     /**

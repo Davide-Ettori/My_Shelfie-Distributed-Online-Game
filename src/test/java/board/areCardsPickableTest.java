@@ -29,8 +29,8 @@ public class areCardsPickableTest {
         strategy1 = new Algo_CO_1();
         strategy2 = new Algo_CO_2();
 
-        CO1 = new CommonObjective(strategy1,"");
-        CO2 = new CommonObjective(strategy2, "");
+        CO1 = new CommonObjective(strategy1,0);
+        CO2 = new CommonObjective(strategy2, 0);
 
 
         board1 = new Board(4,CO1,CO2);
