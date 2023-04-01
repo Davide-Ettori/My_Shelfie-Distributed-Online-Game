@@ -307,7 +307,7 @@ public class PlayerTUI implements Serializable{
         drawAll();
         try {
             if (library.isFull()) {
-                System.out.println("\nWell done, you are the first to complete the library, the gam will continue until the next turn of " + chairmanName);
+                System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName);
                 Thread.sleep(1000);
             }
         }catch (Exception e){System.out.println(e);}

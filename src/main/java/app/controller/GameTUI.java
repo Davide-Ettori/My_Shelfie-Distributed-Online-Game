@@ -241,6 +241,7 @@ public class GameTUI implements Serializable {
                         if(i != activePlayer)
                             outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(i), null));
                     }
+                    Thread.sleep(3000); // dai tempo agli altri giocatori di leggere il messaggio
                 }
                 advanceTurn();
             }
