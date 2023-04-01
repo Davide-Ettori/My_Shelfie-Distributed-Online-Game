@@ -238,7 +238,7 @@ public class PlayerTUI implements Serializable{
         Scanner in = new Scanner(System.in);
         int temp; // helper per fare gli scambi
         while(true){
-            System.out.print("\nInsert coords of the cards to pick: ");
+            System.out.print("\nInsert coordinates of the cards to pick: ");
             coordString = in.nextLine();
             rawCoords = coordString.split(" ");
             if(coordString.charAt(0) == '@'){
