@@ -51,6 +51,6 @@ public class PrivateObjective extends Objective implements Serializable {
      * @author Gumus
      */
     public void draw() {
-        drawMatrix(matrix,matrix.length,matrix[0].length,"Your private objective:\n");
+        drawMatrix(matrix,matrix.length,matrix[0].length,"Your private objective:");
     }
 }

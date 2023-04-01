@@ -300,6 +300,7 @@ public class Board implements Serializable {
             }
             System.out.println();
         }
+        System.out.println();
         commonObjective_1.draw(pointsCO_1.size() != 0 ? pointsCO_1.peek() : 0);
         commonObjective_2.draw(pointsCO_2.size() != 0 ? pointsCO_2.peek() : 0);
     }
