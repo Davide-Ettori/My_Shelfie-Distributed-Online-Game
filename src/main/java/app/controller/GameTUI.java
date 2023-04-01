@@ -83,7 +83,6 @@ public class GameTUI implements Serializable {
             System.exit(0);
         }
         System.out.println("\nThe game starts!");
-        //System.exit(0);
         PlayerTUI p;
 
         for(int i = 0; i < names.size(); i++){
