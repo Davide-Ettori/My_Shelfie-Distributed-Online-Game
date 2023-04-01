@@ -73,6 +73,7 @@ public class PlayerTUI implements Serializable{
         CO_2_Done = p.CO_2_Done;
         fullChat = p.fullChat;
         chairmanName = p.chairmanName;
+        activeName = p.activeName;
         return this;
     }
     public PrivateObjective getPrivateObjective(){
@@ -137,7 +138,10 @@ public class PlayerTUI implements Serializable{
                 sendChatMsg(in.nextLine());
         });
         chatThread.start();
-        waitForTurn();
+        if(name.equals(chairmanName))
+            waitForMove();
+        else
+            waitForTurn();
     }
 
     /**

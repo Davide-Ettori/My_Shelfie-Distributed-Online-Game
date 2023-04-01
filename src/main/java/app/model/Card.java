@@ -58,6 +58,23 @@ public class Card implements Serializable {
      * @param y position on y-axis that needs to be set
      */
     public void setCoords(int x, int y){setX(x); setY(y);}
+    private char mapColor(Color c) {
+        if (c == PINK)
+            return 'P';
+        if (c == CYAN)
+            return 'C';
+        if (c == BLUE)
+            return 'B';
+        if (c == GREEN)
+            return 'G';
+        if (c == YELLOW)
+            return 'Y';
+        if (c == WHITE)
+            return 'W';
+        if (c == EMPTY)
+            return '#';
+        return '?';
+    }
 
-    public void draw(){System.out.println(TUIHelper.mapColor(color));}
+    public void draw(){System.out.println(mapColor(color));}
 }

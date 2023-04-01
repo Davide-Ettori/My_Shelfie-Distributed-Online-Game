@@ -25,7 +25,7 @@ public class GameTUI implements Serializable {
     private int targetPlayers;
     private int numPlayers;
     private int endPlayer;
-    private int activePlayer = -1;
+    private int activePlayer = 0;
     private ArrayList<PlayerTUI> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
@@ -108,7 +108,7 @@ public class GameTUI implements Serializable {
             }catch (Exception e){System.out.println(e);}
             players.add(new PlayerTUI().clone(p));
         }
-        advanceTurn();
+        waitMoveFromClient();
     }
 
     /**
@@ -294,17 +294,12 @@ public class GameTUI implements Serializable {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
-        if(activePlayer == -1) {
-            activePlayer++;
-            players.get(activePlayer).setState(ACTIVE);
-        }
-        else {
-            players.get(activePlayer).setState(NOT_ACTIVE);
-            do {
-                activePlayer = (activePlayer + 1) % numPlayers;
-            }while(players.get(activePlayer).getState() == DISCONNECTED);
-            players.get(activePlayer).setState(ACTIVE);
-        }
+        players.get(activePlayer).setState(NOT_ACTIVE);
+        do {
+            activePlayer = (activePlayer + 1) % numPlayers;
+        }while(players.get(activePlayer).getState() == DISCONNECTED);
+        players.get(activePlayer).setState(ACTIVE);
+
         if(activePlayer == 0 && endGameSituation)
             sendFinalScoresToAll();
         try { // dai tempo al client active di andare in waitForTurn()
