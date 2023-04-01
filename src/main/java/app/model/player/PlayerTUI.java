@@ -466,7 +466,7 @@ public class PlayerTUI implements Serializable{
         library.draw();
         for(int i = 0; i < numPlayers; i++){
             if(!librariesOfOtherPlayers.get(i).name.equals(name))
-                librariesOfOtherPlayers.get(i).draw("Library of " + librariesOfOtherPlayers.get(i).name);
+                librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name);
         }
         if(isChairMan)
             System.out.println("\nYou are the Chairman on this game!");

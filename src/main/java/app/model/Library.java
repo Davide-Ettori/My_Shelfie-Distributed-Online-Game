@@ -199,8 +199,8 @@ public class Library implements Serializable {
      * @return true iff the library are equals
      */
     public boolean sameLibraryColor(Library lib){
-        for(int i=0; i<ROWS; i++){
-            for(int j=0; j<COLS; j++){
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
                 if(library[i][j].color != lib.library[i][j].color){
                     return false;
                 }
