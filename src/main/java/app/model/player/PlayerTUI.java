@@ -42,6 +42,7 @@ public class PlayerTUI implements Serializable{
     private ObjectOutputStream outStream;
     private Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private String fullChat = "";
+    private boolean endGame = false;
     private ObjectInputStream inStream;
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
@@ -75,6 +76,7 @@ public class PlayerTUI implements Serializable{
         chairmanName = p.chairmanName;
         activeName = p.activeName;
         numPlayers = p.numPlayers;
+        endGame = p.endGame;
         return this;
     }
     public PrivateObjective getPrivateObjective(){
@@ -199,6 +201,7 @@ public class PlayerTUI implements Serializable{
                 }
                 case LIB_FULL ->{
                     System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+                    endGame = true;
                     waitForTurn();
                 }
             }
@@ -290,6 +293,7 @@ public class PlayerTUI implements Serializable{
             System.out.println("\nInvalid selection");
         }
         pickCards(coords, col);
+        drawAll();
         int points;
         try {
             if (board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
@@ -309,10 +313,11 @@ public class PlayerTUI implements Serializable{
                 Thread.sleep(1000);
             }
         }catch(Exception e){System.out.println(e);}
-        drawAll();
         try {
-            if (library.isFull()) {
+            if (library.isFull() && !endGame) {
+                endGame = true;
                 pointsUntilNow++;
+                outStream.writeObject(new Message(LIB_FULL, name, null));
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName);
                 Thread.sleep(1000);
             }
@@ -332,7 +337,7 @@ public class PlayerTUI implements Serializable{
 
         }catch(Exception e){System.out.println(e);}
         chatThread.interrupt();
-        chatThread = new Thread(() ->{ // inzio il thread che ascolta i comandi da terminale
+        chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
             while(true)
                 sendChatMsg(in.nextLine());
         });
