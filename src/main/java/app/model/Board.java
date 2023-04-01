@@ -294,8 +294,10 @@ public class Board implements Serializable {
         System.out.println();
         for (int i = 0; i < DIM; i++) {
             System.out.print(i + " ");
-            for (int j = 0; j < DIM; j++)
+            for (int j = 0; j < DIM; j++) {
                 gameBoard[i][j].draw();
+                System.out.print(" ");
+            }
             System.out.println();
         }
         commonObjective_1.draw(pointsCO_1.size() != 0 ? pointsCO_1.peek() : 0);

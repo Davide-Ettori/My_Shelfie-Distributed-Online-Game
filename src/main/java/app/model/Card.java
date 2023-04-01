@@ -76,5 +76,5 @@ public class Card implements Serializable {
         return '?';
     }
 
-    public void draw(){System.out.println(mapColor(color));}
+    public void draw(){System.out.print(mapColor(color));}
 }

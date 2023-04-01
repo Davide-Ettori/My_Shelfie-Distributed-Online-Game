@@ -184,8 +184,10 @@ public class Library implements Serializable {
         System.out.println();
         for (int i = 0; i < ROWS; i++) {
             System.out.print(i + " ");
-            for (int j = 0; j < COLS; j++)
+            for (int j = 0; j < COLS; j++) {
                 library[i][j].draw();
+                System.out.print(" ");
+            }
             System.out.println();
         }
     }
