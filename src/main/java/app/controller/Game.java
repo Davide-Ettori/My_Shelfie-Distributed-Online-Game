@@ -1,8 +1,8 @@
 package app.controller;
 
 import app.model.*;
-import app.model.player.NetMode;
-import app.model.player.PlayerTUI;
+import app.model.NetMode;
+import app.model.Player;
 import app.view.UiMode;
 
 import java.io.ObjectInputStream;
@@ -22,13 +22,13 @@ import static app.model.State.*;
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
-public class GameTUI implements Serializable {
+public class Game implements Serializable {
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
     private int endPlayer;
     private int activePlayer = 0;
-    private ArrayList<PlayerTUI> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
     private ArrayList<UiMode> uiModes = new ArrayList<>();
@@ -41,7 +41,7 @@ public class GameTUI implements Serializable {
     private boolean time = true;
     private ArrayList<Thread> chatThreads = new ArrayList<>();
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
-    public GameTUI(int maxP){
+    public Game(int maxP){
         targetPlayers = maxP;
         if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
             clone(FILEHelper.loadServerCLI());
@@ -87,10 +87,10 @@ public class GameTUI implements Serializable {
             System.exit(0);
         }
         System.out.println("\nThe game starts!");
-        PlayerTUI p;
+        Player p;
 
         for(int i = 0; i < names.size(); i++){
-            p = new PlayerTUI(names.get(i), i == 0);
+            p = new Player(names.get(i), i == 0);
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
             p.board.name = names.get(i);
             if(i == 0)
@@ -106,10 +106,12 @@ public class GameTUI implements Serializable {
             for(int j = 0; j < numPlayers; j++)
                 p.librariesOfOtherPlayers.add(new Library(names.get(j)));
             p.numPlayers = numPlayers;
+            p.netMode = netModes.get(i);
+            p.uiMode = uiModes.get(i);
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){System.out.println(e);}
-            players.add(new PlayerTUI().clone(p));
+            players.add(new Player().clone(p));
         }
         waitMoveFromClient();
     }
@@ -117,28 +119,31 @@ public class GameTUI implements Serializable {
     /**
      * Check if the name that the client choose is already TAKEN
      * @param socket socket of the client that send his name
-     * @throws Exception
      * @author Ettori
      */
-    synchronized private void getUserName(Socket socket) throws Exception{
-        outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
-        inStreams.add(new ObjectInputStream(socket.getInputStream()));
-        outStreams.get(outStreams.size() - 1).writeObject("CLI");
-        String resp = (String) inStreams.get(inStreams.size() - 1).readObject();
-        if(resp.equals("FAIL")){
-            numPlayers--;
-            return;
-        }
-        while(true){
-            String name = (String) inStreams.get(inStreams.size() - 1).readObject();
-            if(isNameTaken(name)){
-                outStreams.get(outStreams.size() - 1).writeObject(TAKEN);
-                continue;
+    synchronized private void getUserName(Socket socket){
+        try {
+            outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
+            inStreams.add(new ObjectInputStream(socket.getInputStream()));
+            outStreams.get(outStreams.size() - 1).writeObject("CLI");
+            String resp = (String) inStreams.get(inStreams.size() - 1).readObject();
+            if (resp.equals("FAIL")) {
+                numPlayers--;
+                return;
             }
-            outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);
-            names.add(name);
-            return;
-        }
+            while (true) {
+                String name = (String) inStreams.get(inStreams.size() - 1).readObject();
+                if (isNameTaken(name)) {
+                    outStreams.get(outStreams.size() - 1).writeObject(TAKEN);
+                    continue;
+                }
+                outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);
+                netModes.add((NetMode) inStreams.get(inStreams.size() - 1).readObject());
+                uiModes.add((UiMode) inStreams.get(inStreams.size() - 1).readObject());
+                names.add(name);
+                break;
+            }
+        }catch(Exception e){System.out.println(e);}
     }
 
     /**
@@ -236,7 +241,7 @@ public class GameTUI implements Serializable {
                 }
                 chatThreads = new ArrayList<>();
                 //
-                players.get(activePlayer).clone((PlayerTUI) msg.getContent());
+                players.get(activePlayer).clone((Player) msg.getContent());
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     endPlayer = activePlayer;
@@ -254,7 +259,7 @@ public class GameTUI implements Serializable {
     }
     private void listenForReconnection(){return;}
     private String getChairmanName(){return names.get(0);}
-    private PlayerTUI getChairman(){return players.get(0);}
+    private Player getChairman(){return players.get(0);}
     private boolean isNameTaken(String name){return names.contains(name);}
     private int getNameIndex(String name){
         for(int i = 0; i < names.size(); i++){
@@ -319,7 +324,7 @@ public class GameTUI implements Serializable {
     private String getFinalScore(){
         ArrayList<Integer> scores = new ArrayList<>();
         StringBuilder res = new StringBuilder();
-        PlayerTUI p;
+        Player p;
         for(int i = 0; i < numPlayers; i++){
             p = players.get(i);
             scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.library) + i == endPlayer ? 1 : 0);
@@ -361,7 +366,7 @@ public class GameTUI implements Serializable {
      * @param g server status
      * @author Ettori
      */
-    private void clone(GameTUI g){
+    private void clone(Game g){
         targetPlayers = g.targetPlayers;
         numPlayers = g.numPlayers;
         endPlayer = g.endPlayer;

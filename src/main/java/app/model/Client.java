@@ -1,6 +1,8 @@
-package app.model.player;
-
+package app.model;
 import java.util.Scanner;
+
+import static app.model.NetMode.*;
+import static app.view.UiMode.*;
 
 public class Client {
     public static void main(String[] args) {
@@ -17,24 +19,21 @@ public class Client {
                 net = "Socket";
             if (ui.equals("TUI")) {
                 if (net.equals("Socket")) {
-                    new PlayerTUI(NetMode.SOCKET);
+                    new Player(SOCKET, TUI);
                 } else if (net.equals("rmi")) {
-                    new PlayerTUI(NetMode.RMI);
+                    new Player(RMI, TUI);
                 }
                 break;
             }
-
             if (ui.equals("GUI")) {
                 if (net.equals("Socket")) {
-                    new PlayerGUI(NetMode.SOCKET);
+                    new Player(SOCKET, GUI);
                 } else if (net.equals("rmi")) {
-                    new PlayerGUI(NetMode.RMI);
+                    new Player(RMI, GUI);
                 }
                 break;
             }
-
             System.out.println("\nInvalid choice, try again");
         }
-
     }
 }

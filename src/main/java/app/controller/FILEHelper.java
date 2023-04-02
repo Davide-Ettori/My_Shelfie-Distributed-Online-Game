@@ -46,7 +46,7 @@ public class FILEHelper {
      * @author Ettori
      * @param server the current server that will be saved
      */
-    public static void writeServer(GameTUI server){
+    public static void writeServer(Game server){
         try {
             FileOutputStream fos = new FileOutputStream("src/main/java/app/controller/cache/server.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -59,12 +59,12 @@ public class FILEHelper {
      * @author Ettori
      * @return the state of the old server that was saved (Game Object)
      */
-    public static GameTUI loadServerCLI(){
-        GameTUI server = null;
+    public static Game loadServerCLI(){
+        Game server = null;
         try {
             FileInputStream fin = new FileInputStream("src/main/java/app/controller/cache/server.txt");
             ObjectInputStream ois = new ObjectInputStream(fin);
-            server = (GameTUI) ois.readObject();
+            server = (Game) ois.readObject();
             ois.close();
         }catch(Exception e){System.out.println(e);}
         return server;

@@ -1,7 +1,6 @@
-package app.model.player;
+package app.model;
 
 import app.controller.*;
-import app.model.*;
 import app.view.UiMode;
 import playground.socket.Server;
 
@@ -17,14 +16,14 @@ import java.util.Scanner;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
-import static app.model.player.NetMode.*;
+import static app.model.NetMode.*;
 
 /**
  * class which represent the player on the client side, mutable,
  * implements Serializable because it will be sent in the socket network
  * @author Ettori Faccincani
  */
-public class PlayerTUI implements Serializable{
+public class Player implements Serializable{
     private String name;
     public String chairmanName;
     public NetMode netMode;
@@ -53,47 +52,19 @@ public class PlayerTUI implements Serializable{
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
 
-    public PlayerTUI(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
-    public PlayerTUI(){
+    public Player(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
+    public Player(){
         // costruttore vuoto
     }
-
-    /**
-     * Clone the player on the client in the player on the server
-     * @author Ettori
-     */
-    public PlayerTUI clone(PlayerTUI p){ // copia la versione sul server dentro a quella del client
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-        CO_1_Done = p.CO_1_Done;
-        CO_2_Done = p.CO_2_Done;
-        fullChat = p.fullChat;
-        chairmanName = p.chairmanName;
-        activeName = p.activeName;
-        numPlayers = p.numPlayers;
-        endGame = p.endGame;
-        return this;
-    }
-    public PrivateObjective getPrivateObjective(){
-        return objective;
-    }
-
     /**
      * start the main game process on the client side
      * @param mode type of the network chosen by the user
+     * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public PlayerTUI(NetMode mode) { // Costruttore iniziale
+    public Player(NetMode mode, UiMode ui) { // Costruttore iniziale
+        uiMode = ui;
         netMode = mode;
-        if(netMode == RMI)
-            return;
         try {
             Socket socket = new Socket(DAVIDE_IP_MANTOVA, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
@@ -121,19 +92,49 @@ public class PlayerTUI implements Serializable{
                 break;
             System.out.println("Name Taken, choose another name");
         }
+        try {
+            outStream.writeObject(netMode);
+            outStream.writeObject(uiMode);
+        }catch(Exception e){System.out.println(e);}
         System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
     }
 
     /**
+     * Clone the player on the client in the player on the server
+     * @author Ettori
+     */
+    public Player clone(Player p){ // copia la versione sul server dentro a quella del client
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.endGame;
+        return this;
+    }
+    public PrivateObjective getPrivateObjective(){
+        return objective;
+    }
+    /**
      * Receive the status of the player from the server and attend the start of the game
      * @author Ettori Faccincani
      */
     private void getInitialState(){
-        PlayerTUI p;
+        Player p;
         try {
             System.out.println("\nBe patient, the game will start soon...");
-            p = (PlayerTUI) inStream.readObject();
+            p = (Player) inStream.readObject();
             clone(p);
             drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}

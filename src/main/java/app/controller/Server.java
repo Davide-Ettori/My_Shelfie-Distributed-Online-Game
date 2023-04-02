@@ -5,13 +5,9 @@ import java.util.Scanner;
 public class Server {
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
-        String ui, num;
+        String num;
         int numP;
         while (true){
-            System.out.print("\nChoose game mode (TUI or GUI): ");
-            ui = in.nextLine();
-            if(ui.length() == 0)
-                ui = "TUI";
             System.out.print("\nChoose the number of players (2, 3, or 4): ");
             num = in.nextLine();
             if(num.length() == 0)
@@ -22,17 +18,8 @@ public class Server {
                 System.out.println("\nInvalid choice, try again");
                 continue;
             }
-
-            if(ui.equals("TUI")) {
-                new GameTUI(numP);
-                break;
-            }
-            else if(ui.equals("GUI")) {
-                new GameGUI(numP);
-                break;
-            }
-            else
-                System.out.println("\nInvalid choice, try again");
+            new Game(numP);
+            break;
         }
     }
 }

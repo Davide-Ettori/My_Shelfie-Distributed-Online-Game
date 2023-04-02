@@ -1,3 +1,3 @@
-package app.model.player;
+package app.model;
 
 public enum NetMode {RMI, SOCKET}
