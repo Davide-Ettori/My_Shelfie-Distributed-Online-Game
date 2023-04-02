@@ -219,7 +219,7 @@ public class Game implements Serializable {
                         outStreams.get(i).writeObject(new Message(CHAT, "", msg));
                 }
             }
-            else if(getNameIndex(to) != -1){
+            else if(getNameIndex(to) != -1 && getNameIndex(to) != activePlayer){
                 outStreams.get(getNameIndex(to)).writeObject(new Message(CHAT, "", msg));
             }
         }catch (Exception e){System.out.println(e);}

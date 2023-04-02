@@ -363,11 +363,15 @@ public class Player implements Serializable{
         }catch(Exception e){System.out.println(e);}
         chatThread.interrupt();
         chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
-            while(true)
-                sendChatMsg(in.nextLine());
+            Scanner inT = new Scanner(System.in);
+            String s;
+            while(true) {
+                s = inT.nextLine().trim();
+                sendChatMsg(s);
+            }
         });
         chatThread.start();
-        waitForTurn(); // mi metto in attesa che diventi il mio turno
+        waitForTurn();
     }
 
     /**
@@ -406,10 +410,25 @@ public class Player implements Serializable{
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
         msg = "\n" + name + " says:" + msg;
+        if(!doesPlayerExists(dest))
+            return;
         fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){System.out.println(e);}
+    }
+
+    /**
+     * check if the name of a player exists in the game (used by the chat)
+     * @param name the name to check in this game
+     * @return true iff that player actually exists in the current game
+     */
+    private boolean doesPlayerExists(String name){
+        for(Library lib : librariesOfOtherPlayers){
+            if(lib.name.equals(name))
+                return true;
+        }
+        return false;
     }
     /**
      * getter for the name
