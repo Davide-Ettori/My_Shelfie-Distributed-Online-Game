@@ -3,7 +3,7 @@ package app.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static app.model.Color.EMPTY;
+import static app.model.Color.*;
 
 /**
  * class representing each player's private library. Mutable
@@ -17,7 +17,10 @@ public class Library implements Serializable {
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
     public String name;
-
+    /**
+     * normal constructor for this type of objects
+     * @param n the name of the player using this library
+     */
     public Library(String n){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
@@ -26,6 +29,11 @@ public class Library implements Serializable {
         }
         name = n;
     }
+
+    /**
+     * copy constructor for the Library Objects, useful for deep copy
+     * @param l the library which you need to copy
+     */
     public Library(Library l){ // copy constructor
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
@@ -159,7 +167,7 @@ public class Library implements Serializable {
         return points;
     }
     /**
-     * method that call drawMatrix to print the Library
+     * method that draws the library of the owner
      * @author Gumus
      */
     public void draw(){
@@ -177,6 +185,10 @@ public class Library implements Serializable {
             System.out.println();
         }
     }
+    /**
+     * method that draws the library of a player, not the owner
+     * @author Gumus
+     */
     public void draw(String title){
         System.out.println(title);
         System.out.print("  ");

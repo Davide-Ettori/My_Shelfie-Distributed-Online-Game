@@ -25,7 +25,12 @@ public class Board implements Serializable {
     private ArrayList<Card> bucketOfCards = Initializer.setBucketOfCards();
     private int[][] gameMatrix;
     public String name;
-
+    /**
+     * normal constructor for this type of object
+     * @param numPlayers the number of players in this game
+     * @param CO_1 the first common objective chosen
+     * @param CO_2 the second common objective chosen
+     */
     public Board(int numPlayers, CommonObjective CO_1, CommonObjective CO_2){
         commonObjective_1 = CO_1;
         commonObjective_2 = CO_2;
@@ -42,6 +47,10 @@ public class Board implements Serializable {
             pointsCO_2 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
         }
     }
+    /**
+     * copy constructor for this class, used for deep copying objects
+     * @param c the object to copy (game board)
+     */
     public Board(Board c){ // copy constructor
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
@@ -53,6 +62,7 @@ public class Board implements Serializable {
         pointsCO_1 = new LinkedList<>(c.pointsCO_1);
         pointsCO_2 = new LinkedList<>(c.pointsCO_2);
         bucketOfCards = new ArrayList<>(c.bucketOfCards);
+        name = c.name;
     }
     /**
      * getter for the game board
@@ -261,16 +271,6 @@ public class Board implements Serializable {
         }
     }
     /**
-     * setter for CO 1
-     * @author Ettori
-     */
-    public void setCO_1(CommonObjective obj){commonObjective_1 = obj;} // questi 2 sono i setter usati inizialmente dalla classe Game
-    /**
-     * setter for CO 2
-     * @author Ettori
-     */
-    public void setCO_2(CommonObjective obj){commonObjective_2 = obj;}
-    /**
      * setter for the gameBoard (only used by testing)
      * @author Gumus Giammusso
      * @param g the matrix to copy in the board
@@ -282,7 +282,7 @@ public class Board implements Serializable {
             }
     }
     /**
-     * method that call drawMatrix to print the board
+     * method that print the game board
      * @author Gumus
      */
     public void draw() {

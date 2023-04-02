@@ -2,7 +2,14 @@ package app.controller;
 
 import java.util.Scanner;
 
+/**
+ * class which represent the entry point for the server
+ */
 public class Server {
+    /**
+     * main function, which let the user choose the number of player for the next game
+     * @param args terminal arguments passed during execution
+     */
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
         String num;

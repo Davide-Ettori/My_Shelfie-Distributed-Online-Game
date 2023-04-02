@@ -10,12 +10,18 @@ public class Message implements Serializable {
     private final MessageType type;
     private final String author;
     private final Object content;
+
+    /**
+     * normal constructor for the Messages that will be sent in the network
+     * @param t the type of this message
+     * @param p the sender of the message (name)
+     * @param cont the content of the message, any type of class (Object)
+     */
     public Message(MessageType t, String p, Object cont){ // li costruisci in maniera completa una e una sola volta
         type = t;
         author = p;
         content = cont;
     }
-
     /**
      * getter for the type of the message
      * @author Ettori

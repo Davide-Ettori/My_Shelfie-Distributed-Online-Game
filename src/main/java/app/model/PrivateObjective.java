@@ -14,6 +14,11 @@ public class PrivateObjective extends Objective implements Serializable {
     private Card[][] matrix;
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo
 
+    /**
+     * normal constructor for this type of objects
+     * @param mat the matrix which identify the objective
+     * @param id the unique identifier of the objective
+     */
     public PrivateObjective(Card[][] mat, int id){
         arrayOfPoints = new int[]{0,1,2,4,6,9,12};
         matrix = mat;
@@ -45,7 +50,7 @@ public class PrivateObjective extends Objective implements Serializable {
         return count;
     }
     /**
-     * method that call drawMatrix to print the PO
+     * method that draws the objective itself (the matrix of cards)
      * @author Gumus
      */
     public void draw() {

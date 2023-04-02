@@ -1,7 +1,7 @@
 package app.model;
 
 import app.controller.*;
-import app.view.UiMode;
+import app.view.UIMode;
 import playground.socket.Server;
 
 import java.io.ObjectInputStream;
@@ -16,7 +16,6 @@ import java.util.Scanner;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
-import static app.model.NetMode.*;
 
 /**
  * class which represent the player on the client side, mutable,
@@ -27,7 +26,7 @@ public class Player implements Serializable{
     private String name;
     public String chairmanName;
     public NetMode netMode;
-    public UiMode uiMode;
+    public UIMode uiMode;
     public int numPlayers;
     private boolean CO_1_Done = false;
     private boolean CO_2_Done = false;
@@ -52,17 +51,22 @@ public class Player implements Serializable{
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
 
+    /**
+     * constructor used by the server to initializer a base Player object
+     * @param n the name of the player
+     * @param isChairManBool true iff the player is the chairman of the game
+     */
     public Player(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
     public Player(){
         // costruttore vuoto
     }
     /**
-     * start the main game process on the client side
+     * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public Player(NetMode mode, UiMode ui) { // Costruttore iniziale
+    public Player(NetMode mode, UIMode ui) { // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
         try {
@@ -96,6 +100,8 @@ public class Player implements Serializable{
     /**
      * Clone the player on the client in the player on the server
      * @author Ettori
+     * @param p the Player that will be cloned in the current Object
+     * @return the 'this' object the was cloned before
      */
     public Player clone(Player p){ // copia la versione sul server dentro a quella del client
         name = p.name;
@@ -425,7 +431,7 @@ public class Player implements Serializable{
         ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < coord.size(); i += 2) {
             cards.add(new Card(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]));
-            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(coord.get(i), coord.get(i + 1)); // dopo che hai preso una carta, tale posto diventa EMPTY
+            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(); // dopo che hai preso una carta, tale posto diventa EMPTY
         }
 
         deployCards(col, cards);

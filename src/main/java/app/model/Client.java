@@ -2,9 +2,16 @@ package app.model;
 import java.util.Scanner;
 
 import static app.model.NetMode.*;
-import static app.view.UiMode.*;
+import static app.view.UIMode.*;
 
+/**
+ * class which represent the entry point for teh client
+ */
 public class Client {
+    /**
+     * main method which is used by the user to choose the UI and the Network
+     * @param args terminal arguments passed during running
+     */
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 

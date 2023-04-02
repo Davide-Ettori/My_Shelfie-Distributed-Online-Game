@@ -2,7 +2,6 @@ package app.model;
 
 /**
  * helper class for the Depth First Search algorithm. Immutable
- *
  * @author Ettori Faccincani
  *
  */

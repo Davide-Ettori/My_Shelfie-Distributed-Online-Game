@@ -8,5 +8,8 @@ abstract class Objective {
     public int COLS = 5;
     public int ROWS = 6;
 
+    /**
+     * placeholder function, which will be overwritten by the subclasses, it draws itself
+     */
     public void draw(){}
 }

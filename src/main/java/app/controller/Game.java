@@ -3,7 +3,7 @@ package app.controller;
 import app.model.*;
 import app.model.NetMode;
 import app.model.Player;
-import app.view.UiMode;
+import app.view.UIMode;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,7 +31,7 @@ public class Game implements Serializable {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
-    private ArrayList<UiMode> uiModes = new ArrayList<>();
+    private ArrayList<UIMode> uiModes = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
     private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
@@ -41,6 +41,10 @@ public class Game implements Serializable {
     private boolean time = true;
     private ArrayList<Thread> chatThreads = new ArrayList<>();
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
+    /**
+     * normal constructor for this type of object, this class is also the main process on the server
+     * @param maxP the number of players for this game, chosen before by the user
+     */
     public Game(int maxP){
         targetPlayers = maxP;
         if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
@@ -133,7 +137,7 @@ public class Game implements Serializable {
                 }
                 outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);
                 netModes.add((NetMode) inStreams.get(inStreams.size() - 1).readObject());
-                uiModes.add((UiMode) inStreams.get(inStreams.size() - 1).readObject());
+                uiModes.add((UIMode) inStreams.get(inStreams.size() - 1).readObject());
                 names.add(name);
                 break;
             }
@@ -251,10 +255,31 @@ public class Game implements Serializable {
                 System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
         }catch(Exception e){System.out.println(e);}
     }
-    private void listenForReconnection(){return;}
+
+    /**
+     * find and return the name of the chairman of this game
+     * @return the name of the chairman (String)
+     */
     private String getChairmanName(){return names.get(0);}
+
+    /**
+     * find and return the chairman Player
+     * @return the chairman Object (Player)
+     */
     private Player getChairman(){return players.get(0);}
+
+    /**
+     * check if the name is already taken by other players
+     * @param name the name to check
+     * @return true iff the name is already taken
+     */
     private boolean isNameTaken(String name){return names.contains(name);}
+
+    /**
+     * get the index of a certain player, by the name
+     * @param name the name of the player
+     * @return the index of the player having that name, -1 if not found
+     */
     private int getNameIndex(String name){
         for(int i = 0; i < names.size(); i++){
             if(names.get(i).equals(name))
@@ -262,6 +287,11 @@ public class Game implements Serializable {
         }
         return -1;
     }
+
+    /**
+     * choose the private objective, one for every player
+     * @return the chosen private objective
+     */
     private PrivateObjective getPrivateObjective(){
         PrivateObjective res = bucketOfPO.get(0);
         bucketOfPO.remove(0);
@@ -272,7 +302,7 @@ public class Game implements Serializable {
      * Make a random choose of the objective (Common and Private)
      * @author Ettori
      */
-    private void shuffleObjBucket(){ // randomizza gli obbiettivi
+    private void shuffleObjBucket(){
         Random rand = new Random();
         CommonObjective temp_1;
         PrivateObjective temp_2;
@@ -342,7 +372,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Send the final score to client
+     * Send the final score to all the clients
      * @author Ettori
      */
     private void sendFinalScoresToAll(){
@@ -356,7 +386,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Make a clone of the server, helps for the persistance
+     * Make a clone of the server, helps for the persistence
      * @param g server status
      * @author Ettori
      */

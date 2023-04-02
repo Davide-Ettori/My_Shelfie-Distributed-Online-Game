@@ -13,24 +13,38 @@ public class Card implements Serializable {
     private int x;
     private int y;
 
+    /**
+     * the full constructor, used to set all the possibile attributes of this class
+     * @param col the color to set
+     * @param image the image icon of the card
+     * @param posX the x position in matrix
+     * @param posY tht y position in the matrix
+     */
     public Card(Color col, String image, int posX, int posY){
         color = col;
         imagePath = image;
         x = posX;
         y = posY;
     }
-    public Card(int posX, int posY){
-        color = EMPTY;
-        imagePath = "path della carta vuota"; // va inserito quello vero
-        x = posX;
-        y = posY;
-    }
+
+    /**
+     * standard constructor to initialize card with the right color
+     * @param col the color to set
+     */
     public Card(Color col){
         color = col;
     }
+
+    /**
+     * the most simple constructor, used to initialize the empty cards
+     */
     public Card(){
         color = EMPTY;
     }
+    /**
+     * copy constructor for this class, used for deep copying objects
+     * @param c the object to copy
+     */
     public Card(Card c){ // copy constructor
         color = c.color;
         imagePath = c.imagePath;
@@ -74,5 +88,8 @@ public class Card implements Serializable {
         return '?';
     }
 
+    /**
+     * method used to draw the card itself (TUI or GUI)
+     */
     public void draw(){System.out.print(mapColor(color));}
 }
