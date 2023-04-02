@@ -1,7 +1,9 @@
 package app.controller;
 
 import app.model.*;
+import app.model.player.NetMode;
 import app.model.player.PlayerTUI;
+import app.view.UiMode;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,6 +30,8 @@ public class GameTUI implements Serializable {
     private int activePlayer = 0;
     private ArrayList<PlayerTUI> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<NetMode> netModes = new ArrayList<>();
+    private ArrayList<UiMode> uiModes = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
     private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
