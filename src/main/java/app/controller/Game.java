@@ -105,7 +105,7 @@ public class Game implements Serializable {
             p.setPrivateObjective(getPrivateObjective());
             p.pointsUntilNow = 0;
             p.setState(NOT_ACTIVE);
-            p.setActiveName(getChairmanName());
+            p.activeName = getChairmanName();
             p.chairmanName = getChairmanName();
             for(int j = 0; j < numPlayers; j++)
                 p.librariesOfOtherPlayers.add(new Library(names.get(j)));

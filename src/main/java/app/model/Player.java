@@ -34,9 +34,10 @@ public class Player implements Serializable{
     public int numPlayers;
     private boolean CO_1_Done = false;
     private boolean CO_2_Done = false;
-    private String activeName = "";
+    /** the name of the player currently having his turn */
+    public String activeName = "";
     private boolean isChairMan;
-    /** the personal library of this plyer */
+    /** the personal library of this player */
     public Library library;
     private PrivateObjective objective;
     /** points achieved until now with the common objectives */
