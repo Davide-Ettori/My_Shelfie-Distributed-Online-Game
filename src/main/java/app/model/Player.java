@@ -80,7 +80,7 @@ public class Player implements Serializable{
         uiMode = ui;
         netMode = mode;
         try {
-            Socket socket = new Socket(DAVIDE_IP_MANTOVA, Server.PORT);
+            Socket socket = new Socket(DAVIDE_IP_MILANO, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
@@ -147,20 +147,19 @@ public class Player implements Serializable{
             clone(p);
             drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}
-        chatThread = new Thread(() ->{
-            Scanner in = new Scanner(System.in);
-            while(true)
-                sendChatMsg(in.nextLine());
-        });
-        chatThread.start();
         if(name.equals(chairmanName)) {
+            chatThread = new Thread(() -> {});
+            chatThread.start();
             waitForMove();
         }
         else {
-            Scanner in = new Scanner(System.in);
             chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
-                while(true)
-                    sendChatMsg(in.nextLine());
+                Scanner in = new Scanner(System.in);
+                String s;
+                while(true) {
+                    s = in.nextLine().trim();
+                    sendChatMsg(s);
+                }
             });
             chatThread.start();
             waitForTurn();
@@ -406,7 +405,8 @@ public class Player implements Serializable{
             return;
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
-        msg = name + " says:" + msg;
+        msg = "\n" + name + " says:" + msg;
+        fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){System.out.println(e);}

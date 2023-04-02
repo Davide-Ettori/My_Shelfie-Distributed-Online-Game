@@ -52,7 +52,7 @@ public class Game implements Serializable {
             // da qui in poi fai continuare il server che hai caricato dalla cache
         }
         shuffleObjBucket();
-        int numPlayers = 0;
+        numPlayers = 0;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
                 int timer = 1;
@@ -219,7 +219,7 @@ public class Game implements Serializable {
                         outStreams.get(i).writeObject(new Message(CHAT, "", msg));
                 }
             }
-            else{
+            else if(getNameIndex(to) != -1){
                 outStreams.get(getNameIndex(to)).writeObject(new Message(CHAT, "", msg));
             }
         }catch (Exception e){System.out.println(e);}
