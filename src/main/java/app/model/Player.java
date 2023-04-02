@@ -410,8 +410,14 @@ public class Player implements Serializable{
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
         msg = "\n" + name + " says:" + msg;
-        if(!doesPlayerExists(dest))
+        if(!doesPlayerExists(dest)) {
+            System.out.println("\nThe name chosen does not exists");
             return;
+        }
+        if(dest.equals(name)){
+            System.out.println("\nYou can't send chat messages to yourself");
+            return;
+        }
         fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
