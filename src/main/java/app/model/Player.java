@@ -69,13 +69,6 @@ public class Player implements Serializable{
             Socket socket = new Socket(DAVIDE_IP_MANTOVA, Server.PORT);
             outStream = new ObjectOutputStream(socket.getOutputStream());
             inStream = new ObjectInputStream(socket.getInputStream());
-            String resp = (String) inStream.readObject();
-            if(!resp.equals("CLI")){
-                System.out.println("\nClient unable to connect, wrong UI choice");
-                outStream.writeObject("FAIL");
-                System.exit(0);
-            }
-            outStream.writeObject("SUCCESS");
         }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
         System.out.println("\nClient connected");
         while(true){

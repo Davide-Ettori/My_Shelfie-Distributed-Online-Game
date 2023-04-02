@@ -125,12 +125,6 @@ public class Game implements Serializable {
         try {
             outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
             inStreams.add(new ObjectInputStream(socket.getInputStream()));
-            outStreams.get(outStreams.size() - 1).writeObject("CLI");
-            String resp = (String) inStreams.get(inStreams.size() - 1).readObject();
-            if (resp.equals("FAIL")) {
-                numPlayers--;
-                return;
-            }
             while (true) {
                 String name = (String) inStreams.get(inStreams.size() - 1).readObject();
                 if (isNameTaken(name)) {
