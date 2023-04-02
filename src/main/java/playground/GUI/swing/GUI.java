@@ -45,6 +45,11 @@ public class GUI{
             showMessageDialog(null, "\nBravo " + text.getText() + ", hai fatto " + count + " punti!");
         });
 
+        JButton buttonDoge = new JButton(new ImageIcon("src/main/java/playground/GUI/swing/doge.png"));
+        buttonDoge.addActionListener(e -> showMessageDialog(null, "Bau Bau!")); // onClick event
+        buttonDoge.setPreferredSize(new Dimension(50, 200));
+        buttonDoge.setBorderPainted(false); // ecco come aggiungere un'immagine cliccabile
+
         label = new JLabel("Numero di punti: " + count); // casella di testo
 
         text = new JTextField(20); // textbox input dall'utente
@@ -67,6 +72,7 @@ public class GUI{
         panel.add(new JPanel());
         panel.add(new JPanel());
         panel.add(label);
+        panel.add(buttonDoge);
         // fine
 
         frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
