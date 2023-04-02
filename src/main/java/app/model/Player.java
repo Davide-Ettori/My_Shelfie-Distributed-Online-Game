@@ -57,9 +57,10 @@ public class Player implements Serializable{
      * @param isChairManBool true iff the player is the chairman of the game
      */
     public Player(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
-    public Player(){
-        // costruttore vuoto
-    }
+    /**
+     * empty constructor, used ONLY by the server to create an empty player (and then clone it)
+     */
+    public Player(){}
     /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
