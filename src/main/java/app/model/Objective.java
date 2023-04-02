@@ -5,8 +5,10 @@ package app.model;
  *
  */
 abstract class Objective {
-    public int COLS = 5;
+    /** the rows of the library that will be checked by the objective */
     public int ROWS = 6;
+    /** the columns of the library that will be checked by the objective */
+    public int COLS = 5;
 
     /**
      * placeholder function, which will be overwritten by the subclasses, it draws itself

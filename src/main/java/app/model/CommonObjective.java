@@ -7,7 +7,9 @@ import java.io.Serializable;
  * @author Ettori Faccincani
  */
 public class CommonObjective extends Objective implements Serializable {
+    /** the algorithm chosen, related to the specific common objective */
     public final Strategy algorithm;
+    /** the unique identifier of the objective */
     public final int id;
 
     /**

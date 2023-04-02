@@ -24,19 +24,27 @@ import static app.model.State.*;
  */
 public class Player implements Serializable{
     private String name;
+    /** the name of the chairman of the game */
     public String chairmanName;
+    /** the network mode chosen by the user */
     public NetMode netMode;
+    /** teh UI mode chosen by the user */
     public UIMode uiMode;
+    /** number of players in this current game */
     public int numPlayers;
     private boolean CO_1_Done = false;
     private boolean CO_2_Done = false;
     private String activeName = "";
     private boolean isChairMan;
+    /** the personal library of this plyer */
     public Library library;
     private PrivateObjective objective;
+    /** points achieved until now with the common objectives */
     public int pointsUntilNow;
     private State state;
+    /** the board seen and used by this player */
     public Board board;
+    /** list of the libraries of all the players in the game */
     public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
     private Socket mySocket;
     private ObjectOutputStream outStream;
@@ -448,28 +456,22 @@ public class Player implements Serializable{
         library.insertCards(col, cards);
     }
     /**
-     * print the personal library and then print the other players libraries
-     * @author Giammusso
+     * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
+     * @return the state of the player (enum value)
      */
-    private void printLibrary(){
-        library.draw("My Library");
-        for(int i = 0; i < librariesOfOtherPlayers.size(); i++){
-            if(!librariesOfOtherPlayers.get(i).name.equals(name)){ //if it is not my personal library
-                librariesOfOtherPlayers.get(i).draw("Library of "+librariesOfOtherPlayers.get(i).name);
-            }
-        }
-    }
     public State getState(){return state;}
+    /**
+     * set the current state of the player
+     * @param s the state that must be set
+     */
     public void setState(State s){state = s;}
-    public void setActiveName(String n){activeName = n;}
     /**
      * print the name of the active player, the 2 CO, the PO, the board, the libraries,
-     * and then prints spaces before the next execution of drawAll
+     * and then prints spaces before the next execution of drawAll. It also prints general (useful) information
      * @author Gumus
      */
     public void drawAll(){
-        /*System.out.print("\033[H\033[2J"); //\033[H porta il cursore all'inizio, \033[2J cancella tutto quello che c'è dopo il cursore; ma non funziona
-        System.out.flush();*/
+        // System.out.flush(); non funziona sul terminale di intellij
         clearScreen();
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
@@ -490,8 +492,12 @@ public class Player implements Serializable{
             System.out.println("\nThe chairman of this game is: " + chairmanName);
         System.out.println("\nGame Chat: \n" + fullChat);
     }
+
+    /**
+     * prints 12 spaces (rows) to simulate the flush of the terminal
+     */
     private void clearScreen(){
-        for(int i = 0;i < 12; i++){
+        for(int i = 0; i < 12; i++){
             System.out.println();
         }
     }

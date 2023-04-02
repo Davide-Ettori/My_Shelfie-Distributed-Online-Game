@@ -12,6 +12,7 @@ import static app.model.Color.*;
 public class PrivateObjective extends Objective implements Serializable {
     private int[] arrayOfPoints;
     private Card[][] matrix;
+    /** the unique identifier of the private objective */
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo
 
     /**

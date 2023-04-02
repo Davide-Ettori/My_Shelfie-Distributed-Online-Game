@@ -8,6 +8,7 @@ import static app.model.Color.*;
  * @author Ettori Giammusso
  */
 public class Card implements Serializable {
+    /** the color of the card, 6 types + EMPTY */
     public Color color;
     private String imagePath;
     private int x;

@@ -18,12 +18,17 @@ import static app.model.Color.*;
 public class Board implements Serializable {
     private final int DIM = 9;
     private final Card[][] gameBoard = new Card[DIM][DIM];
+    /** the first common objective */
     public CommonObjective commonObjective_1;
+    /** the second common objective */
     public CommonObjective commonObjective_2;
+    /** the points available for the first common objective */
     public LinkedList<Integer> pointsCO_1;
+    /** the points available for the second common objective */
     public LinkedList<Integer> pointsCO_2;
     private ArrayList<Card> bucketOfCards = Initializer.setBucketOfCards();
     private int[][] gameMatrix;
+    /** the name of the player owning this board */
     public String name;
     /**
      * normal constructor for this type of object

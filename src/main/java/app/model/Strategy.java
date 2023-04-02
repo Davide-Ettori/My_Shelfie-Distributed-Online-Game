@@ -8,8 +8,10 @@ import java.io.Serializable;
  *
  */
 public class Strategy implements Serializable {
-    int ROWS = 6;
-    int COLS = 5;
+    /** the rows of the library that will be checked by the objective */
+    public int ROWS = 6;
+    /** the columns of the library that will be checked by the objective */
+    public int COLS = 5;
     /**
      * check if the objective is achieved by the player library
      * @author Ettori

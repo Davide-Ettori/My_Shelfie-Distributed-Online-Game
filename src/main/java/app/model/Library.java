@@ -11,11 +11,15 @@ import static app.model.Color.*;
  *
  * */
 public class Library implements Serializable {
+    /** the rows of the game library */
     public final int ROWS = 6;
+    /** the columns of the game library */
     public final int COLS = 5;
+    /** the matrix which contains the cards placed by the user */
     public Card[][] library = new Card[ROWS][COLS];
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
+    /** the name of the player using this library */
     public String name;
     /**
      * normal constructor for this type of objects
