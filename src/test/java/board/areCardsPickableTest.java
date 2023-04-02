@@ -22,6 +22,7 @@ public class areCardsPickableTest {
     CommonObjective CO1 = null;
     CommonObjective CO2 = null;
     Board board1 = null;
+    Board board2 = null;
     Card[][] gameBoard1 = null;
     ArrayList<Integer> cardXY = null;
     @Before
@@ -35,8 +36,35 @@ public class areCardsPickableTest {
 
         board1 = new Board(4,CO1,CO2);
         gameBoard1 = new Card[DIM][DIM];
-    }
 
+        board2 = new Board(2,CO1,CO2);
+    }
+    @Test //test 0
+    public void twoPlayers_pickOnly_TwoCards(){
+        //inizializzo la matrice con degli EMPTY
+        for(int i=0; i<DIM; i++){
+            for(int j=0; j<DIM; j++){
+                gameBoard1[i][j] = new Card(EMPTY);
+            }
+        }
+        //metto le carte colorate dove mi interessano
+        gameBoard1[1][3].color = BLUE;
+        gameBoard1[2][3].color = BLUE;
+        gameBoard1[3][3].color = BLUE;
+        gameBoard1[4][3].color = BLUE;
+
+        gameBoard1[1][4].color = BLUE;
+        gameBoard1[2][4].color = BLUE;
+        gameBoard1[3][4].color = BLUE;
+        gameBoard1[4][4].color = BLUE;
+
+        cardXY = new ArrayList<>(Arrays.asList(1,3,1,4));
+
+        //uso il setter definito in Board
+        board2.setGameBoard(gameBoard1);
+
+        assertTrue(board2.areCardsPickable(cardXY));
+    }
     @Test //test1
     public void adiacent_Allineated_FreeSide(){ //Significa: che le tessere sono 1)Adiacenti, 2)Su una linea retta, 3)Hanno almeno 1 lato libero
         //inizializzo la matrice con degli EMPTY
