@@ -58,6 +58,10 @@ public class areCardsPickableTest {
         gameBoard1[3][4].color = BLUE;
         gameBoard1[4][4].color = BLUE;
 
+        gameBoard1[2][5].color = BLUE;
+        gameBoard1[3][5].color = BLUE;
+        gameBoard1[4][5].color = BLUE;
+
         cardXY = new ArrayList<>(Arrays.asList(1,3,1,4));
 
         //uso il setter definito in Board
