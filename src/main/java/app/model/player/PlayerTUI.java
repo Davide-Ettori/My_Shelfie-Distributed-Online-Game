@@ -2,6 +2,7 @@ package app.model.player;
 
 import app.controller.*;
 import app.model.*;
+import app.view.UiMode;
 import playground.socket.Server;
 
 import java.io.ObjectInputStream;
@@ -27,6 +28,7 @@ public class PlayerTUI implements Serializable{
     private String name;
     public String chairmanName;
     public NetMode netMode;
+    public UiMode uiMode;
     public int numPlayers;
     private boolean CO_1_Done = false;
     private boolean CO_2_Done = false;
