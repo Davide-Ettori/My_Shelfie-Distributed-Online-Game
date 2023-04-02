@@ -153,10 +153,18 @@ public class Player implements Serializable{
                 sendChatMsg(in.nextLine());
         });
         chatThread.start();
-        if(name.equals(chairmanName))
+        if(name.equals(chairmanName)) {
             waitForMove();
-        else
+        }
+        else {
+            Scanner in = new Scanner(System.in);
+            chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
+                while(true)
+                    sendChatMsg(in.nextLine());
+            });
+            chatThread.start();
             waitForTurn();
+        }
     }
 
     /**
