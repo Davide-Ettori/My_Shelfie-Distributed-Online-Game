@@ -151,7 +151,7 @@ public class Player implements Serializable{
     }
 
     /**
-     * Attend the start of the turn, meanwhile can update the board if someone else changes it
+     * Attend the start of the turn, meanwhile can update the board if someone else changes it. it can also receive notifications of important events
      * @author Ettori Faccincani
      */
     private void waitForTurn(){ // funzione principale di attesa
