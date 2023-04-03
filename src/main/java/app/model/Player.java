@@ -239,7 +239,7 @@ public class Player implements Serializable{
         String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        int temp; // helper per fare gli scambi
+        int temp_1, temp_2; // helper per fare gli scambi
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
             coordString = in.nextLine();
@@ -276,9 +276,14 @@ public class Player implements Serializable{
             if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
                 System.out.println("\nInvalid selection");
             }
-            temp = coords.get(index_1);
+            index_1 *= 2;
+            index_2 *= 2;
+            temp_1 = coords.get(index_1);
+            temp_2 = coords.get(index_1 + 1);
             coords.set(index_1, coords.get(index_2));
-            coords.set(index_2, temp);
+            coords.set(index_1 + 1, coords.get(index_2 + 1));
+            coords.set(index_2, temp_1);
+            coords.set(index_2 + 1, temp_2);
         }
         int col;
         while(true){
