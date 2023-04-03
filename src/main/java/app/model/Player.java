@@ -423,7 +423,7 @@ public class Player implements Serializable{
         }
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
-        msg = "\n" + name + " says:" + msg + "(to " + dest + ")";
+        msg = "\n" + name + " says:" + msg + " (to " + dest + ")";
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
             System.out.println("\nThe name chosen does not exists");
