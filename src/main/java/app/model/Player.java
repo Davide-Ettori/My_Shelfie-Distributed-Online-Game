@@ -364,7 +364,9 @@ public class Player implements Serializable{
     }
     private void startChatSendThread(){
         flushInputBuffer();
-        chatThread.interrupt();
+        try {
+            chatThread.interrupt();
+        }catch (Exception e){}
         chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
             Scanner in = new Scanner(System.in);
             String s;
