@@ -278,21 +278,23 @@ public class Player implements Serializable{
             }catch (Exception e){System.out.println(e);}
         }
         String coordString, coordOrder, column;
-        String[] rawCoords;
+        String[] rawCoords = null;
         ArrayList<Integer> coords = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         int temp_1, temp_2; // helper per fare gli scambi
         System.out.println("i will ask for your move...");
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
+
             coordString = in.nextLine();
             System.out.println(coordString);
             rawCoords = coordString.split(" ");
+
             if(coordString.charAt(0) == '@'){
                 sendChatMsg(coordString);
                 continue;
             }
-            if(rawCoords.length % 2 == 1){
+            if(!checkRawCoords(rawCoords)){
                 System.out.println("\nInvalid selection - 1");
                 continue;
             }
@@ -403,6 +405,17 @@ public class Player implements Serializable{
         System.out.println("vado in wait for turn");
         waitForTurn();
     }
+
+    private boolean checkRawCoords(String[] s) {
+        if (s.length % 2 == 1){
+            for (int i = 0; i < s.length; i++){
+                if (Integer.parseInt(s[i]) < 0 || Integer.parseInt(s[i]) > 9)
+                    return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * starts all the threads that listen for chat message from other clients (receiving)
      */
@@ -448,10 +461,10 @@ public class Player implements Serializable{
         System.out.println("esco thread");
     }
     /**
-     * Check if the index of the columns to switch are valid
-     * @param index_1 column to switch
-     * @param index_2 column to switch
-     * @param size  number of columns asked to switch
+     * Check if the index to switch are valid
+     * @param index_1 first card
+     * @param index_2 second card
+     * @param size  number of switch
      * @return true if the index are valid
      * @author Ettori Faccincani
      */
