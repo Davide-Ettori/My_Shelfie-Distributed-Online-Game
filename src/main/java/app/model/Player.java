@@ -345,6 +345,9 @@ public class Player implements Serializable{
         }catch(Exception e){System.out.println(e);}
         waitForTurn();
     }
+    /**
+     * starts all the threads that listen for chat message from other clients (receiving)
+     */
     private void startChatReceiveThread(){
         flushInputBuffer();
         chatThread.interrupt();
@@ -363,6 +366,10 @@ public class Player implements Serializable{
         });
         chatThread.start();
     }
+
+    /**
+     * starts all the threads that listen for chat message from the user (sending)
+     */
     private void startChatSendThread(){
         flushInputBuffer();
         try {

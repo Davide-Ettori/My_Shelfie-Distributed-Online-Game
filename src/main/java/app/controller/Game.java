@@ -187,6 +187,10 @@ public class Game implements Serializable {
                 waitMoveFromClient();
         }catch(Exception e){System.out.println(e);}
     }
+
+    /**
+     * start all the threads that listen for chat messages from the clients (and send the messages back to the players)
+     */
     private void startChatServerThread(){
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             return;
@@ -228,7 +232,6 @@ public class Game implements Serializable {
             }
         }catch (Exception e){System.out.println(e);}
     }
-
     /**
      * Wait the end of the turn of the client and check if the library is full
      * @author Ettori Faccincani
@@ -259,13 +262,11 @@ public class Game implements Serializable {
                 System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
         }catch(Exception e){System.out.println(e);}
     }
-
     /**
      * find and return the name of the chairman of this game
      * @return the name of the chairman (String)
      */
     private String getChairmanName(){return names.get(0);}
-
     /**
      * find and return the chairman Player
      * @return the chairman Object (Player)
@@ -291,7 +292,6 @@ public class Game implements Serializable {
         }
         return -1;
     }
-
     /**
      * choose the private objective, one for every player
      * @return the chosen private objective
