@@ -190,6 +190,9 @@ public class Board implements Serializable {
             if(!hasOneFreeSide(cardPositions.get(i), cardPositions.get(i + 1)))
                 return false;
         }
+        /*System.out.println(areCardsAligned(cardPositions));
+        System.out.println("spezza");
+        System.out.println(areCardsNear(cardPositions));*/
         return areCardsAligned(cardPositions) && areCardsNear(cardPositions);
     }
     /**

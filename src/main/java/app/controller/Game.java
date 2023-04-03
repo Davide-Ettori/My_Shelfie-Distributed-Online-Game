@@ -172,7 +172,7 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-        startChatServerThread();
+       //startChatServerThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
             if(msg.getType() == CHAT){
@@ -240,7 +240,7 @@ public class Game implements Serializable {
      */
     private void waitForEndTurn(){
         System.out.println("wait for turn");
-        stopChatThread();
+        //stopChatThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){

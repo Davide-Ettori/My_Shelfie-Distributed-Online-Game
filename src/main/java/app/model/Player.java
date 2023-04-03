@@ -174,11 +174,11 @@ public class Player implements Serializable{
         }catch(Exception e){System.out.println(e); System.exit(0);}
         if(name.equals(chairmanName)) {
             chatThread = new Thread(() -> {}); // placeholder thread, used only at the start
-            startChatReceiveThread();
+            //startChatReceiveThread();
             waitForMove();
         }
         else {
-            startChatSendThread();
+            //startChatSendThread();
             waitForTurn();
         }
     }
@@ -238,7 +238,7 @@ public class Player implements Serializable{
                 }
                 case CHANGE_TURN -> {
                     //startChatSendThread();
-                    activeName = msg.getAuthor();
+                    activeName = (String) msg.getContent();
                     drawAll();
                     waitForTurn();
                 }
@@ -284,7 +284,16 @@ public class Player implements Serializable{
             }
         }catch(Exception e){System.out.println(e);}
     }
-
+    /**
+     * flush the input buffer of the terminal (System.in)
+     * @author Ettori
+     */
+    private void flushInputBuffer(){
+        Scanner scanner = new Scanner(System.in);
+        while(scanner.hasNext()){
+            scanner.nextLine(); // Just discard this, not interested...
+        }
+    }
     /**
      * Attend the move of the player and start the chat, after the move check if the move is correct
      * @author Ettori Faccincani
@@ -302,8 +311,9 @@ public class Player implements Serializable{
         ArrayList<Integer> coords = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         int temp_1, temp_2; // helper per fare gli scambi
+        System.out.println("i will ask for your move...");
+        //flushInputBuffer();
         while(true){
-            //flushInputBuffer();
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
             coordString = in.nextLine();
             System.out.println(coordString);
@@ -630,18 +640,6 @@ public class Player implements Serializable{
     private void clearScreen(){
         for(int i = 0; i < 12; i++){
             System.out.println();
-        }
-    }
-
-    /**
-     * flush the input buffer of the terminal (System.in)
-     * @author Ettori
-     */
-    private void flushInputBuffer(){
-        try {
-            System.in.read(new byte[System.in.available()]);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 }
