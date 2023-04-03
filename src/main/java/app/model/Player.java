@@ -285,16 +285,6 @@ public class Player implements Serializable{
         }catch(Exception e){System.out.println(e);}
     }
     /**
-     * flush the input buffer of the terminal (System.in)
-     * @author Ettori
-     */
-    private void flushInputBuffer(){
-        Scanner scanner = new Scanner(System.in);
-        while(scanner.hasNext()){
-            scanner.nextLine(); // Just discard this, not interested...
-        }
-    }
-    /**
      * Attend the move of the player and start the chat, after the move check if the move is correct
      * @author Ettori Faccincani
      */
