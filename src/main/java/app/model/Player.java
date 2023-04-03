@@ -48,12 +48,12 @@ public class Player implements Serializable{
     public Board board;
     /** list of the libraries of all the players in the game */
     public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
-    private Socket mySocket;
-    private ObjectOutputStream outStream;
-    private Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
+    private transient Socket mySocket;
+    private transient ObjectInputStream inStream;
+    private transient ObjectOutputStream outStream;
+    private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private String fullChat = "";
     private boolean endGame = false;
-    private ObjectInputStream inStream;
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
@@ -134,6 +134,29 @@ public class Player implements Serializable{
         endGame = p.endGame;
         return this;
     }
+    public Player(Player p){
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.endGame;
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        outStream = p.outStream;
+        inStream = p.inStream;
+        chatThread = p.chatThread;
+    }
     public PrivateObjective getPrivateObjective(){
         return objective;
     }
@@ -166,7 +189,9 @@ public class Player implements Serializable{
      */
     private void waitForTurn(){ // funzione principale di attesa
         try {
+            System.out.println("waiting for turn");
             Message msg = (Message) inStream.readObject();
+            System.out.println("msg received");
             switch (msg.getType()) {
                 case YOUR_TURN -> {
                     startChatReceiveThread();
@@ -349,11 +374,14 @@ public class Player implements Serializable{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Thread.sleep(1000);
-                    outStream.writeObject(new Message(END_TURN, name, this));
+                    System.out.println("fine turno in arrivo");
+                    Player playerSend = new Player(this);
+                    outStream.writeObject(new Message(END_TURN, name, playerSend));
                 }catch (Exception e){System.out.println(e);}
             }).start();
 
         }catch(Exception e){System.out.println(e);}
+        System.out.println("vado in wait for turn");
         waitForTurn();
     }
     /**
@@ -405,7 +433,7 @@ public class Player implements Serializable{
      * @author Ettori Faccincani
      */
     private boolean isCharValid(int index_1, int index_2, int size){
-        return index_1 > 0 && index_1 <= size && index_2 > 0 && index_2 < size;
+        return index_1 >= 0 && index_1 < size && index_2 > 0 && index_2 < size;
     }
     /**
      * Return to the player the current order of the cards to be placed

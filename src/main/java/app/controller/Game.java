@@ -151,14 +151,16 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void notifyNewTurn(){
+        System.out.println("enter notify new turn");
         for(int i = 0; i < numPlayers; i++){
             try {
                 if (i == activePlayer) {
-                    outStreams.get(i).writeObject(new Message(YOUR_TURN, "server", null));
+                    outStreams.get(i).writeObject(new Message(YOUR_TURN, "server", ""));
                     players.get(i).setState(ACTIVE);
                 }
                 else
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
+                System.out.println(i);
             }catch (Exception e){System.out.println(e);}
         }
         waitMoveFromClient();
@@ -237,10 +239,12 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitForEndTurn(){
+        System.out.println("wait for turn");
         stopChatThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){
+                System.out.println("end turn received");
                 players.get(activePlayer).clone((Player) msg.getContent());
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
@@ -251,6 +255,7 @@ public class Game implements Serializable {
                     }
                     Thread.sleep(3000); // dai tempo agli altri giocatori di leggere il messaggio
                 }
+                System.out.println("turn advancing");
                 advanceTurn();
             }
             else
@@ -337,6 +342,7 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
+        System.out.println("enter advance turn");
         players.get(activePlayer).setState(NOT_ACTIVE);
         do {
             activePlayer = (activePlayer + 1) % numPlayers;
