@@ -438,8 +438,11 @@ public class Player implements Serializable{
      */
     private void showAllNames(){
         System.out.print("\nThe active players of this game are: ");
-        for(Library lib : librariesOfOtherPlayers)
+        for(Library lib : librariesOfOtherPlayers) {
+            if(lib.name.equals(name))
+                continue;
             System.out.print(lib.name + " ");
+        }
         System.out.println("and you");
     }
     /**
