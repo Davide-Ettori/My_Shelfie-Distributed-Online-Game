@@ -60,6 +60,7 @@ public class Player implements Serializable{
     private final String DAVIDE_XIAOMI_IP_G = "192.168.86.95";
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
+    private final String SAMUG_IP_MILANO = "192.168.1.3";
 
     /**
      * constructor used by the server to initializer a base Player object
