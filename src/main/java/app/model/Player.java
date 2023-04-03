@@ -241,7 +241,7 @@ public class Player implements Serializable{
         Scanner in = new Scanner(System.in);
         int temp; // helper per fare gli scambi
         while(true){
-            System.out.print("\nInsert coordinates of the cards to pick (or @ for chat): ");
+            System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
             coordString = in.nextLine();
             rawCoords = coordString.split(" ");
             if(coordString.charAt(0) == '@'){
@@ -263,7 +263,7 @@ public class Player implements Serializable{
         int index_1, index_2;
         while(true){
             printCurOrder(coords);
-            System.out.print("\nInsert which cards to switch (-1 for exit) (or @ for chat): ");
+            System.out.print("\nInsert which cards to switch (-1 for exit) (or @ for chat):\n");
             coordOrder = in.nextLine();
             if(coordOrder.equals("-1"))
                 break;
@@ -282,7 +282,7 @@ public class Player implements Serializable{
         }
         int col;
         while(true){
-            System.out.print("\nInsert the column where you wish to put the cards (or @ for chat): ");
+            System.out.print("\nInsert the column where you wish to put the cards (or @ for chat):\n");
             column = in.nextLine();
             if(column.charAt(0) == '@'){
                 sendChatMsg(column);
