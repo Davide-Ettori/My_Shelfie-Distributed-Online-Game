@@ -231,13 +231,13 @@ public class Player implements Serializable{
 
             switch (msg.getType()) {
                 case YOUR_TURN -> {
-                    startChatReceiveThread();
+                    //startChatReceiveThread();
                     activeName = name;
                     drawAll();
                     waitForMove();
                 }
                 case CHANGE_TURN -> {
-                    startChatSendThread();
+                    //startChatSendThread();
                     activeName = msg.getAuthor();
                     drawAll();
                     waitForTurn();
