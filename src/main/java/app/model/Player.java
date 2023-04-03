@@ -389,7 +389,6 @@ public class Player implements Serializable{
     private boolean isCharValid(int index_1, int index_2, int size){
         return index_1 > 0 && index_1 <= size && index_2 > 0 && index_2 < size;
     }
-
     /**
      * Return to the player the current order of the cards to be placed
      * @param arr list of the cards
@@ -402,7 +401,6 @@ public class Player implements Serializable{
             System.out.print(" ");
         }
     }
-
     /**
      * Send with socket network the message of the chat to the right players
      * @param msg content of the message
