@@ -82,7 +82,7 @@ public class Player implements Serializable{
         uiMode = ui;
         netMode = mode;
         try {
-            mySocket = new Socket(DAVIDE_IP_MILANO, Server.PORT);
+            mySocket = new Socket(DAVIDE_HOTSPOT_IP, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
@@ -152,6 +152,7 @@ public class Player implements Serializable{
         if(name.equals(chairmanName)) {
             chatThread = new Thread(() -> {}); // placeholder thread, used only at the start
             startChatReceiveThread();
+            waitForMove();
         }
         else {
             startChatSendThread();
@@ -427,6 +428,7 @@ public class Player implements Serializable{
             System.out.println("\nYou can't send chat messages to yourself");
             return;
         }
+        System.out.println(msg);
         fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));

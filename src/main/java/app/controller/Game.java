@@ -170,25 +170,7 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-        flushAllBuffer();
-        if(chatThreads.size() == 0){ // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
-            for(int i = 0; i < numPlayers; i++){
-                if(i == activePlayer)
-                    continue;
-                int finalI = i;
-                chatThreads.add(new Thread(() ->{
-                    int index = finalI;
-                    while(true){
-                        try{
-                            Message msg = (Message) inStreams.get(index).readObject();
-                            sendChatToClients(names.get(index), msg.getAuthor(), (String)msg.getContent()); // in questo caso l'author è il destinatario
-                        }
-                        catch(Exception e){System.out.println(e);}
-                    }
-                }));
-                chatThreads.get(chatThreads.size() - 1).start();
-            }
-        }
+        startChatServerThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
             if(msg.getType() == CHAT){
@@ -205,7 +187,27 @@ public class Game implements Serializable {
                 waitMoveFromClient();
         }catch(Exception e){System.out.println(e);}
     }
-
+    private void startChatServerThread(){
+        if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
+            return;
+        flushAllBuffer();
+        for(int i = 0; i < numPlayers; i++){
+            if(i == activePlayer)
+                continue;
+            int finalI = i;
+            chatThreads.add(new Thread(() ->{
+                int index = finalI;
+                while(true){
+                    try{
+                        Message msg = (Message) inStreams.get(index).readObject();
+                        sendChatToClients(names.get(index), msg.getAuthor(), (String)msg.getContent()); // in questo caso l'author è il destinatario
+                    }
+                    catch(Exception e){System.out.println(e);}
+                }
+            }));
+            chatThreads.get(chatThreads.size() - 1).start();
+        }
+    }
     /**
      * Send message in the chat to other client
      * @param from who send the message
