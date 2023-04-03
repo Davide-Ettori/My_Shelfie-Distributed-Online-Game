@@ -61,6 +61,7 @@ public class Player implements Serializable{
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
     private final String SAMUG_IP_MILANO = "192.168.1.3";
+    private final String LOCAL_HOST = "127.0.0.1"; //è il computer stesso
 
     /**
      * constructor used by the server to initializer a base Player object
@@ -82,7 +83,7 @@ public class Player implements Serializable{
         uiMode = ui;
         netMode = mode;
         try {
-            mySocket = new Socket(DAVIDE_IP_MILANO, Server.PORT);
+            mySocket = new Socket(LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
