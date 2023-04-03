@@ -299,7 +299,6 @@ public class Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void waitForMove(){
-        // ora mi aspetto le mosse, voglio quindi attivare i thread che ascoltano le chat degli altri
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
             try {
@@ -312,7 +311,6 @@ public class Player implements Serializable{
         Scanner in = new Scanner(System.in);
         int temp_1, temp_2; // helper per fare gli scambi
         System.out.println("i will ask for your move...");
-        //flushInputBuffer();
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
             coordString = in.nextLine();
