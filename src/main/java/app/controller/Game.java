@@ -237,15 +237,10 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitForEndTurn(){
+        stopChatThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){
-                // spengo momentaneamente i thread che ascoltano i messaggi dalla chat (in questa fase non possono arrivare)
-                for (Thread chatThread : chatThreads) {
-                    chatThread.interrupt();
-                }
-                chatThreads = new ArrayList<>();
-                //
                 players.get(activePlayer).clone((Player) msg.getContent());
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
@@ -260,6 +255,18 @@ public class Game implements Serializable {
             }
             else
                 System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
+        }catch(Exception e){System.out.println(e);}
+    }
+
+    /**
+     * stops all the threads listening for chat messages from NON-active players
+     */
+    private void stopChatThread(){
+        try{
+            for (Thread chatThread : chatThreads) {
+                chatThread.interrupt();
+            }
+            chatThreads = new ArrayList<>();
         }catch(Exception e){System.out.println(e);}
     }
     /**

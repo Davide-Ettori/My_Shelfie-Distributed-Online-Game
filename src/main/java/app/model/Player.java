@@ -193,7 +193,7 @@ public class Player implements Serializable{
                             librariesOfOtherPlayers.set(i, new Library((Library) map.get("library")));
                     }
                     drawAll();
-                    System.out.println("\nPlayer: " + msg.getAuthor() + " made his move");
+                    System.out.println("\nPlayer: " + msg.getAuthor() + " made his move (chat disabled)...");
                     waitForTurn();
                 }
                 case FINAL_SCORE -> {
@@ -329,7 +329,7 @@ public class Player implements Serializable{
         }catch (Exception e){System.out.println(e);}
         if(change)
             drawAll();
-        System.out.println("\nYou made your move, now wait for other players to acknowledge it... (chat disabled)");
+        System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
         map.put("library", library);
@@ -340,7 +340,12 @@ public class Player implements Serializable{
             state = NOT_ACTIVE;
             System.out.println("Your turn is over...");
             Thread.sleep(1000);
-            outStream.writeObject(new Message(END_TURN, name, this));
+            new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
+                try {
+                    Thread.sleep(1000);
+                    outStream.writeObject(new Message(END_TURN, name, this));
+                }catch (Exception e){System.out.println(e);}
+            }).start();
 
         }catch(Exception e){System.out.println(e);}
         waitForTurn();
@@ -538,7 +543,7 @@ public class Player implements Serializable{
             System.out.println("\nYou are the Chairman on this game!");
         else
             System.out.println("\nThe chairman of this game is: " + chairmanName);
-        System.out.println("\nGame Chat: \n" + fullChat);
+        System.out.println("\nGame Chat: " + fullChat);
     }
 
     /**
