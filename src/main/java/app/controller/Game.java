@@ -5,6 +5,7 @@ import app.model.NetMode;
 import app.model.Player;
 import app.view.UIMode;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -169,6 +170,7 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
+        flushAllBuffer();
         if(chatThreads.size() == 0){ // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             for(int i = 0; i < numPlayers; i++){
                 if(i == activePlayer)
@@ -406,5 +408,18 @@ public class Game implements Serializable {
         time = g.time;
         serverSocket = g.serverSocket;
         chatThreads = g.chatThreads;
+    }
+
+    /**
+     * flush the buffers of the socket networks communicating with all the clients
+     */
+    private void flushAllBuffer(){
+        for(ObjectOutputStream out : outStreams) {
+            try {
+                out.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

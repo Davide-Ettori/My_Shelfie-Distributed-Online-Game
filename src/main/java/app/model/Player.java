@@ -151,11 +151,10 @@ public class Player implements Serializable{
         }catch(Exception e){System.out.println(e); System.exit(0);}
         if(name.equals(chairmanName)) {
             chatThread = new Thread(() -> {}); // placeholder thread, used only at the start
-            chatThread.start();
-            waitForMove();
+            startChatReceiveThread();
         }
         else {
-            startChatReceiveThread();
+            startChatSendThread();
             waitForTurn();
         }
     }
@@ -169,11 +168,13 @@ public class Player implements Serializable{
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
                 case YOUR_TURN -> {
+                    startChatReceiveThread();
                     activeName = name;
                     drawAll();
                     waitForMove();
                 }
                 case CHANGE_TURN -> {
+                    startChatSendThread();
                     activeName = msg.getAuthor();
                     drawAll();
                     waitForTurn();
@@ -226,7 +227,6 @@ public class Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void waitForMove(){
-        startChatSendThread();
         // ora mi aspetto le mosse, voglio quindi attivare i thread che ascoltano le chat degli altri
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
@@ -328,8 +328,7 @@ public class Player implements Serializable{
         }catch (Exception e){System.out.println(e);}
         if(change)
             drawAll();
-        startChatReceiveThread();
-        System.out.println("\nYou made your move, now wait for other players to acknowledge it...");
+        System.out.println("\nYou made your move, now wait for other players to acknowledge it... (chat disabled)");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
         map.put("library", library);
@@ -345,7 +344,7 @@ public class Player implements Serializable{
         }catch(Exception e){System.out.println(e);}
         waitForTurn();
     }
-    private void startChatSendThread(){
+    private void startChatReceiveThread(){
         flushInputBuffer();
         chatThread.interrupt();
         chatThread = new Thread(() ->{
@@ -363,7 +362,7 @@ public class Player implements Serializable{
         });
         chatThread.start();
     }
-    private void startChatReceiveThread(){
+    private void startChatSendThread(){
         flushInputBuffer();
         chatThread.interrupt();
         chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
