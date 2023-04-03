@@ -210,25 +210,6 @@ public class Player implements Serializable{
         try {
             System.out.println("waiting for turn");
             Message msg = (Message) inStream.readObject();
-            System.out.println("msg received " + msg.getType().toString() + " " + msg.getType().getClass().getName());
-            String s = msg.getType().toString();
-            //for(int i = 0; i < s.length(); i++){
-             //   System.out.println(s.charAt(i));
-            //}
-            /*
-            System.out.println(s);
-            if(compareStrings((String) s, "YOUR_TURN")){
-                //startChatReceiveThread();
-                activeName = name;
-                drawAll();
-                System.out.println("OWOEjdbhbshb");
-                waitForMove();
-            }
-            else{
-                System.out.println("else");
-            }
-            */
-
             switch (msg.getType()) {
                 case YOUR_TURN -> {
                     //startChatReceiveThread();
