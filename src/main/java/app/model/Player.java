@@ -249,7 +249,7 @@ public class Player implements Serializable{
                 continue;
             }
             if(rawCoords.length % 2 == 1){
-                System.out.println("\nInvalid selection");
+                System.out.println("\nInvalid selection - 1");
                 continue;
             }
             for(int i = 0; i < rawCoords.length; i += 2){
@@ -277,7 +277,7 @@ public class Player implements Serializable{
                 System.out.println("\nInvalid selection");
             }
             temp = coords.get(index_1);
-            coords.set(index_1, index_2);
+            coords.set(index_1, coords.get(index_2));
             coords.set(index_2, temp);
         }
         int col;
