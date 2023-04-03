@@ -29,7 +29,7 @@ public class Player implements Serializable{
     public String chairmanName;
     /** the network mode chosen by the user */
     public NetMode netMode;
-    /** teh UI mode chosen by the user */
+    /** the UI mode chosen by the user */
     public UIMode uiMode;
     /** number of players in this current game */
     public int numPlayers;
@@ -57,7 +57,7 @@ public class Player implements Serializable{
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
-    private final String DAVIDE_XIAOMI_IP_G = "192.168.86.95";
+    private final String DAVIDE_XIAOMI_IP_G = "192.168.58.95";
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
     private final String SAMUG_IP_MILANO = "192.168.1.3";
@@ -82,7 +82,7 @@ public class Player implements Serializable{
         uiMode = ui;
         netMode = mode;
         try {
-            mySocket = new Socket(DAVIDE_HOTSPOT_IP, Server.PORT);
+            mySocket = new Socket(DAVIDE_XIAOMI_IP_G, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
