@@ -82,9 +82,9 @@ public class Player implements Serializable{
         uiMode = ui;
         netMode = mode;
         try {
-            Socket socket = new Socket(DAVIDE_IP_MILANO, Server.PORT);
-            outStream = new ObjectOutputStream(socket.getOutputStream());
-            inStream = new ObjectInputStream(socket.getInputStream());
+            mySocket = new Socket(DAVIDE_IP_MILANO, Server.PORT);
+            outStream = new ObjectOutputStream(mySocket.getOutputStream());
+            inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
         System.out.println("\nClient connected");
         while(true){
