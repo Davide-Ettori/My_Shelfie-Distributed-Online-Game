@@ -182,7 +182,26 @@ public class Player implements Serializable{
             waitForTurn();
         }
     }
-
+    public boolean compareStrings(String s1, String s2){
+        System.out.println("entro in compare");
+        System.out.println(s2.length());
+        System.out.println(s1.length());
+        System.out.println("length fatta");
+        if(s1.length() != s2.length()){
+            System.out.println("VAFFANCULO");
+            return false;
+        }
+        System.out.println(s2.length());
+        for(int i = 0; i < s1.length(); i++){
+            System.out.println(s2.charAt(i) + " - " + s1.charAt(i));
+            if(s1.charAt(i) != s2.charAt(i)){
+                System.out.println("diverso");
+                return false;
+            }
+        }
+        System.out.println("true");
+        return true;
+    }
     /**
      * Attend the start of the turn, meanwhile can update the board if someone else changes it. it can also receive notifications of important events
      * @author Ettori Faccincani
@@ -191,7 +210,25 @@ public class Player implements Serializable{
         try {
             System.out.println("waiting for turn");
             Message msg = (Message) inStream.readObject();
-            System.out.println("msg received");
+            System.out.println("msg received " + msg.getType().toString() + " " + msg.getType().getClass().getName());
+            String s = msg.getType().toString();
+            //for(int i = 0; i < s.length(); i++){
+             //   System.out.println(s.charAt(i));
+            //}
+            /*
+            System.out.println(s);
+            if(compareStrings((String) s, "YOUR_TURN")){
+                //startChatReceiveThread();
+                activeName = name;
+                drawAll();
+                System.out.println("OWOEjdbhbshb");
+                waitForMove();
+            }
+            else{
+                System.out.println("else");
+            }
+            */
+
             switch (msg.getType()) {
                 case YOUR_TURN -> {
                     startChatReceiveThread();
@@ -266,8 +303,10 @@ public class Player implements Serializable{
         Scanner in = new Scanner(System.in);
         int temp_1, temp_2; // helper per fare gli scambi
         while(true){
+            //flushInputBuffer();
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
             coordString = in.nextLine();
+            System.out.println(coordString);
             rawCoords = coordString.split(" ");
             if(coordString.charAt(0) == '@'){
                 sendChatMsg(coordString);
@@ -388,7 +427,8 @@ public class Player implements Serializable{
      * starts all the threads that listen for chat message from other clients (receiving)
      */
     private void startChatReceiveThread(){
-        flushInputBuffer();
+        //flushInputBuffer();
+        System.out.println("start receive thread");
         chatThread.interrupt();
         chatThread = new Thread(() ->{
             try{
@@ -404,13 +444,15 @@ public class Player implements Serializable{
             }catch(Exception e){System.out.println(e);}
         });
         chatThread.start();
+        System.out.println("end receive thread");
     }
 
     /**
      * starts all the threads that listen for chat message from the user (sending)
      */
     private void startChatSendThread(){
-        flushInputBuffer();
+        System.out.println("entro thread");
+        //flushInputBuffer();
         try {
             chatThread.interrupt();
         }catch (Exception e){}
@@ -423,6 +465,7 @@ public class Player implements Serializable{
             }
         });
         chatThread.start();
+        System.out.println("esco thread");
     }
     /**
      * Check if the index of the columns to switch are valid

@@ -1,3 +1,5 @@
 package app.controller;
 
-public enum MessageType {YOUR_TURN, CHANGE_TURN, END_TURN, UPDATE_GAME, FINAL_SCORE, UPDATE_BOARD, CHAT, CO_1, CO_2, LIB_FULL}
+import java.io.Serializable;
+
+public enum MessageType implements Serializable {YOUR_TURN, CHANGE_TURN, END_TURN, UPDATE_GAME, FINAL_SCORE, UPDATE_BOARD, CHAT, CO_1, CO_2, LIB_FULL}
