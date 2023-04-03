@@ -150,20 +150,12 @@ public class Player implements Serializable{
             drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}
         if(name.equals(chairmanName)) {
-            chatThread = new Thread(() -> {});
+            chatThread = new Thread(() -> {}); // placeholder thread, used only at the start
             chatThread.start();
             waitForMove();
         }
         else {
-            chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
-                Scanner in = new Scanner(System.in);
-                String s;
-                while(true) {
-                    s = in.nextLine().trim();
-                    sendChatMsg(s);
-                }
-            });
-            chatThread.start();
+            startChatReceiveThread();
             waitForTurn();
         }
     }
@@ -234,21 +226,7 @@ public class Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void waitForMove(){
-        chatThread.interrupt();
-        chatThread = new Thread(() ->{
-            try{
-                while(true){
-                    Message msg = (Message) inStream.readObject();
-                    if(msg.getType() == CHAT) {
-                        System.out.println(msg.getContent());
-                        fullChat += msg.getContent() + "\n";
-                    }
-                    else
-                        System.out.println("\nHere i am only expecting chat message, no other types");
-                }
-            }catch(Exception e){System.out.println(e);}
-        });
-        chatThread.start();
+        startChatSendThread();
         // ora mi aspetto le mosse, voglio quindi attivare i thread che ascoltano le chat degli altri
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
@@ -350,6 +328,7 @@ public class Player implements Serializable{
         }catch (Exception e){System.out.println(e);}
         if(change)
             drawAll();
+        startChatReceiveThread();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it...");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
@@ -364,19 +343,39 @@ public class Player implements Serializable{
             outStream.writeObject(new Message(END_TURN, name, this));
 
         }catch(Exception e){System.out.println(e);}
+        waitForTurn();
+    }
+    private void startChatSendThread(){
+        flushInputBuffer();
+        chatThread.interrupt();
+        chatThread = new Thread(() ->{
+            try{
+                while(true){
+                    Message msg = (Message) inStream.readObject();
+                    if(msg.getType() == CHAT) {
+                        System.out.println(msg.getContent());
+                        fullChat += msg.getContent() + "\n";
+                    }
+                    else
+                        System.out.println("\nHere i am only expecting chat message, no other types");
+                }
+            }catch(Exception e){System.out.println(e);}
+        });
+        chatThread.start();
+    }
+    private void startChatReceiveThread(){
+        flushInputBuffer();
         chatThread.interrupt();
         chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
-            Scanner inT = new Scanner(System.in);
+            Scanner in = new Scanner(System.in);
             String s;
             while(true) {
-                s = inT.nextLine().trim();
+                s = in.nextLine().trim();
                 sendChatMsg(s);
             }
         });
         chatThread.start();
-        waitForTurn();
     }
-
     /**
      * Check if the index of the columns to switch are valid
      * @param index_1 column to switch
@@ -464,18 +463,6 @@ public class Player implements Serializable{
         return name;
     }
     /**
-     * setter for the board
-     * @author Ettori
-     * @param b the board which will be set
-     */
-    public void setBoard(Board b){board = new Board(b);}
-    /**
-     * getter for the board
-     * @author Ettori
-     * @return the current board of this player
-     */
-    public Board getBoard(Board b){return board;}
-    /**
      * setter for the PO
      * @author Ettori
      * @param obj  the PO that needs to be set
@@ -557,12 +544,12 @@ public class Player implements Serializable{
     }
 
     /**
-     * flush the buffer used to comunicate with the server socket
+     * flush the input buffer of the terminal (System.in)
      * @author Ettori
      */
-    private void flushOutBuffer(){
+    private void flushInputBuffer(){
         try {
-            outStream.flush();
+            System.in.read(new byte[System.in.available()]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
