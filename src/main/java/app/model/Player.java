@@ -428,7 +428,6 @@ public class Player implements Serializable{
             System.out.println("\nYou can't send chat messages to yourself");
             return;
         }
-        System.out.println(msg);
         fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
