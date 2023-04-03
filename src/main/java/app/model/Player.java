@@ -410,14 +410,14 @@ public class Player implements Serializable{
     private void sendChatMsg(String msg){
         if(msg.charAt(0) != '@')
             return;
+        if(!msg.contains(" ")){
+            if(msg.substring(1).equals("names"))
+                showAllNames();
+            return;
+        }
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
         msg = "\n" + name + " says:" + msg;
-
-        if(dest.equals("names")){
-            showAllNames();
-            return;
-        }
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
             System.out.println("\nThe name chosen does not exists");
