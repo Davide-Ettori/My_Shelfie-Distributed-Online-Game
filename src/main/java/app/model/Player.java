@@ -471,9 +471,7 @@ public class Player implements Serializable{
      * @author Ettori
      * @param obj  the PO that needs to be set
      */
-    public void setPrivateObjective(PrivateObjective obj) {
-        objective = obj;
-    }
+    public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
     /**
      * take the cards from the board and transfer them in the player library
      * @author Ettori
