@@ -406,13 +406,21 @@ public class Player implements Serializable{
         waitForTurn();
     }
 
+    /**
+     * Check if the input by the user is correct
+     * @param s array of the coordinates
+     * @return true if the input is correct
+     * @author Faccincani
+     */
     private boolean checkRawCoords(String[] s) {
-        if (s.length % 2 == 1){
-            for (int i = 0; i < s.length; i++){
+        if (s.length % 2 == 1)
+            return false;
+        else {
+            for (int i = 0; i < s.length; i++) {
                 if (Integer.parseInt(s[i]) < 0 || Integer.parseInt(s[i]) > 9)
                     return false;
+                }
             }
-        }
         return true;
     }
 
