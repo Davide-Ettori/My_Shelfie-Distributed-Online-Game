@@ -275,6 +275,7 @@ public class Player implements Serializable{
             index_2 = Character.getNumericValue(coordOrder.charAt(2));
             if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
                 System.out.println("\nInvalid selection");
+                continue;
             }
             index_1 *= 2;
             index_2 *= 2;
