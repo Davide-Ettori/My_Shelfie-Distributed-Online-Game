@@ -4,6 +4,7 @@ import app.controller.*;
 import app.view.UIMode;
 import playground.socket.Server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -401,7 +402,7 @@ public class Player implements Serializable{
     }
 
     /**
-     * Send with socket the message of the chat
+     * Send with socket network the message of the chat to the right players
      * @param msg content of the message
      * @author Ettori
      */
@@ -411,7 +412,13 @@ public class Player implements Serializable{
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
         msg = "\n" + name + " says:" + msg;
-        if(!doesPlayerExists(dest)) {
+
+        if(dest.equals("names")){
+            showAllNames();
+            return;
+        }
+
+        if(!doesPlayerExists(dest) && !dest.equals("all")) {
             System.out.println("\nThe name chosen does not exists");
             return;
         }
@@ -424,9 +431,19 @@ public class Player implements Serializable{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){System.out.println(e);}
     }
-
+    /**
+     * prints the name of all the players in the terminal, so that the user can choose the receiver of the chat messages
+     * @author Ettori
+     */
+    private void showAllNames(){
+        System.out.print("\nThe active players of this game are: ");
+        for(Library lib : librariesOfOtherPlayers)
+            System.out.print(lib.name + " ");
+        System.out.println("and you");
+    }
     /**
      * check if the name of a player exists in the game (used by the chat)
+     * @author Ettori
      * @param name the name to check in this game
      * @return true iff that player actually exists in the current game
      */
@@ -530,10 +547,23 @@ public class Player implements Serializable{
 
     /**
      * prints 12 spaces (rows) to simulate the flush of the terminal
+     * @author Gumus
      */
     private void clearScreen(){
         for(int i = 0; i < 12; i++){
             System.out.println();
+        }
+    }
+
+    /**
+     * flush the buffer used to comunicate with the server socket
+     * @author Ettori
+     */
+    private void flushOutBuffer(){
+        try {
+            outStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
