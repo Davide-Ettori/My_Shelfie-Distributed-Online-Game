@@ -23,8 +23,12 @@ class ProvaThread extends Thread{
             String s;
             while (true) {
                 System.out.println("Inserisci input (" + name + "): ");
-                while (System.in.available() == 0) // stessa cosa con inStream.available() == 0
+                //System.out.println(in.has);
+                while (!in.hasNext()) { // stessa cosa con inStream.available() == 0
+                    System.out.println("aspetto");
                     Thread.sleep(100);
+                }
+                System.out.println("fine ciclo");
                 s = in.nextLine();
                 System.out.println(s);
             }

@@ -9,10 +9,11 @@ public class ReceiveChat extends Thread{
     @Override
     public void run(){
         try {
-            while (true) {
-                Message msg = (Message) player.inStream.readObject();
-                System.out.println(msg.getContent());
-                player.fullChat += msg.getContent() + "\n";
+            while (!isInterrupted()) {
+                new Thread(() ->{
+                    //player.inStream.set
+                }).start();
+                Thread.sleep(100);
             }
         }
         catch(Exception e){System.out.println(e);}
