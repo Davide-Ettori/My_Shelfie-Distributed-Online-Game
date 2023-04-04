@@ -205,18 +205,20 @@ public class Player implements Serializable{
                     drawAll();
                     waitForTurn();
                 }
-                case UPDATE_BOARD -> {
+                case UPDATE_UNPLAYBLE -> {
                     board = new Board((Board) msg.getContent());
                     drawAll();
                     waitForTurn();
                 }
-                case UPDATE_GAME -> {
+                case UPDATE_BOARD -> {
                     stopChatThread();
-                    HashMap<String, Object> map = (HashMap<String, Object>) msg.getContent();
-                    board = new Board((Board) map.get("board"));
-                    for (int i = 0; i < librariesOfOtherPlayers.size(); i++) {
-                        if (librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                            librariesOfOtherPlayers.set(i, new Library((Library) map.get("library")));
+                    board = new Board((Board)msg.getContent());
+                    waitForMove();
+                }
+                case UPDATE_LIBRARY -> {
+                    for(int i = 0; i < numPlayers; i++){
+                        if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
+                            librariesOfOtherPlayers.set(i, new Library((Library) msg.getContent()));
                     }
                     drawAll();
                     System.out.println("\nPlayer: " + msg.getAuthor() + " made his move (chat disabled)...");
@@ -256,7 +258,7 @@ public class Player implements Serializable{
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
             try {
-                outStream.writeObject(new Message(UPDATE_BOARD, name, board));
+                outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, board));
             }catch (Exception e){System.out.println(e);}
         }
         String coordString, coordOrder, column;
@@ -369,7 +371,8 @@ public class Player implements Serializable{
         map.put("board", board);
         map.put("library", library);
         try {
-            outStream.writeObject(new Message(UPDATE_GAME, name, map));
+            outStream.writeObject(new Message(UPDATE_BOARD, name, board));
+            outStream.writeObject(new Message(UPDATE_LIBRARY, name, library));
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;

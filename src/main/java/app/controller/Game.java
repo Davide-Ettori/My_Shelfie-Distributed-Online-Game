@@ -187,7 +187,7 @@ public class Game implements Serializable {
                 if (i != activePlayer)
                     outStreams.get(i).writeObject(msg);
             }
-            if(msg.getType() == UPDATE_GAME) {
+            if(msg.getType() == UPDATE_LIBRARY) {
                 waitForEndTurn();
             }
             else
