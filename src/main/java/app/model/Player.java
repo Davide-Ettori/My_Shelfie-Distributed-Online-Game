@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 import static app.controller.MessageType.*;
@@ -210,15 +209,13 @@ public class Player implements Serializable{
                     drawAll();
                     waitForTurn();
                 }
-                case UPDATE_BOARD -> {
+                case UPDATE_GAME -> {
                     stopChatThread();
-                    board = new Board((Board)msg.getContent());
-                    waitForMove();
-                }
-                case UPDATE_LIBRARY -> {
+                    GameStatus gameStatus = (GameStatus)msg.getContent();
+                    board = new Board(gameStatus.board);
                     for(int i = 0; i < numPlayers; i++){
                         if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                            librariesOfOtherPlayers.set(i, new Library((Library) msg.getContent()));
+                            librariesOfOtherPlayers.set(i, new Library(gameStatus.library));
                     }
                     drawAll();
                     System.out.println("\nPlayer: " + msg.getAuthor() + " made his move (chat disabled)...");
@@ -367,12 +364,8 @@ public class Player implements Serializable{
             drawAll();
         stopChatThread();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("board", board);
-        map.put("library", library);
         try {
-            outStream.writeObject(new Message(UPDATE_BOARD, name, board));
-            outStream.writeObject(new Message(UPDATE_LIBRARY, name, library));
+            outStream.writeObject(new Message(UPDATE_GAME, name, new GameStatus(board, library)));
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
