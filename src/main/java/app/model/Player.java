@@ -587,7 +587,7 @@ public class Player implements Serializable{
             System.out.println("\nYou are the Chairman on this game!");
         else
             System.out.println("\nThe chairman of this game is: " + chairmanName);
-        System.out.println("\nGame Chat: " + fullChat);
+        System.out.println("\nGame Chat: \n" + fullChat);
     }
 
     /**
