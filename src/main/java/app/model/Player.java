@@ -219,7 +219,7 @@ public class Player implements Serializable{
                             librariesOfOtherPlayers.set(i, new Library((Library)jsonObject.get("library")));
                     }
                     drawAll();
-                    System.out.println("\nPlayer: " + msg.getAuthor() + " made his move (chat disabled)...");
+                    System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
                     waitForTurn();
                 }
                 case FINAL_SCORE -> {
@@ -471,7 +471,7 @@ public class Player implements Serializable{
         }
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
-        msg = "\n" + name + " says:" + msg + " (to " + dest + ")";
+        msg = name + " says:" + msg + " (to " + dest + ")\n";
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
             System.out.println("\nThe name chosen does not exists");

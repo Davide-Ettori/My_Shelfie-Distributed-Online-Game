@@ -18,7 +18,6 @@ public class SendChat extends Thread{
                     Thread.sleep(100);
                 }
                 s = in.nextLine();
-                System.out.println(s);
                 player.sendChatMsg(s);
             }
         }
