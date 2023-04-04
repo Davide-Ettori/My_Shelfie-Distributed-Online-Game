@@ -375,8 +375,7 @@ public class Player implements Serializable{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Thread.sleep(1000);
-                    Player playerSend = new Player(this);
-                    outStream.writeObject(new Message(END_TURN, name, playerSend));
+                    outStream.writeObject(new Message(END_TURN, name, this));
                 }catch (Exception e){System.out.println(e);}
             }).start();
 
