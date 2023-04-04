@@ -75,7 +75,7 @@ public class FILEHelper {
      */
     public static void writeString(String s){
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/app/controller/cache/status.txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/app/controller/cache/test.txt"));
             bw.write(s);
             bw.close();
         }catch(Exception e){System.out.println(e);}

@@ -1,5 +1,6 @@
 package app.model.chat;
 
+import app.controller.FILEHelper;
 import app.model.Player;
 
 import java.util.Scanner;
@@ -19,7 +20,9 @@ public class SendChat extends Thread{
                 player.sendChatMsg(s);
             }
         }
-        catch (InterruptedException e){System.out.println("exit with success");}
+        catch (InterruptedException e){System.out.println("exit with success");
+            FILEHelper.writeString(player.getName());
+        }
         catch(Exception e){System.out.println(e);}
     }
 }
