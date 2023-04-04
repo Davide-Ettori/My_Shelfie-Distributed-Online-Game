@@ -154,7 +154,6 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void notifyNewTurn(){
-        System.out.println("enter notify new turn");
         for(int i = 0; i < numPlayers; i++){
             try {
                 if (i == activePlayer) {
@@ -163,7 +162,6 @@ public class Game implements Serializable {
                 }
                 else
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-                System.out.println(i);
             }catch (Exception e){System.out.println(e);}
         }
         waitMoveFromClient();
@@ -175,9 +173,7 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-        System.out.println("WMFC");
         startChatServerThread();
-        System.out.println("inizio wait for move");
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
             if(msg.getType() == CHAT){
@@ -205,7 +201,6 @@ public class Game implements Serializable {
             return;
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             return;
-        System.out.println("starto i server thread: " + activePlayer);
         for(int i = 0; i < numPlayers; i++){
             if(i == activePlayer)
                 continue;
@@ -221,7 +216,6 @@ public class Game implements Serializable {
      * @author Ettori
      */
     public void sendChatToClients(String from, String to, String msg){
-        System.out.println(msg + from + to);
         try {
             if (to.equals("all")) {
                 for (int i = 0; i < numPlayers; i++) {
@@ -240,11 +234,9 @@ public class Game implements Serializable {
      */
     private void waitForEndTurn(){
         chatThreads = new ArrayList<>();
-        System.out.println("wait for turn");
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){
-                System.out.println("end turn received");
                 players.get(activePlayer).clone((Player) msg.getContent());
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
@@ -255,7 +247,6 @@ public class Game implements Serializable {
                     }
                     Thread.sleep(3000); // dai tempo agli altri giocatori di leggere il messaggio
                 }
-                System.out.println("turn advancing");
                 advanceTurn();
             }
             else
@@ -330,7 +321,6 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
-        System.out.println("enter advance turn");
         players.get(activePlayer).setState(NOT_ACTIVE);
         do {
             activePlayer = (activePlayer + 1) % numPlayers;

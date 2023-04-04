@@ -13,7 +13,6 @@ public class ChatBroadcast extends Thread{
                 Message msg = (Message) game.inStreams.get(index).readObject();
                 if(msg.getType() == STOP)
                     return;
-                System.out.println("trovato da game");
                 game.sendChatToClients(game.names.get(index), msg.getAuthor(), (String) msg.getContent());
             }
         }

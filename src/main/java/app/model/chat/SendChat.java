@@ -22,9 +22,7 @@ public class SendChat extends Thread{
                 player.sendChatMsg(s);
             }
         }
-        catch (InterruptedException e){System.out.println("exit with success");
-            FILEHelper.writeString(player.getName());
-        }
+        catch (InterruptedException e){}
         catch(Exception e){System.out.println(e);}
     }
 }

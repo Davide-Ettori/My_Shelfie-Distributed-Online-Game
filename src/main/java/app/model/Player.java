@@ -5,7 +5,6 @@ import app.model.chat.ReceiveChat;
 import app.model.chat.SendChat;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import playground.socket.Server;
 
 import java.io.IOException;
@@ -191,7 +190,6 @@ public class Player implements Serializable{
      */
     private void waitForTurn(){ // funzione principale di attesa
         try {
-            System.out.println("waiting for turn");
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
                 case YOUR_TURN -> {
@@ -266,12 +264,10 @@ public class Player implements Serializable{
         ArrayList<Integer> coords = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         int temp_1, temp_2; // helper per fare gli scambi
-        System.out.println("i will ask for your move...");
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
 
             coordString = in.nextLine();
-            System.out.println(coordString);
             rawCoords = coordString.split(" ");
 
             if(coordString.charAt(0) == '@'){
@@ -375,19 +371,16 @@ public class Player implements Serializable{
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
-            System.out.println("Your turn is over...");
             Thread.sleep(1000);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Thread.sleep(1000);
-                    System.out.println("fine turno in arrivo");
                     Player playerSend = new Player(this);
                     outStream.writeObject(new Message(END_TURN, name, playerSend));
                 }catch (Exception e){System.out.println(e);}
             }).start();
 
         }catch(Exception e){System.out.println(e);}
-        System.out.println("vado in wait for turn");
         waitForTurn();
     }
 
@@ -426,11 +419,9 @@ public class Player implements Serializable{
     private void startChatReceiveThread(){
         if(!Game.CHAT_ACTIVE)
             return;
-        System.out.println("start receive thread");
         stopChatThread();
         chatThread = new ReceiveChat(this);
         chatThread.start();
-        System.out.println("end receive thread");
     }
 
     /**
@@ -439,11 +430,9 @@ public class Player implements Serializable{
     private void startChatSendThread(){
         if(!Game.CHAT_ACTIVE)
             return;
-        System.out.println("entro thread");
         stopChatThread();
         chatThread = new SendChat(this);
         chatThread.start();
-        System.out.println("esco thread");
     }
     /**
      * Check if the index to switch are valid
@@ -474,7 +463,6 @@ public class Player implements Serializable{
      * @author Ettori
      */
     public void sendChatMsg(String msg){
-        System.out.println(msg);
         if(msg.charAt(0) != '@')
             return;
         if(!msg.contains(" ")){
@@ -496,7 +484,6 @@ public class Player implements Serializable{
         }
         fullChat += msg;
         try{
-            System.out.println("mando msg");
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){System.out.println(e);}
     }
