@@ -24,7 +24,7 @@ import static app.model.State.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
-    public static final boolean CHAT_ACTIVE = false;
+    public static final boolean CHAT_ACTIVE = true;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
@@ -189,6 +189,7 @@ public class Game implements Serializable {
                     outStreams.get(i).writeObject(msg);
             }
             if(msg.getType() == UPDATE_GAME) {
+                outStreams.get(activePlayer).writeObject(new Message(STOP, null, null));
                 waitForEndTurn();
             }
             else
@@ -211,19 +212,6 @@ public class Game implements Serializable {
             chatThreads.add(new ChatBroadcast(this, i));
             chatThreads.get(chatThreads.size() - 1).start();
         }
-    }
-    /**
-     * stops all the threads listening for chat messages from NON-active players
-     */
-    private void stopChatServerThread(){
-        if(!CHAT_ACTIVE)
-            return;
-        try{
-            for (Thread chatThread : chatThreads) {
-                chatThread.stop();
-            }
-            chatThreads = new ArrayList<>();
-        }catch(Exception e){System.out.println(e);}
     }
     /**
      * Send message in the chat to other client
@@ -251,8 +239,8 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitForEndTurn(){
+        chatThreads = new ArrayList<>();
         System.out.println("wait for turn");
-        stopChatServerThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){

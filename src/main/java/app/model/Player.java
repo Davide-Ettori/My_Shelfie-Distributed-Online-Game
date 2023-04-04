@@ -213,6 +213,7 @@ public class Player implements Serializable{
                 }
                 case UPDATE_GAME -> {
                     stopChatThread();
+                    outStream.writeObject(new Message(STOP, null, null));
                     JSONObject jsonObject = (JSONObject) msg.getContent();
                     board = new Board((Board)jsonObject.get("board"));
                     for(int i = 0; i < numPlayers; i++){
@@ -416,7 +417,7 @@ public class Player implements Serializable{
             if(chatThread.getClass().getSimpleName().equals("SendChat"))
                 chatThread.interrupt();
             else
-                chatThread.stop();
+                chatThread.interrupt();
         }catch (Exception e){System.out.println();}
     }
     /**
