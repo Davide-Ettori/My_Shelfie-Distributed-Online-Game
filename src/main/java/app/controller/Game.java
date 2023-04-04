@@ -24,7 +24,6 @@ import static app.model.State.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
-    public static final boolean CHAT_ACTIVE = true;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
@@ -197,8 +196,6 @@ public class Game implements Serializable {
      * start all the threads that listen for chat messages from the clients (and send the messages back to the players)
      */
     private void startChatServerThread(){
-        if(!CHAT_ACTIVE)
-            return;
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             return;
         for(int i = 0; i < numPlayers; i++){

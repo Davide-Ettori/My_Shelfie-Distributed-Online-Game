@@ -416,8 +416,6 @@ public class Player implements Serializable{
      * starts all the threads that listen for chat message from other clients (receiving)
      */
     private void startChatReceiveThread(){
-        if(!Game.CHAT_ACTIVE)
-            return;
         stopChatThread();
         chatThread = new ReceiveChat(this);
         chatThread.start();
@@ -427,8 +425,6 @@ public class Player implements Serializable{
      * starts all the threads that listen for chat message from the user (sending)
      */
     private void startChatSendThread(){
-        if(!Game.CHAT_ACTIVE)
-            return;
         stopChatThread();
         chatThread = new SendChat(this);
         chatThread.start();
