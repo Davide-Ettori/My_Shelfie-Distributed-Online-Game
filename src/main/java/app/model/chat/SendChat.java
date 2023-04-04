@@ -2,9 +2,24 @@ package app.model.chat;
 
 import app.model.Player;
 
+import java.util.Scanner;
+
 public class SendChat extends Thread{
-    private Player player;
+    private final Player player;
     public SendChat(Player p){player = p;}
     @Override
-    public void run(){}
+    public void run(){
+        try {
+            Scanner in = new Scanner(System.in);
+            String s;
+            while (true) {
+                while (System.in.available() == 0)
+                    Thread.sleep(100);
+                s = in.nextLine();
+                player.sendChatMsg(s);
+            }
+        }
+        catch (InterruptedException e){System.out.println("exit with success");}
+        catch(Exception e){System.out.println(e);}
+    }
 }

@@ -49,10 +49,10 @@ public class Player implements Serializable{
     /** list of the libraries of all the players in the game */
     public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
     private transient Socket mySocket;
-    private transient ObjectInputStream inStream;
+    public transient ObjectInputStream inStream;
     private transient ObjectOutputStream outStream;
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    private String fullChat = "";
+    public String fullChat = "";
     private boolean endGame = false;
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
@@ -230,6 +230,7 @@ public class Player implements Serializable{
                     waitForTurn();
                 }
                 case UPDATE_GAME -> {
+                    //stopChatThread();
                     HashMap<String, Object> map = (HashMap<String, Object>) msg.getContent();
                     board = new Board((Board) map.get("board"));
                     for (int i = 0; i < librariesOfOtherPlayers.size(); i++) {
@@ -355,7 +356,7 @@ public class Player implements Serializable{
                 pointsUntilNow += points;
                 CO_1_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
-                System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points");
+                System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
                 Thread.sleep(1000);
                 change = true;
             }
@@ -364,7 +365,7 @@ public class Player implements Serializable{
                 pointsUntilNow += points;
                 CO_2_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
-                System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points");
+                System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
                 Thread.sleep(1000);
                 change = true;
             }
@@ -374,13 +375,14 @@ public class Player implements Serializable{
                 endGame = true;
                 pointsUntilNow++;
                 outStream.writeObject(new Message(LIB_FULL, name, null));
-                System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName);
+                System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
                 Thread.sleep(1000);
                 change = true;
             }
         }catch (Exception e){System.out.println(e);}
         if(change)
             drawAll();
+        //stopChatThread();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
@@ -425,12 +427,19 @@ public class Player implements Serializable{
     }
 
     /**
+     * stops all the thread interaction related to the chat
+     */
+    private void stopChatThread(){
+        try {
+            chatThread.interrupt();
+        }catch (Exception e){System.out.println();}
+    }
+    /**
      * starts all the threads that listen for chat message from other clients (receiving)
      */
     private void startChatReceiveThread(){
-        //flushInputBuffer();
         System.out.println("start receive thread");
-        chatThread.interrupt();
+        //stopChatThread();
         chatThread = new Thread(() ->{
             try{
                 while(true){
@@ -453,10 +462,7 @@ public class Player implements Serializable{
      */
     private void startChatSendThread(){
         System.out.println("entro thread");
-        //flushInputBuffer();
-        try {
-            chatThread.interrupt();
-        }catch (Exception e){}
+        //stopChatThread();
         chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
             Scanner in = new Scanner(System.in);
             String s;
@@ -496,7 +502,7 @@ public class Player implements Serializable{
      * @param msg content of the message
      * @author Ettori
      */
-    private void sendChatMsg(String msg){
+    public void sendChatMsg(String msg){
         if(msg.charAt(0) != '@')
             return;
         if(!msg.contains(" ")){
@@ -631,6 +637,19 @@ public class Player implements Serializable{
     private void clearScreen(){
         for(int i = 0; i < 12; i++){
             System.out.println();
+        }
+    }
+    public void flushInputBuffer(){
+        Scanner in = new Scanner(System.in);
+        while (true) {
+            try {
+                if (System.in.available() != 0)
+                    in.nextLine();
+                else
+                    break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

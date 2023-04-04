@@ -30,12 +30,12 @@ public class Game implements Serializable {
     private int endPlayer;
     private int activePlayer = 0;
     private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<String> names = new ArrayList<>();
+    public ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
     private ArrayList<UIMode> uiModes = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
-    private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
+    public ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
     private ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean endGameSituation = false;
@@ -183,8 +183,10 @@ public class Game implements Serializable {
                 if (i != activePlayer)
                     outStreams.get(i).writeObject(msg);
             }
-            if(msg.getType() == UPDATE_GAME)
+            if(msg.getType() == UPDATE_GAME) {
+                //stopChatServerThread();
                 waitForEndTurn();
+            }
             else
                 waitMoveFromClient();
         }catch(Exception e){System.out.println(e);}
@@ -196,23 +198,23 @@ public class Game implements Serializable {
     private void startChatServerThread(){
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             return;
-        flushAllBuffer();
         for(int i = 0; i < numPlayers; i++){
             if(i == activePlayer)
                 continue;
-            int finalI = i;
-            chatThreads.add(new Thread(() ->{
-                int index = finalI;
-                while(true){
-                    try{
-                        Message msg = (Message) inStreams.get(index).readObject();
-                        sendChatToClients(names.get(index), msg.getAuthor(), (String)msg.getContent()); // in questo caso l'author è il destinatario
-                    }
-                    catch(Exception e){System.out.println(e);}
-                }
-            }));
+            chatThreads.add(new ChatBroadcast(this, i));
             chatThreads.get(chatThreads.size() - 1).start();
         }
+    }
+    /**
+     * stops all the threads listening for chat messages from NON-active players
+     */
+    private void stopChatServerThread(){
+        try{
+            for (Thread chatThread : chatThreads) {
+                chatThread.interrupt();
+            }
+            chatThreads = new ArrayList<>();
+        }catch(Exception e){System.out.println(e);}
     }
     /**
      * Send message in the chat to other client
@@ -221,7 +223,7 @@ public class Game implements Serializable {
      * @param msg text inside the message
      * @author Ettori
      */
-    private void sendChatToClients(String from, String to, String msg){
+    public void sendChatToClients(String from, String to, String msg){
         try {
             if (to.equals("all")) {
                 for (int i = 0; i < numPlayers; i++) {
@@ -260,18 +262,6 @@ public class Game implements Serializable {
             }
             else
                 System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
-        }catch(Exception e){System.out.println(e);}
-    }
-
-    /**
-     * stops all the threads listening for chat messages from NON-active players
-     */
-    private void stopChatThread(){
-        try{
-            for (Thread chatThread : chatThreads) {
-                chatThread.interrupt();
-            }
-            chatThreads = new ArrayList<>();
         }catch(Exception e){System.out.println(e);}
     }
     /**
