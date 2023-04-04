@@ -30,11 +30,13 @@ public class Game implements Serializable {
     private int endPlayer;
     private int activePlayer = 0;
     private ArrayList<Player> players = new ArrayList<>();
+    /** list that contains the name of the players */
     public ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
     private ArrayList<UIMode> uiModes = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
+    /** list that contains the input stream objects*/
     public ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
     private ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
