@@ -19,7 +19,7 @@ import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
 /**
- * class which represent the instance of the -current game
+ * class which represent the instance of the current game
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
