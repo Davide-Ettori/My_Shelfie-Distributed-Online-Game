@@ -1,6 +1,8 @@
 package app.model;
 
 import app.controller.*;
+import app.model.chat.ReceiveChat;
+import app.model.chat.SendChat;
 import app.view.UIMode;
 import playground.socket.Server;
 
@@ -410,7 +412,10 @@ public class Player implements Serializable{
      */
     private void stopChatThread(){
         try {
-            chatThread.interrupt();
+            if(chatThread.getClass().getSimpleName().equals("SendChat"))
+                chatThread.interrupt();
+            else
+                chatThread.stop();
         }catch (Exception e){System.out.println();}
     }
     /**
@@ -421,19 +426,7 @@ public class Player implements Serializable{
             return;
         System.out.println("start receive thread");
         stopChatThread();
-        chatThread = new Thread(() ->{
-            try{
-                while(true){
-                    Message msg = (Message) inStream.readObject();
-                    if(msg.getType() == CHAT) {
-                        System.out.println(msg.getContent());
-                        fullChat += msg.getContent() + "\n";
-                    }
-                    else
-                        System.out.println("\nHere i am only expecting chat message, no other types");
-                }
-            }catch(Exception e){System.out.println(e);}
-        });
+        chatThread = new ReceiveChat(this);
         chatThread.start();
         System.out.println("end receive thread");
     }
@@ -446,14 +439,7 @@ public class Player implements Serializable{
             return;
         System.out.println("entro thread");
         stopChatThread();
-        chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
-            Scanner in = new Scanner(System.in);
-            String s;
-            while(true) {
-                s = in.nextLine().trim();
-                sendChatMsg(s);
-            }
-        });
+        chatThread = new SendChat(this);
         chatThread.start();
         System.out.println("esco thread");
     }
@@ -486,6 +472,7 @@ public class Player implements Serializable{
      * @author Ettori
      */
     public void sendChatMsg(String msg){
+        System.out.println(msg);
         if(msg.charAt(0) != '@')
             return;
         if(!msg.contains(" ")){
@@ -507,6 +494,7 @@ public class Player implements Serializable{
         }
         fullChat += msg;
         try{
+            System.out.println("mando msg");
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){System.out.println(e);}
     }

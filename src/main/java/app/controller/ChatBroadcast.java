@@ -8,13 +8,11 @@ public class ChatBroadcast extends Thread{
     public void run(){
         try {
             while (true) {
-                while (game.inStreams.get(index).available() == 0)
-                    Thread.sleep(100);
                 Message msg = (Message) game.inStreams.get(index).readObject();
-                game.sendChatToClients(game.names.get(index), msg.getAuthor(), (String)msg.getContent());
+                System.out.println("trovato da game");
+                game.sendChatToClients(game.names.get(index), msg.getAuthor(), (String) msg.getContent());
             }
         }
-        catch (InterruptedException e){System.out.println("exit with success");}
         catch(Exception e){System.out.println(e);}
     }
 }

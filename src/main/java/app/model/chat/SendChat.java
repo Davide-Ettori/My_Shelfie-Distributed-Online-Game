@@ -14,9 +14,11 @@ public class SendChat extends Thread{
             Scanner in = new Scanner(System.in);
             String s;
             while (true) {
-                while (System.in.available() == 0)
+                while (System.in.available() == 0) {
                     Thread.sleep(100);
+                }
                 s = in.nextLine();
+                System.out.println(s);
                 player.sendChatMsg(s);
             }
         }

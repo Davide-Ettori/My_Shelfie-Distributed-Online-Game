@@ -48,6 +48,7 @@ public class Game implements Serializable {
      * @param maxP the number of players for this game, chosen before by the user
      */
     public Game(int maxP){
+        FILEHelper.writeString("inizio");
         targetPlayers = maxP;
         if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
             clone(FILEHelper.loadServerCLI());
@@ -173,7 +174,9 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-       startChatServerThread();
+        System.out.println("WMFC");
+        startChatServerThread();
+        System.out.println("inizio wait for move");
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
             if(msg.getType() == CHAT){
@@ -185,7 +188,6 @@ public class Game implements Serializable {
                     outStreams.get(i).writeObject(msg);
             }
             if(msg.getType() == UPDATE_GAME) {
-                stopChatServerThread();
                 waitForEndTurn();
             }
             else
@@ -201,6 +203,7 @@ public class Game implements Serializable {
             return;
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             return;
+        System.out.println("starto i server thread: " + activePlayer);
         for(int i = 0; i < numPlayers; i++){
             if(i == activePlayer)
                 continue;
@@ -216,7 +219,7 @@ public class Game implements Serializable {
             return;
         try{
             for (Thread chatThread : chatThreads) {
-                chatThread.interrupt();
+                chatThread.stop();
             }
             chatThreads = new ArrayList<>();
         }catch(Exception e){System.out.println(e);}
@@ -229,6 +232,7 @@ public class Game implements Serializable {
      * @author Ettori
      */
     public void sendChatToClients(String from, String to, String msg){
+        System.out.println(msg + from + to);
         try {
             if (to.equals("all")) {
                 for (int i = 0; i < numPlayers; i++) {
