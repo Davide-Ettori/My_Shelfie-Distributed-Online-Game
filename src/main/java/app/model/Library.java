@@ -47,16 +47,6 @@ public class Library implements Serializable {
         countVisitedCards = 0;
         name = l.name;
     }
-    public Library(Card[][] mat, String n){ // copy constructor
-        for(int i = 0; i < ROWS; i++){
-            for(int j = 0; j < COLS; j++){
-                library[i][j] = new Card(mat[i][j]);
-            }
-        }
-        countVisitedCards = 0;
-        name = n;
-    }
-
     /**
      * check if the library is full
      * @author Ettori Giammusso

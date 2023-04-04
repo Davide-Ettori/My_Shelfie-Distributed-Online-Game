@@ -4,6 +4,8 @@ import app.controller.*;
 import app.model.chat.ReceiveChat;
 import app.model.chat.SendChat;
 import app.view.UIMode;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import playground.socket.Server;
 
 import java.io.IOException;
@@ -211,11 +213,11 @@ public class Player implements Serializable{
                 }
                 case UPDATE_GAME -> {
                     stopChatThread();
-                    GameStatus gameStatus = (GameStatus)msg.getContent();
-                    board = new Board(gameStatus.board);
+                    JSONObject jsonObject = (JSONObject) msg.getContent();
+                    board = new Board((Board)jsonObject.get("board"));
                     for(int i = 0; i < numPlayers; i++){
                         if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                            librariesOfOtherPlayers.set(i, new Library(gameStatus.library));
+                            librariesOfOtherPlayers.set(i, new Library((Library)jsonObject.get("library")));
                     }
                     drawAll();
                     System.out.println("\nPlayer: " + msg.getAuthor() + " made his move (chat disabled)...");
@@ -364,8 +366,11 @@ public class Player implements Serializable{
             drawAll();
         stopChatThread();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
+        JSONObject gameStatus = new JSONObject();
+        gameStatus.put("board", new Board(board));
+        gameStatus.put("library", new Library(library));
         try {
-            outStream.writeObject(new Message(UPDATE_GAME, name, new GameStatus(board, library)));
+            outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
