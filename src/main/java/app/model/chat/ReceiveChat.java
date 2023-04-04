@@ -3,11 +3,23 @@ package app.model.chat;
 import app.controller.Message;
 import app.model.Player;
 
-import static app.controller.MessageType.STOP;
+import static app.controller.MessageType.*;
 
+/**
+ * class which represent the thread which listen for received chat message (used by the active player)
+ */
 public class ReceiveChat extends Thread{
     private final Player player;
+
+    /**
+     * normal constructor for this thread
+     * @param p the active player that will see those messages
+     */
     public ReceiveChat(Player p){player = p;}
+
+    /**
+     * the main function of the thread, it reads messages from the inputStream and updates the game chat
+     */
     @Override
     public void run(){
         try {
