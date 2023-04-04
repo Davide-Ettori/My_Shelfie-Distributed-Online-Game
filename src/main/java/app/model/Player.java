@@ -174,12 +174,11 @@ public class Player implements Serializable{
             drawAll();
         }catch(Exception e){System.out.println(e); System.exit(0);}
         if(name.equals(chairmanName)) {
-            chatThread = new Thread(() -> {}); // placeholder thread, used only at the start
-            //startChatReceiveThread();
+            startChatReceiveThread();
             waitForMove();
         }
         else {
-            //startChatSendThread();
+            startChatSendThread();
             waitForTurn();
         }
     }
@@ -193,13 +192,13 @@ public class Player implements Serializable{
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
                 case YOUR_TURN -> {
-                    //startChatReceiveThread();
+                    startChatReceiveThread();
                     activeName = name;
                     drawAll();
                     waitForMove();
                 }
                 case CHANGE_TURN -> {
-                    //startChatSendThread();
+                    startChatSendThread();
                     activeName = (String) msg.getContent();
                     drawAll();
                     waitForTurn();
@@ -418,6 +417,8 @@ public class Player implements Serializable{
      * starts all the threads that listen for chat message from other clients (receiving)
      */
     private void startChatReceiveThread(){
+        if(!Game.CHAT_ACTIVE)
+            return;
         System.out.println("start receive thread");
         stopChatThread();
         chatThread = new Thread(() ->{
@@ -441,6 +442,8 @@ public class Player implements Serializable{
      * starts all the threads that listen for chat message from the user (sending)
      */
     private void startChatSendThread(){
+        if(!Game.CHAT_ACTIVE)
+            return;
         System.out.println("entro thread");
         stopChatThread();
         chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale

@@ -24,6 +24,7 @@ import static app.model.State.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
+    public static final boolean CHAT_ACTIVE = true;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
@@ -172,7 +173,7 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-       //startChatServerThread();
+       startChatServerThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
             if(msg.getType() == CHAT){
@@ -196,6 +197,8 @@ public class Game implements Serializable {
      * start all the threads that listen for chat messages from the clients (and send the messages back to the players)
      */
     private void startChatServerThread(){
+        if(!CHAT_ACTIVE)
+            return;
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             return;
         for(int i = 0; i < numPlayers; i++){
@@ -209,6 +212,8 @@ public class Game implements Serializable {
      * stops all the threads listening for chat messages from NON-active players
      */
     private void stopChatServerThread(){
+        if(!CHAT_ACTIVE)
+            return;
         try{
             for (Thread chatThread : chatThreads) {
                 chatThread.interrupt();
@@ -242,7 +247,7 @@ public class Game implements Serializable {
      */
     private void waitForEndTurn(){
         System.out.println("wait for turn");
-        //stopChatThread();
+        stopChatServerThread();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){
