@@ -184,7 +184,7 @@ public class Game implements Serializable {
                     outStreams.get(i).writeObject(msg);
             }
             if(msg.getType() == UPDATE_GAME) {
-                //stopChatServerThread();
+                stopChatServerThread();
                 waitForEndTurn();
             }
             else

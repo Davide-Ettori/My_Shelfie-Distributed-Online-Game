@@ -183,26 +183,6 @@ public class Player implements Serializable{
             waitForTurn();
         }
     }
-    public boolean compareStrings(String s1, String s2){
-        System.out.println("entro in compare");
-        System.out.println(s2.length());
-        System.out.println(s1.length());
-        System.out.println("length fatta");
-        if(s1.length() != s2.length()){
-            System.out.println("VAFFANCULO");
-            return false;
-        }
-        System.out.println(s2.length());
-        for(int i = 0; i < s1.length(); i++){
-            System.out.println(s2.charAt(i) + " - " + s1.charAt(i));
-            if(s1.charAt(i) != s2.charAt(i)){
-                System.out.println("diverso");
-                return false;
-            }
-        }
-        System.out.println("true");
-        return true;
-    }
     /**
      * Attend the start of the turn, meanwhile can update the board if someone else changes it. it can also receive notifications of important events
      * @author Ettori Faccincani
@@ -230,7 +210,7 @@ public class Player implements Serializable{
                     waitForTurn();
                 }
                 case UPDATE_GAME -> {
-                    //stopChatThread();
+                    stopChatThread();
                     HashMap<String, Object> map = (HashMap<String, Object>) msg.getContent();
                     board = new Board((Board) map.get("board"));
                     for (int i = 0; i < librariesOfOtherPlayers.size(); i++) {
@@ -382,7 +362,7 @@ public class Player implements Serializable{
         }catch (Exception e){System.out.println(e);}
         if(change)
             drawAll();
-        //stopChatThread();
+        stopChatThread();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         HashMap<String, Object> map = new HashMap<>();
         map.put("board", board);
@@ -439,7 +419,7 @@ public class Player implements Serializable{
      */
     private void startChatReceiveThread(){
         System.out.println("start receive thread");
-        //stopChatThread();
+        stopChatThread();
         chatThread = new Thread(() ->{
             try{
                 while(true){
@@ -462,7 +442,7 @@ public class Player implements Serializable{
      */
     private void startChatSendThread(){
         System.out.println("entro thread");
-        //stopChatThread();
+        stopChatThread();
         chatThread = new Thread(() ->{ // inizio il thread che ascolta i comandi da terminale
             Scanner in = new Scanner(System.in);
             String s;
