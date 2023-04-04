@@ -239,7 +239,7 @@ public class Game implements Serializable {
                     endPlayer = activePlayer;
                     for(int i = 0; i < names.size(); i++){
                         if(i != activePlayer)
-                            outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(i), null));
+                            outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(activePlayer), null));
                     }
                     Thread.sleep(3000); // dai tempo agli altri giocatori di leggere il messaggio
                 }

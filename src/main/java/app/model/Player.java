@@ -228,7 +228,7 @@ public class Player implements Serializable{
                     System.exit(0); // il gioco finisce e tutto si chiude forzatamente
                 }
                 case CHAT -> {
-                    fullChat += msg.getContent() + "\n";
+                    fullChat += msg.getContent();
                     drawAll();
                     waitForTurn();
                 }
