@@ -213,7 +213,7 @@ public class Player implements Serializable{
                 case UPDATE_BOARD -> {
                     stopChatThread();
                     board = new Board((Board)msg.getContent());
-                    waitForMove();
+                    waitForTurn();
                 }
                 case UPDATE_LIBRARY -> {
                     for(int i = 0; i < numPlayers; i++){
@@ -222,7 +222,7 @@ public class Player implements Serializable{
                     }
                     drawAll();
                     System.out.println("\nPlayer: " + msg.getAuthor() + " made his move (chat disabled)...");
-                    waitForTurn();
+                    waitForMove();
                 }
                 case FINAL_SCORE -> {
                     System.out.println("\nThe game is finished, this is the final scoreboard\n" + msg.getContent());
@@ -372,6 +372,7 @@ public class Player implements Serializable{
         map.put("library", library);
         try {
             outStream.writeObject(new Message(UPDATE_BOARD, name, board));
+            Thread.sleep(1000);
             outStream.writeObject(new Message(UPDATE_LIBRARY, name, library));
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno

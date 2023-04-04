@@ -24,7 +24,7 @@ import static app.model.State.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
-    public static final boolean CHAT_ACTIVE = true;
+    public static final boolean CHAT_ACTIVE = false;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
