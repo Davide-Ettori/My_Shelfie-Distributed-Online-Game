@@ -594,17 +594,4 @@ public class Player implements Serializable{
             System.out.println();
         }
     }
-    public void flushInputBuffer(){
-        Scanner in = new Scanner(System.in);
-        while (true) {
-            try {
-                if (System.in.available() != 0)
-                    in.nextLine();
-                else
-                    break;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }
