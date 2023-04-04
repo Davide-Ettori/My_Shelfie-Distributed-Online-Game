@@ -137,6 +137,11 @@ public class Player implements Serializable{
         endGame = p.endGame;
         return this;
     }
+    /**
+     * Copy the player p attributes inside
+     * @author Ettori
+     * @param p the Player that will be copied
+     */
     public Player(Player p){
         name = p.name;
         isChairMan = p.isChairMan;
@@ -160,6 +165,11 @@ public class Player implements Serializable{
         inStream = p.inStream;
         chatThread = p.chatThread;
     }
+    /**
+     * Getter for the private objective
+     * @author Ettori
+     * @return the private objective of the player
+     */
     public PrivateObjective getPrivateObjective(){
         return objective;
     }
