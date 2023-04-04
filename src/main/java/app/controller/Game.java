@@ -47,7 +47,6 @@ public class Game implements Serializable {
      * @param maxP the number of players for this game, chosen before by the user
      */
     public Game(int maxP){
-        FILEHelper.writeString("inizio");
         targetPlayers = maxP;
         if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
             clone(FILEHelper.loadServerCLI());
