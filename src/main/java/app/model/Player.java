@@ -402,7 +402,7 @@ public class Player implements Serializable{
     }
 
     /**
-     * stops all the thread interaction related to the chat
+     * stops all the thread interaction related to the chat (should be only ReceiveChat)
      */
     private void stopChatThread(){
         try {
