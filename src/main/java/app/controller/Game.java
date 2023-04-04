@@ -400,17 +400,4 @@ public class Game implements Serializable {
         serverSocket = g.serverSocket;
         chatThreads = g.chatThreads;
     }
-
-    /**
-     * flush the buffers of the socket networks communicating with all the clients
-     */
-    private void flushAllBuffer(){
-        for(ObjectOutputStream out : outStreams) {
-            try {
-                out.flush();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }

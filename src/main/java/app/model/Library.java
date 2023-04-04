@@ -99,7 +99,6 @@ public class Library implements Serializable {
         for(int i = 0; i < cards.size(); i++){
             library[place - i][col] = cards.get(i);
         }
-        return;
     }
     /**
      * reset the matrix used in the DFS to memorize the visited nodes
