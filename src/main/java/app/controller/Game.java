@@ -71,6 +71,10 @@ public class Game implements Serializable {
         initializeAllClients();
         waitMoveFromClient();
     }
+    /**
+     * helper method for initializing all the clients (players) with the same board state
+     * @author Ettori
+     */
     private void initializeAllClients(){
         Player p;
         for(int i = 0; i < names.size(); i++){
@@ -101,6 +105,10 @@ public class Game implements Serializable {
             players.add(p);
         }
     }
+    /**
+     * helper function which waits for client's connection to the server socket, when all are connected the game starts
+     * @author Ettori
+     */
     private void listenForPlayersConnections(){
         ArrayList<Thread> ths = new ArrayList<>();
         Thread th;
@@ -247,7 +255,7 @@ public class Game implements Serializable {
         }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
-     * Set the status of the players for the next turn and assign activePlayer to who play this turn
+     * Set the status of the players for the next turn and assign activePlayer to who will play this turn
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
@@ -265,8 +273,7 @@ public class Game implements Serializable {
         notifyNewTurn();
     }
     /**
-     * Send the message to the client that a new turn start,
-     * two cases if is the turn of the client or is the turn of another client
+     * Send the message to the client that a new turn start (two cases, if is the turn of the client or is the turn of another client)
      * @author Ettori Faccincani
      */
     private void notifyNewTurn(){
@@ -283,7 +290,8 @@ public class Game implements Serializable {
         waitMoveFromClient();
     }
     /**
-     * start all the threads that listen for chat messages from the clients (and send the messages back to the players)
+     * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
+     * @author Ettori
      */
     private void startChatServerThread(){
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
@@ -403,7 +411,6 @@ public class Game implements Serializable {
      * @return the ArrayList containing all the input streams
      */
     public ArrayList<ObjectInputStream> getInStreams(){return inStreams;}
-
     /**
      * getter for the list of names of the players active in this game
      * @return the ArrayList containing all the names of the connected players
