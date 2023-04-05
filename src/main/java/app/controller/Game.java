@@ -137,7 +137,7 @@ public class Game implements Serializable {
             System.out.println("\nPlayer number not sufficient");
             System.exit(0);
         }
-        System.out.println("\nThe game starts!");
+        System.out.println("\nThe game started");
     }
     /**
      * Check if the name that the client choose is already TAKEN
@@ -261,8 +261,10 @@ public class Game implements Serializable {
         }while(players.get(activePlayer).getState() == DISCONNECTED);
         players.get(activePlayer).setState(ACTIVE);
 
-        if(activePlayer == 0 && endGameSituation)
+        if(activePlayer == 0 && endGameSituation) {
+            System.out.println("\nThe game is ending...");
             sendFinalScoresToAll();
+        }
         notifyNewTurn();
     }
     /**
