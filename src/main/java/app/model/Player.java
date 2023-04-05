@@ -90,6 +90,31 @@ public class Player implements Serializable{
      */
     public Player(){}
     /**
+     * copy constructor for the Player object
+     * @author Ettori
+     * @param p the Player object to copy
+     */
+    public Player(Player p){
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.endGame;
+    }
+    /**
      * Clone the player on the client in the player on the server
      * @author Ettori
      * @param p the Player that will be cloned in the current Object
@@ -220,7 +245,7 @@ public class Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleFinalScoreEvent(Message msg){
-        System.out.println("\nThe game is finished, this is the final scoreboard\n" + msg.getContent());
+        System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
         try {
             Thread.sleep(1000 * 5);
         } catch (InterruptedException e) {
@@ -264,7 +289,7 @@ public class Player implements Serializable{
     private void handleLibFullEvent(Message msg){
         System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -416,7 +441,7 @@ public class Player implements Serializable{
                 CO_1_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                Thread.sleep(1000);
+                Thread.sleep(2500);
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.library) && !CO_2_Done) {
@@ -425,7 +450,7 @@ public class Player implements Serializable{
                 CO_2_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                Thread.sleep(1000);
+                Thread.sleep(2500);
                 change = true;
             }
         }catch(Exception e){throw new RuntimeException(e);}
@@ -443,7 +468,7 @@ public class Player implements Serializable{
                 pointsUntilNow++;
                 outStream.writeObject(new Message(LIB_FULL, name, null));
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
-                Thread.sleep(1000);
+                Thread.sleep(2500);
                 return true;
             }
         }catch (Exception e){throw new RuntimeException(e);}
@@ -483,7 +508,7 @@ public class Player implements Serializable{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Thread.sleep(1000);
-                    playerStatus.put("player", this);
+                    playerStatus.put("player", new Player(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){throw new RuntimeException(e);}
             }).start();
