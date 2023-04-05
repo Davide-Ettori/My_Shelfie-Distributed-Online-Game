@@ -300,7 +300,7 @@ public class Player implements Serializable{
     private ArrayList<Integer> selectCards(){
         String coordString;
         String[] rawCoords;
-        ArrayList<Integer> coords = new ArrayList<>();
+        ArrayList<Integer> coords;
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
             try {
@@ -319,6 +319,7 @@ public class Player implements Serializable{
                 System.out.println("\nInvalid selection");
                 continue;
             }
+            coords = new ArrayList<>();
             for(int i = 0; i < rawCoords.length; i += 2){
                 coords.add(Integer.parseInt(rawCoords[i]));
                 coords.add(Integer.parseInt(rawCoords[i + 1]));
@@ -355,8 +356,10 @@ public class Player implements Serializable{
                 sendChatMsg(coordOrder);
                 continue;
             }
-            index_1 = Character.getNumericValue(coordOrder.charAt(0));
-            index_2 = Character.getNumericValue(coordOrder.charAt(2));
+            try {
+                index_1 = Character.getNumericValue(coordOrder.charAt(0));
+                index_2 = Character.getNumericValue(coordOrder.charAt(2));
+            }catch (Exception e){System.out.println("\nInvalid selection"); continue;}
             if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
                 System.out.println("\nInvalid selection");
                 continue;

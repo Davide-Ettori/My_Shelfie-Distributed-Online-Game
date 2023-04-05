@@ -53,6 +53,11 @@ public class Library implements Serializable {
      * @return true or false, depending on if library is full or not
      */
     public boolean isFull(){
+        System.out.println("\nCHECK");
+        if(library[4][0].color != EMPTY) { // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
+            System.out.println("\nFULL");
+            return true;
+        }
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
                 if(library[i][j].color == EMPTY)
