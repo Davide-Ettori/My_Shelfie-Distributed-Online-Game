@@ -79,28 +79,9 @@ public class Player implements Serializable{
             mySocket = new Socket(LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
-        }catch (Exception e){System.out.println("\nServer is full, try later"); return;}
+        }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
-        while(true){
-            Scanner in = new Scanner(System.in);
-            System.out.print("\nInsert your name: ");
-            name = in.nextLine();
-            NameStatus status = TAKEN;
-            try {
-                outStream.writeObject(name);
-                status = (NameStatus) inStream.readObject();
-            }catch(Exception e){System.out.println(e.toString());};
-
-            if(status == NOT_TAKEN)
-                break;
-            System.out.println("Name Taken, choose another name");
-        }
-        try {
-            outStream.writeObject(netMode);
-            outStream.writeObject(uiMode);
-        }catch(Exception e){throw new RuntimeException(e);}
-        System.out.println("\nName: '" + name + "' accepted by the server!");
-        getInitialState();
+        chooseUserName();
     }
     /**
      * constructor used by the server to initializer a base Player object
@@ -128,6 +109,32 @@ public class Player implements Serializable{
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
+    }
+
+    /**
+     * method for choosing the nickname of the player for the future game
+     */
+    private void chooseUserName(){
+        while(true){
+            Scanner in = new Scanner(System.in);
+            System.out.print("\nInsert your name: ");
+            name = in.nextLine();
+            NameStatus status = TAKEN;
+            try {
+                outStream.writeObject(name);
+                status = (NameStatus) inStream.readObject();
+            }catch(Exception e){System.out.println(e.toString());};
+
+            if(status == NOT_TAKEN)
+                break;
+            System.out.println("Name Taken, choose another name");
+        }
+        try {
+            outStream.writeObject(netMode);
+            outStream.writeObject(uiMode);
+        }catch(Exception e){throw new RuntimeException(e);}
+        System.out.println("\nName: '" + name + "' accepted by the server!");
+        getInitialState();
     }
     /**
      * Getter for the private objective
@@ -158,6 +165,69 @@ public class Player implements Serializable{
             waitForEvents();
         }
     }
+    private void handleYourTurnEvent(Message msg){
+        startChatReceiveThread();
+        activeName = name;
+        drawAll();
+        waitForMove();
+    }
+    private void handleChangeTurnEvent(Message msg){
+        startChatSendThread();
+        activeName = (String) msg.getContent();
+        drawAll();
+        waitForEvents();
+    }
+    private void handleUpdateUnplayableEvent(Message msg){
+        JSONObject jsonObject = (JSONObject) msg.getContent();
+        board = new Board((Board) jsonObject.get("board"));
+        drawAll();
+        System.out.println("\nBoard updated because it was unplayable");
+        waitForEvents();
+    }
+    private void handleUpdateGameEvent(Message msg){
+        stopChatThread();
+        try {
+            outStream.writeObject(new Message(STOP, null, null));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        JSONObject jsonObject = (JSONObject) msg.getContent();
+        board = new Board((Board)jsonObject.get("board"));
+        for(int i = 0; i < numPlayers; i++){
+            if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
+                librariesOfOtherPlayers.set(i, new Library((Library)jsonObject.get("library")));
+        }
+        drawAll();
+        System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        waitForEvents();
+    }
+    private void handleFinalScoreEvent(Message msg){
+        System.out.println("\nThe game is finished, this is the final scoreboard\n" + msg.getContent());
+        try {
+            Thread.sleep(1000 * 5);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.exit(0); // il gioco finisce e tutto si chiude forzatamente
+    }
+    private void handleChatEvent(Message msg){
+        fullChat += msg.getContent();
+        drawAll();
+        waitForEvents();
+    }
+    private void handleCO_1Event(Message msg){
+        System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+        waitForEvents();
+    }
+    private void handleCO_2Event(Message msg){
+        System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
+        waitForEvents();
+    }
+    private void handleLibFullEvent(Message msg){
+        System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+        endGame = true;
+        waitForEvents();
+    }
     /**
      * Attend the start of the turn, meanwhile can update the board if someone else changes it. it can also receive notifications of important events
      * @author Ettori Faccincani
@@ -166,87 +236,24 @@ public class Player implements Serializable{
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
-                case YOUR_TURN -> {
-                    startChatReceiveThread();
-                    activeName = name;
-                    drawAll();
-                    waitForMove();
-                }
-                case CHANGE_TURN -> {
-                    startChatSendThread();
-                    activeName = (String) msg.getContent();
-                    drawAll();
-                    waitForEvents();
-                }
-                case UPDATE_UNPLAYBLE -> {
-                    JSONObject jsonObject = (JSONObject) msg.getContent();
-                    board = new Board((Board) jsonObject.get("board"));
-                    drawAll();
-                    System.out.println("\nBoard updated because it was unplayable");
-                    waitForEvents();
-                }
-                case UPDATE_GAME -> {
-                    stopChatThread();
-                    outStream.writeObject(new Message(STOP, null, null));
-                    JSONObject jsonObject = (JSONObject) msg.getContent();
-                    board = new Board((Board)jsonObject.get("board"));
-                    for(int i = 0; i < numPlayers; i++){
-                        if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                            librariesOfOtherPlayers.set(i, new Library((Library)jsonObject.get("library")));
-                    }
-                    drawAll();
-                    System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-                    waitForEvents();
-                }
-                case FINAL_SCORE -> {
-                    System.out.println("\nThe game is finished, this is the final scoreboard\n" + msg.getContent());
-                    Thread.sleep(1000 * 5);
-                    System.exit(0); // il gioco finisce e tutto si chiude forzatamente
-                }
-                case CHAT -> {
-                    fullChat += msg.getContent();
-                    drawAll();
-                    waitForEvents();
-                }
-                case CO_1 ->{
-                    System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
-                    waitForEvents();
-                }
-                case CO_2 ->{
-                    System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
-                    waitForEvents();
-                }
-                case LIB_FULL ->{
-                    System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
-                    endGame = true;
-                    waitForEvents();
-                }
+                case YOUR_TURN -> handleYourTurnEvent(msg);
+                case CHANGE_TURN -> handleChangeTurnEvent(msg);
+                case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+                case UPDATE_GAME -> handleUpdateGameEvent(msg);
+                case FINAL_SCORE -> handleFinalScoreEvent(msg);
+                case CHAT -> handleChatEvent(msg);
+                case CO_1 -> handleCO_1Event(msg);
+                case CO_2 -> handleCO_2Event(msg);
+                case LIB_FULL -> handleLibFullEvent(msg);
             }
         }catch(Exception e){throw new RuntimeException(e);}
     }
-    /**
-     * Attend the move of the player and start the chat, after the move check if the move is correct
-     * @author Ettori Faccincani
-     */
-    private void waitForMove(){
-        JSONObject gameStatus, boardStatus, playerStatus;
-        if(board.isBoardUnplayable()){
-            board.fillBoard(numPlayers);
-            drawAll();
-            System.out.println("\nBoard updated because it was unplayble");
-            try {
-                boardStatus = new JSONObject();
-                boardStatus.put("board", board);
-                outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
-            }catch (Exception e){throw new RuntimeException(e);}
-        }
-        String coordString, coordOrder, column;
+    private ArrayList<Integer> selectCards(){
+        String coordString;
         String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();
-        int temp_1, temp_2; // helper per fare gli scambi
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
-
             try {
                 coordString = br.readLine();
             } catch (IOException e) {
@@ -260,7 +267,7 @@ public class Player implements Serializable{
                 continue;
             }
             if(!checkRawCoords(rawCoords)){
-                System.out.println("\nInvalid selection - 1");
+                System.out.println("\nInvalid selection");
                 continue;
             }
             for(int i = 0; i < rawCoords.length; i += 2){
@@ -269,9 +276,13 @@ public class Player implements Serializable{
             }
             if(board.areCardsPickable(coords))
                 break;
-            System.out.println("\nInvalid selection - 2");
+            System.out.println("\nInvalid selection");
         }
-        int index_1, index_2;
+        return coords;
+    }
+    private ArrayList<Integer> selectOrder(ArrayList<Integer> coords){
+        String coordOrder;
+        int temp_1, temp_2, index_1, index_2;
         while(true){
             printCurOrder(coords);
             if(coords.size() == 2)
@@ -303,7 +314,11 @@ public class Player implements Serializable{
             coords.set(index_2, temp_1);
             coords.set(index_2 + 1, temp_2);
         }
+        return coords;
+    }
+    private int selectColumn(int size){
         int col;
+        String column;
         while(true){
             System.out.print("\nInsert the column where you wish to put the cards (or @ for chat):\n");
             try {
@@ -316,12 +331,13 @@ public class Player implements Serializable{
                 continue;
             }
             col = Integer.parseInt(column);
-            if(library.checkCol(col, coords.size() / 2))
+            if(library.checkCol(col, size))
                 break;
             System.out.println("\nInvalid selection");
         }
-        pickCards(coords, col);
-        drawAll();
+        return col;
+    }
+    private boolean checkCO(){
         int points;
         boolean change = false;
         try {
@@ -344,6 +360,9 @@ public class Player implements Serializable{
                 change = true;
             }
         }catch(Exception e){throw new RuntimeException(e);}
+        return change;
+    }
+    private boolean checkLibFull(){
         try {
             if (library.isFull() && !endGame) {
                 endGame = true;
@@ -351,23 +370,32 @@ public class Player implements Serializable{
                 outStream.writeObject(new Message(LIB_FULL, name, null));
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
                 Thread.sleep(1000);
-                change = true;
+                return true;
             }
         }catch (Exception e){throw new RuntimeException(e);}
-        if(change)
-            drawAll();
-        stopChatThread();
+        return false;
+    }
+    private void fixUnplayableBoard(){
+        JSONObject boardStatus;
+        board.fillBoard(numPlayers);
+        drawAll();
+        System.out.println("\nBoard updated because it was unplayble");
+        try {
+            boardStatus = new JSONObject();
+            boardStatus.put("board", board);
+            outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
+        }catch (Exception e){throw new RuntimeException(e);}
+    }
+    private void sendDoneMove(){
+        JSONObject gameStatus = new JSONObject(), playerStatus = new JSONObject();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
-        gameStatus = new JSONObject();
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
+
         try {
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
-            int timer = 4;
-            Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
-            Thread.sleep(1000);
-            playerStatus = new JSONObject();
+            Thread.sleep(1000 * 5); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Thread.sleep(1000);
@@ -377,9 +405,31 @@ public class Player implements Serializable{
             }).start();
 
         }catch(Exception e){throw new RuntimeException(e);}
+
         waitForEvents();
     }
+    /**
+     * Attend the move of the player and start the chat, after the move check if the move is correct
+     * @author Ettori Faccincani
+     */
+    private void waitForMove(){
+        if(board.isBoardUnplayable())
+            fixUnplayableBoard();
 
+        ArrayList<Integer> coords = selectOrder(selectCards());
+        int col = selectColumn(coords.size() / 2);
+        pickCards(coords, col);
+
+        drawAll();
+
+        boolean change = checkCO();
+        change = change || checkLibFull();
+        if(change)
+            drawAll();
+
+        stopChatThread();
+        sendDoneMove();
+    }
     /**
      * Check if the input by the user is correct
      * @param s array of the coordinates
@@ -397,7 +447,6 @@ public class Player implements Serializable{
             }
         return true;
     }
-
     /**
      * stops all the thread interaction related to the chat (should be only ReceiveChat)
      */

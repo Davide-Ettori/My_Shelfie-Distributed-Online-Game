@@ -6,7 +6,6 @@ import app.model.Player;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -57,8 +56,7 @@ public class Game implements Serializable {
         numPlayers = 0;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
-                int timer = 1;
-                Thread.sleep(1000 * 60 * timer); // aspetto 5 minuti
+                Thread.sleep(1000 * 60); // aspetto n minuti
                 time = false;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -66,35 +64,15 @@ public class Game implements Serializable {
         }).start();
 
         try{serverSocket = new ServerSocket(PORT);}
-        catch(Exception e){System.out.println(e.toString());}
-        ArrayList<Thread> ths = new ArrayList<>();
-        Thread th;
+        catch(Exception e){throw new RuntimeException(e);}
         System.out.println("\nServer listening...");
 
-        while(numPlayers < targetPlayers && time){
-            try{
-                playersSocket.add(serverSocket.accept());
-                th = new Thread(() ->{
-                    try{getUserName(playersSocket.get(playersSocket.size() - 1));}
-                    catch(Exception e){System.out.println(e.toString());}
-                });
-                th.start();
-                ths.add(th);
-                numPlayers++;
-            }
-            catch(Exception e){System.out.println(e.toString());}
-        }
-        for(Thread t: ths){
-            try{t.join();}
-            catch(Exception e){System.out.println(e.toString());}
-        }
-        if(numPlayers < targetPlayers){
-            System.out.println("\nPlayer number not sufficient");
-            System.exit(0);
-        }
-        System.out.println("\nThe game starts!");
+        listenForPlayersConnections();
+        initializeAllClients();
+        waitMoveFromClient();
+    }
+    private void initializeAllClients(){
         Player p;
-
         for(int i = 0; i < names.size(); i++){
             p = new Player();
             p.setName(names.get(i));
@@ -122,9 +100,34 @@ public class Game implements Serializable {
             }catch (Exception e){throw new RuntimeException(e);}
             players.add(p);
         }
-        waitMoveFromClient();
     }
+    private void listenForPlayersConnections(){
+        ArrayList<Thread> ths = new ArrayList<>();
+        Thread th;
 
+        while(numPlayers < targetPlayers && time){
+            try{
+                playersSocket.add(serverSocket.accept());
+                th = new Thread(() ->{
+                    try{getUserName(playersSocket.get(playersSocket.size() - 1));}
+                    catch(Exception e){System.out.println(e.toString());}
+                });
+                th.start();
+                ths.add(th);
+                numPlayers++;
+            }
+            catch(Exception e){System.out.println(e.toString());}
+        }
+        for(Thread t: ths){
+            try{t.join();}
+            catch(Exception e){System.out.println(e.toString());}
+        }
+        if(numPlayers < targetPlayers){
+            System.out.println("\nPlayer number not sufficient");
+            System.exit(0);
+        }
+        System.out.println("\nThe game starts!");
+    }
     /**
      * Check if the name that the client choose is already TAKEN
      * @param socket socket of the client that send his name
@@ -148,26 +151,50 @@ public class Game implements Serializable {
             }
         }catch(Exception e){throw new RuntimeException(e);}
     }
-
     /**
-     * Send the message to the client that a new turn start,
-     * two cases if is the turn of the client or is the turn of another client
-     * @author Ettori Faccincani
+     * Make a clone of the server, helps for the persistence
+     * @param g server status
+     * @author Ettori
      */
-    private void notifyNewTurn(){
-        for(int i = 0; i < numPlayers; i++){
-            try {
-                if (i == activePlayer) {
-                    outStreams.get(i).writeObject(new Message(YOUR_TURN, "server", ""));
-                    players.get(i).setState(ACTIVE);
-                }
-                else
-                    outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-            }catch (Exception e){throw new RuntimeException(e);}
-        }
-        waitMoveFromClient();
+    private void clone(Game g){
+        targetPlayers = g.targetPlayers;
+        numPlayers = g.numPlayers;
+        endPlayer = g.endPlayer;
+        endGameSituation = g.endGameSituation;
+        activePlayer = g.activePlayer;
+        players = g.players;
+        names = g.names;
+        playersSocket = g.playersSocket;
+        outStreams = g.outStreams;
+        inStreams = g.inStreams;
+        bucketOfCO = g.bucketOfCO;
+        bucketOfPO = g.bucketOfPO;
+        time = g.time;
+        serverSocket = g.serverSocket;
+        chatThreads = g.chatThreads;
     }
-
+    /**
+     * Make a random choose of the objective (Common and Private)
+     * @author Ettori
+     */
+    private void shuffleObjBucket(){
+        Random rand = new Random();
+        CommonObjective temp_1;
+        PrivateObjective temp_2;
+        int j;
+        for(int i = 0; i < bucketOfCO.size(); i++){
+            j = rand.nextInt(bucketOfCO.size());
+            temp_1 = bucketOfCO.get(i);
+            bucketOfCO.set(i, bucketOfCO.get(j));
+            bucketOfCO.set(j, temp_1);
+        }
+        for(int i = 0; i < bucketOfPO.size(); i++){
+            j = rand.nextInt(bucketOfPO.size());
+            temp_2 = bucketOfPO.get(i);
+            bucketOfPO.set(i, bucketOfPO.get(j));
+            bucketOfPO.set(j, temp_2);
+        }
+    }
     /**
      * Wait the move of the client that are playing and set the chat,
      * when the client made the move and send it to server update Board and Library
@@ -193,7 +220,68 @@ public class Game implements Serializable {
                 waitMoveFromClient();
         }catch(Exception e){throw new RuntimeException(e);}
     }
+    /**
+     * Wait the end of the turn of the client and check if the library is full
+     * @author Ettori Faccincani
+     */
+    private void waitForEndTurn(){
+        chatThreads = new ArrayList<>();
+        try {
+            Message msg = (Message) inStreams.get(activePlayer).readObject();
+            if(msg.getType() == END_TURN){
+                JSONObject jsonObject = (JSONObject) msg.getContent();
+                players.get(activePlayer).clone((Player) jsonObject.get("player"));
+                if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
+                    endGameSituation = true;
+                    endPlayer = activePlayer;
+                    for(int i = 0; i < names.size(); i++){
+                        if(i != activePlayer)
+                            outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(activePlayer), null));
+                    }
+                    Thread.sleep(3000); // dai tempo agli altri giocatori di leggere il messaggio
+                }
+                advanceTurn();
+            }
+            else
+                System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
+        }catch(Exception e){throw new RuntimeException(e);}
+    }
+    /**
+     * Set the status of the players for the next turn and assign activePlayer to who play this turn
+     * @author Ettori Faccincani
+     */
+    public void advanceTurn(){
+        players.get(activePlayer).setState(NOT_ACTIVE);
+        do {
+            activePlayer = (activePlayer + 1) % numPlayers;
+        }while(players.get(activePlayer).getState() == DISCONNECTED);
+        players.get(activePlayer).setState(ACTIVE);
 
+        if(activePlayer == 0 && endGameSituation)
+            sendFinalScoresToAll();
+        try { // dai tempo al client active di andare in waitForTurn()
+            Thread.sleep(1000);
+        } catch (Exception e){throw new RuntimeException(e);}
+        notifyNewTurn();
+    }
+    /**
+     * Send the message to the client that a new turn start,
+     * two cases if is the turn of the client or is the turn of another client
+     * @author Ettori Faccincani
+     */
+    private void notifyNewTurn(){
+        for(int i = 0; i < numPlayers; i++){
+            try {
+                if (i == activePlayer) {
+                    outStreams.get(i).writeObject(new Message(YOUR_TURN, "server", ""));
+                    players.get(i).setState(ACTIVE);
+                }
+                else
+                    outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
+            }catch (Exception e){throw new RuntimeException(e);}
+        }
+        waitMoveFromClient();
+    }
     /**
      * start all the threads that listen for chat messages from the clients (and send the messages back to the players)
      */
@@ -226,32 +314,6 @@ public class Game implements Serializable {
                 outStreams.get(getNameIndex(to)).writeObject(new Message(CHAT, "", msg));
             }
         }catch (Exception e){throw new RuntimeException(e);}
-    }
-    /**
-     * Wait the end of the turn of the client and check if the library is full
-     * @author Ettori Faccincani
-     */
-    private void waitForEndTurn(){
-        chatThreads = new ArrayList<>();
-        try {
-            Message msg = (Message) inStreams.get(activePlayer).readObject();
-            if(msg.getType() == END_TURN){
-                JSONObject jsonObject = (JSONObject) msg.getContent();
-                players.get(activePlayer).clone((Player) jsonObject.get("player"));
-                if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
-                    endGameSituation = true;
-                    endPlayer = activePlayer;
-                    for(int i = 0; i < names.size(); i++){
-                        if(i != activePlayer)
-                            outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(activePlayer), null));
-                    }
-                    Thread.sleep(3000); // dai tempo agli altri giocatori di leggere il messaggio
-                }
-                advanceTurn();
-            }
-            else
-                System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
-        }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
      * find and return the name of the chairman of this game
@@ -292,48 +354,6 @@ public class Game implements Serializable {
         bucketOfPO.remove(0);
         return res;
     }
-
-    /**
-     * Make a random choose of the objective (Common and Private)
-     * @author Ettori
-     */
-    private void shuffleObjBucket(){
-        Random rand = new Random();
-        CommonObjective temp_1;
-        PrivateObjective temp_2;
-        int j;
-        for(int i = 0; i < bucketOfCO.size(); i++){
-            j = rand.nextInt(bucketOfCO.size());
-            temp_1 = bucketOfCO.get(i);
-            bucketOfCO.set(i, bucketOfCO.get(j));
-            bucketOfCO.set(j, temp_1);
-        }
-        for(int i = 0; i < bucketOfPO.size(); i++){
-            j = rand.nextInt(bucketOfPO.size());
-            temp_2 = bucketOfPO.get(i);
-            bucketOfPO.set(i, bucketOfPO.get(j));
-            bucketOfPO.set(j, temp_2);
-        }
-    }
-
-    /**
-     * Set the status of the players for the next turn and assign activePlayer to who play this turn
-     * @author Ettori Faccincani
-     */
-    public void advanceTurn(){
-        players.get(activePlayer).setState(NOT_ACTIVE);
-        do {
-            activePlayer = (activePlayer + 1) % numPlayers;
-        }while(players.get(activePlayer).getState() == DISCONNECTED);
-        players.get(activePlayer).setState(ACTIVE);
-
-        if(activePlayer == 0 && endGameSituation)
-            sendFinalScoresToAll();
-        try { // dai tempo al client active di andare in waitForTurn()
-            Thread.sleep(1000);
-        } catch (Exception e){throw new RuntimeException(e);}
-        notifyNewTurn();
-    }
     /**
      * Count the points at the end of the game (not private or common objective)
      * and sum to the points made until now
@@ -365,7 +385,6 @@ public class Game implements Serializable {
             res.append("Place number ").append(i + 1).append(": ").append(names.get(i)).append(" with ").append(scores.get(i)).append(" points\n");
         return res.toString();
     }
-
     /**
      * Send the final score to all the clients
      * @author Ettori
@@ -379,30 +398,6 @@ public class Game implements Serializable {
         FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
         System.exit(0);
     }
-
-    /**
-     * Make a clone of the server, helps for the persistence
-     * @param g server status
-     * @author Ettori
-     */
-    private void clone(Game g){
-        targetPlayers = g.targetPlayers;
-        numPlayers = g.numPlayers;
-        endPlayer = g.endPlayer;
-        endGameSituation = g.endGameSituation;
-        activePlayer = g.activePlayer;
-        players = g.players;
-        names = g.names;
-        playersSocket = g.playersSocket;
-        outStreams = g.outStreams;
-        inStreams = g.inStreams;
-        bucketOfCO = g.bucketOfCO;
-        bucketOfPO = g.bucketOfPO;
-        time = g.time;
-        serverSocket = g.serverSocket;
-        chatThreads = g.chatThreads;
-    }
-
     /**
      * getter for the input streams from the server to all the clients
      * @return the ArrayList containing all the input streams
