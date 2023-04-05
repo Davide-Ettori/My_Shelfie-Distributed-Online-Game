@@ -53,7 +53,7 @@ public class Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private String fullChat = "";
     private boolean endGame = false;
-    private transient final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
@@ -89,7 +89,7 @@ public class Player implements Serializable{
             }catch(Exception e){System.out.println(e.toString());};
 
             if(status == NOT_TAKEN) {
-                in.close();
+                //in.close();
                 break;
             }
             System.out.println("Name Taken, choose another name");
@@ -250,6 +250,7 @@ public class Player implements Serializable{
             try {
                 coordString = br.readLine();
             } catch (IOException e) {
+                System.out.println("errore");
                 throw new RuntimeException(e);
             }
             rawCoords = coordString.split(" ");
