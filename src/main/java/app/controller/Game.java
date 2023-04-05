@@ -239,7 +239,7 @@ public class Game implements Serializable {
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             JSONObject jsonObject = (JSONObject) msg.getContent();
-            players.get(activePlayer).clone((Player) jsonObject.get("player"));
+            players.set(activePlayer, (Player) jsonObject.get("player"));
             if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                 endGameSituation = true;
                 for(int i = 0; i < names.size(); i++){
