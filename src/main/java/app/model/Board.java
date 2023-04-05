@@ -54,20 +54,21 @@ public class Board implements Serializable {
     }
     /**
      * copy constructor for this class, used for deep copying objects
-     * @param c the object to copy (game board)
+     * @param b the object to copy (game board)
      */
-    public Board(Board c){ // copy constructor
+    public Board(Board b){ // copy constructor
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
-                gameBoard[i][j] = new Card(c.gameBoard[i][j]);
+                gameBoard[i][j] = new Card(b.gameBoard[i][j]);
             }
         }
-        commonObjective_1 = c.commonObjective_1;
-        commonObjective_2 = c.commonObjective_2;
-        pointsCO_1 = new LinkedList<>(c.pointsCO_1);
-        pointsCO_2 = new LinkedList<>(c.pointsCO_2);
-        bucketOfCards = new ArrayList<>(c.bucketOfCards);
-        name = c.name;
+        commonObjective_1 = b.commonObjective_1;
+        commonObjective_2 = b.commonObjective_2;
+        pointsCO_1 = new LinkedList<>(b.pointsCO_1);
+        pointsCO_2 = new LinkedList<>(b.pointsCO_2);
+        bucketOfCards = new ArrayList<>(b.bucketOfCards);
+        name = b.name;
+        gameMatrix = b.gameMatrix;
     }
     /**
      * getter for the game board
