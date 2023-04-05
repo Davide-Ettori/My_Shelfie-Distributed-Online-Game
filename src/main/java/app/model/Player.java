@@ -65,6 +65,7 @@ public class Player implements Serializable{
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
     private final String SAMUG_IP_MILANO = "192.168.1.3";
     private final String LOCAL_HOST = "127.0.0.1"; //è il computer stesso
+
     /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
@@ -158,7 +159,6 @@ public class Player implements Serializable{
             waitForEvents();
         }
     }
-
     /**
      * helper function for handling the your turn event notification from the server
      * @author Ettori
@@ -393,6 +393,11 @@ public class Player implements Serializable{
         }
         return col;
     }
+    /**
+     * method that checks if some of the common objectives where achieved by the current player, and in that case points will be added
+     * @author Ettori
+     * @return true iff at least one objective was completed
+     */
     private boolean checkCO(){
         int points;
         boolean change = false;
@@ -418,6 +423,11 @@ public class Player implements Serializable{
         }catch(Exception e){throw new RuntimeException(e);}
         return change;
     }
+    /**
+     * method that checks if the current player completed his library, and in that case notify all the other players (and add 1 point)
+     * @author Ettori
+     * @return true iff the library was completed
+     */
     private boolean checkLibFull(){
         try {
             if (library.isFull() && !endGame) {
@@ -431,6 +441,11 @@ public class Player implements Serializable{
         }catch (Exception e){throw new RuntimeException(e);}
         return false;
     }
+
+    /**
+     * helper method which update the board when it becomes unplayable (also notify other players)
+     * @author Ettori
+     */
     private void fixUnplayableBoard(){
         JSONObject boardStatus;
         board.fillBoard(numPlayers);
@@ -442,6 +457,10 @@ public class Player implements Serializable{
             outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
         }catch (Exception e){throw new RuntimeException(e);}
     }
+
+    /**
+     * method that sends the last move done by the current player to all other clients (after the move is done on this player)
+     */
     private void sendDoneMove(){
         JSONObject gameStatus = new JSONObject(), playerStatus = new JSONObject();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
@@ -465,7 +484,7 @@ public class Player implements Serializable{
         waitForEvents();
     }
     /**
-     * Attend the move of the player and start the chat, after the move check if the move is correct
+     * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
      * @author Ettori Faccincani
      */
     private void waitForMove(){
