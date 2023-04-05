@@ -110,7 +110,6 @@ public class Player implements Serializable{
         numPlayers = p.numPlayers;
         endGame = p.endGame;
     }
-
     /**
      * method for choosing the nickname of the player for the future game
      */
@@ -135,14 +134,6 @@ public class Player implements Serializable{
         }catch(Exception e){throw new RuntimeException(e);}
         System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
-    }
-    /**
-     * Getter for the private objective
-     * @author Ettori
-     * @return the private objective of the player
-     */
-    public PrivateObjective getPrivateObjective(){
-        return objective;
     }
     /**
      * Receive the status of the player from the server and attend the start of the game
@@ -563,6 +554,12 @@ public class Player implements Serializable{
     public String getName() {
         return name;
     }
+    /**
+     * Getter for the private objective
+     * @author Ettori
+     * @return the private objective of the player
+     */
+    public PrivateObjective getPrivateObjective(){return objective;}
     /**
      * setter for the PO
      * @author Ettori
