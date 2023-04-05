@@ -638,25 +638,21 @@ public class Player implements Serializable{
             System.out.println();
         }
     }
-
     /**
      * setter for the attribute name
      * @param n the name to set
      */
     public void setName(String n){name = n;}
-
     /**
      * setter for the attribute isChairMan
      * @param b the boolean to set
      */
     public void setIsChairMan(boolean b){isChairMan = b;}
-
     /**
      * getter for the socket input stream (from the server)
      * @return the input stream of this player
      */
     public ObjectInputStream getInStream(){return inStream;}
-
     /**
      * add a string (chat message) to the full chat of the game
      * @param s the message received, it will be added to the fullChat attribute
