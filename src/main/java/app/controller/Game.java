@@ -30,14 +30,12 @@ public class Game implements Serializable {
     private int endPlayer;
     private int activePlayer = 0;
     private ArrayList<Player> players = new ArrayList<>();
-    /** list that contains the name of the players */
-    public ArrayList<String> names = new ArrayList<>();
+    private ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
     private ArrayList<UIMode> uiModes = new ArrayList<>();
     private ArrayList<Socket> playersSocket = new ArrayList<>();
     private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
-    /** a list that contains the input stream objects*/
-    public ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
+    private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
     private ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean endGameSituation = false;
@@ -97,7 +95,9 @@ public class Game implements Serializable {
         Player p;
 
         for(int i = 0; i < names.size(); i++){
-            p = new Player(names.get(i), i == 0);
+            p = new Player();
+            p.setName(names.get(i));
+            p.setIsChairMan(i == 0);
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
             //p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_13_FAKE(), 13), new CommonObjective(new Algo_CO_14_FAKE(), 14));
             p.board.name = names.get(i);
@@ -119,7 +119,7 @@ public class Game implements Serializable {
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){System.out.println(e);}
-            players.add(new Player().clone(p));
+            players.add(p);
         }
         waitMoveFromClient();
     }
@@ -400,4 +400,16 @@ public class Game implements Serializable {
         serverSocket = g.serverSocket;
         chatThreads = g.chatThreads;
     }
+
+    /**
+     * getter for the input streams from the server to all the clients
+     * @return the ArrayList containing all the input streams
+     */
+    public ArrayList<ObjectInputStream> getInStreams(){return inStreams;}
+
+    /**
+     * getter for the list of names of the players active in this game
+     * @return the ArrayList containing all the names of the connected players
+     */
+    public ArrayList<String> getNames(){return names;}
 }

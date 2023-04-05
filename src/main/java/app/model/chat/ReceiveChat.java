@@ -24,11 +24,11 @@ public class ReceiveChat extends Thread{
     public void run(){
         try {
             while (true) {
-                Message msg = (Message) player.inStream.readObject();
+                Message msg = (Message) player.getInStream().readObject();
                 if(msg.getType() == STOP)
                     return;
                 System.out.println(msg.getContent());
-                player.fullChat += msg.getContent();
+                player.addToFullChat((String)msg.getContent());
             }
         }
         catch(Exception e){System.out.println(e);}

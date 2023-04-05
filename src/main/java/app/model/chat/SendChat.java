@@ -1,6 +1,5 @@
 package app.model.chat;
 
-import app.controller.FILEHelper;
 import app.model.Player;
 
 import java.util.Scanner;

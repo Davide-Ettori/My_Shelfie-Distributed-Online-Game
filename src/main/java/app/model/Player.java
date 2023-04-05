@@ -51,10 +51,10 @@ public class Player implements Serializable{
     /** list of the libraries of all the players in the game */
     public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
     private transient Socket mySocket;
-    public transient ObjectInputStream inStream;
+    private transient ObjectInputStream inStream;
     private transient ObjectOutputStream outStream;
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    public String fullChat = "";
+    private String fullChat = "";
     private boolean endGame = false;
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
@@ -64,17 +64,6 @@ public class Player implements Serializable{
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
     private final String SAMUG_IP_MILANO = "192.168.1.3";
     private final String LOCAL_HOST = "127.0.0.1"; //è il computer stesso
-
-    /**
-     * constructor used by the server to initializer a base Player object
-     * @param n the name of the player
-     * @param isChairManBool true iff the player is the chairman of the game
-     */
-    public Player(String n, boolean isChairManBool){name = n; isChairMan = isChairManBool;}
-    /**
-     * empty constructor, used ONLY by the server to create an empty player (and then clone it)
-     */
-    public Player(){}
     /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
@@ -111,14 +100,17 @@ public class Player implements Serializable{
         System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
     }
-
+    /**
+     * constructor used by the server to initializer a base Player object
+     */
+    public Player(){}
     /**
      * Clone the player on the client in the player on the server
      * @author Ettori
      * @param p the Player that will be cloned in the current Object
      * @return the 'this' object the was cloned before
      */
-    public Player clone(Player p){ // copia la versione sul server dentro a quella del client
+    public void clone(Player p){ // copia la versione sul server dentro a quella del client
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -135,35 +127,6 @@ public class Player implements Serializable{
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
-        return this;
-    }
-    /**
-     * Copy the player p attributes inside
-     * @author Ettori
-     * @param p the Player that will be copied
-     */
-    public Player(Player p){
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-        CO_1_Done = p.CO_1_Done;
-        CO_2_Done = p.CO_2_Done;
-        fullChat = p.fullChat;
-        chairmanName = p.chairmanName;
-        activeName = p.activeName;
-        numPlayers = p.numPlayers;
-        endGame = p.endGame;
-        netMode = p.netMode;
-        uiMode = p.uiMode;
-        outStream = p.outStream;
-        inStream = p.inStream;
-        chatThread = p.chatThread;
     }
     /**
      * Getter for the private objective
@@ -604,4 +567,29 @@ public class Player implements Serializable{
             System.out.println();
         }
     }
+
+    /**
+     * setter for the attribute name
+     * @param n the name to set
+     */
+    public void setName(String n){name = n;}
+
+    /**
+     * setter for the attribute isChairMan
+     * @param b the boolean to set
+     */
+    public void setIsChairMan(boolean b){isChairMan = b;}
+
+    /**
+     * getter for the socket input stream (from the server)
+     * @return the input stream of this player
+     */
+    public ObjectInputStream getInStream(){return inStream;}
+
+    /**
+     * add a string (chat message) to the full chat of the game
+     * @param s the message received, it will be added to the fullChat attribute
+     */
+    public void addToFullChat(String s){fullChat += s;}
+
 }

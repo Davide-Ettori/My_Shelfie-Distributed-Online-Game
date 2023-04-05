@@ -23,10 +23,10 @@ public class ChatBroadcast extends Thread{
     public void run(){
         try {
             while (true) {
-                Message msg = (Message) game.inStreams.get(index).readObject();
+                Message msg = (Message) game.getInStreams().get(index).readObject();
                 if(msg.getType() == STOP)
                     return;
-                game.sendChatToClients(game.names.get(index), msg.getAuthor(), (String) msg.getContent());
+                game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());
             }
         }
         catch(Exception e){System.out.println(e);}
