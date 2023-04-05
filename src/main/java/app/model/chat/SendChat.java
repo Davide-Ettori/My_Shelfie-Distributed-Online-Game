@@ -10,19 +10,19 @@ import java.util.Scanner;
  */
 public class SendChat extends Thread{
     private final Player player;
+    private final Scanner in;
 
     /**
      * the normal constructor for this thread
      * @param p the player that is writing messages on the terminal
      */
-    public SendChat(Player p){player = p;}
+    public SendChat(Player p, Scanner inScan){player = p; in = inScan;}
     /**
      * the main function of the thread, it reads messages from the terminal and send them to the right clients
      */
     @Override
     public void run(){
         try {
-            Scanner in = new Scanner(System.in);
             String s;
             while (true) {
                 while (System.in.available() == 0) {

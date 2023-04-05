@@ -56,6 +56,8 @@ public class Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private String fullChat = "";
     private boolean endGame = false;
+    private transient final Scanner in = new Scanner(System.in);
+
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
@@ -242,7 +244,6 @@ public class Player implements Serializable{
         String coordString, coordOrder, column;
         String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();
-        Scanner in = new Scanner(System.in);
         int temp_1, temp_2; // helper per fare gli scambi
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
@@ -344,8 +345,8 @@ public class Player implements Serializable{
         stopChatThread();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus = new JSONObject();
-        gameStatus.put("board", board);
-        gameStatus.put("library", library);
+        gameStatus.put("board", new Board(board));
+        gameStatus.put("library", new Library(library));
         try {
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
             int timer = 5;
@@ -408,7 +409,7 @@ public class Player implements Serializable{
      */
     private void startChatSendThread(){
         stopChatThread();
-        chatThread = new SendChat(this);
+        chatThread = new SendChat(this, in);
         chatThread.start();
     }
     /**
