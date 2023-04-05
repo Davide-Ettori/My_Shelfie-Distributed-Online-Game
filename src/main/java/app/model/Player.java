@@ -274,6 +274,8 @@ public class Player implements Serializable{
         int index_1, index_2;
         while(true){
             printCurOrder(coords);
+            if(coords.size() == 2)
+                break;
             System.out.print("\nInsert which cards to switch (-1 for exit) (or @ for chat):\n");
             try {
                 coordOrder = br.readLine();
