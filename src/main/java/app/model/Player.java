@@ -85,6 +85,7 @@ public class Player implements Serializable{
     }
     /**
      * constructor used by the server to initializer a base Player object
+     * @author Ettori
      */
     public Player(){}
     /**
@@ -112,17 +113,18 @@ public class Player implements Serializable{
     }
     /**
      * method for choosing the nickname of the player for the future game
+     * @author Ettori
      */
     private void chooseUserName(){
         while(true){
             Scanner in = new Scanner(System.in);
             System.out.print("\nInsert your name: ");
             name = in.nextLine();
-            NameStatus status = TAKEN;
+            NameStatus status;
             try {
                 outStream.writeObject(name);
                 status = (NameStatus) inStream.readObject();
-            }catch(Exception e){System.out.println(e.toString());};
+            }catch(Exception e){throw new RuntimeException(e);};
 
             if(status == NOT_TAKEN)
                 break;
@@ -156,18 +158,33 @@ public class Player implements Serializable{
             waitForEvents();
         }
     }
-    private void handleYourTurnEvent(Message msg){
+
+    /**
+     * helper function for handling the your turn event notification from the server
+     * @author Ettori
+     */
+    private void handleYourTurnEvent(){
         startChatReceiveThread();
         activeName = name;
         drawAll();
         waitForMove();
     }
+    /**
+     * helper function for handling the change event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleChangeTurnEvent(Message msg){
         startChatSendThread();
         activeName = (String) msg.getContent();
         drawAll();
         waitForEvents();
     }
+    /**
+     * helper function for handling the unplayble board fixing event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleUpdateUnplayableEvent(Message msg){
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = new Board((Board) jsonObject.get("board"));
@@ -175,6 +192,11 @@ public class Player implements Serializable{
         System.out.println("\nBoard updated because it was unplayable");
         waitForEvents();
     }
+    /**
+     * helper function for handling the update game notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleUpdateGameEvent(Message msg){
         stopChatThread();
         try {
@@ -192,6 +214,11 @@ public class Player implements Serializable{
         System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         waitForEvents();
     }
+    /**
+     * helper function for handling the final score calculation event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleFinalScoreEvent(Message msg){
         System.out.println("\nThe game is finished, this is the final scoreboard\n" + msg.getContent());
         try {
@@ -201,33 +228,54 @@ public class Player implements Serializable{
         }
         System.exit(0); // il gioco finisce e tutto si chiude forzatamente
     }
+    /**
+     * helper function for handling the chat message event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleChatEvent(Message msg){
         fullChat += msg.getContent();
         drawAll();
         waitForEvents();
     }
+    /**
+     * helper function for handling the achievement of the first common objective event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleCO_1Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         waitForEvents();
     }
+    /**
+     * helper function for handling the achievement of the second common objective event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleCO_2Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         waitForEvents();
     }
+    /**
+     * helper function for handling the completion of the library event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
     private void handleLibFullEvent(Message msg){
         System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         endGame = true;
         waitForEvents();
     }
     /**
-     * Attend the start of the turn, meanwhile can update the board if someone else changes it. it can also receive notifications of important events
+     * function  used to wait for notification from the server while the player is NON active
+     * @author Ettori
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
-                case YOUR_TURN -> handleYourTurnEvent(msg);
+                case YOUR_TURN -> handleYourTurnEvent();
                 case CHANGE_TURN -> handleChangeTurnEvent(msg);
                 case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
                 case UPDATE_GAME -> handleUpdateGameEvent(msg);
@@ -239,6 +287,11 @@ public class Player implements Serializable{
             }
         }catch(Exception e){throw new RuntimeException(e);}
     }
+    /**
+     * helper method used for getting the cards chosen by the user (coordinates)
+     * @author Ettori
+     * @return the list og the cards chosen by the player
+     */
     private ArrayList<Integer> selectCards(){
         String coordString;
         String[] rawCoords;
@@ -271,6 +324,13 @@ public class Player implements Serializable{
         }
         return coords;
     }
+
+    /**
+     * helper method for letting the user select the order of the cards chosen before
+     * @author Ettori
+     * @param coords the coordinates of the cards chosen
+     * @return the list of the cards in the right order
+     */
     private ArrayList<Integer> selectOrder(ArrayList<Integer> coords){
         String coordOrder;
         int temp_1, temp_2, index_1, index_2;
@@ -307,6 +367,11 @@ public class Player implements Serializable{
         }
         return coords;
     }
+    /**
+     * helper method useful for getting the column chosen by the user (where tha cards will be placed)
+     * @author Ettori
+     * @return the column chosen by the player
+     */
     private int selectColumn(int size){
         int col;
         String column;
