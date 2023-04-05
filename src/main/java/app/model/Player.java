@@ -178,7 +178,8 @@ public class Player implements Serializable{
                     waitForTurn();
                 }
                 case UPDATE_UNPLAYBLE -> {
-                    board = new Board((Board) msg.getContent());
+                    JSONObject jsonObject = (JSONObject) msg.getContent();
+                    board = new Board((Board) jsonObject.get("board"));
                     drawAll();
                     waitForTurn();
                 }
@@ -226,10 +227,13 @@ public class Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void waitForMove(){
+        JSONObject gameStatus, boardStatus, playerStatus;
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
             try {
-                outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, board));
+                boardStatus = new JSONObject();
+                boardStatus.put("board", board);
+                outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
             }catch (Exception e){System.out.println(e);}
         }
         String coordString, coordOrder, column;
@@ -336,19 +340,21 @@ public class Player implements Serializable{
             drawAll();
         stopChatThread();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
-        JSONObject gameStatus = new JSONObject();
-        gameStatus.put("board", new Board(board));
-        gameStatus.put("library", new Library(library));
+        gameStatus = new JSONObject();
+        gameStatus.put("board", board);
+        gameStatus.put("library", library);
         try {
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
             int timer = 5;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
             Thread.sleep(1000);
+            playerStatus = new JSONObject();
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Thread.sleep(1000);
-                    outStream.writeObject(new Message(END_TURN, name, this));
+                    playerStatus.put("player", this);
+                    outStream.writeObject(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){System.out.println(e);}
             }).start();
 

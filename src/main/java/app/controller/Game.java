@@ -4,6 +4,7 @@ import app.model.*;
 import app.model.NetMode;
 import app.model.Player;
 import app.view.UIMode;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -235,7 +236,8 @@ public class Game implements Serializable {
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == END_TURN){
-                players.get(activePlayer).clone((Player) msg.getContent());
+                JSONObject jsonObject = (JSONObject) msg.getContent();
+                players.get(activePlayer).clone((Player) jsonObject.get("player"));
                 if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     endPlayer = activePlayer;
