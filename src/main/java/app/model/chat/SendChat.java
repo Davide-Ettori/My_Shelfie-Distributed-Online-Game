@@ -31,7 +31,6 @@ public class SendChat extends Thread{
                 }
                 s = br.readLine();
                 player.sendChatMsg(s);
-                FILEHelper.writeString(s);
             }
         }
         catch (InterruptedException e){}
