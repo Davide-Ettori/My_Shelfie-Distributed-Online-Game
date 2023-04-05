@@ -212,7 +212,7 @@ public class Player implements Serializable{
      */
     private void handleUpdateUnplayableEvent(Message msg){
         JSONObject jsonObject = (JSONObject) msg.getContent();
-        board = new Board((Board) jsonObject.get("board"));
+        board = (Board) jsonObject.get("board");
         drawAll();
         System.out.println("\nBoard updated because it was unplayable");
         waitForEvents();
@@ -230,10 +230,10 @@ public class Player implements Serializable{
             throw new RuntimeException(e);
         }
         JSONObject jsonObject = (JSONObject) msg.getContent();
-        board = new Board((Board)jsonObject.get("board"));
+        board = (Board)jsonObject.get("board");
         for(int i = 0; i < numPlayers; i++){
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                librariesOfOtherPlayers.set(i, new Library((Library)jsonObject.get("library")));
+                librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
         drawAll();
         System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
