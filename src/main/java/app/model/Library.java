@@ -56,6 +56,7 @@ public class Library implements Serializable {
         /*
         if(library[4][4].color != EMPTY) // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
             return true;
+
          */
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
