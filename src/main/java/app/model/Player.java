@@ -154,14 +154,14 @@ public class Player implements Serializable{
         }
         else {
             startChatSendThread();
-            waitForTurn();
+            waitForEvents();
         }
     }
     /**
      * Attend the start of the turn, meanwhile can update the board if someone else changes it. it can also receive notifications of important events
      * @author Ettori Faccincani
      */
-    private void waitForTurn(){ // funzione principale di attesa
+    private void waitForEvents(){ // funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
@@ -175,14 +175,14 @@ public class Player implements Serializable{
                     startChatSendThread();
                     activeName = (String) msg.getContent();
                     drawAll();
-                    waitForTurn();
+                    waitForEvents();
                 }
                 case UPDATE_UNPLAYBLE -> {
                     JSONObject jsonObject = (JSONObject) msg.getContent();
                     board = new Board((Board) jsonObject.get("board"));
                     drawAll();
                     System.out.println("\nBoard updated because it was unplayable");
-                    waitForTurn();
+                    waitForEvents();
                 }
                 case UPDATE_GAME -> {
                     stopChatThread();
@@ -195,7 +195,7 @@ public class Player implements Serializable{
                     }
                     drawAll();
                     System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-                    waitForTurn();
+                    waitForEvents();
                 }
                 case FINAL_SCORE -> {
                     System.out.println("\nThe game is finished, this is the final scoreboard\n" + msg.getContent());
@@ -205,20 +205,20 @@ public class Player implements Serializable{
                 case CHAT -> {
                     fullChat += msg.getContent();
                     drawAll();
-                    waitForTurn();
+                    waitForEvents();
                 }
                 case CO_1 ->{
                     System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
-                    waitForTurn();
+                    waitForEvents();
                 }
                 case CO_2 ->{
                     System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
-                    waitForTurn();
+                    waitForEvents();
                 }
                 case LIB_FULL ->{
                     System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
                     endGame = true;
-                    waitForTurn();
+                    waitForEvents();
                 }
             }
         }catch(Exception e){System.out.println(e);}
@@ -376,7 +376,7 @@ public class Player implements Serializable{
             }).start();
 
         }catch(Exception e){System.out.println(e);}
-        waitForTurn();
+        waitForEvents();
     }
 
     /**
