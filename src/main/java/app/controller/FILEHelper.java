@@ -16,7 +16,7 @@ public class FILEHelper {
             BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/app/controller/cache/status.txt"));
             bw.write("SUCC");
             bw.close();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
      * write 'FAIL' on status.txt indicating tha the server closed in a NOT normal way
@@ -27,7 +27,7 @@ public class FILEHelper {
             BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/app/controller/cache/status.txt"));
             bw.write("FAIL");
             bw.close();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
      * check if there is a cache server from a previous game
@@ -52,7 +52,7 @@ public class FILEHelper {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(server);
             oos.close();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
      * load the current state of the server from the file server.txt
@@ -66,7 +66,7 @@ public class FILEHelper {
             ObjectInputStream ois = new ObjectInputStream(fin);
             server = (Game) ois.readObject();
             ois.close();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
         return server;
     }
     /**
@@ -78,6 +78,6 @@ public class FILEHelper {
             BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/app/controller/cache/test.txt"));
             bw.write(s);
             bw.close();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
 }

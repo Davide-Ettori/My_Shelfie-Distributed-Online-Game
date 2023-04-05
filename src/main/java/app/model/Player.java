@@ -98,7 +98,7 @@ public class Player implements Serializable{
         try {
             outStream.writeObject(netMode);
             outStream.writeObject(uiMode);
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
         System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
     }
@@ -148,7 +148,7 @@ public class Player implements Serializable{
             p = (Player) inStream.readObject();
             clone(p);
             drawAll();
-        }catch(Exception e){System.out.println(e); System.exit(0);}
+        }catch(Exception e){throw new RuntimeException(e);}
         if(name.equals(chairmanName)) {
             startChatReceiveThread();
             waitForMove();
@@ -222,7 +222,7 @@ public class Player implements Serializable{
                     waitForEvents();
                 }
             }
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
      * Attend the move of the player and start the chat, after the move check if the move is correct
@@ -238,7 +238,7 @@ public class Player implements Serializable{
                 boardStatus = new JSONObject();
                 boardStatus.put("board", board);
                 outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
-            }catch (Exception e){System.out.println(e);}
+            }catch (Exception e){throw new RuntimeException(e);}
         }
         String coordString, coordOrder, column;
         String[] rawCoords;
@@ -343,7 +343,7 @@ public class Player implements Serializable{
                 Thread.sleep(1000);
                 change = true;
             }
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
         try {
             if (library.isFull() && !endGame) {
                 endGame = true;
@@ -353,7 +353,7 @@ public class Player implements Serializable{
                 Thread.sleep(1000);
                 change = true;
             }
-        }catch (Exception e){System.out.println(e);}
+        }catch (Exception e){throw new RuntimeException(e);}
         if(change)
             drawAll();
         stopChatThread();
@@ -363,7 +363,7 @@ public class Player implements Serializable{
         gameStatus.put("library", new Library(library));
         try {
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
-            int timer = 5;
+            int timer = 4;
             Thread.sleep(1000 * timer); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             state = NOT_ACTIVE;
             Thread.sleep(1000);
@@ -373,10 +373,10 @@ public class Player implements Serializable{
                     Thread.sleep(1000);
                     playerStatus.put("player", this);
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
-                }catch (Exception e){System.out.println(e);}
+                }catch (Exception e){throw new RuntimeException(e);}
             }).start();
 
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
         waitForEvents();
     }
 
@@ -478,7 +478,7 @@ public class Player implements Serializable{
         fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
      * prints the name of all the players in the terminal, so that the user can choose the receiver of the chat messages
@@ -616,5 +616,4 @@ public class Player implements Serializable{
      * @param s the message received, it will be added to the fullChat attribute
      */
     public void addToFullChat(String s){fullChat += s;}
-
 }

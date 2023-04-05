@@ -119,7 +119,7 @@ public class Game implements Serializable {
             p.uiMode = uiModes.get(i);
             try {
                 outStreams.get(i).writeObject(p);
-            }catch (Exception e){System.out.println(e);}
+            }catch (Exception e){throw new RuntimeException(e);}
             players.add(p);
         }
         waitMoveFromClient();
@@ -146,7 +146,7 @@ public class Game implements Serializable {
                 names.add(name);
                 break;
             }
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
 
     /**
@@ -163,7 +163,7 @@ public class Game implements Serializable {
                 }
                 else
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-            }catch (Exception e){System.out.println(e);}
+            }catch (Exception e){throw new RuntimeException(e);}
         }
         waitMoveFromClient();
     }
@@ -191,7 +191,7 @@ public class Game implements Serializable {
             }
             else
                 waitMoveFromClient();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
 
     /**
@@ -225,7 +225,7 @@ public class Game implements Serializable {
             else if(getNameIndex(to) != -1){
                 outStreams.get(getNameIndex(to)).writeObject(new Message(CHAT, "", msg));
             }
-        }catch (Exception e){System.out.println(e);}
+        }catch (Exception e){throw new RuntimeException(e);}
     }
     /**
      * Wait the end of the turn of the client and check if the library is full
@@ -251,7 +251,7 @@ public class Game implements Serializable {
             }
             else
                 System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
      * find and return the name of the chairman of this game
@@ -331,7 +331,7 @@ public class Game implements Serializable {
             sendFinalScoresToAll();
         try { // dai tempo al client active di andare in waitForTurn()
             Thread.sleep(1000);
-        } catch (Exception e){System.out.println(e);}
+        } catch (Exception e){throw new RuntimeException(e);}
         notifyNewTurn();
     }
     /**
@@ -374,7 +374,7 @@ public class Game implements Serializable {
         for(int i = 0; i < numPlayers; i++) {
             try {
                 outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", getFinalScore()));
-            } catch (Exception e) {System.out.println(e);}
+            } catch (Exception e) {throw new RuntimeException(e);}
         }
         FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
         System.exit(0);
