@@ -240,7 +240,7 @@ public class Player implements Serializable{
             }catch (Exception e){System.out.println(e);}
         }
         String coordString, coordOrder, column;
-        String[] rawCoords = null;
+        String[] rawCoords;
         ArrayList<Integer> coords = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         int temp_1, temp_2; // helper per fare gli scambi
