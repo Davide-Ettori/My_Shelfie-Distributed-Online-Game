@@ -88,8 +88,10 @@ public class Player implements Serializable{
                 status = (NameStatus) inStream.readObject();
             }catch(Exception e){System.out.println(e.toString());};
 
-            if(status == NOT_TAKEN)
+            if(status == NOT_TAKEN) {
+                in.close();
                 break;
+            }
             System.out.println("Name Taken, choose another name");
         }
         try {
