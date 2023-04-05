@@ -188,7 +188,7 @@ public class Board implements Serializable {
             if(!hasOneFreeSide(cardPositions.get(i), cardPositions.get(i + 1)))
                 return false;
         }
-        return areCardsAligned(cardPositions) && areCardsNear(cardPositions);
+        return cardPositions.size() == 2 || (areCardsAligned(cardPositions) && areCardsNear(cardPositions));
     }
     /**
      * check if the cards are on a straight line

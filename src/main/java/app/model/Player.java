@@ -269,7 +269,7 @@ public class Player implements Serializable{
             }
             if(board.areCardsPickable(coords))
                 break;
-            System.out.println("\nInvalid selection");
+            System.out.println("\nInvalid selection - 2");
         }
         int index_1, index_2;
         while(true){
