@@ -74,6 +74,7 @@ public class Player implements Serializable{
     public Player(NetMode mode, UIMode ui) { // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
+        System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
             mySocket = new Socket(LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
