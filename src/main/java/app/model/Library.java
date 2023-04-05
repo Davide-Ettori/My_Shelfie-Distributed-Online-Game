@@ -54,7 +54,7 @@ public class Library implements Serializable {
      */
     public boolean isFull(){
         System.out.println("\nCHECK");
-        if(library[4][0].color != EMPTY) { // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
+        if(library[4][4].color != EMPTY) { // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
             System.out.println("\nFULL");
             return true;
         }
