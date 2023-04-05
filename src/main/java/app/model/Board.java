@@ -219,7 +219,15 @@ public class Board implements Serializable {
             for(int j = 0; j < DIM; j++)
                 gameBoard[i][j] = new Card();
         }
-        gameMatrix = new int[][]{ // questo è lo schema della board --> 0: sempre vuota, 2,3,4: numero di giocatori minimo per attivarla
+        fillBoard(numPlayers);
+    }
+    /**
+     * fill the board (start of the game or when it is unplayable)
+     * @author Ettori
+     * @param numPlayers number of players
+     */
+    public void fillBoard(int numPlayers){
+        gameMatrix = new int[][]{
                 {0,0,0,3,4,0,0,0,0},
                 {0,0,0,2,2,4,0,0,0},
                 {0,0,3,2,2,2,3,0,0},
@@ -230,14 +238,6 @@ public class Board implements Serializable {
                 {0,0,0,4,2,2,0,0,0},
                 {0,0,0,0,4,3,0,0,0}
         };
-        fillBoard(numPlayers);
-    }
-    /**
-     * fill the board (start of the game or when it is unplayable)
-     * @author Ettori
-     * @param numPlayers number of players
-     */
-    public void fillBoard(int numPlayers){
         Card card;
         if(bucketOfCards == null)
             bucketOfCards = Initializer.setBucketOfCards();
