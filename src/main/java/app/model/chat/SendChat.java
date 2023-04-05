@@ -3,6 +3,7 @@ package app.model.chat;
 import app.controller.FILEHelper;
 import app.model.Player;
 
+import java.io.BufferedReader;
 import java.util.Scanner;
 
 /**
@@ -10,13 +11,13 @@ import java.util.Scanner;
  */
 public class SendChat extends Thread{
     private final Player player;
-    private final Scanner in;
+    private final BufferedReader br;
 
     /**
      * the normal constructor for this thread
      * @param p the player that is writing messages on the terminal
      */
-    public SendChat(Player p, Scanner inScan){player = p; in = inScan;}
+    public SendChat(Player p, BufferedReader brPlayer){player = p; br = brPlayer;}
     /**
      * the main function of the thread, it reads messages from the terminal and send them to the right clients
      */
@@ -28,7 +29,7 @@ public class SendChat extends Thread{
                 while (System.in.available() == 0) {
                     Thread.sleep(100);
                 }
-                s = in.nextLine();
+                s = br.readLine();
                 player.sendChatMsg(s);
                 FILEHelper.writeString(s);
             }

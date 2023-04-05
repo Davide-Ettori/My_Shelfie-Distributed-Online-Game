@@ -7,10 +7,7 @@ import app.view.UIMode;
 import org.json.simple.JSONObject;
 import playground.socket.Server;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -56,7 +53,7 @@ public class Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private String fullChat = "";
     private boolean endGame = false;
-    private transient final Scanner in = new Scanner(System.in);
+    private transient final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
@@ -248,7 +245,11 @@ public class Player implements Serializable{
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
 
-            coordString = in.nextLine();
+            try {
+                coordString = br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             rawCoords = coordString.split(" ");
 
             if(coordString.charAt(0) == '@'){
@@ -271,7 +272,11 @@ public class Player implements Serializable{
         while(true){
             printCurOrder(coords);
             System.out.print("\nInsert which cards to switch (-1 for exit) (or @ for chat):\n");
-            coordOrder = in.nextLine();
+            try {
+                coordOrder = br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             if(coordOrder.equals("-1"))
                 break;
             if(coordOrder.charAt(0) == '@'){
@@ -296,7 +301,11 @@ public class Player implements Serializable{
         int col;
         while(true){
             System.out.print("\nInsert the column where you wish to put the cards (or @ for chat):\n");
-            column = in.nextLine();
+            try {
+                column = br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             if(column.charAt(0) == '@'){
                 sendChatMsg(column);
                 continue;
@@ -409,7 +418,7 @@ public class Player implements Serializable{
      */
     private void startChatSendThread(){
         stopChatThread();
-        chatThread = new SendChat(this, in);
+        chatThread = new SendChat(this, br);
         chatThread.start();
     }
     /**
