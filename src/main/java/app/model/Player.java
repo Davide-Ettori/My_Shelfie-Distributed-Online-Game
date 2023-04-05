@@ -9,8 +9,10 @@ import playground.socket.Server;
 
 import java.io.*;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import java.util.Date;
 import java.util.Scanner;
 
 import static app.controller.MessageType.*;
@@ -444,6 +446,7 @@ public class Player implements Serializable{
             board.getGameBoard()[arr.get(i)][arr.get(i + 1)].draw();
             System.out.print(" ");
         }
+        System.out.println();
     }
     /**
      * Send with socket network the message of the chat to the right players
@@ -460,7 +463,7 @@ public class Player implements Serializable{
         }
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
-        msg = name + " says:" + msg + " (to " + dest + ")\n";
+        msg = name + " says:" + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
             System.out.println("\nThe name chosen does not exists");

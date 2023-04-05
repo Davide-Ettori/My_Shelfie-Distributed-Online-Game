@@ -3,6 +3,8 @@ package playground.terminal_io;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main { // questo è il miglior modo di prendere un generico input da terminale il Java
@@ -28,6 +30,7 @@ public class Main { // questo è il miglior modo di prendere un generico input d
         }
 
         System.out.println("\nCiao " + name + "!"); // saluto l'utente con il suo nome
+        System.out.println(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
         //cycle();
     }
     private static void flushInputBuffer(){
