@@ -109,7 +109,6 @@ public class Player implements Serializable{
      * Clone the player on the client in the player on the server
      * @author Ettori
      * @param p the Player that will be cloned in the current Object
-     * @return the 'this' object the was cloned before
      */
     public void clone(Player p){ // copia la versione sul server dentro a quella del client
         name = p.name;
