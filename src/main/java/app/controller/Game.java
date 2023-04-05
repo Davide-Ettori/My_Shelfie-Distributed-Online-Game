@@ -39,7 +39,7 @@ public class Game implements Serializable {
     private ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean endGameSituation = false;
-    private boolean time = true;
+    private boolean timeExp = true;
     private ArrayList<Thread> chatThreads = new ArrayList<>();
     private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     /**
@@ -57,7 +57,10 @@ public class Game implements Serializable {
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
             try {
                 Thread.sleep(1000 * 60); // aspetto n minuti
-                time = false;
+                if(!timeExp)
+                    return;
+                System.out.println("\nTime limit exceeded, not enough players connected");
+                System.exit(0);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -113,7 +116,7 @@ public class Game implements Serializable {
         ArrayList<Thread> ths = new ArrayList<>();
         Thread th;
 
-        while(numPlayers < targetPlayers && time){
+        while(numPlayers < targetPlayers){
             try{
                 playersSocket.add(serverSocket.accept());
                 th = new Thread(() ->{
@@ -126,6 +129,7 @@ public class Game implements Serializable {
             }
             catch(Exception e){System.out.println(e.toString());}
         }
+        timeExp = false;
         for(Thread t: ths){
             try{t.join();}
             catch(Exception e){System.out.println(e.toString());}
@@ -177,7 +181,7 @@ public class Game implements Serializable {
         inStreams = g.inStreams;
         bucketOfCO = g.bucketOfCO;
         bucketOfPO = g.bucketOfPO;
-        time = g.time;
+        timeExp = g.timeExp;
         serverSocket = g.serverSocket;
         chatThreads = g.chatThreads;
     }
