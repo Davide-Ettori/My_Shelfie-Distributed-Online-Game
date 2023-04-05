@@ -181,6 +181,7 @@ public class Player implements Serializable{
                     JSONObject jsonObject = (JSONObject) msg.getContent();
                     board = new Board((Board) jsonObject.get("board"));
                     drawAll();
+                    System.out.println("\nBoard updated because it was unplayable");
                     waitForTurn();
                 }
                 case UPDATE_GAME -> {
@@ -230,6 +231,8 @@ public class Player implements Serializable{
         JSONObject gameStatus, boardStatus, playerStatus;
         if(board.isBoardUnplayable()){
             board.fillBoard(numPlayers);
+            drawAll();
+            System.out.println("\nBoard updated because it was unplayble");
             try {
                 boardStatus = new JSONObject();
                 boardStatus.put("board", board);
