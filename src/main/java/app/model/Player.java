@@ -263,6 +263,11 @@ public class Player implements Serializable{
      */
     private void handleLibFullEvent(Message msg){
         System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         endGame = true;
         waitForEvents();
     }

@@ -27,7 +27,6 @@ public class Game implements Serializable {
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
-    private int endPlayer;
     private int activePlayer = 0;
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
@@ -171,7 +170,6 @@ public class Game implements Serializable {
     private void clone(Game g){
         targetPlayers = g.targetPlayers;
         numPlayers = g.numPlayers;
-        endPlayer = g.endPlayer;
         endGameSituation = g.endGameSituation;
         activePlayer = g.activePlayer;
         players = g.players;
@@ -240,22 +238,16 @@ public class Game implements Serializable {
         chatThreads = new ArrayList<>();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
-            if(msg.getType() == END_TURN){
-                JSONObject jsonObject = (JSONObject) msg.getContent();
-                players.get(activePlayer).clone((Player) jsonObject.get("player"));
-                if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
-                    endGameSituation = true;
-                    endPlayer = activePlayer;
-                    for(int i = 0; i < names.size(); i++){
-                        if(i != activePlayer)
-                            outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(activePlayer), null));
-                    }
-                    Thread.sleep(3000); // dai tempo agli altri giocatori di leggere il messaggio
+            JSONObject jsonObject = (JSONObject) msg.getContent();
+            players.get(activePlayer).clone((Player) jsonObject.get("player"));
+            if(players.get(activePlayer).library.isFull()) { // se la library ricevuta è piena entro nella fase finale del gioco
+                endGameSituation = true;
+                for(int i = 0; i < names.size(); i++){
+                    if(i != activePlayer)
+                        outStreams.get(i).writeObject(new Message(LIB_FULL, names.get(activePlayer), null));
                 }
-                advanceTurn();
             }
-            else
-                System.out.println("\nUnexpected message (not type = END_TURN) to server from: " + names.get(activePlayer));
+            advanceTurn();
         }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
@@ -271,9 +263,6 @@ public class Game implements Serializable {
 
         if(activePlayer == 0 && endGameSituation)
             sendFinalScoresToAll();
-        try { // dai tempo al client active di andare in waitForTurn()
-            Thread.sleep(1000);
-        } catch (Exception e){throw new RuntimeException(e);}
         notifyNewTurn();
     }
     /**
@@ -378,7 +367,7 @@ public class Game implements Serializable {
         Player p;
         for(int i = 0; i < numPlayers; i++){
             p = players.get(i);
-            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.library) + i == endPlayer ? 1 : 0);
+            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.library));
         }
         names.sort((a, b) -> {
             int n, m;
@@ -402,9 +391,10 @@ public class Game implements Serializable {
      * @author Ettori
      */
     private void sendFinalScoresToAll(){
+        String finalScores = getFinalScore();
         for(int i = 0; i < numPlayers; i++) {
             try {
-                outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", getFinalScore()));
+                outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", finalScores));
             } catch (Exception e) {throw new RuntimeException(e);}
         }
         FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
