@@ -460,6 +460,7 @@ public class Player implements Serializable{
 
     /**
      * method that sends the last move done by the current player to all other clients (after the move is done on this player)
+     * @author Ettori
      */
     private void sendDoneMove(){
         JSONObject gameStatus = new JSONObject(), playerStatus = new JSONObject();
@@ -524,6 +525,7 @@ public class Player implements Serializable{
     }
     /**
      * stops all the thread interaction related to the chat (should be only ReceiveChat)
+     * @author Ettori
      */
     private void stopChatThread(){
         try {
@@ -535,6 +537,7 @@ public class Player implements Serializable{
     }
     /**
      * starts all the threads that listen for chat message from other clients (receiving)
+      @author Ettori
      */
     private void startChatReceiveThread(){
         stopChatThread();
@@ -544,6 +547,7 @@ public class Player implements Serializable{
 
     /**
      * starts all the threads that listen for chat message from the user (sending)
+      @author Ettori
      */
     private void startChatSendThread(){
         stopChatThread();
@@ -654,7 +658,6 @@ public class Player implements Serializable{
      * take the cards from the board and transfer them in the player library
      * @author Ettori
      * @param coord the list of coupled coordinates of the cards that the player want to take from the board
-     * @return true iff the transfer of the cards was successful (the cards are in the correct position)
      */
     private void pickCards(ArrayList<Integer> coord, int col) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
         ArrayList<Card> cards = new ArrayList<>();
@@ -670,18 +673,19 @@ public class Player implements Serializable{
      * @author Ettori
      * @param col column
      * @param cards list of the chosen cards
-     * @return true iff is successful
      */
     private void deployCards(int col, ArrayList<Card> cards) {
         library.insertCards(col, cards);
     }
     /**
      * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
+      @author Ettori
      * @return the state of the player (enum value)
      */
     public State getState(){return state;}
     /**
      * set the current state of the player
+      @author Ettori
      * @param s the state that must be set
      */
     public void setState(State s){state = s;}
@@ -724,21 +728,25 @@ public class Player implements Serializable{
     }
     /**
      * setter for the attribute name
+      @author Ettori
      * @param n the name to set
      */
     public void setName(String n){name = n;}
     /**
      * setter for the attribute isChairMan
+      @author Ettori
      * @param b the boolean to set
      */
     public void setIsChairMan(boolean b){isChairMan = b;}
     /**
      * getter for the socket input stream (from the server)
+      @author Ettori
      * @return the input stream of this player
      */
     public ObjectInputStream getInStream(){return inStream;}
     /**
      * add a string (chat message) to the full chat of the game
+      @author Ettori
      * @param s the message received, it will be added to the fullChat attribute
      */
     public void addToFullChat(String s){fullChat += s;}
