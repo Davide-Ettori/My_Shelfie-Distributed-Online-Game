@@ -120,6 +120,8 @@ public class Player implements Serializable{
      * @param p the Player that will be cloned in the current Object
      */
     public void clone(Player p){ // copia la versione sul server dentro a quella del client
+        netMode = p.netMode;
+        uiMode = p.uiMode;
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
