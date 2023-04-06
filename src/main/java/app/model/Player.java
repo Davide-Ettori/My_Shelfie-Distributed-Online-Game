@@ -371,7 +371,7 @@ public class Player implements Serializable{
                 coords.add(Integer.parseInt(rawCoords[i]));
                 coords.add(Integer.parseInt(rawCoords[i + 1]));
             }
-            if(board.areCardsPickable(coords))
+            if(board.areCardsPickable(coords) && library.maxCardsInsertable() >= coords.size() / 2)
                 break;
             System.out.println("\nInvalid selection");
         }

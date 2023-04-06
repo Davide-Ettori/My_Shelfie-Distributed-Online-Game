@@ -56,7 +56,6 @@ public class Library implements Serializable {
         /*
         if(library[4][4].color != EMPTY) // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
             return true;
-
          */
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
@@ -78,6 +77,17 @@ public class Library implements Serializable {
             return false;
         int freeCard = getFirstFreeCard(col) + 1;
         return freeCard >= numCards;
+    }
+    /**
+     * find the maximum number of cards insertable in the current library
+     * @author Ettori Gumus Giammusso
+     * @return the maximum number of cards insertable in the current library (int)
+     */
+    public int maxCardsInsertable(){
+        int res = 0;
+        for(int i = 0; i < COLS; i++)
+            res = Math.max(res, getFirstFreeCard(i) + 1);
+        return res;
     }
     /**
      * take the index of the first free cell of the column, starting from the lower position and going up
