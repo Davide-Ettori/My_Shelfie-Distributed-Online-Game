@@ -747,7 +747,12 @@ public class Player implements Serializable{
             if(!librariesOfOtherPlayers.get(i).name.equals(name))
                 librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name);
         }
-        System.out.println("\nYou have achieved " + pointsUntilNow + " points from the common objectives, until now");
+        if(pointsUntilNow % 2 == 1){
+            System.out.println("\nYou have achieved " + (pointsUntilNow - 1) + " points from the common objectives (until now)");
+            System.out.println("You also achieved 1 point for being the first player to complete the library");
+        }else{
+            System.out.println("\nYou have achieved " + pointsUntilNow + " points from the common objectives (until now)");
+        }
         if(isChairMan)
             System.out.println("\nYou are the Chairman on this game!");
         else
