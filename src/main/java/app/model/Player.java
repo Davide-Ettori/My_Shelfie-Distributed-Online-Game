@@ -371,7 +371,6 @@ public class Player implements Serializable{
         }
         return coords;
     }
-
     /**
      * helper method for letting the user select the order of the cards chosen before
      * @author Ettori
