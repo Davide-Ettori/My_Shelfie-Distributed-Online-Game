@@ -185,6 +185,27 @@ public class Player implements Serializable{
         }
     }
     /**
+     * function  used to wait for notification from the server while the player is NON active
+     * @author Ettori
+     * @author Ettori Faccincani
+     */
+    private void waitForEvents(){ // funzione principale di attesa
+        try {
+            Message msg = (Message) inStream.readObject();
+            switch (msg.getType()) {
+                case YOUR_TURN -> handleYourTurnEvent();
+                case CHANGE_TURN -> handleChangeTurnEvent(msg);
+                case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+                case UPDATE_GAME -> handleUpdateGameEvent(msg);
+                case FINAL_SCORE -> handleFinalScoreEvent(msg);
+                case CHAT -> handleChatEvent(msg);
+                case CO_1 -> handleCO_1Event(msg);
+                case CO_2 -> handleCO_2Event(msg);
+                case LIB_FULL -> handleLibFullEvent(msg);
+            }
+        }catch(Exception e){throw new RuntimeException(e);}
+    }
+    /**
      * helper function for handling the your turn event notification from the server
      * @author Ettori
      */
@@ -266,6 +287,7 @@ public class Player implements Serializable{
      */
     private void handleCO_1Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+        Game.waitForSeconds(2.5);
         waitForEvents();
     }
     /**
@@ -275,6 +297,7 @@ public class Player implements Serializable{
      */
     private void handleCO_2Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
+        Game.waitForSeconds(2.5);
         waitForEvents();
     }
     /**
@@ -289,25 +312,26 @@ public class Player implements Serializable{
         waitForEvents();
     }
     /**
-     * function  used to wait for notification from the server while the player is NON active
-     * @author Ettori
+     * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
      * @author Ettori Faccincani
      */
-    private void waitForEvents(){ // funzione principale di attesa
-        try {
-            Message msg = (Message) inStream.readObject();
-            switch (msg.getType()) {
-                case YOUR_TURN -> handleYourTurnEvent();
-                case CHANGE_TURN -> handleChangeTurnEvent(msg);
-                case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
-                case UPDATE_GAME -> handleUpdateGameEvent(msg);
-                case FINAL_SCORE -> handleFinalScoreEvent(msg);
-                case CHAT -> handleChatEvent(msg);
-                case CO_1 -> handleCO_1Event(msg);
-                case CO_2 -> handleCO_2Event(msg);
-                case LIB_FULL -> handleLibFullEvent(msg);
-            }
-        }catch(Exception e){throw new RuntimeException(e);}
+    private void waitForMove(){
+        if(board.isBoardUnplayable())
+            fixUnplayableBoard();
+
+        ArrayList<Integer> coords = selectOrder(selectCards());
+        int col = selectColumn(coords.size() / 2);
+        pickCards(coords, col);
+
+        drawAll();
+
+        boolean change = checkCO();
+        change = change || checkLibFull();
+        if(change)
+            drawAll();
+
+        stopChatThread();
+        sendDoneMove();
     }
     /**
      * helper method used for getting the cards chosen by the user (coordinates)
@@ -466,7 +490,6 @@ public class Player implements Serializable{
         }catch (Exception e){throw new RuntimeException(e);}
         return false;
     }
-
     /**
      * helper method which update the board when it becomes unplayable (also notify other players)
      * @author Ettori
@@ -482,7 +505,6 @@ public class Player implements Serializable{
             outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
         }catch (Exception e){throw new RuntimeException(e);}
     }
-
     /**
      * method that sends the last move done by the current player to all other clients (after the move is done on this player)
      * @author Ettori
@@ -508,28 +530,6 @@ public class Player implements Serializable{
         }catch(Exception e){throw new RuntimeException(e);}
 
         waitForEvents();
-    }
-    /**
-     * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
-     * @author Ettori Faccincani
-     */
-    private void waitForMove(){
-        if(board.isBoardUnplayable())
-            fixUnplayableBoard();
-
-        ArrayList<Integer> coords = selectOrder(selectCards());
-        int col = selectColumn(coords.size() / 2);
-        pickCards(coords, col);
-
-        drawAll();
-
-        boolean change = checkCO();
-        change = change || checkLibFull();
-        if(change)
-            drawAll();
-
-        stopChatThread();
-        sendDoneMove();
     }
     /**
      * Check if the input by the user is correct
