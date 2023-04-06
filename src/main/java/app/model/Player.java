@@ -396,7 +396,7 @@ public class Player implements Serializable{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            if(coordOrder.equals("-1"))
+            if(coordOrder.length() == 0 || coordOrder.equals("-1"))
                 break;
             if(coordOrder.charAt(0) == '@'){
                 sendChatMsg(coordOrder);
