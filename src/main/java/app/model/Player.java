@@ -60,7 +60,7 @@ public class Player implements Serializable{
     private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
     private final String DAVIDE_POLIMI_IP = "10.168.91.35";
     private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
-    private final String DAVIDE_XIAOMI_IP_G = "192.168.58.95";
+    private final String DAVIDE_XIAOMI_IP_G = "192.168.47.95";
     private final String DAVIDE_IP_MILANO = "172.17.0.129";
     private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
     private final String SAMUG_IP_MILANO = "192.168.1.3";
@@ -77,7 +77,7 @@ public class Player implements Serializable{
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
-            mySocket = new Socket(LOCAL_HOST, Server.PORT);
+            mySocket = new Socket(DAVIDE_XIAOMI_IP_G, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
