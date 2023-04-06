@@ -144,11 +144,15 @@ public class Player implements Serializable{
      * @author Ettori
      */
     private void chooseUserName(){
+        Scanner in = new Scanner(System.in);
+        NameStatus status;
         while(true){
-            Scanner in = new Scanner(System.in);
             System.out.print("\nInsert your name: ");
             name = in.nextLine();
-            NameStatus status;
+            if(name.length() == 0 || name.charAt(0) == '@'){
+                System.out.println("Name invalid, choose another name");
+                continue;
+            }
             try {
                 outStream.writeObject(name);
                 status = (NameStatus) inStream.readObject();
