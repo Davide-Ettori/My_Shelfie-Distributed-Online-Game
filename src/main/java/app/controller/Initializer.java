@@ -67,9 +67,9 @@ public class Initializer {
         mat_1[0][0] = new Card(PINK);
         mat_1[0][2] = new Card(BLUE);
         mat_1[1][4] = new Card(GREEN);
-        mat_1[2][4] = new Card(WHITE);
+        mat_1[2][3] = new Card(WHITE);
         mat_1[3][1] = new Card(YELLOW);
-        mat_1[5][2] = new Card(BLUE);
+        mat_1[5][2] = new Card(CYAN);
 
         mat_2[1][1] = new Card(PINK);
         mat_2[2][0] = new Card(GREEN);
@@ -107,11 +107,11 @@ public class Initializer {
         mat_6[5][0] = new Card(PINK);
 
         mat_7[0][0] = new Card(GREEN);
-        mat_7[1][4] = new Card(BLUE);
+        mat_7[1][3] = new Card(BLUE);
         mat_7[2][1] = new Card(PINK);
         mat_7[3][0] = new Card(CYAN);
         mat_7[4][4] = new Card(YELLOW);
-        mat_7[5][3] = new Card(WHITE);
+        mat_7[5][2] = new Card(WHITE);
 
         mat_8[0][4] = new Card(BLUE);
         mat_8[1][1] = new Card(GREEN);
