@@ -759,7 +759,6 @@ public class Player implements Serializable{
             System.out.println("\nThe chairman of this game is: " + chairmanName);
         System.out.println("\nGame Chat: \n" + fullChat);
     }
-
     /**
      * prints 12 spaces (rows) to simulate the flush of the terminal
      * @author Gumus
