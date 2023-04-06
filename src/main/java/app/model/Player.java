@@ -474,7 +474,7 @@ public class Player implements Serializable{
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
                 lastIndex = board.pointsCO_2.size() - 1;
                 points = board.pointsCO_2.get(lastIndex);
-                board.pointsCO_1.remove(lastIndex);
+                board.pointsCO_2.remove(lastIndex);
                 pointsUntilNow += points;
                 CO_2_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
