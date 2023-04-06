@@ -456,7 +456,7 @@ public class Player implements Serializable{
         int points;
         boolean change = false;
         try {
-            if (board.commonObjective_1.algorithm.checkMatch(library.library) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
+            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
                 points = board.pointsCO_1.pop();
                 pointsUntilNow += points;
                 CO_1_Done = true;
@@ -465,7 +465,7 @@ public class Player implements Serializable{
                 Game.waitForSeconds(2.5);
                 change = true;
             }
-            if (board.commonObjective_2.algorithm.checkMatch(library.library) && !CO_2_Done) {
+            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
                 points = board.pointsCO_2.pop();
                 pointsUntilNow += points;
                 CO_2_Done = true;

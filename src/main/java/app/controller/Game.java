@@ -365,7 +365,7 @@ public class Game implements Serializable {
         Player p;
         for(int i = 0; i < numPlayers; i++){
             p = players.get(i);
-            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.library));
+            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.gameLibrary));
         }
         names.sort((a, b) -> {
             int n, m;

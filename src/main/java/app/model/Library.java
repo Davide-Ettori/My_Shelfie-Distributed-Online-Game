@@ -16,7 +16,7 @@ public class Library implements Serializable {
     /** the columns of the game library */
     public final int COLS = 5;
     /** the matrix which contains the cards placed by the user */
-    public Card[][] library = new Card[ROWS][COLS];
+    public Card[][] gameLibrary = new Card[ROWS][COLS];
     private final int[][] visitedMatrix = new int[ROWS][COLS];
     private int countVisitedCards;
     /** the name of the player using this library */
@@ -28,7 +28,7 @@ public class Library implements Serializable {
     public Library(String n){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                library[i][j] = new Card();
+                gameLibrary[i][j] = new Card();
             }
         }
         name = n;
@@ -41,7 +41,7 @@ public class Library implements Serializable {
     public Library(Library l){ // copy constructor
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                library[i][j] = new Card(l.library[i][j]);
+                gameLibrary[i][j] = new Card(l.gameLibrary[i][j]);
             }
         }
         countVisitedCards = 0;
@@ -59,7 +59,7 @@ public class Library implements Serializable {
          */
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                if(library[i][j].color == EMPTY)
+                if(gameLibrary[i][j].color == EMPTY)
                     return false;
             }
         }
@@ -97,7 +97,7 @@ public class Library implements Serializable {
      */
     private int getFirstFreeCard(int col){
         for(int i = ROWS - 1; i >= 0; i--){
-            if(library[i][col].color == EMPTY){
+            if(gameLibrary[i][col].color == EMPTY){
                 return i;
             }
         }
@@ -112,7 +112,7 @@ public class Library implements Serializable {
     public void insertCards(int col, ArrayList<Card> cards){
         int place = getFirstFreeCard(col);
         for(int i = 0; i < cards.size(); i++){
-            library[place - i][col] = cards.get(i);
+            gameLibrary[place - i][col] = cards.get(i);
         }
     }
     /**
@@ -144,7 +144,7 @@ public class Library implements Serializable {
      * @param color color to follow
      */
     private void dfs(int i, int j, Color color) {
-        if (indexNotValid(i, j) || library[i][j].color != color || visitedMatrix[i][j] == 1)
+        if (indexNotValid(i, j) || gameLibrary[i][j].color != color || visitedMatrix[i][j] == 1)
             return;
         countVisitedCards++;
         visitedMatrix[i][j] = 1;
@@ -163,9 +163,9 @@ public class Library implements Serializable {
         resetVisitedMatrix();
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                if(library[i][j].color != EMPTY) {
+                if(gameLibrary[i][j].color != EMPTY) {
                     countVisitedCards = 0;
-                    dfs(i, j, library[i][j].color);
+                    dfs(i, j, gameLibrary[i][j].color);
                     if(countVisitedCards == 3){
                         points += 2;
                     }
@@ -196,7 +196,7 @@ public class Library implements Serializable {
         for (int i = 0; i < ROWS; i++) {
             System.out.print(i + " ");
             for (int j = 0; j < COLS; j++) {
-                library[i][j].draw();
+                gameLibrary[i][j].draw();
                 System.out.print(" ");
             }
             System.out.println();
@@ -215,7 +215,7 @@ public class Library implements Serializable {
         for (int i = 0; i < ROWS; i++) {
             System.out.print(i + " ");
             for (int j = 0; j < COLS; j++) {
-                library[i][j].draw();
+                gameLibrary[i][j].draw();
                 System.out.print(" ");
             }
             System.out.println();
@@ -230,7 +230,7 @@ public class Library implements Serializable {
     public boolean sameLibraryColor(Library lib){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                if(library[i][j].color != lib.library[i][j].color){
+                if(gameLibrary[i][j].color != lib.gameLibrary[i][j].color){
                     return false;
                 }
             }

@@ -30,78 +30,78 @@ public class insertCardsTest {
     @Test // test 1
     public void insertCards_correct(){
         //First library
-        beforeLib.library[0][0] = new Card();//1
-        beforeLib.library[0][1] = new Card(PINK);
-        beforeLib.library[0][2] = new Card(PINK);
-        beforeLib.library[0][3] = new Card(PINK);
-        beforeLib.library[0][4] = new Card(PINK);
+        beforeLib.gameLibrary[0][0] = new Card();//1
+        beforeLib.gameLibrary[0][1] = new Card(PINK);
+        beforeLib.gameLibrary[0][2] = new Card(PINK);
+        beforeLib.gameLibrary[0][3] = new Card(PINK);
+        beforeLib.gameLibrary[0][4] = new Card(PINK);
 
-        beforeLib.library[1][0] = new Card();//2
-        beforeLib.library[1][1] = new Card(BLUE);
-        beforeLib.library[1][2] = new Card(PINK);
-        beforeLib.library[1][3] = new Card(PINK);
-        beforeLib.library[1][4] = new Card(PINK);
+        beforeLib.gameLibrary[1][0] = new Card();//2
+        beforeLib.gameLibrary[1][1] = new Card(BLUE);
+        beforeLib.gameLibrary[1][2] = new Card(PINK);
+        beforeLib.gameLibrary[1][3] = new Card(PINK);
+        beforeLib.gameLibrary[1][4] = new Card(PINK);
 
-        beforeLib.library[2][0] = new Card();//3
-        beforeLib.library[2][1] = new Card(BLUE);
-        beforeLib.library[2][2] = new Card(BLUE);
-        beforeLib.library[2][3] = new Card(BLUE);
-        beforeLib.library[2][4] = new Card(BLUE);
+        beforeLib.gameLibrary[2][0] = new Card();//3
+        beforeLib.gameLibrary[2][1] = new Card(BLUE);
+        beforeLib.gameLibrary[2][2] = new Card(BLUE);
+        beforeLib.gameLibrary[2][3] = new Card(BLUE);
+        beforeLib.gameLibrary[2][4] = new Card(BLUE);
 
-        beforeLib.library[3][0] = new Card(PINK);//4
-        beforeLib.library[3][1] = new Card(BLUE);
-        beforeLib.library[3][2] = new Card(GREEN);
-        beforeLib.library[3][3] = new Card(PINK);
-        beforeLib.library[3][4] = new Card(PINK);
+        beforeLib.gameLibrary[3][0] = new Card(PINK);//4
+        beforeLib.gameLibrary[3][1] = new Card(BLUE);
+        beforeLib.gameLibrary[3][2] = new Card(GREEN);
+        beforeLib.gameLibrary[3][3] = new Card(PINK);
+        beforeLib.gameLibrary[3][4] = new Card(PINK);
 
-        beforeLib.library[4][0] = new Card(PINK);//5
-        beforeLib.library[4][1] = new Card(PINK);
-        beforeLib.library[4][2] = new Card(GREEN);
-        beforeLib.library[4][3] = new Card(PINK);
-        beforeLib.library[4][4] = new Card(PINK);
+        beforeLib.gameLibrary[4][0] = new Card(PINK);//5
+        beforeLib.gameLibrary[4][1] = new Card(PINK);
+        beforeLib.gameLibrary[4][2] = new Card(GREEN);
+        beforeLib.gameLibrary[4][3] = new Card(PINK);
+        beforeLib.gameLibrary[4][4] = new Card(PINK);
 
-        beforeLib.library[5][0] = new Card(PINK);//6
-        beforeLib.library[5][1] = new Card(PINK);
-        beforeLib.library[5][2] = new Card(GREEN);
-        beforeLib.library[5][3] = new Card(PINK);
-        beforeLib.library[5][4] = new Card(PINK);
+        beforeLib.gameLibrary[5][0] = new Card(PINK);//6
+        beforeLib.gameLibrary[5][1] = new Card(PINK);
+        beforeLib.gameLibrary[5][2] = new Card(GREEN);
+        beforeLib.gameLibrary[5][3] = new Card(PINK);
+        beforeLib.gameLibrary[5][4] = new Card(PINK);
 
         //Second library
-        afterLib.library[0][0] = new Card(BLUE);//1
-        afterLib.library[0][1] = new Card(PINK);
-        afterLib.library[0][2] = new Card(PINK);
-        afterLib.library[0][3] = new Card(PINK);
-        afterLib.library[0][4] = new Card(PINK);
+        afterLib.gameLibrary[0][0] = new Card(BLUE);//1
+        afterLib.gameLibrary[0][1] = new Card(PINK);
+        afterLib.gameLibrary[0][2] = new Card(PINK);
+        afterLib.gameLibrary[0][3] = new Card(PINK);
+        afterLib.gameLibrary[0][4] = new Card(PINK);
 
-        afterLib.library[1][0] = new Card(GREEN);//2
-        afterLib.library[1][1] = new Card(BLUE);
-        afterLib.library[1][2] = new Card(PINK);
-        afterLib.library[1][3] = new Card(PINK);
-        afterLib.library[1][4] = new Card(PINK);
+        afterLib.gameLibrary[1][0] = new Card(GREEN);//2
+        afterLib.gameLibrary[1][1] = new Card(BLUE);
+        afterLib.gameLibrary[1][2] = new Card(PINK);
+        afterLib.gameLibrary[1][3] = new Card(PINK);
+        afterLib.gameLibrary[1][4] = new Card(PINK);
 
-        afterLib.library[2][0] = new Card(PINK);//3
-        afterLib.library[2][1] = new Card(BLUE);
-        afterLib.library[2][2] = new Card(BLUE);
-        afterLib.library[2][3] = new Card(BLUE);
-        afterLib.library[2][4] = new Card(BLUE);
+        afterLib.gameLibrary[2][0] = new Card(PINK);//3
+        afterLib.gameLibrary[2][1] = new Card(BLUE);
+        afterLib.gameLibrary[2][2] = new Card(BLUE);
+        afterLib.gameLibrary[2][3] = new Card(BLUE);
+        afterLib.gameLibrary[2][4] = new Card(BLUE);
 
-        afterLib.library[3][0] = new Card(PINK);//4
-        afterLib.library[3][1] = new Card(BLUE);
-        afterLib.library[3][2] = new Card(GREEN);
-        afterLib.library[3][3] = new Card(PINK);
-        afterLib.library[3][4] = new Card(PINK);
+        afterLib.gameLibrary[3][0] = new Card(PINK);//4
+        afterLib.gameLibrary[3][1] = new Card(BLUE);
+        afterLib.gameLibrary[3][2] = new Card(GREEN);
+        afterLib.gameLibrary[3][3] = new Card(PINK);
+        afterLib.gameLibrary[3][4] = new Card(PINK);
 
-        afterLib.library[4][0] = new Card(PINK);//5
-        afterLib.library[4][1] = new Card(PINK);
-        afterLib.library[4][2] = new Card(GREEN);
-        afterLib.library[4][3] = new Card(PINK);
-        afterLib.library[4][4] = new Card(PINK);
+        afterLib.gameLibrary[4][0] = new Card(PINK);//5
+        afterLib.gameLibrary[4][1] = new Card(PINK);
+        afterLib.gameLibrary[4][2] = new Card(GREEN);
+        afterLib.gameLibrary[4][3] = new Card(PINK);
+        afterLib.gameLibrary[4][4] = new Card(PINK);
 
-        afterLib.library[5][0] = new Card(PINK);//6
-        afterLib.library[5][1] = new Card(PINK);
-        afterLib.library[5][2] = new Card(GREEN);
-        afterLib.library[5][3] = new Card(PINK);
-        afterLib.library[5][4] = new Card(PINK);
+        afterLib.gameLibrary[5][0] = new Card(PINK);//6
+        afterLib.gameLibrary[5][1] = new Card(PINK);
+        afterLib.gameLibrary[5][2] = new Card(GREEN);
+        afterLib.gameLibrary[5][3] = new Card(PINK);
+        afterLib.gameLibrary[5][4] = new Card(PINK);
 
         beforeLib.insertCards(0, myCards);
         assertEquals(afterLib.sameLibraryColor(beforeLib), true);
@@ -110,78 +110,78 @@ public class insertCardsTest {
     @Test // test 2
     public void insertCards_incorrect(){
         //First library
-        beforeLib.library[0][0] = new Card();//1
-        beforeLib.library[0][1] = new Card(PINK);
-        beforeLib.library[0][2] = new Card(PINK);
-        beforeLib.library[0][3] = new Card(PINK);
-        beforeLib.library[0][4] = new Card(PINK);
+        beforeLib.gameLibrary[0][0] = new Card();//1
+        beforeLib.gameLibrary[0][1] = new Card(PINK);
+        beforeLib.gameLibrary[0][2] = new Card(PINK);
+        beforeLib.gameLibrary[0][3] = new Card(PINK);
+        beforeLib.gameLibrary[0][4] = new Card(PINK);
 
-        beforeLib.library[1][0] = new Card();//2
-        beforeLib.library[1][1] = new Card(BLUE);
-        beforeLib.library[1][2] = new Card(PINK);
-        beforeLib.library[1][3] = new Card(PINK);
-        beforeLib.library[1][4] = new Card(PINK);
+        beforeLib.gameLibrary[1][0] = new Card();//2
+        beforeLib.gameLibrary[1][1] = new Card(BLUE);
+        beforeLib.gameLibrary[1][2] = new Card(PINK);
+        beforeLib.gameLibrary[1][3] = new Card(PINK);
+        beforeLib.gameLibrary[1][4] = new Card(PINK);
 
-        beforeLib.library[2][0] = new Card();//3
-        beforeLib.library[2][1] = new Card(BLUE);
-        beforeLib.library[2][2] = new Card(BLUE);
-        beforeLib.library[2][3] = new Card(BLUE);
-        beforeLib.library[2][4] = new Card(BLUE);
+        beforeLib.gameLibrary[2][0] = new Card();//3
+        beforeLib.gameLibrary[2][1] = new Card(BLUE);
+        beforeLib.gameLibrary[2][2] = new Card(BLUE);
+        beforeLib.gameLibrary[2][3] = new Card(BLUE);
+        beforeLib.gameLibrary[2][4] = new Card(BLUE);
 
-        beforeLib.library[3][0] = new Card(PINK);//4
-        beforeLib.library[3][1] = new Card(BLUE);
-        beforeLib.library[3][2] = new Card(GREEN);
-        beforeLib.library[3][3] = new Card(PINK);
-        beforeLib.library[3][4] = new Card(PINK);
+        beforeLib.gameLibrary[3][0] = new Card(PINK);//4
+        beforeLib.gameLibrary[3][1] = new Card(BLUE);
+        beforeLib.gameLibrary[3][2] = new Card(GREEN);
+        beforeLib.gameLibrary[3][3] = new Card(PINK);
+        beforeLib.gameLibrary[3][4] = new Card(PINK);
 
-        beforeLib.library[4][0] = new Card(PINK);//5
-        beforeLib.library[4][1] = new Card(PINK);
-        beforeLib.library[4][2] = new Card(GREEN);
-        beforeLib.library[4][3] = new Card(PINK);
-        beforeLib.library[4][4] = new Card(PINK);
+        beforeLib.gameLibrary[4][0] = new Card(PINK);//5
+        beforeLib.gameLibrary[4][1] = new Card(PINK);
+        beforeLib.gameLibrary[4][2] = new Card(GREEN);
+        beforeLib.gameLibrary[4][3] = new Card(PINK);
+        beforeLib.gameLibrary[4][4] = new Card(PINK);
 
-        beforeLib.library[5][0] = new Card(PINK);//6
-        beforeLib.library[5][1] = new Card(PINK);
-        beforeLib.library[5][2] = new Card(GREEN);
-        beforeLib.library[5][3] = new Card(PINK);
-        beforeLib.library[5][4] = new Card(PINK);
+        beforeLib.gameLibrary[5][0] = new Card(PINK);//6
+        beforeLib.gameLibrary[5][1] = new Card(PINK);
+        beforeLib.gameLibrary[5][2] = new Card(GREEN);
+        beforeLib.gameLibrary[5][3] = new Card(PINK);
+        beforeLib.gameLibrary[5][4] = new Card(PINK);
 
         //Second library
-        afterLib.library[0][0] = new Card(CYAN);//1 - i change only this color to obtain an incorrect result (the correct was BLUE)
-        afterLib.library[0][1] = new Card(PINK);
-        afterLib.library[0][2] = new Card(PINK);
-        afterLib.library[0][3] = new Card(PINK);
-        afterLib.library[0][4] = new Card(PINK);
+        afterLib.gameLibrary[0][0] = new Card(CYAN);//1 - i change only this color to obtain an incorrect result (the correct was BLUE)
+        afterLib.gameLibrary[0][1] = new Card(PINK);
+        afterLib.gameLibrary[0][2] = new Card(PINK);
+        afterLib.gameLibrary[0][3] = new Card(PINK);
+        afterLib.gameLibrary[0][4] = new Card(PINK);
 
-        afterLib.library[1][0] = new Card(GREEN);//2
-        afterLib.library[1][1] = new Card(BLUE);
-        afterLib.library[1][2] = new Card(PINK);
-        afterLib.library[1][3] = new Card(PINK);
-        afterLib.library[1][4] = new Card(PINK);
+        afterLib.gameLibrary[1][0] = new Card(GREEN);//2
+        afterLib.gameLibrary[1][1] = new Card(BLUE);
+        afterLib.gameLibrary[1][2] = new Card(PINK);
+        afterLib.gameLibrary[1][3] = new Card(PINK);
+        afterLib.gameLibrary[1][4] = new Card(PINK);
 
-        afterLib.library[2][0] = new Card(PINK);//3
-        afterLib.library[2][1] = new Card(BLUE);
-        afterLib.library[2][2] = new Card(BLUE);
-        afterLib.library[2][3] = new Card(BLUE);
-        afterLib.library[2][4] = new Card(BLUE);
+        afterLib.gameLibrary[2][0] = new Card(PINK);//3
+        afterLib.gameLibrary[2][1] = new Card(BLUE);
+        afterLib.gameLibrary[2][2] = new Card(BLUE);
+        afterLib.gameLibrary[2][3] = new Card(BLUE);
+        afterLib.gameLibrary[2][4] = new Card(BLUE);
 
-        afterLib.library[3][0] = new Card(PINK);//4
-        afterLib.library[3][1] = new Card(BLUE);
-        afterLib.library[3][2] = new Card(GREEN);
-        afterLib.library[3][3] = new Card(PINK);
-        afterLib.library[3][4] = new Card(PINK);
+        afterLib.gameLibrary[3][0] = new Card(PINK);//4
+        afterLib.gameLibrary[3][1] = new Card(BLUE);
+        afterLib.gameLibrary[3][2] = new Card(GREEN);
+        afterLib.gameLibrary[3][3] = new Card(PINK);
+        afterLib.gameLibrary[3][4] = new Card(PINK);
 
-        afterLib.library[4][0] = new Card(PINK);//5
-        afterLib.library[4][1] = new Card(PINK);
-        afterLib.library[4][2] = new Card(GREEN);
-        afterLib.library[4][3] = new Card(PINK);
-        afterLib.library[4][4] = new Card(PINK);
+        afterLib.gameLibrary[4][0] = new Card(PINK);//5
+        afterLib.gameLibrary[4][1] = new Card(PINK);
+        afterLib.gameLibrary[4][2] = new Card(GREEN);
+        afterLib.gameLibrary[4][3] = new Card(PINK);
+        afterLib.gameLibrary[4][4] = new Card(PINK);
 
-        afterLib.library[5][0] = new Card(PINK);//6
-        afterLib.library[5][1] = new Card(PINK);
-        afterLib.library[5][2] = new Card(GREEN);
-        afterLib.library[5][3] = new Card(PINK);
-        afterLib.library[5][4] = new Card(PINK);
+        afterLib.gameLibrary[5][0] = new Card(PINK);//6
+        afterLib.gameLibrary[5][1] = new Card(PINK);
+        afterLib.gameLibrary[5][2] = new Card(GREEN);
+        afterLib.gameLibrary[5][3] = new Card(PINK);
+        afterLib.gameLibrary[5][4] = new Card(PINK);
 
         beforeLib.insertCards(0, myCards);
         assertEquals(afterLib.sameLibraryColor(beforeLib), false);
