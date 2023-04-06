@@ -453,11 +453,13 @@ public class Player implements Serializable{
      * @return true iff at least one objective was completed
      */
     private boolean checkCO(){
-        int points;
+        int points, lastIndex;
         boolean change = false;
         try {
             if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
-                points = board.pointsCO_1.pop();
+                lastIndex = board.pointsCO_1.size() - 1;
+                points = board.pointsCO_1.get(lastIndex);
+                board.pointsCO_1.remove(lastIndex);
                 pointsUntilNow += points;
                 CO_1_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
@@ -466,7 +468,9 @@ public class Player implements Serializable{
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
-                points = board.pointsCO_2.pop();
+                lastIndex = board.pointsCO_2.size() - 1;
+                points = board.pointsCO_2.get(lastIndex);
+                board.pointsCO_1.remove(lastIndex);
                 pointsUntilNow += points;
                 CO_2_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
