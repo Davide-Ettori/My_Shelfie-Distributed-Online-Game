@@ -733,8 +733,8 @@ public class Player implements Serializable{
      * @author Gumus
      */
     public void drawAll(){
-        System.out.flush(); //non funziona sul terminale di intellij
-        //clearScreen();
+        //System.out.flush(); //non funziona sul terminale di intellij
+        clearScreen();
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
         }else{
