@@ -356,6 +356,8 @@ public class Player implements Serializable{
                 System.out.println("errore");
                 throw new RuntimeException(e);
             }
+            if(coordString.length() == 0)
+                continue;
             rawCoords = coordString.split(" ");
 
             if(coordString.charAt(0) == '@'){
@@ -436,6 +438,8 @@ public class Player implements Serializable{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            if(column.length() == 0)
+                continue;
             if(column.charAt(0) == '@'){
                 sendChatMsg(column);
                 continue;
