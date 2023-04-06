@@ -77,7 +77,7 @@ public class Player implements Serializable{
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
-            mySocket = new Socket(DAVIDE_XIAOMI_IP_G, Server.PORT);
+            mySocket = new Socket(LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
@@ -733,8 +733,8 @@ public class Player implements Serializable{
      * @author Gumus
      */
     public void drawAll(){
-        System.out.flush(); //non funziona sul terminale di intellij
-        //clearScreen();
+        //System.out.flush(); //non funziona sul terminale di intellij
+        clearScreen();
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
         }else{
