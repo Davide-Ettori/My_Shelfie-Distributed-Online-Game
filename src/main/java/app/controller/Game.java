@@ -2,7 +2,7 @@ package app.controller;
 
 import app.model.*;
 import app.model.NetMode;
-import app.model.Player;
+import app.view.TUI.Player;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
