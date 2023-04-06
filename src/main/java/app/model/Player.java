@@ -246,11 +246,7 @@ public class Player implements Serializable{
      */
     private void handleFinalScoreEvent(Message msg){
         System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        try {
-            Thread.sleep(1000 * 5);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Game.waitForSeconds(5);
         System.exit(0); // il gioco finisce e tutto si chiude forzatamente
     }
     /**
@@ -288,11 +284,7 @@ public class Player implements Serializable{
      */
     private void handleLibFullEvent(Message msg){
         System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
-        try {
-            Thread.sleep(2500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Game.waitForSeconds(2.5);
         endGame = true;
         waitForEvents();
     }
@@ -441,7 +433,7 @@ public class Player implements Serializable{
                 CO_1_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                Thread.sleep(2500);
+                Game.waitForSeconds(2.5);
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.library) && !CO_2_Done) {
@@ -450,7 +442,7 @@ public class Player implements Serializable{
                 CO_2_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                Thread.sleep(2500);
+                Game.waitForSeconds(2.5);
                 change = true;
             }
         }catch(Exception e){throw new RuntimeException(e);}
@@ -468,7 +460,7 @@ public class Player implements Serializable{
                 pointsUntilNow++;
                 outStream.writeObject(new Message(LIB_FULL, name, null));
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
-                Thread.sleep(2500);
+                Game.waitForSeconds(2.5);
                 return true;
             }
         }catch (Exception e){throw new RuntimeException(e);}
@@ -504,10 +496,10 @@ public class Player implements Serializable{
         try {
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
             state = NOT_ACTIVE;
-            Thread.sleep(1000 * 5); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+            Game.waitForSeconds(5); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
-                    Thread.sleep(1000);
+                    Game.waitForSeconds(1);
                     playerStatus.put("player", new Player(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){throw new RuntimeException(e);}

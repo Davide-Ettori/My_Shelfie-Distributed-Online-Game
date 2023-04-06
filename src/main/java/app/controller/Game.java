@@ -54,15 +54,11 @@ public class Game implements Serializable {
         shuffleObjBucket();
         numPlayers = 0;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
-            try {
-                Thread.sleep(1000 * 60); // aspetto n minuti
-                if(!timeExp)
-                    return;
-                System.out.println("\nTime limit exceeded, not enough players connected");
-                System.exit(0);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            Game.waitForSeconds(60);
+            if(!timeExp)
+                return;
+            System.out.println("\nTime limit exceeded, not enough players connected");
+            System.exit(0);
         }).start();
 
         try{serverSocket = new ServerSocket(PORT);}
@@ -104,7 +100,7 @@ public class Game implements Serializable {
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){throw new RuntimeException(e);}
-            players.add(p);
+            players.add(new Player(p));
         }
     }
     /**
@@ -412,4 +408,15 @@ public class Game implements Serializable {
      * @return the ArrayList containing all the names of the connected players
      */
     public ArrayList<String> getNames(){return names;}
+    /**
+     * shortcut for the Thread.sleep(int) function, it accepts SECONDS, NOT MILLISECONDS
+     * @param n the (decimal) number of seconds to wait
+     */
+    public static void waitForSeconds(double n){
+        try {
+            Thread.sleep((long) (n * 1000));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
