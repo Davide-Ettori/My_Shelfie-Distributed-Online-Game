@@ -395,8 +395,7 @@ public class Game implements Serializable {
                 outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", finalScores));
             } catch (Exception e) {throw new RuntimeException(e);}
         }
-        FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
-        System.out.println("FINEEEE");
+        //FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
         System.exit(0);
     }
     /**

@@ -33,7 +33,6 @@ public class Library implements Serializable {
         }
         name = n;
     }
-
     /**
      * copy constructor for the Library Objects, useful for deep copy
      * @param l the library which you need to copy
@@ -53,8 +52,10 @@ public class Library implements Serializable {
      * @return true or false, depending on if library is full or not
      */
     public boolean isFull(){
+        /*
         if(gameLibrary[4][4].color != EMPTY) // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
             return true;
+         */
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
                 if(gameLibrary[i][j].color == EMPTY)
