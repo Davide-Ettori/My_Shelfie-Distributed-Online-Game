@@ -47,36 +47,7 @@ public class PlayerGUI extends Player implements Serializable{
         System.out.println("\nClient connected");
         chooseUserName();
     }
-    /**
-     * constructor used by the server to initializer a base Player object
-     * @author Ettori
-     */
-    public PlayerGUI(){}
-    /**
-     * copy constructor for the Player object
-     * @author Ettori
-     * @param p the Player object to copy
-     */
-    public PlayerGUI(PlayerGUI p){
-        netMode = p.netMode;
-        uiMode = p.uiMode;
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-        CO_1_Done = p.CO_1_Done;
-        CO_2_Done = p.CO_2_Done;
-        fullChat = p.fullChat;
-        chairmanName = p.chairmanName;
-        activeName = p.activeName;
-        numPlayers = p.numPlayers;
-        endGame = p.endGame;
-    }
+
     /**
      * Clone the player on the client in the player on the server
      * @author Ettori
@@ -465,7 +436,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori
      */
     private void fixUnplayableBoard(){
-        JSONObject boardStatus;
         board.fillBoard(numPlayers);
         drawAll();
         System.out.println("\nBoard updated because it was unplayble");
@@ -480,7 +450,8 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori
      */
     private void sendDoneMove(){
-        JSONObject gameStatus = new JSONObject(), playerStatus = new JSONObject();
+        gameStatus = new JSONObject();
+        playerStatus = new JSONObject();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
@@ -492,7 +463,7 @@ public class PlayerGUI extends Player implements Serializable{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(1);
-                    playerStatus.put("player", new PlayerGUI(this));
+                    playerStatus.put("player", new Player(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){throw new RuntimeException(e);}
             }).start();

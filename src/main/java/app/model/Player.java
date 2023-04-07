@@ -2,6 +2,7 @@ package app.model;
 
 import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
+import org.json.simple.JSONObject;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * class which represent the parent of PlayerGUI and PlayerTUI. Immutable
  * @author Ettori Giammusso
  */
-public abstract class Player implements Serializable {
+public class Player implements Serializable {
 
     //Questi che seguono sono gli attributi necessari per i metodi che ho spostato da PlayerTUI a qui
     protected String name;
@@ -49,7 +50,42 @@ public abstract class Player implements Serializable {
     /** points achieved until now with the common objectives */
     public int pointsUntilNow;
     protected boolean endGame = false;
+    protected transient JSONObject boardStatus;
+    protected transient JSONObject playerStatus;
+    protected transient JSONObject gameStatus;
 
+
+    /**
+     * constructor used by the server to initializer a base Player object
+     * @author Ettori
+     */
+    public Player(){}
+
+    /**
+     * copy constructor for the Player object
+     * @author Ettori
+     * @param p the Player object to copy
+     */
+    public Player(Player p){
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.endGame;
+    }
 
     /**
      * Clone the player on the client in the player on the server
