@@ -1,4 +1,6 @@
 package app.model;
+import app.view.TUI.Player;
+
 import java.util.Scanner;
 
 import static app.model.NetMode.*;

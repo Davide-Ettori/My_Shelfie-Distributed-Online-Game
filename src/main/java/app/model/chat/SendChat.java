@@ -1,10 +1,8 @@
 package app.model.chat;
 
-import app.controller.FILEHelper;
-import app.model.Player;
+import app.view.TUI.Player;
 
 import java.io.BufferedReader;
-import java.util.Scanner;
 
 /**
  * class which represent the thread for keep reading input messages from the terminal (by the NON active users)

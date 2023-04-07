@@ -1,7 +1,7 @@
 package app.model.chat;
 
 import app.controller.Message;
-import app.model.Player;
+import app.view.TUI.Player;
 
 import static app.controller.MessageType.*;
 
