@@ -36,7 +36,7 @@ public class PlayerTUI extends Player implements Serializable{
         name = p.getName();
         isChairMan = p.getIsChairMan();
         library = new Library(p.library);
-        objective = p.getObjective();
+        objective = p.getPrivateObjective();
         pointsUntilNow = p.pointsUntilNow;
         state = p.getState();
         board = new Board(p.board);

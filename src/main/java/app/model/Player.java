@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Player implements Serializable {
 
-    //Questi che seguono sono gli attributi necessari per i metodi che ho spostato da PlayerTUI a qui
+    //Questi che seguono sono gli attributi necessari per i metodi spostati da PlayerTUI a qui
     protected String name;
     protected PrivateObjective objective;
     /** list of the libraries of all the players in the game */
@@ -54,13 +54,11 @@ public class Player implements Serializable {
     protected transient JSONObject playerStatus;
     protected transient JSONObject gameStatus;
 
-
     /**
      * constructor used by the server to initializer a base Player object
      * @author Ettori
      */
     public Player(){}
-
     /**
      * copy constructor for the Player object
      * @author Ettori
@@ -124,70 +122,6 @@ public class Player implements Serializable {
         return false;
     }
     /**
-     * getter for the name
-     * @author Ettori
-     * @return the name of the player
-     */
-    public String getName() {
-        return name;
-    }
-    /**
-     * getter for the isChairMan
-     * @author Ettori
-     * @return if is chairman
-     */
-    public boolean getIsChairMan() {
-        return isChairMan;
-    }
-    /**
-     * getter for
-     * @author Ettori
-     * @return
-     */
-    public PrivateObjective getObjective() {
-        return objective;
-    }
-    /**
-     * getter for
-     * @author Ettori
-     * @return
-     */
-    public boolean getCO_1_Done() {
-        return CO_1_Done;
-    }
-    /**
-     * getter for
-     * @author Ettori
-     * @return
-     */
-    public boolean getCO_2_Done() {
-        return CO_2_Done;
-    }
-    /**
-     * getter for
-     * @author Ettori
-     * @return
-     */
-    public String getFullChat() {return fullChat;}
-    /**
-     * getter for
-     * @author Ettori
-     * @return
-     */
-    public boolean getEndGame() {return endGame;}
-    /**
-     * Getter for the private objective
-     * @author Ettori
-     * @return the private objective of the player
-     */
-    public PrivateObjective getPrivateObjective(){return objective;}
-    /**
-     * setter for the PO
-     * @author Ettori
-     * @param obj  the PO that needs to be set
-     */
-    public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
-    /**
      * take the cards from the board and transfer them in the player library
      * @author Ettori
      * @param coord the list of coupled coordinates of the cards that the player want to take from the board
@@ -210,13 +144,18 @@ public class Player implements Serializable {
     private void deployCards(int col, ArrayList<Card> cards) {
         library.insertCards(col, cards);
     }
-
     /**
-     * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
+     * add a string (chat message) to the full chat of the game
      @author Ettori
-      * @return the state of the player (enum value)
+      * @param s the message received, it will be added to the fullChat attribute
      */
-    public State getState(){return state;}
+    public void addToFullChat(String s){fullChat += s;}
+    /**
+     * setter for the PO
+     * @author Ettori
+     * @param obj  the PO that needs to be set
+     */
+    public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
     /**
      * set the current state of the player
      @author Ettori
@@ -236,16 +175,66 @@ public class Player implements Serializable {
      */
     public void setIsChairMan(boolean b){isChairMan = b;}
     /**
+     * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
+     @author Ettori
+      * @return the state of the player (enum value)
+     */
+    public State getState(){return state;}
+    /**
      * getter for the socket input stream (from the server)
      @author Ettori
       * @return the input stream of this player
      */
     public ObjectInputStream getInStream(){return inStream;}
     /**
-     * add a string (chat message) to the full chat of the game
-     @author Ettori
-      * @param s the message received, it will be added to the fullChat attribute
+     * getter for the name
+     * @author Ettori Giammusso
+     * @return the name of the player
      */
-    public void addToFullChat(String s){fullChat += s;}
+    public String getName() {
+        return name;
+    }
+    /**
+     * getter for the isChairMan
+     * @author Ettori Giammusso
+     * @return if is chairman
+     */
+    public boolean getIsChairMan() {
+        return isChairMan;
+    }
+    /**
+     * getter for the first common objective
+     * @author Ettori Giammusso
+     * @return the first common objective
+     */
+    public boolean getCO_1_Done() {
+        return CO_1_Done;
+    }
+    /**
+     * getter for the second common objective
+     * @author Ettori Giammusso
+     * @return the second common objective
+     */
+    public boolean getCO_2_Done() {
+        return CO_2_Done;
+    }
+    /**
+     * getter for the full chat
+     * @author Ettori
+     * @return the full chat until now
+     */
+    public String getFullChat() {return fullChat;}
+    /**
+     * getter for the endGame
+     * @author Ettori Giammusso
+     * @return if the game is in endGame
+     */
+    public boolean getEndGame() {return endGame;}
+    /**
+     * Getter for the private objective
+     * @author Ettori
+     * @return the private objective of the player
+     */
+    public PrivateObjective getPrivateObjective(){return objective;}
 
 }
