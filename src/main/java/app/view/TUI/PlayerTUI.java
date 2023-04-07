@@ -25,7 +25,7 @@ import static app.model.State.*;
  * implements Serializable because it will be sent in the socket network
  * @author Ettori Faccincani
  */
-public class Player implements Serializable{
+public class PlayerTUI extends Player implements Serializable{
     private String name;
     /** the name of the chairman of the game */
     public String chairmanName;
@@ -73,7 +73,7 @@ public class Player implements Serializable{
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public Player(NetMode mode, UIMode ui) { // Costruttore iniziale
+    public PlayerTUI(NetMode mode, UIMode ui) { // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
@@ -89,13 +89,13 @@ public class Player implements Serializable{
      * constructor used by the server to initializer a base Player object
      * @author Ettori
      */
-    public Player(){}
+    public PlayerTUI(){}
     /**
      * copy constructor for the Player object
      * @author Ettori
      * @param p the Player object to copy
      */
-    public Player(Player p){
+    public PlayerTUI(PlayerTUI p){
         netMode = p.netMode;
         uiMode = p.uiMode;
         name = p.name;
@@ -120,7 +120,7 @@ public class Player implements Serializable{
      * @author Ettori
      * @param p the Player that will be cloned in the current Object
      */
-    public void clone(Player p){ // copia la versione sul server dentro a quella del client
+    public void clone(PlayerTUI p){ // copia la versione sul server dentro a quella del client
         netMode = p.netMode;
         uiMode = p.uiMode;
         name = p.name;
@@ -175,10 +175,10 @@ public class Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void getInitialState(){
-        Player p;
+        PlayerTUI p;
         try {
             System.out.println("\nBe patient, the game will start soon...");
-            p = (Player) inStream.readObject();
+            p = (PlayerTUI) inStream.readObject();
             clone(p);
             drawAll();
         }catch(Exception e){throw new RuntimeException(e);}
@@ -536,7 +536,7 @@ public class Player implements Serializable{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(1);
-                    playerStatus.put("player", new Player(this));
+                    playerStatus.put("player", new PlayerTUI(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){throw new RuntimeException(e);}
             }).start();

@@ -1,5 +1,5 @@
 package app.model;
-import app.view.TUI.Player;
+import app.view.TUI.PlayerTUI;
 
 import java.util.Scanner;
 
@@ -28,17 +28,17 @@ public class Client {
                 net = "Socket";
             if (ui.equals("TUI")) {
                 if (net.equals("Socket")) {
-                    new Player(SOCKET, TUI);
+                    new PlayerTUI(SOCKET, TUI);
                 } else if (net.equals("rmi")) {
-                    new Player(RMI, TUI);
+                    new PlayerTUI(RMI, TUI);
                 }
                 break;
             }
             if (ui.equals("GUI")) {
                 if (net.equals("Socket")) {
-                    new Player(SOCKET, GUI);
+                    new PlayerTUI(SOCKET, GUI);
                 } else if (net.equals("rmi")) {
-                    new Player(RMI, GUI);
+                    new PlayerTUI(RMI, GUI);
                 }
                 break;
             }
