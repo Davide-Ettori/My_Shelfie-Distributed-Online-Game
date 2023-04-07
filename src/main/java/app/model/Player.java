@@ -1,8 +1,14 @@
 package app.model;
 
+import app.view.TUI.PlayerTUI;
+import app.view.UIMode;
+
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.Socket;
 import java.util.ArrayList;
+
 
 /**
  * class which represent the parent of PlayerGUI and PlayerTUI. Immutable
@@ -22,11 +28,35 @@ public abstract class Player implements Serializable {
     protected State state;
     protected boolean isChairMan;
     protected transient ObjectInputStream inStream;
+    protected transient ObjectOutputStream outStream;
+    protected transient Socket mySocket;
     protected String fullChat = "";
 
-    //questi che seguono sono gli attributi condivisi da playerTUI e PlayerGUI
-    //...da finire...
+    //Questi che seguono sono gli attributi condivisi da playerTUI e PlayerGUI
+    /** the name of the chairman of the game */
+    public String chairmanName;
+    /** the network mode chosen by the user */
+    public NetMode netMode;
+    /** the UI mode chosen by the user - not sure if necessary */
+    public UIMode uiMode;
+    /** number of players in this current game */
+    public int numPlayers;
+    protected boolean CO_1_Done = false;
+    protected boolean CO_2_Done = false;
+    /** the name of the player currently having his turn */
+    public String activeName = "";
 
+    /** points achieved until now with the common objectives */
+    public int pointsUntilNow;
+    protected boolean endGame = false;
+
+
+    /**
+     * Clone the player on the client in the player on the server
+     * @author Ettori
+     * @param p the Player that will be cloned in the current Object
+     */
+    public void clone(PlayerTUI p){}
     /**
      * Check if the input by the user is correct
      * @param s array of the coordinates

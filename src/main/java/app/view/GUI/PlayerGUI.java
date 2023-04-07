@@ -1,9 +1,9 @@
 package app.view.GUI;
 
+import app.IP;
 import app.controller.*;
 import app.model.*;
-import app.model.chat.ReceiveChat;
-import app.model.chat.SendChat;
+
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 import playground.socket.Server;
@@ -27,34 +27,7 @@ import static app.model.State.*;
  */
 public class PlayerGUI extends Player implements Serializable{
 
-    /** the name of the chairman of the game */
-    public String chairmanName;
-    /** the network mode chosen by the user */
-    public NetMode netMode;
-    /** the UI mode chosen by the user */
-    public UIMode uiMode;
-    /** number of players in this current game */
-    public int numPlayers;
-    private boolean CO_1_Done = false;
-    private boolean CO_2_Done = false;
-    /** the name of the player currently having his turn */
-    public String activeName = "";
-    /** points achieved until now with the common objectives */
-    public int pointsUntilNow;
-    private transient Socket mySocket;
-    private transient ObjectOutputStream outStream;
-    private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    private boolean endGame = false;
-    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-    private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
-    private final String DAVIDE_POLIMI_IP = "10.168.91.35";
-    private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
-    private final String DAVIDE_XIAOMI_IP_G = "192.168.47.95";
-    private final String DAVIDE_IP_MILANO = "172.17.0.129";
-    private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
-    private final String SAMUG_IP_MILANO = "192.168.1.3";
-    private final String LOCAL_HOST = "127.0.0.1"; //è il computer stesso
+    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
 
     /**
      * standard constructor, starts the main game process on the client side
@@ -67,7 +40,7 @@ public class PlayerGUI extends Player implements Serializable{
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
-            mySocket = new Socket(LOCAL_HOST, Server.PORT);
+            mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
@@ -172,11 +145,9 @@ public class PlayerGUI extends Player implements Serializable{
             drawAll();
         }catch(Exception e){throw new RuntimeException(e);}
         if(name.equals(chairmanName)) {
-            startChatReceiveThread();
             waitForMove();
         }
         else {
-            startChatSendThread();
             waitForEvents();
         }
     }
@@ -206,7 +177,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori
      */
     private void handleYourTurnEvent(){
-        startChatReceiveThread();
         activeName = name;
         drawAll();
         waitForMove();
@@ -217,7 +187,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleChangeTurnEvent(Message msg){
-        startChatSendThread();
         activeName = (String) msg.getContent();
         drawAll();
         waitForEvents();
@@ -240,7 +209,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleUpdateGameEvent(Message msg){
-        stopChatThread();
         try {
             outStream.writeObject(new Message(STOP, null, null));
         } catch (IOException e) {
@@ -326,7 +294,6 @@ public class PlayerGUI extends Player implements Serializable{
         if(change)
             drawAll();
 
-        stopChatThread();
         sendDoneMove();
     }
     /**
@@ -533,37 +500,6 @@ public class PlayerGUI extends Player implements Serializable{
         }catch(Exception e){throw new RuntimeException(e);}
 
         waitForEvents();
-    }
-    /**
-     * stops all the thread interaction related to the chat (should be only ReceiveChat)
-     * @author Ettori
-     */
-    private void stopChatThread(){
-        try {
-            if(chatThread.getClass().getSimpleName().equals("SendChat"))
-                chatThread.interrupt();
-            else
-                chatThread.interrupt();
-        }catch (Exception e){System.out.println();}
-    }
-    /**
-     * starts all the threads that listen for chat message from other clients (receiving)
-     @author Ettori
-     */
-    private void startChatReceiveThread(){
-        stopChatThread();
-        //chatThread = new ReceiveChat(this);
-        chatThread.start();
-    }
-
-    /**
-     * starts all the threads that listen for chat message from the user (sending)
-     @author Ettori
-     */
-    private void startChatSendThread(){
-        stopChatThread();
-       //chatThread = new SendChat(this, br);
-        chatThread.start();
     }
     /**
      * Check if the index to switch are valid
