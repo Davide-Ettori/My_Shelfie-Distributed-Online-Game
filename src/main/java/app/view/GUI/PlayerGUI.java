@@ -8,6 +8,9 @@ import app.view.UIMode;
 import org.json.simple.JSONObject;
 import playground.socket.Server;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -19,6 +22,7 @@ import java.util.Scanner;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * class which represent the player on the client side, mutable,
@@ -45,7 +49,7 @@ public class PlayerGUI extends Player implements Serializable{
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
-        chooseUserName();
+        showChooseNameWindow();
     }
 
     /**
@@ -74,43 +78,66 @@ public class PlayerGUI extends Player implements Serializable{
         endGame = p.endGame;
     }
     /**
-     * method for choosing the nickname of the player for the future game
+     * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
      * @author Ettori
      */
-    private void chooseUserName(){
-        Scanner in = new Scanner(System.in);
-        NameStatus status;
-        while(true){
-            System.out.print("\nInsert your name: ");
-            name = in.nextLine();
-            if(name.length() == 0 || name.charAt(0) == '@'){
-                System.out.println("Name invalid, choose another name");
-                continue;
+    private void showChooseNameWindow(){
+        JFrame frame;
+        JPanel panel;
+        JButton sendBtn;
+        JTextField textInput;
+        frame = new JFrame(); // creo la finestra
+
+        sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
+        textInput = new JTextField(20); // textbox input dall'utente
+
+        textInput.setBounds(100, 20, 165, 25);
+        textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
+
+        sendBtn.addActionListener((event) ->{ // funzione di event listener
+            NameStatus status;
+            name = textInput.getText();
+            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names")){
+                alert("Name invalid, choose another name"); // vedi JavaDoc di alert
+                textInput.setText("");
+                return;
             }
             try {
                 outStream.writeObject(name);
                 status = (NameStatus) inStream.readObject();
             }catch(Exception e){throw new RuntimeException(e);};
 
-            if(status == NOT_TAKEN)
-                break;
-            System.out.println("Name Taken, choose another name");
-        }
-        try {
-            outStream.writeObject(netMode);
-            outStream.writeObject(uiMode);
-        }catch(Exception e){throw new RuntimeException(e);}
-        System.out.println("\nName: '" + name + "' accepted by the server!");
-        getInitialState();
+            if(status == NOT_TAKEN){
+                alert("\nName: '" + name + "' accepted by the server!");
+                closeWindow(frame); // vedi JavaDoc di closeWindow
+                System.exit(0);
+                getInitialState(); // partire a lavorare da questa funzione in poi
+            }
+            alert("Name Taken, choose another name");
+            textInput.setText("");
+        });
+
+        panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
+        panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
+        panel.setLayout(new GridLayout(2,1)); // griglia con 1 riga e 2 colonne
+
+        panel.add(textInput); // Aggiunge i componenti in ordine di griglia: tutta la prima riga, tutta la seconda, ecc. (sx -> dx)
+        panel.add(sendBtn);
+
+        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Window for Choosing the name");
+        frame.pack(); // preparo la finestra
+        frame.setVisible(true); // mostro il tutto a schermo, GUI
     }
     /**
      * Receive the status of the player from the server and attend the start of the game
      * @author Ettori Faccincani
      */
     private void getInitialState(){
+        // da qui in poi bisogna lavorarci
         PlayerGUI p;
         try {
-            System.out.println("\nBe patient, the game will start soon...");
             p = (PlayerGUI) inStream.readObject();
             clone(p);
             drawAll();
@@ -580,4 +607,15 @@ public class PlayerGUI extends Player implements Serializable{
             System.out.println();
         }
     }
+    /**
+     * helper function for alerting a message to the user (pop-up)
+     * @param s the string og the message to show
+     */
+    private void alert(String s){showMessageDialog(null, s);}
+
+    /**
+     * helper function for closing a Swing GUI window
+     * @param frame the window to close
+     */
+    private void closeWindow(JFrame frame){frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));}
 }
