@@ -145,7 +145,7 @@ public class Game implements Serializable {
             inStreams.add(new ObjectInputStream(socket.getInputStream()));
             while (true) {
                 String name = (String) inStreams.get(inStreams.size() - 1).readObject();
-                if (isNameTaken(name) || name.equals("all") || name.equals("names")) {
+                if (isNameTaken(name)) {
                     outStreams.get(outStreams.size() - 1).writeObject(TAKEN);
                     continue;
                 }
