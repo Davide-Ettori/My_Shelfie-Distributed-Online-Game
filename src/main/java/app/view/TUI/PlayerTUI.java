@@ -30,6 +30,27 @@ public class PlayerTUI extends Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+    public PlayerTUI(Player p){
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.getName();
+        isChairMan = p.getIsChairMan();
+        library = new Library(p.library);
+        objective = p.getObjective();
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.getState();
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        CO_1_Done = p.getCO_1_Done();
+        CO_2_Done = p.getCO_2_Done();
+        fullChat = p.getFullChat();
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.getEndGame();
+    }
+
+
     /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
@@ -113,7 +134,7 @@ public class PlayerTUI extends Player implements Serializable{
         PlayerTUI p;
         try {
             System.out.println("\nBe patient, the game will start soon...");
-            p = (PlayerTUI) inStream.readObject();
+            p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
             drawAll();
         }catch(Exception e){throw new RuntimeException(e);}

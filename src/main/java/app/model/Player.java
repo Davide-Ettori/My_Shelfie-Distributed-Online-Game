@@ -132,6 +132,50 @@ public class Player implements Serializable {
         return name;
     }
     /**
+     * getter for the isChairMan
+     * @author Ettori
+     * @return if is chairman
+     */
+    public boolean getIsChairMan() {
+        return isChairMan;
+    }
+    /**
+     * getter for
+     * @author Ettori
+     * @return
+     */
+    public PrivateObjective getObjective() {
+        return objective;
+    }
+    /**
+     * getter for
+     * @author Ettori
+     * @return
+     */
+    public boolean getCO_1_Done() {
+        return CO_1_Done;
+    }
+    /**
+     * getter for
+     * @author Ettori
+     * @return
+     */
+    public boolean getCO_2_Done() {
+        return CO_2_Done;
+    }
+    /**
+     * getter for
+     * @author Ettori
+     * @return
+     */
+    public String getFullChat() {return fullChat;}
+    /**
+     * getter for
+     * @author Ettori
+     * @return
+     */
+    public boolean getEndGame() {return endGame;}
+    /**
      * Getter for the private objective
      * @author Ettori
      * @return the private objective of the player
