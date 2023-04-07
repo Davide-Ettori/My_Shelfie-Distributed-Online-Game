@@ -26,7 +26,7 @@ import static app.model.State.*;
  * @author Ettori Faccincani
  */
 public class PlayerTUI extends Player implements Serializable{
-    private String name;
+
     /** the name of the chairman of the game */
     public String chairmanName;
     /** the network mode chosen by the user */
@@ -39,22 +39,12 @@ public class PlayerTUI extends Player implements Serializable{
     private boolean CO_2_Done = false;
     /** the name of the player currently having his turn */
     public String activeName = "";
-    private boolean isChairMan;
-    /** the personal library of this player */
-    public Library library;
-    private PrivateObjective objective;
+
     /** points achieved until now with the common objectives */
     public int pointsUntilNow;
-    private State state;
-    /** the board seen and used by this player */
-    public Board board;
-    /** list of the libraries of all the players in the game */
-    public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
     private transient Socket mySocket;
-    private transient ObjectInputStream inStream;
     private transient ObjectOutputStream outStream;
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    private String fullChat = "";
     private boolean endGame = false;
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -213,7 +203,7 @@ public class PlayerTUI extends Player implements Serializable{
         }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
-     * helper function for handling the your turn event notification from the server
+     * helper function for handling the turn event notification from the server
      * @author Ettori
      */
     private void handleYourTurnEvent(){
@@ -546,23 +536,6 @@ public class PlayerTUI extends Player implements Serializable{
         waitForEvents();
     }
     /**
-     * Check if the input by the user is correct
-     * @param s array of the coordinates
-     * @return true if the input is correct
-     * @author Faccincani
-     */
-    private boolean checkRawCoords(String[] s) {
-        if (s.length % 2 == 1)
-            return false;
-        else {
-            for (int i = 0; i < s.length; i++) {
-                if (Integer.parseInt(s[i]) < 0 || Integer.parseInt(s[i]) > 9)
-                    return false;
-                }
-            }
-        return true;
-    }
-    /**
      * stops all the thread interaction related to the chat (should be only ReceiveChat)
      * @author Ettori
      */
@@ -661,74 +634,6 @@ public class PlayerTUI extends Player implements Serializable{
         System.out.println("and you");
     }
     /**
-     * check if the name of a player exists in the game (used by the chat)
-     * @author Ettori
-     * @param name the name to check in this game
-     * @return true iff that player actually exists in the current game
-     */
-    private boolean doesPlayerExists(String name){
-        for(Library lib : librariesOfOtherPlayers){
-            if(lib.name.equals(name))
-                return true;
-        }
-        return false;
-    }
-    /**
-     * getter for the name
-     * @author Ettori
-     * @return the name of the player
-     */
-    public String getName() {
-        return name;
-    }
-    /**
-     * Getter for the private objective
-     * @author Ettori
-     * @return the private objective of the player
-     */
-    public PrivateObjective getPrivateObjective(){return objective;}
-    /**
-     * setter for the PO
-     * @author Ettori
-     * @param obj  the PO that needs to be set
-     */
-    public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
-    /**
-     * take the cards from the board and transfer them in the player library
-     * @author Ettori
-     * @param coord the list of coupled coordinates of the cards that the player want to take from the board
-     */
-    private void pickCards(ArrayList<Integer> coord, int col) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
-        ArrayList<Card> cards = new ArrayList<>();
-        for (int i = 0; i < coord.size(); i += 2) {
-            cards.add(new Card(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]));
-            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(); // dopo che hai preso una carta, tale posto diventa EMPTY
-        }
-
-        deployCards(col, cards);
-    }
-    /**
-     * physically position the cards in the chosen column
-     * @author Ettori
-     * @param col column
-     * @param cards list of the chosen cards
-     */
-    private void deployCards(int col, ArrayList<Card> cards) {
-        library.insertCards(col, cards);
-    }
-    /**
-     * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
-      @author Ettori
-     * @return the state of the player (enum value)
-     */
-    public State getState(){return state;}
-    /**
-     * set the current state of the player
-      @author Ettori
-     * @param s the state that must be set
-     */
-    public void setState(State s){state = s;}
-    /**
      * print the name of the active player, the 2 CO, the PO, the board, the libraries,
      * and then prints spaces before the next execution of drawAll. It also prints general (useful) information
      * @author Gumus
@@ -769,28 +674,4 @@ public class PlayerTUI extends Player implements Serializable{
             System.out.println();
         }
     }
-    /**
-     * setter for the attribute name
-      @author Ettori
-     * @param n the name to set
-     */
-    public void setName(String n){name = n;}
-    /**
-     * setter for the attribute isChairMan
-      @author Ettori
-     * @param b the boolean to set
-     */
-    public void setIsChairMan(boolean b){isChairMan = b;}
-    /**
-     * getter for the socket input stream (from the server)
-      @author Ettori
-     * @return the input stream of this player
-     */
-    public ObjectInputStream getInStream(){return inStream;}
-    /**
-     * add a string (chat message) to the full chat of the game
-      @author Ettori
-     * @param s the message received, it will be added to the fullChat attribute
-     */
-    public void addToFullChat(String s){fullChat += s;}
 }
