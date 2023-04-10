@@ -146,8 +146,8 @@ public class Player implements Serializable {
     }
     /**
      * add a string (chat message) to the full chat of the game
-     @author Ettori
-      * @param s the message received, it will be added to the fullChat attribute
+     * @author Ettori
+     * @param s the message received, it will be added to the fullChat attribute
      */
     public void addToFullChat(String s){fullChat += s;}
     /**
@@ -158,32 +158,32 @@ public class Player implements Serializable {
     public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
     /**
      * set the current state of the player
-     @author Ettori
-      * @param s the state that must be set
+     * @author Ettori
+     * @param s the state that must be set
      */
     public void setState(State s){state = s;}
     /**
      * setter for the attribute name
-     @author Ettori
-      * @param n the name to set
+     * @author Ettori
+     * @param n the name to set
      */
     public void setName(String n){name = n;}
     /**
      * setter for the attribute isChairMan
-     @author Ettori
-      * @param b the boolean to set
+     * @author Ettori
+     * @param b the boolean to set
      */
     public void setIsChairMan(boolean b){isChairMan = b;}
     /**
      * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
-     @author Ettori
-      * @return the state of the player (enum value)
+     * @author Ettori
+     * @return the state of the player (enum value)
      */
     public State getState(){return state;}
     /**
      * getter for the socket input stream (from the server)
-     @author Ettori
-      * @return the input stream of this player
+     * @author Ettori
+     * @return the input stream of this player
      */
     public ObjectInputStream getInStream(){return inStream;}
     /**
