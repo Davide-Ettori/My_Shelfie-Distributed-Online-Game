@@ -12,10 +12,16 @@ public class Example_GUI {
 
     public Example_GUI(){
 
+        Toolkit tk = Toolkit.getDefaultToolkit();//alternative method for full-screen window
+        Dimension screenSize = tk.getScreenSize();
+
         JFrame mainFrame = new JFrame();
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); //set FullScreen on every display resolution
+        //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); //set FullScreen on every display resolution
+        mainFrame.setSize(screenSize.width, screenSize.height);//alternative way
+        mainFrame.setResizable(false);                          //alternative way
         mainFrame.setVisible(true);//set the mainFrame visibility to true
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//set the behaviour when the mainFrame is closed
+        mainFrame.setTitle("Titolo di Prova - My Shitty");
 
         //Creation:
         //External
@@ -67,7 +73,10 @@ public class Example_GUI {
         //third level
         //...in development
 
-        DisplayImageTest2(externalPanel, "src/main/java/playground/GUI/swing/doge.png");
+        JButton testButton = new JButton("PROVA");
+        chatPanel.add(testButton);
+
+        DisplayImageTest1(gameBoardPanel, "src/main/java/playground/GUI/swing/doge.png");
 
     }
 
@@ -79,7 +88,8 @@ public class Example_GUI {
     private void DisplayImageTest2(JPanel jp, String src) { //problem with read is Null
         try {
             BufferedImage img = ImageIO.read(getClass().getResource(src));
-            JLabel label = new JLabel(new ImageIcon(img.getScaledInstance(-1, 50, Image.SCALE_SMOOTH)));
+            JLabel label = new JLabel(new ImageIcon(img));
+            //JLabel label = new JLabel(new ImageIcon(img.getScaledInstance(-1, 50, Image.SCALE_SMOOTH)));//in theory is a scalable image with the manual resize of the window
             jp.add(label);
         } catch (IOException e) {}
     }
