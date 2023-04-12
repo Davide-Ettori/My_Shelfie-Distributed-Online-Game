@@ -4,6 +4,7 @@ import app.IP;
 import app.controller.*;
 import app.model.*;
 
+import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 import playground.socket.Server;
@@ -34,6 +35,29 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
 
     /**
+     * constructor that copies a generic Player object inside a new PlayerTUI object
+     * @param p the Player object to copy, received by the server
+     */
+    public PlayerGUI(Player p){
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.getName();
+        isChairMan = p.getIsChairMan();
+        library = new Library(p.library);
+        objective = p.getPrivateObjective();
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.getState();
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        CO_1_Done = p.getCO_1_Done();
+        CO_2_Done = p.getCO_2_Done();
+        fullChat = p.getFullChat();
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.getEndGame();
+    }
+    /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
      * @param ui type of ui chosen by the user
@@ -51,7 +75,6 @@ public class PlayerGUI extends Player implements Serializable{
         System.out.println("\nClient connected");
         showChooseNameWindow();
     }
-
     /**
      * Clone the player on the client in the player on the server
      * @author Ettori
@@ -138,7 +161,7 @@ public class PlayerGUI extends Player implements Serializable{
         // da qui in poi bisogna lavorarci
         PlayerGUI p;
         try {
-            p = (PlayerGUI) inStream.readObject();
+            p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             drawAll();
         }catch(Exception e){throw new RuntimeException(e);}
@@ -150,8 +173,7 @@ public class PlayerGUI extends Player implements Serializable{
         }
     }
     /**
-     * function  used to wait for notification from the server while the player is NON active
-     * @author Ettori
+     * function used to wait for notification from the server while the player is NON active
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
@@ -572,7 +594,7 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Gumus
      */
     public void drawAll(){
-        //System.out.flush(); //non funziona sul terminale di intellij
+        // completamente da rifare, versione GUI non TUI
         clearScreen();
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
