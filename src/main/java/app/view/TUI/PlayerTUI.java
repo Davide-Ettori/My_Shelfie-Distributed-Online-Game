@@ -30,6 +30,10 @@ public class PlayerTUI extends Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+    /**
+     * constructor that copies a generic Player object inside a new PlayerTUI object
+     * @param p the Player object to copy, received by the server
+     */
     public PlayerTUI(Player p){
         netMode = p.netMode;
         uiMode = p.uiMode;
@@ -49,8 +53,6 @@ public class PlayerTUI extends Player implements Serializable{
         numPlayers = p.numPlayers;
         endGame = p.getEndGame();
     }
-
-
     /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
