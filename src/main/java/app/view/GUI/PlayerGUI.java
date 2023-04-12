@@ -173,8 +173,7 @@ public class PlayerGUI extends Player implements Serializable{
         }
     }
     /**
-     * function  used to wait for notification from the server while the player is NON active
-     * @author Ettori
+     * function used to wait for notification from the server while the player is NON active
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
