@@ -595,7 +595,7 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Gumus
      */
     public void drawAll(){
-        //System.out.flush(); //non funziona sul terminale di intellij
+        // completamente da rifare, versione GUI non TUI
         clearScreen();
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
