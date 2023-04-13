@@ -115,7 +115,7 @@ public class Game implements Serializable {
                 playersSocket.add(serverSocket.accept());
                 th = new Thread(() ->{
                     try{getUserName(playersSocket.get(playersSocket.size() - 1));}
-                    catch(Exception e){System.out.println(e.toString());}
+                    catch(Exception e){System.out.println(e);}
                 });
                 th.start();
                 ths.add(th);
