@@ -46,108 +46,82 @@ public class PlayerGUI extends Player implements Serializable{
 
         String pathPointsCO = "assets/scoring tokens/scoring";
 
-        mainFrame.setLayout(new GridLayout(1,1));
-        //Creation:
-        //External
+        mainFrame.setLayout(new GridBagLayout());
+        mainFrame.setSize(screenSize.width, screenSize.height);
+        mainFrame.setResizable(true);
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        GridBagConstraints gbc = new GridBagConstraints();
+
+
         JPanel redPanel = new JPanel(new GridBagLayout());
-        //Internals: first level of abstraction
+        //External Panel
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        mainFrame.add(redPanel, gbc);
+
+
         JPanel internalPanelBlue = new JPanel(new GridBagLayout());
         JPanel internalPanelGreen = new JPanel(new GridBagLayout());
         JPanel internalPanelCyan = new JPanel(new GridBagLayout());
-        //Internals: second level of abstraction
-        //BLUE
-        JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
-            //Text on top of the board
-            JTextArea boardText = new JTextArea("B O A R D");
-            final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-            JLabel boardLabel = new JLabel(boardImage);
-            boardLabel.setLayout(new GridBagLayout());
-        JPanel myLibraryPanel = new JPanel(new GridBagLayout());
-            //Text on top of my library
-            JTextArea myLibraryText = new JTextArea("My personal Library");
-            JTextField chooseColText = new JTextField();
-            chooseColText.setText("Insert the column: ");
-            JButton pickCardsBtn = new JButton("Pick Cards");
-            final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-            JLabel libraryLabel = new JLabel(libraryImage);
-            libraryLabel.setLayout(new GridBagLayout());
-        JPanel chatPanel = new JPanel(new GridBagLayout());
-            JTextArea chatHistory = new JTextArea();
-            JTextField insertMessage = new JTextField();
-            insertMessage.setText("Insert the message: ");
-            JTextField insertPlayer = new JTextField();
-            insertMessage.setText("Insert the player: ");
-            JButton sendMessageBtn = new JButton("Send Message");
+
+        gbc.gridwidth = 0;
+        gbc.gridheight = 3;
+        //FIRST LEVEL
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0.5;
+        gbc.weighty = 0;
+
+        redPanel.add(internalPanelBlue);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0;
+        redPanel.add(internalPanelGreen);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0;
+        redPanel.add(internalPanelCyan);
+
+
+
+
         //GREEN
+
+        gbc.gridwidth = 0;
+        gbc.gridheight = 1;
         JPanel player1Panel = new JPanel(new GridBagLayout());
-            //Text
-            JTextArea library1Text = new JTextArea("Library of the Player 1");
-            //Library of the player 1
-            final ImageIcon library1Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-            JLabel library1Label = new JLabel(library1Image);
-            library1Label.setLayout(new GridBagLayout());
+        //Text
+        JTextArea library1Text = new JTextArea("Library of the Player 1");
+        //Library of the player 1
+        final ImageIcon library1Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        JLabel library1Label = new JLabel(library1Image);
+        library1Label.setLayout(new GridBagLayout());
         JPanel player2Panel = new JPanel(new GridBagLayout());
-            //Text
-            JTextArea library2Text = new JTextArea("Library of the Player 2");
-            //Library of the player 2
-            final ImageIcon library2Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-            JLabel library2Label = new JLabel(library2Image);
-            library2Label.setLayout(new GridBagLayout());
+        //Text
+        JTextArea library2Text = new JTextArea("Library of the Player 2");
+        //Library of the player 2
+        final ImageIcon library2Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        JLabel library2Label = new JLabel(library2Image);
+        library2Label.setLayout(new GridBagLayout());
         JPanel player3Panel = new JPanel(new GridBagLayout());
-            //Text
-            JTextArea library3Text = new JTextArea("Library of the Player 3");
-            //Library of the player 3
-            final ImageIcon library3Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-            JLabel library3Label = new JLabel(library3Image);
-            library3Label.setLayout(new GridBagLayout());
-        //CYAN
-        JLabel POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
-        JLabel CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
-        CO1Label.setLayout(new GridBagLayout());
-        JLabel CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
-        CO2Label.setLayout(new GridBagLayout());
-        JLabel pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        JLabel chairmanLabel= new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        //Internals: third level of abstraction
-        //...in development
-
-
-        //Addition: (Hierarchy of panels inside panels)
-        GridBagConstraints gbc = new GridBagConstraints();
-        //SECOND LEVEL
-        //CYAN
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 25;
-        gbc.ipady = 25;
-        CO1Label.add(pointsCO1Label,gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        internalPanelCyan.add(CO1Label,gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 25;
-        gbc.ipady = 25;
-        CO2Label.add(pointsCO2Label,gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        internalPanelCyan.add(CO2Label,gbc);
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        internalPanelCyan.add(POLabel, gbc);
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        internalPanelCyan.add(chairmanLabel);
-        //GREEN
+        //Text
+        JTextArea library3Text = new JTextArea("Library of the Player 3");
+        //Library of the player 3
+        final ImageIcon library3Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        JLabel library3Label = new JLabel(library3Image);
+        library3Label.setLayout(new GridBagLayout());
                 //player 1
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -155,6 +129,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 1;
         gbc.weighty = 0.2;
+
         player1Panel.add(library1Text,gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -215,14 +190,42 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weighty = 0;
         internalPanelGreen.add(player3Panel,gbc);
 
-        //blue
-            //BOARD
+
+
+        //BLUE
+
+        JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
+        //Text on top of the board
+        JTextArea boardText = new JTextArea("B O A R D");
+        final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        JLabel boardLabel = new JLabel(boardImage);
+        boardLabel.setLayout(new GridBagLayout());
+        JPanel myLibraryPanel = new JPanel(new GridBagLayout());
+        //Text on top of my library
+        JTextArea myLibraryText = new JTextArea("My personal Library");
+        JTextField chooseColText = new JTextField();
+        chooseColText.setText("Insert the column: ");
+        JButton pickCardsBtn = new JButton("Pick Cards");
+        final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        JLabel libraryLabel = new JLabel(libraryImage);
+        libraryLabel.setLayout(new GridBagLayout());
+        JPanel chatPanel = new JPanel(new GridBagLayout());
+        JTextArea chatHistory = new JTextArea();
+        JTextField insertMessage = new JTextField();
+        insertMessage.setText("Insert the message: ");
+        JTextField insertPlayer = new JTextField();
+        insertMessage.setText("Insert the player: ");
+        JButton sendMessageBtn = new JButton("Send Message");
+
+        //BOARD
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0;
         gbc.weighty = 0.1;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         gameBoardPanel.add(boardText,gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -230,6 +233,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0;
         gbc.weighty = 0.9;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         gameBoardPanel.add(boardLabel,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -237,6 +242,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.5;
         gbc.weighty = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         internalPanelBlue.add(gameBoardPanel,gbc);
             //LIBRARY
         gbc.gridx = 0;
@@ -245,6 +252,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0;
         gbc.weighty = 0.1;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         myLibraryPanel.add(myLibraryText,gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -252,6 +261,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0;
         gbc.weighty = 0.6;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         myLibraryPanel.add(libraryLabel,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -259,6 +270,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0;
         gbc.weighty = 0.15;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         myLibraryPanel.add(chooseColText,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -266,6 +279,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0;
         gbc.weighty = 0.15;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         myLibraryPanel.add(pickCardsBtn,gbc);
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -273,6 +288,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.25;
         gbc.weighty = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         internalPanelBlue.add(myLibraryPanel,gbc);
             //CHAT
         gbc.gridx = 0;
@@ -281,6 +298,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.4;
         gbc.weighty = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         chatPanel.add(chatHistory,gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -288,6 +307,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.2;
         gbc.weighty = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         chatPanel.add(insertPlayer,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -295,6 +316,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.2;
         gbc.weighty = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         chatPanel.add(insertMessage,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -302,6 +325,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.2;
         gbc.weighty = 0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
         chatPanel.add(sendMessageBtn,gbc);
         gbc.gridx = 2;
         gbc.gridy = 0;
@@ -309,42 +334,82 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.25;
         gbc.weighty = 0;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 4;
         internalPanelBlue.add(chatPanel);
 
-        //FIRST LEVEL
+        //Addition: (Hierarchy of panels inside panels)
+        //SECOND LEVEL
+
+
+        //CYAN
+        JLabel POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        JLabel CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        CO1Label.setLayout(new GridBagLayout());
+        JLabel CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        CO2Label.setLayout(new GridBagLayout());
+        JLabel pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+        JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+        JLabel chairmanLabel= new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 25;
+        gbc.ipady = 25;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        CO1Label.add(pointsCO1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.5;
-        gbc.weighty = 0;
-        redPanel.add(internalPanelBlue);
+        gbc.gridwidth = 3;
+        gbc.gridheight = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        internalPanelCyan.add(CO1Label,gbc);
         gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        gbc.weightx = 0.3;
-        gbc.weighty = 0;
-        redPanel.add(internalPanelGreen);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        gbc.weightx = 0.3;
-        gbc.weighty = 0;
-        redPanel.add(internalPanelCyan);
-
-        //External Panel
-        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 25;
+        gbc.ipady = 25;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        CO2Label.add(pointsCO2Label,gbc);
+        gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        mainFrame.add(redPanel, gbc);
+        gbc.gridwidth = 3;
+        gbc.gridheight = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        internalPanelCyan.add(CO2Label,gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        internalPanelCyan.add(POLabel, gbc);
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        internalPanelCyan.add(chairmanLabel);
 
-        mainFrame.setSize(screenSize.width, screenSize.height);
-        mainFrame.setResizable(false);
-        mainFrame.setVisible(true);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
     }
 
     /**
