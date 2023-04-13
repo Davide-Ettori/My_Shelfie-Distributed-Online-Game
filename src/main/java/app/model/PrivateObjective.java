@@ -12,6 +12,7 @@ import static app.model.Color.*;
 public class PrivateObjective extends Objective implements Serializable {
     private int[] arrayOfPoints;
     private Card[][] matrix;
+    public final String imagePath;
     /** the unique identifier of the private objective */
     public int objectiveId; // non sono sicuro che serva, per ora lo teniamo
 
@@ -21,6 +22,7 @@ public class PrivateObjective extends Objective implements Serializable {
      * @param id the unique identifier of the objective
      */
     public PrivateObjective(Card[][] mat, int id){
+        imagePath = "assets/personal goal cards/Personal_Goals.png";
         arrayOfPoints = new int[]{0,1,2,4,6,9,12};
         matrix = mat;
         objectiveId = id;

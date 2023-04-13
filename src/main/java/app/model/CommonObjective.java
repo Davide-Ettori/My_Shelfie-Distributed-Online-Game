@@ -11,6 +11,7 @@ public class CommonObjective extends Objective implements Serializable {
     public final Strategy algorithm;
     /** the unique identifier of the objective */
     public final int id;
+    public final String imagePath;
 
     /**
      * normal constructor for this type of objects
@@ -18,6 +19,7 @@ public class CommonObjective extends Objective implements Serializable {
      * @param identify the unique identifier of this objective
      */
     public CommonObjective(Strategy algo, int identify){
+        imagePath = "assets/common goal cards/1.jpg";
         id = identify;
         algorithm = algo;
     }
