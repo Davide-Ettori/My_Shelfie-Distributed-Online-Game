@@ -32,7 +32,61 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class PlayerGUI extends Player implements Serializable{
 
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
+
+    private final JFrame mainFrame = new JFrame("My Shelfie");
+
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
+
+    /**
+     * Function that draw all the GUI
+     * @author Gumus
+     */
+    public void drawAll(){
+
+        String pathPointsCO = "assets/scoring tokens/scoring";
+
+        mainFrame.setLayout(new GridLayout(1,1));
+        //Creation:
+        //External
+        JPanel redPanel = new JPanel(new GridBagLayout());
+        //Internals: first level of abstraction
+        JPanel internalPanelBlue = new JPanel(new GridBagLayout());
+        JPanel internalPanelGreen = new JPanel(new GridBagLayout());
+        JPanel internalPanelCyan = new JPanel(new GridLayout(1,6));
+        //Internals: second level of abstraction
+        //blue
+        JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
+        JPanel myLibraryPanel = new JPanel(new GridBagLayout());
+        JPanel chatPanel = new JPanel(new GridBagLayout());
+        //green
+        JPanel player1Panel = new JPanel(new GridBagLayout());
+        JPanel player2Panel = new JPanel(new GridBagLayout());
+        JPanel player3Panel = new JPanel(new GridBagLayout());
+        //cyan
+
+        JLabel POLabel = new JLabel(new ImageIcon(new ImageIcon("objective.imagePath").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        JLabel CO1Label = new JLabel(new ImageIcon(new ImageIcon("board.commonObjective_1.imagePath").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        CO1Label.setLayout(new GridBagLayout());
+        JLabel CO2Label = new JLabel(new ImageIcon(new ImageIcon("board.commonObjective_2.imagePath").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        CO2Label.setLayout(new GridBagLayout());
+        JLabel pointsCO1Panel = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + Integer.toString(board.pointsCO_1.peekLast()) + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+        JLabel pointsCO2Panel = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + Integer.toString(board.pointsCO_2.peekLast()) + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+        JLabel chairmanLabel= new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+        //Internals: third level of abstraction
+        //...in development
+
+
+
+
+
+
+
+        mainFrame.setSize(screenSize.width, screenSize.height);
+        mainFrame.setResizable(false);
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
@@ -588,38 +642,7 @@ public class PlayerGUI extends Player implements Serializable{
         }
         System.out.println("and you");
     }
-    /**
-     * print the name of the active player, the 2 CO, the PO, the board, the libraries,
-     * and then prints spaces before the next execution of drawAll. It also prints general (useful) information
-     * @author Gumus
-     */
-    public void drawAll(){
-        // completamente da rifare, versione GUI non TUI
-        clearScreen();
-        if(activeName.equals(name)){
-            System.out.println("Wake up! It's your turn!");
-        }else{
-            System.out.println("Now " + activeName + " is playing...");
-        }
-        board.draw();
-        objective.draw();
-        library.draw();
-        for(int i = 0; i < numPlayers; i++){
-            if(!librariesOfOtherPlayers.get(i).name.equals(name))
-                librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name);
-        }
-        if(pointsUntilNow % 2 == 1){
-            System.out.println("\nYou have achieved " + (pointsUntilNow - 1) + " points from the common objectives (until now)");
-            System.out.println("You also achieved 1 point for being the first player to complete the library");
-        }else{
-            System.out.println("\nYou have achieved " + pointsUntilNow + " points from the common objectives (until now)");
-        }
-        if(isChairMan)
-            System.out.println("\nYou are the Chairman on this game!");
-        else
-            System.out.println("\nThe chairman of this game is: " + chairmanName);
-        System.out.println("\nGame Chat: \n" + fullChat);
-    }
+
     /**
      * prints 12 spaces (rows) to simulate the flush of the terminal
      * @author Gumus

@@ -12,16 +12,12 @@ public class Example_GUI {
 
     public Example_GUI(){
 
-        Toolkit tk = Toolkit.getDefaultToolkit();//alternative method for full-screen window
-        Dimension screenSize = tk.getScreenSize();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         JFrame mainFrame = new JFrame();
         //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); //set FullScreen on every display resolution
-        mainFrame.setSize(screenSize.width, screenSize.height);//alternative way
-        mainFrame.setResizable(false);                          //alternative way
-        mainFrame.setVisible(true);//set the mainFrame visibility to true
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//set the behaviour when the mainFrame is closed
-        mainFrame.setTitle("Titolo di Prova - My Shitty");
+
 
         //Creation:
         //External
@@ -49,7 +45,14 @@ public class Example_GUI {
         //Internals: third level of abstraction
         //...in development
 
+
+        JButton testButton = new JButton("PROVA");
+        chatPanel.add(testButton);
+
+        DisplayImageTest1(gameBoardPanel, "src/main/java/playground/GUI/swing/doge.png");
+
         //Addition: (Hierarchy of panels inside panels)
+        mainFrame.add(externalPanel);
         //first level
         externalPanel.add(internalPanelBlue);
         externalPanel.add(internalPanelGreen);
@@ -73,10 +76,13 @@ public class Example_GUI {
         //third level
         //...in development
 
-        JButton testButton = new JButton("PROVA");
-        chatPanel.add(testButton);
 
-        DisplayImageTest1(gameBoardPanel, "src/main/java/playground/GUI/swing/doge.png");
+
+        mainFrame.setSize(screenSize.width, screenSize.height);//alternative way
+        mainFrame.setResizable(false);                          //alternative way
+        mainFrame.setVisible(true);//set the mainFrame visibility to true
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//set the behaviour when the mainFrame is closed
+        mainFrame.setTitle("Titolo di Prova - My Shitty");
 
     }
 
