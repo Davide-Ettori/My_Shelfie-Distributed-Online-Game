@@ -8,6 +8,7 @@ public class GUI{
     private int count = 0;
     private JFrame frame;
     private JLabel label;
+    private JPanel externalPanel;
     private JPanel panel;
     private JTextField text;
     private final int maxPoints = 8;
@@ -56,6 +57,9 @@ public class GUI{
         text .setBounds(100, 20, 165, 25);
         text.setText("Inserisci il tuo nome");
 
+        externalPanel = new JPanel();
+        externalPanel.setLayout(new GridLayout(1,2));
+
         panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
         panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
         panel.setLayout(new GridLayout(0,3)); // griglia con o righe e 3 colonne
@@ -75,7 +79,9 @@ public class GUI{
         panel.add(buttonDoge);
         // fine
 
-        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
+        externalPanel.add(panel);
+
+        frame.add(externalPanel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("GUI di Prova");
         frame.pack(); // preparo la finestra

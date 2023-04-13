@@ -2,7 +2,6 @@ package app.controller;
 
 import app.model.*;
 import app.model.NetMode;
-import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
@@ -28,7 +27,7 @@ public class Game implements Serializable {
     private int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
-    private ArrayList<PlayerTUI> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
     private ArrayList<UIMode> uiModes = new ArrayList<>();
@@ -74,9 +73,9 @@ public class Game implements Serializable {
      * @author Ettori
      */
     private void initializeAllClients(){
-        PlayerTUI p;
+        Player p;
         for(int i = 0; i < names.size(); i++){
-            p = new PlayerTUI();
+            p = new Player();
             p.setName(names.get(i));
             p.setIsChairMan(i == 0);
             //p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
@@ -100,7 +99,7 @@ public class Game implements Serializable {
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){throw new RuntimeException(e);}
-            players.add(new PlayerTUI(p));
+            players.add(new Player(p));
         }
     }
     /**
@@ -146,7 +145,7 @@ public class Game implements Serializable {
             inStreams.add(new ObjectInputStream(socket.getInputStream()));
             while (true) {
                 String name = (String) inStreams.get(inStreams.size() - 1).readObject();
-                if (isNameTaken(name) || name.equals("all") || name.equals("names")) {
+                if (isNameTaken(name)) {
                     outStreams.get(outStreams.size() - 1).writeObject(TAKEN);
                     continue;
                 }
@@ -235,7 +234,7 @@ public class Game implements Serializable {
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             JSONObject jsonObject = (JSONObject) msg.getContent();
-            players.set(activePlayer, (PlayerTUI) jsonObject.get("player"));
+            players.set(activePlayer, (Player) jsonObject.get("player"));
             if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                 endGameSituation = true;
                 for(int i = 0; i < names.size(); i++){
@@ -323,7 +322,7 @@ public class Game implements Serializable {
      * find and return the chairman Player
      * @return the chairman Object (Player)
      */
-    private PlayerTUI getChairman(){return players.get(0);}
+    private Player getChairman(){return players.get(0);}
 
     /**
      * check if the name is already taken by other players
@@ -362,7 +361,7 @@ public class Game implements Serializable {
     private String getFinalScore(){
         ArrayList<Integer> scores = new ArrayList<>();
         StringBuilder res = new StringBuilder();
-        PlayerTUI p;
+        Player p;
         for(int i = 0; i < numPlayers; i++){
             p = players.get(i);
             scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.gameLibrary));

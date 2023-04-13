@@ -1,5 +1,6 @@
 package app.model;
-import app.view.TUI.PlayerTUI;
+import app.view.TUI.*;
+import app.view.GUI.*;
 
 import java.util.Scanner;
 
@@ -36,9 +37,9 @@ public class Client {
             }
             if (ui.equals("GUI")) {
                 if (net.equals("Socket")) {
-                    new PlayerTUI(SOCKET, GUI);
+                    new PlayerGUI(SOCKET, GUI);
                 } else if (net.equals("rmi")) {
-                    new PlayerTUI(RMI, GUI);
+                    new PlayerGUI(RMI, GUI);
                 }
                 break;
             }

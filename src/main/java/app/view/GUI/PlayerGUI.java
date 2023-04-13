@@ -1,13 +1,17 @@
 package app.view.GUI;
 
+import app.IP;
 import app.controller.*;
 import app.model.*;
-import app.model.chat.ReceiveChat;
-import app.model.chat.SendChat;
+
+import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 import playground.socket.Server;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -19,6 +23,7 @@ import java.util.Scanner;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * class which represent the player on the client side, mutable,
@@ -26,47 +31,32 @@ import static app.model.State.*;
  * @author Ettori Faccincani
  */
 public class PlayerGUI extends Player implements Serializable{
-    private String name;
-    /** the name of the chairman of the game */
-    public String chairmanName;
-    /** the network mode chosen by the user */
-    public NetMode netMode;
-    /** the UI mode chosen by the user */
-    public UIMode uiMode;
-    /** number of players in this current game */
-    public int numPlayers;
-    private boolean CO_1_Done = false;
-    private boolean CO_2_Done = false;
-    /** the name of the player currently having his turn */
-    public String activeName = "";
-    private boolean isChairMan;
-    /** the personal library of this player */
-    public Library library;
-    private PrivateObjective objective;
-    /** points achieved until now with the common objectives */
-    public int pointsUntilNow;
-    private State state;
-    /** the board seen and used by this player */
-    public Board board;
-    /** list of the libraries of all the players in the game */
-    public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
-    private transient Socket mySocket;
-    private transient ObjectInputStream inStream;
-    private transient ObjectOutputStream outStream;
-    private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    private String fullChat = "";
-    private boolean endGame = false;
-    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    private final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;
-    private final String DAVIDE_POLIMI_IP = "10.168.91.35";
-    private final String DAVIDE_XIAOMI_IP_F = "192.168.74.95";
-    private final String DAVIDE_XIAOMI_IP_G = "192.168.47.95";
-    private final String DAVIDE_IP_MILANO = "172.17.0.129";
-    private final String DAVIDE_IP_MANTOVA = "192.168.1.21";
-    private final String SAMUG_IP_MILANO = "192.168.1.3";
-    private final String LOCAL_HOST = "127.0.0.1"; //è il computer stesso
+    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
 
+    /**
+     * constructor that copies a generic Player object inside a new PlayerTUI object
+     * @param p the Player object to copy, received by the server
+     */
+    public PlayerGUI(Player p){
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.getName();
+        isChairMan = p.getIsChairMan();
+        library = new Library(p.library);
+        objective = p.getPrivateObjective();
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.getState();
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        CO_1_Done = p.getCO_1_Done();
+        CO_2_Done = p.getCO_2_Done();
+        fullChat = p.getFullChat();
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.getEndGame();
+    }
     /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
@@ -78,42 +68,12 @@ public class PlayerGUI extends Player implements Serializable{
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
-            mySocket = new Socket(LOCAL_HOST, Server.PORT);
+            mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
-        chooseUserName();
-    }
-    /**
-     * constructor used by the server to initializer a base Player object
-     * @author Ettori
-     */
-    public PlayerGUI(){}
-    /**
-     * copy constructor for the Player object
-     * @author Ettori
-     * @param p the Player object to copy
-     */
-    public PlayerGUI(PlayerGUI p){
-        netMode = p.netMode;
-        uiMode = p.uiMode;
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-        CO_1_Done = p.CO_1_Done;
-        CO_2_Done = p.CO_2_Done;
-        fullChat = p.fullChat;
-        chairmanName = p.chairmanName;
-        activeName = p.activeName;
-        numPlayers = p.numPlayers;
-        endGame = p.endGame;
+        showChooseNameWindow();
     }
     /**
      * Clone the player on the client in the player on the server
@@ -141,59 +101,79 @@ public class PlayerGUI extends Player implements Serializable{
         endGame = p.endGame;
     }
     /**
-     * method for choosing the nickname of the player for the future game
+     * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
      * @author Ettori
      */
-    private void chooseUserName(){
-        Scanner in = new Scanner(System.in);
-        NameStatus status;
-        while(true){
-            System.out.print("\nInsert your name: ");
-            name = in.nextLine();
-            if(name.length() == 0 || name.charAt(0) == '@'){
-                System.out.println("Name invalid, choose another name");
-                continue;
+    private void showChooseNameWindow(){
+        JFrame frame;
+        JPanel panel;
+        JButton sendBtn;
+        JTextField textInput;
+        frame = new JFrame(); // creo la finestra
+
+        sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
+        textInput = new JTextField(20); // textbox input dall'utente
+
+        textInput.setBounds(100, 20, 165, 25);
+        textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
+
+        sendBtn.addActionListener((event) ->{ // funzione di event listener
+            NameStatus status;
+            name = textInput.getText();
+            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names")){
+                alert("Name invalid, choose another name"); // vedi JavaDoc di alert
+                textInput.setText("");
+                return;
             }
             try {
                 outStream.writeObject(name);
                 status = (NameStatus) inStream.readObject();
             }catch(Exception e){throw new RuntimeException(e);};
 
-            if(status == NOT_TAKEN)
-                break;
-            System.out.println("Name Taken, choose another name");
-        }
-        try {
-            outStream.writeObject(netMode);
-            outStream.writeObject(uiMode);
-        }catch(Exception e){throw new RuntimeException(e);}
-        System.out.println("\nName: '" + name + "' accepted by the server!");
-        getInitialState();
+            if(status == NOT_TAKEN){
+                alert("\nName: '" + name + "' accepted by the server!");
+                closeWindow(frame); // vedi JavaDoc di closeWindow
+                System.exit(0);
+                getInitialState(); // partire a lavorare da questa funzione in poi
+            }
+            alert("Name Taken, choose another name");
+            textInput.setText("");
+        });
+
+        panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
+        panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
+        panel.setLayout(new GridLayout(2,1)); // griglia con 1 riga e 2 colonne
+
+        panel.add(textInput); // Aggiunge i componenti in ordine di griglia: tutta la prima riga, tutta la seconda, ecc. (sx -> dx)
+        panel.add(sendBtn);
+
+        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Window for Choosing the name");
+        frame.pack(); // preparo la finestra
+        frame.setVisible(true); // mostro il tutto a schermo, GUI
     }
     /**
      * Receive the status of the player from the server and attend the start of the game
      * @author Ettori Faccincani
      */
     private void getInitialState(){
+        // da qui in poi bisogna lavorarci
         PlayerGUI p;
         try {
-            System.out.println("\nBe patient, the game will start soon...");
-            p = (PlayerGUI) inStream.readObject();
+            p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             drawAll();
         }catch(Exception e){throw new RuntimeException(e);}
         if(name.equals(chairmanName)) {
-            startChatReceiveThread();
             waitForMove();
         }
         else {
-            startChatSendThread();
             waitForEvents();
         }
     }
     /**
-     * function  used to wait for notification from the server while the player is NON active
-     * @author Ettori
+     * function used to wait for notification from the server while the player is NON active
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
@@ -217,7 +197,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori
      */
     private void handleYourTurnEvent(){
-        startChatReceiveThread();
         activeName = name;
         drawAll();
         waitForMove();
@@ -228,7 +207,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleChangeTurnEvent(Message msg){
-        startChatSendThread();
         activeName = (String) msg.getContent();
         drawAll();
         waitForEvents();
@@ -251,7 +229,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleUpdateGameEvent(Message msg){
-        stopChatThread();
         try {
             outStream.writeObject(new Message(STOP, null, null));
         } catch (IOException e) {
@@ -337,7 +314,6 @@ public class PlayerGUI extends Player implements Serializable{
         if(change)
             drawAll();
 
-        stopChatThread();
         sendDoneMove();
     }
     /**
@@ -509,7 +485,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori
      */
     private void fixUnplayableBoard(){
-        JSONObject boardStatus;
         board.fillBoard(numPlayers);
         drawAll();
         System.out.println("\nBoard updated because it was unplayble");
@@ -524,7 +499,8 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori
      */
     private void sendDoneMove(){
-        JSONObject gameStatus = new JSONObject(), playerStatus = new JSONObject();
+        gameStatus = new JSONObject();
+        playerStatus = new JSONObject();
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
@@ -536,7 +512,7 @@ public class PlayerGUI extends Player implements Serializable{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(1);
-                    playerStatus.put("player", new PlayerGUI(this));
+                    playerStatus.put("player", new Player(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){throw new RuntimeException(e);}
             }).start();
@@ -544,54 +520,6 @@ public class PlayerGUI extends Player implements Serializable{
         }catch(Exception e){throw new RuntimeException(e);}
 
         waitForEvents();
-    }
-    /**
-     * Check if the input by the user is correct
-     * @param s array of the coordinates
-     * @return true if the input is correct
-     * @author Faccincani
-     */
-    private boolean checkRawCoords(String[] s) {
-        if (s.length % 2 == 1)
-            return false;
-        else {
-            for (int i = 0; i < s.length; i++) {
-                if (Integer.parseInt(s[i]) < 0 || Integer.parseInt(s[i]) > 9)
-                    return false;
-            }
-        }
-        return true;
-    }
-    /**
-     * stops all the thread interaction related to the chat (should be only ReceiveChat)
-     * @author Ettori
-     */
-    private void stopChatThread(){
-        try {
-            if(chatThread.getClass().getSimpleName().equals("SendChat"))
-                chatThread.interrupt();
-            else
-                chatThread.interrupt();
-        }catch (Exception e){System.out.println();}
-    }
-    /**
-     * starts all the threads that listen for chat message from other clients (receiving)
-     @author Ettori
-     */
-    private void startChatReceiveThread(){
-        stopChatThread();
-        //chatThread = new ReceiveChat(this);
-        chatThread.start();
-    }
-
-    /**
-     * starts all the threads that listen for chat message from the user (sending)
-     @author Ettori
-     */
-    private void startChatSendThread(){
-        stopChatThread();
-       //chatThread = new SendChat(this, br);
-        chatThread.start();
     }
     /**
      * Check if the index to switch are valid
@@ -661,80 +589,12 @@ public class PlayerGUI extends Player implements Serializable{
         System.out.println("and you");
     }
     /**
-     * check if the name of a player exists in the game (used by the chat)
-     * @author Ettori
-     * @param name the name to check in this game
-     * @return true iff that player actually exists in the current game
-     */
-    private boolean doesPlayerExists(String name){
-        for(Library lib : librariesOfOtherPlayers){
-            if(lib.name.equals(name))
-                return true;
-        }
-        return false;
-    }
-    /**
-     * getter for the name
-     * @author Ettori
-     * @return the name of the player
-     */
-    public String getName() {
-        return name;
-    }
-    /**
-     * Getter for the private objective
-     * @author Ettori
-     * @return the private objective of the player
-     */
-    public PrivateObjective getPrivateObjective(){return objective;}
-    /**
-     * setter for the PO
-     * @author Ettori
-     * @param obj  the PO that needs to be set
-     */
-    public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
-    /**
-     * take the cards from the board and transfer them in the player library
-     * @author Ettori
-     * @param coord the list of coupled coordinates of the cards that the player want to take from the board
-     */
-    private void pickCards(ArrayList<Integer> coord, int col) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
-        ArrayList<Card> cards = new ArrayList<>();
-        for (int i = 0; i < coord.size(); i += 2) {
-            cards.add(new Card(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]));
-            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(); // dopo che hai preso una carta, tale posto diventa EMPTY
-        }
-
-        deployCards(col, cards);
-    }
-    /**
-     * physically position the cards in the chosen column
-     * @author Ettori
-     * @param col column
-     * @param cards list of the chosen cards
-     */
-    private void deployCards(int col, ArrayList<Card> cards) {
-        library.insertCards(col, cards);
-    }
-    /**
-     * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
-     @author Ettori
-      * @return the state of the player (enum value)
-     */
-    public State getState(){return state;}
-    /**
-     * set the current state of the player
-     @author Ettori
-      * @param s the state that must be set
-     */
-    public void setState(State s){state = s;}
-    /**
      * print the name of the active player, the 2 CO, the PO, the board, the libraries,
      * and then prints spaces before the next execution of drawAll. It also prints general (useful) information
      * @author Gumus
      */
     public void drawAll(){
-        //System.out.flush(); //non funziona sul terminale di intellij
+        // completamente da rifare, versione GUI non TUI
         clearScreen();
         if(activeName.equals(name)){
             System.out.println("Wake up! It's your turn!");
@@ -770,27 +630,14 @@ public class PlayerGUI extends Player implements Serializable{
         }
     }
     /**
-     * setter for the attribute name
-     @author Ettori
-      * @param n the name to set
+     * helper function for alerting a message to the user (pop-up)
+     * @param s the string og the message to show
      */
-    public void setName(String n){name = n;}
+    private void alert(String s){showMessageDialog(null, s);}
+
     /**
-     * setter for the attribute isChairMan
-     @author Ettori
-      * @param b the boolean to set
+     * helper function for closing a Swing GUI window
+     * @param frame the window to close
      */
-    public void setIsChairMan(boolean b){isChairMan = b;}
-    /**
-     * getter for the socket input stream (from the server)
-     @author Ettori
-      * @return the input stream of this player
-     */
-    public ObjectInputStream getInStream(){return inStream;}
-    /**
-     * add a string (chat message) to the full chat of the game
-     @author Ettori
-      * @param s the message received, it will be added to the fullChat attribute
-     */
-    public void addToFullChat(String s){fullChat += s;}
+    private void closeWindow(JFrame frame){frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));}
 }
