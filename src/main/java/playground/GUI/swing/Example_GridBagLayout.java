@@ -19,11 +19,11 @@ public class Example_GridBagLayout {
         Dimension screenSize = tk.getScreenSize();
 
         //IMPOSTA L'IMMAGINE DI SFONDO: la board
-        final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/MyShelfie/MyShelfie_risorse/17_MyShelfie_BGA/boards/livingroom.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
         JLabel boardLabel = new JLabel(boardImage);
         boardLabel.setLayout(new GridBagLayout());
         //IMPOSTA L'IMMAGINE DI SFONDO: la library
-        final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/MyShelfie/MyShelfie_risorse/17_MyShelfie_BGA/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
         JLabel libraryLabel = new JLabel(libraryImage);
         libraryLabel.setLayout(new GridBagLayout());
 
