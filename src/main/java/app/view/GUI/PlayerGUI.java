@@ -445,8 +445,12 @@ public class PlayerGUI extends Player implements Serializable{
 
             if(status == NOT_TAKEN){
                 alert("\nName: '" + name + "' accepted by the server!");
-                closeWindow(frame); // vedi JavaDoc di closeWindow
-                System.exit(0);
+                //closeWindow(frame); // vedi JavaDoc di closeWindow
+                //System.exit(0);
+                try {
+                    outStream.writeObject(netMode);
+                    outStream.writeObject(uiMode);
+                }catch(Exception e){throw new RuntimeException(e);}
                 getInitialState(); // partire a lavorare da questa funzione in poi
             }
             alert("Name Taken, choose another name");
