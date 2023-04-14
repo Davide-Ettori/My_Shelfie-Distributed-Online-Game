@@ -18,6 +18,9 @@ public class GUI{
         new GUI();
     } // inizializzo la GUI
     public GUI(){
+        draw();
+    }
+    private void draw(){
         frame = new JFrame(); // creo la finestra
 
         JButton buttonUp = new JButton("Aggiungi"); // bottone per aggiungere punti, con relativa callback
