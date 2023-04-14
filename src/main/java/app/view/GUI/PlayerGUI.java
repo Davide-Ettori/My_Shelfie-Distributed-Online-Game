@@ -235,8 +235,8 @@ public class PlayerGUI extends Player implements Serializable{
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
         //Text on top of the board
         JTextArea boardText = new JTextArea("BOARD");
-        final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH));
-        JLabel boardLabel = new JLabel(boardImage);
+        JLabel boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH)));
+        boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
         boardLabel.setLayout(new GridBagLayout());
         JPanel myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
@@ -245,8 +245,8 @@ public class PlayerGUI extends Player implements Serializable{
         chooseColText.setText("Insert the column: ");
         JButton pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
-        final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimaryDim, libPrimaryDim, Image.SCALE_SMOOTH));
-        JLabel libraryLabel = new JLabel(libraryImage);
+        JLabel libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimaryDim, libPrimaryDim, Image.SCALE_SMOOTH)));
+        libraryLabel.setPreferredSize(new Dimension(libPrimaryDim, libPrimaryDim));
         libraryLabel.setLayout(new GridBagLayout());
         JPanel chatPanel = new JPanel(new GridBagLayout());
         JTextArea chatHistory = new JTextArea(textCols / 3, textCols);
