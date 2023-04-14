@@ -77,11 +77,11 @@ public class Example_GridBagLayout {
 
         //Aggiungo la library e la board al Pannello gridBagLayout che li contiene
         GridBagConstraints gbc2 = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
         externalPanel.add(boardLabel, gbc2);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc2.gridx = 0;
+        gbc2.gridy = 1;
         externalPanel.add(libraryLabel, gbc2);
 
         //sistemo il frame esterno che contiene il panel
