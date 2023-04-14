@@ -49,8 +49,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final int textCols = 30;
     private final int btnW = 200;
     private final int btnH = 50;
-    private final int COPointsPadding_x = 35;
-    private final int COPointsPadding_y = 10;
+    private final int COPointsPadding_x = 30;
     private final int generalBorder = 5;
     private final String pathPointsCO = "assets/scoring tokens/scoring";
     private final GridBagConstraints gbc = new GridBagConstraints();
@@ -105,9 +104,10 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 100 + COPointsPadding_x;
-        gbc.ipady = COPointsPadding_y;
+        gbc.ipady = 0;
         gbc.anchor = LINE_END;
         gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         CO1Label.add(pointsCO1Label,gbc);
         gbc.weightx = 0.25;
         gbc.anchor = CENTER;
@@ -119,7 +119,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 100 + COPointsPadding_x;
-        gbc.ipady = COPointsPadding_y;
+        gbc.ipady = 0;
         gbc.anchor = LINE_END;
         gbc.weightx = 1.0;
         CO2Label.add(pointsCO2Label,gbc);
@@ -404,16 +404,11 @@ public class PlayerGUI extends Player implements Serializable{
 
         mainFrame.add(redPanel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 4 / 5); // a tutto schermo completo mi dava problemi, così sta a 4/5 delle dimensioni
-        mainFrame.setResizable(false);
+        mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         System.out.println("fine draw");
-
-
-        /*
-        update test: le dimensioni sono giuste, non stampa le cose che dovrebbero esserci dentro
-         */
     }
 
     /**
