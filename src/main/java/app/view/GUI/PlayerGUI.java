@@ -45,7 +45,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final int libPrimaryDim = 300;
     private final int boardDim = 400;
     private final int textCols = 30;
-    private final int btnW = 75;
+    private final int btnW = 200;
     private final int btnH = 50;
     private final int COPointsPadding_x = 50;
     private final int COPointsPadding_y = 10;
@@ -253,7 +253,7 @@ public class PlayerGUI extends Player implements Serializable{
         JTextField insertMessage = new JTextField(textCols);
         insertMessage.setText("Insert the message: ");
         JTextField insertPlayer = new JTextField(textCols);
-        insertMessage.setText("Insert the player: ");
+        insertPlayer.setText("Insert the player: ");
         JButton sendMessageBtn = new JButton("Send Message");
         sendMessageBtn.setPreferredSize(new Dimension());
         sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
@@ -495,13 +495,13 @@ public class PlayerGUI extends Player implements Serializable{
 
             if(status == NOT_TAKEN){
                 alert("\nName: '" + name + "' accepted by the server!");
-                //closeWindow(frame); // vedi JavaDoc di closeWindow
                 //System.exit(0);
                 try {
                     outStream.writeObject(netMode);
                     outStream.writeObject(uiMode);
                 }catch(Exception e){throw new RuntimeException(e);}
                 getInitialState(); // partire a lavorare da questa funzione in poi
+                frame.setVisible(false);
                 return;
             }
             alert("Name Taken, choose another name");
