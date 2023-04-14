@@ -111,11 +111,14 @@ public class PlayerGUI extends Player implements Serializable{
         JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
         JLabel chairmanLabel= new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 
+        // setta le dimensioni standard del Panel, sembra che serva
         POLabel.setPreferredSize(new Dimension(400, 400));
         CO1Label.setPreferredSize(new Dimension(400, 400));
         pointsCO1Label.setPreferredSize(new Dimension(200, 200));
         pointsCO2Label.setPreferredSize(new Dimension(200, 200));
         chairmanLabel.setPreferredSize(new Dimension(400, 400));
+        //
+
         //Internals: third level of abstraction
         //...in development
 
