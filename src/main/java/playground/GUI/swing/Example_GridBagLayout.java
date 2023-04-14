@@ -22,6 +22,7 @@ public class Example_GridBagLayout {
         final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
         JLabel boardLabel = new JLabel(boardImage);
         boardLabel.setLayout(new GridBagLayout());
+        /*
         //IMPOSTA L'IMMAGINE DI SFONDO: la library
         final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
         JLabel libraryLabel = new JLabel(libraryImage);
@@ -73,19 +74,26 @@ public class Example_GridBagLayout {
         gbc.ipady = 50;
 
         libraryLabel.add(NameButton, gbc);
-        /*FINE TUTORIAL YOUTUBE*/
+        /FINE TUTORIAL YOUTUBE
+
+         */
 
         //Aggiungo la library e la board al Pannello gridBagLayout che li contiene
-        GridBagConstraints gbc2 = new GridBagConstraints();
+        /*
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        externalPanel.add(boardLabel, gbc2);
+        externalPanel.add(boardLabel, gbc);
+
         gbc.gridx = 0;
         gbc.gridy = 1;
-        externalPanel.add(libraryLabel, gbc2);
+       externalPanel.add(libraryLabel, gbc);
+
+
+         */
 
         //sistemo il frame esterno che contiene il panel
-        mainFrame.add(externalPanel);
+        mainFrame.add(boardLabel);
         mainFrame.setSize(screenSize.width, screenSize.height);
         mainFrame.setResizable(false);
         mainFrame.pack();
