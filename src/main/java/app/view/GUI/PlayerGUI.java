@@ -46,7 +46,6 @@ public class PlayerGUI extends Player implements Serializable{
 
         String pathPointsCO = "assets/scoring tokens/scoring";
 
-        mainFrame.setLayout(new GridLayout(1,1));
         //Creation:
         //External
         JPanel redPanel = new JPanel(new GridBagLayout());
@@ -339,11 +338,9 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weighty = 0;
         redPanel.add(internalPanelCyan,gbc);
 
-        mainFrame.add(redPanel);
-
+        mainFrame.add(redPanel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width, screenSize.height);
         mainFrame.setResizable(false);
-        mainFrame.setTitle("My Shelfie");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
