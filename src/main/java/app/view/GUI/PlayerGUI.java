@@ -11,6 +11,7 @@ import playground.socket.Server;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
@@ -43,67 +44,59 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Gumus
      */
     public void drawAll(){
-
+        JFrame mainFrame = new JFrame("My Shelfie");
         String pathPointsCO = "assets/scoring tokens/scoring";
 
         //Creation:
         //External
         //Internals: first level of abstraction
-        mainFrame.setLayout(new GridBagLayout());
 
         //Internals: second level of abstraction
         GridBagConstraints gbc = new GridBagConstraints();
 
         //CYAN
 
-        JPanel internalPanelCyan = new JPanel(new GridBagLayout());
-        internalPanelCyan.setPreferredSize(new Dimension(800, 400));
-        internalPanelCyan.getPreferredSize();
-
         JLabel POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
         POLabel.setPreferredSize(new Dimension(400, 400));
-        POLabel.getPreferredSize();
 
         JLabel CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        //CO1Label.setIcon(); setta la nuova immagine a runtime
         CO1Label.setLayout(new GridBagLayout());
         CO1Label.setPreferredSize(new Dimension(400, 400));
-        CO1Label.getPreferredSize();
 
         JLabel CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
         CO2Label.setLayout(new GridBagLayout());
         CO2Label.setPreferredSize(new Dimension(400, 400));
-        CO2Label.getPreferredSize();
 
         JLabel pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
         pointsCO1Label.setPreferredSize(new Dimension(200, 200));
-        pointsCO1Label.getPreferredSize();
-
 
         JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
         pointsCO2Label.setPreferredSize(new Dimension(200, 200));
-        pointsCO2Label.getPreferredSize();
         System.out.println(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg");
 
 
         JLabel chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+        chairmanLabel = new JLabel();
+        chairmanLabel.setBackground(Color.RED);
+        chairmanLabel.setOpaque(true);
         chairmanLabel.setPreferredSize(new Dimension(400, 400));
-        chairmanLabel.getPreferredSize();
 
         //
 
         //Internals: third level of abstraction
         //...in development
 
-
         //Addition: (Hierarchy of panels inside panels)
         //SECOND LEVEL
         //CYAN
+        JPanel internalPanelCyan = new JPanel(new GridBagLayout());
+        /*
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 25;
         gbc.ipady = 25;
         CO1Label.add(pointsCO1Label,gbc);
-        /*
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -124,12 +117,14 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipadx = 0;
         gbc.ipady = 0;
         internalPanelCyan.add(POLabel, gbc);
+
+         */
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        internalPanelCyan.add(chairmanLabel,gbc);
-
+        internalPanelCyan.add(chairmanLabel, gbc);
+        /*
 
         //GREEN
         JPanel internalPanelGreen = new JPanel(new GridBagLayout());
@@ -352,9 +347,10 @@ public class PlayerGUI extends Player implements Serializable{
         internalPanelBlue.add(chatPanel,gbc);
 
 
-        //FIRST LEVEL
+        //FIRST LEVEL - RED
+         */
         JPanel redPanel = new JPanel(new GridBagLayout());
-
+        /*
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -371,29 +367,17 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         redPanel.add(internalPanelGreen,gbc);
-
-
+        */
 
         gbc.gridx = 0;
-        gbc.gridy = 0; // dovrebbe essere 2, non 0 --> per ora è così solo per fare testing
+        gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0.3;
         gbc.weighty = 0;
         redPanel.add(internalPanelCyan,gbc);
 
-
-         */
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        mainFrame.add(pointsCO1Label, gbc);
-
-
+        mainFrame.add(redPanel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 4 / 5); // a tutto schermo completo mi dava problemi, così sta a 4/5 delle dimensioni
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -512,6 +496,7 @@ public class PlayerGUI extends Player implements Serializable{
                     outStream.writeObject(uiMode);
                 }catch(Exception e){throw new RuntimeException(e);}
                 getInitialState(); // partire a lavorare da questa funzione in poi
+                return;
             }
             alert("Name Taken, choose another name");
             textInput.setText("");
@@ -540,21 +525,19 @@ public class PlayerGUI extends Player implements Serializable{
         try {
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
-            drawAll();
+            new Thread(this::drawAll).start();
         }catch(Exception e){throw new RuntimeException(e);}
-        if(name.equals(chairmanName)) {
-            waitForMove();
-        }
-        else {
-            waitForEvents();
-        }
+        if(name.equals(chairmanName))
+            new Thread(this::waitForMove).start();
+        else
+            new Thread(this::waitForEvents).start();
     }
     /**
      * function used to wait for notification from the server while the player is NON active
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
-        System.out.println("aseptto");
+        System.out.println("aspetto");
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
