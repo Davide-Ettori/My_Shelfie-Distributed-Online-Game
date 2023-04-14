@@ -30,15 +30,19 @@ public class Client {
             if (ui.equals("TUI")) {
                 if (net.equals("Socket")) {
                     new PlayerTUI(SOCKET, TUI);
+                    break;
                 } else if (net.equals("rmi")) {
+                    break;
                     new PlayerTUI(RMI, TUI);
                 }
             }
             if (ui.equals("GUI")) {
                 if (net.equals("Socket")) {
                     new PlayerGUI(SOCKET, GUI);
+                    break;
                 } else if (net.equals("rmi")) {
                     new PlayerGUI(RMI, GUI);
+                    break;
                 }
             }
             System.out.println("\nInvalid choice, try again");

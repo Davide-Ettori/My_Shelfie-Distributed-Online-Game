@@ -250,14 +250,14 @@ public class PlayerGUI extends Player implements Serializable{
         JPanel internalPanelBlue = new JPanel(new GridBagLayout());
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
         //Text on top of the board
-        JTextArea boardText = new JTextArea("Board");
+        JTextArea boardText = new JTextArea("Board of the Game");
         boardText.setEditable(false);
         JLabel boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH)));
         boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
         boardLabel.setLayout(new GridBagLayout());
         JPanel myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
-        JTextArea myLibraryText = new JTextArea("My personal Library");
+        JTextArea myLibraryText = new JTextArea("Your personal Library");
         myLibraryText.setEditable(false);
         JTextField chooseColText = new JTextField(textCols);
         chooseColText.setText("Insert the column: ");
