@@ -527,14 +527,10 @@ public class PlayerGUI extends Player implements Serializable{
             clone(p);
             new Thread(this::drawAll).start();
         }catch(Exception e){throw new RuntimeException(e);}
-        new Thread(() ->{
-            if(name.equals(chairmanName)) {
-                waitForMove();
-            }
-            else {
-                waitForEvents();
-            }
-        }).start();
+        if(name.equals(chairmanName))
+            new Thread(this::waitForMove).start();
+        else
+            new Thread(this::waitForEvents).start();
     }
     /**
      * function used to wait for notification from the server while the player is NON active
