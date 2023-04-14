@@ -49,13 +49,12 @@ public class PlayerGUI extends Player implements Serializable{
         //Creation:
         //External
         //Internals: first level of abstraction
-        mainFrame.setLayout(new GridBagLayout());
 
         //Internals: second level of abstraction
         GridBagConstraints gbc = new GridBagConstraints();
 
         //CYAN
-
+/*
         JPanel internalPanelCyan = new JPanel(new GridBagLayout());
         internalPanelCyan.setPreferredSize(new Dimension(800, 400));
         internalPanelCyan.getPreferredSize();
@@ -74,36 +73,34 @@ public class PlayerGUI extends Player implements Serializable{
         CO2Label.setPreferredSize(new Dimension(400, 400));
         CO2Label.getPreferredSize();
 
+
+ */
         JLabel pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        pointsCO1Label.setPreferredSize(new Dimension(200, 200));
-        pointsCO1Label.getPreferredSize();
 
+        pointsCO1Label.setLayout(new GridBagLayout());
 
+/*
         JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
         pointsCO2Label.setPreferredSize(new Dimension(200, 200));
         pointsCO2Label.getPreferredSize();
-        System.out.println(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg");
 
 
         JLabel chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(400, 400));
         chairmanLabel.getPreferredSize();
 
-        //
 
-        //Internals: third level of abstraction
-        //...in development
+ */
 
-
-        //Addition: (Hierarchy of panels inside panels)
         //SECOND LEVEL
         //CYAN
+        /*
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 25;
         gbc.ipady = 25;
         CO1Label.add(pointsCO1Label,gbc);
-        /*
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -230,7 +227,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         internalPanelGreen.add(player3Panel,gbc);
-/*
+
         //blue
         JPanel internalPanelBlue = new JPanel(new GridBagLayout());
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
@@ -383,28 +380,21 @@ public class PlayerGUI extends Player implements Serializable{
         redPanel.add(internalPanelCyan,gbc);
 
 
-         */
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        mainFrame.add(pointsCO1Label, gbc);
 
 
-        mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 4 / 5); // a tutto schermo completo mi dava problemi, così sta a 4/5 delle dimensioni
+
+        mainFrame.add(pointsCO1Label);
+        mainFrame.setSize(screenSize.width, screenSize.height); // a tutto schermo completo mi dava problemi, così sta a 4/5 delle dimensioni
         mainFrame.setResizable(false);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         System.out.println("fine draw");
 
 
-        /*
+
         update test: le dimensioni sono giuste, non stampa le cose che dovrebbero esserci dentro
          */
+
     }
 
     /**
