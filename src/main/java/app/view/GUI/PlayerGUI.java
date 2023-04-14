@@ -47,7 +47,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final int textCols = 30;
     private final int btnW = 200;
     private final int btnH = 50;
-    private final int COPointsPadding_x = 50;
+    private final int COPointsPadding_x = 80;
     private final int COPointsPadding_y = 10;
     private final String pathPointsCO = "assets/scoring tokens/scoring";
     private final GridBagConstraints gbc = new GridBagConstraints();
@@ -110,7 +110,7 @@ public class PlayerGUI extends Player implements Serializable{
         internalPanelCyan.add(CO1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = COPointsPadding_y;
+        gbc.ipadx = COPointsPadding_x;
         gbc.ipady = COPointsPadding_y;
         CO2Label.add(pointsCO2Label,gbc);
         gbc.gridx = 1;
@@ -249,7 +249,7 @@ public class PlayerGUI extends Player implements Serializable{
         libraryLabel.setPreferredSize(new Dimension(libPrimaryDim, libPrimaryDim));
         libraryLabel.setLayout(new GridBagLayout());
         JPanel chatPanel = new JPanel(new GridBagLayout());
-        JTextArea chatHistory = new JTextArea(textCols / 3, textCols);
+        JScrollPane chatHistory = new JScrollPane(new JTextArea(textCols / 3, textCols));
         JTextField insertMessage = new JTextField(textCols);
         insertMessage.setText("Insert the message: ");
         JTextField insertPlayer = new JTextField(textCols);
@@ -257,6 +257,7 @@ public class PlayerGUI extends Player implements Serializable{
         JButton sendMessageBtn = new JButton("Send Message");
         sendMessageBtn.setPreferredSize(new Dimension());
         sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
+        sendMessageBtn.addActionListener(e -> insertPlayer.setText("click !!!"));
             //BOARD
         gbc.gridx = 0;
         gbc.gridy = 0;
