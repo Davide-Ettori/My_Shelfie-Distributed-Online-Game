@@ -109,7 +109,13 @@ public class PlayerGUI extends Player implements Serializable{
         CO2Label.setLayout(new GridBagLayout());
         JLabel pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
         JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        JLabel chairmanLabel= new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+        JLabel chairmanLabel= new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+
+        POLabel.setPreferredSize(new Dimension(400, 400));
+        CO1Label.setPreferredSize(new Dimension(400, 400));
+        pointsCO1Label.setPreferredSize(new Dimension(200, 200));
+        pointsCO2Label.setPreferredSize(new Dimension(200, 200));
+        chairmanLabel.setPreferredSize(new Dimension(400, 400));
         //Internals: third level of abstraction
         //...in development
 
@@ -331,7 +337,7 @@ public class PlayerGUI extends Player implements Serializable{
         redPanel.add(internalPanelGreen,gbc);
          */
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 0; // dovrebbe essere 2, non 0 --> per ora è così solo per fare testing
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0.3;
@@ -339,10 +345,10 @@ public class PlayerGUI extends Player implements Serializable{
         redPanel.add(internalPanelCyan,gbc);
 
         mainFrame.add(redPanel, BorderLayout.CENTER);
-        mainFrame.setSize(screenSize.width, screenSize.height);
+        mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 4 / 5); // a tutto schermo completo mi dava problemi, così sta a 4/5 delle dimensioni
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
+        mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         System.out.println("fine draw");
     }
