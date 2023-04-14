@@ -76,10 +76,7 @@ public class PlayerGUI extends Player implements Serializable{
         System.out.println(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg");
 
 
-        JLabel chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.png").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        chairmanLabel = new JLabel();
-        chairmanLabel.setBackground(Color.RED);
-        chairmanLabel.setOpaque(true);
+        JLabel chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(400, 400));
 
         //
@@ -91,7 +88,7 @@ public class PlayerGUI extends Player implements Serializable{
         //SECOND LEVEL
         //CYAN
         JPanel internalPanelCyan = new JPanel(new GridBagLayout());
-        /*
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 25;
@@ -118,13 +115,13 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         internalPanelCyan.add(POLabel, gbc);
 
-         */
+
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         internalPanelCyan.add(chairmanLabel, gbc);
-        /*
+
 
         //GREEN
         JPanel internalPanelGreen = new JPanel(new GridBagLayout());
@@ -133,9 +130,9 @@ public class PlayerGUI extends Player implements Serializable{
         //Text
         JTextArea library1Text = new JTextArea("Library of the Player 1");
         //Library of the player 1
-        final ImageIcon library1Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-        JLabel library1Label = new JLabel(library1Image);
+        JLabel library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH)));
         library1Label.setLayout(new GridBagLayout());
+        library1Label.setPreferredSize(new Dimension(600, 600));
 
         JPanel player2Panel = new JPanel(new GridBagLayout());
 
@@ -143,9 +140,9 @@ public class PlayerGUI extends Player implements Serializable{
         JTextArea library2Text = new JTextArea("Library of the Player 2");
 
         //Library of the player 2
-        final ImageIcon library2Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-        JLabel library2Label = new JLabel(library2Image);
+        JLabel library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH)));
         library2Label.setLayout(new GridBagLayout());
+        library1Label.setPreferredSize(new Dimension(600, 600));
 
         JPanel player3Panel = new JPanel(new GridBagLayout());
 
@@ -153,10 +150,9 @@ public class PlayerGUI extends Player implements Serializable{
         JTextArea library3Text = new JTextArea("Library of the Player 3");
 
         //Library of the player 3
-        final ImageIcon library3Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
-        JLabel library3Label = new JLabel(library3Image);
-
+        JLabel library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH)));
         library3Label.setLayout(new GridBagLayout());
+        library1Label.setPreferredSize(new Dimension(600, 600));
 
         //player 1
 
@@ -225,7 +221,6 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         internalPanelGreen.add(player3Panel,gbc);
-/*
         //blue
         JPanel internalPanelBlue = new JPanel(new GridBagLayout());
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
@@ -348,9 +343,9 @@ public class PlayerGUI extends Player implements Serializable{
 
 
         //FIRST LEVEL - RED
-         */
+
         JPanel redPanel = new JPanel(new GridBagLayout());
-        /*
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -367,7 +362,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         redPanel.add(internalPanelGreen,gbc);
-        */
+
 
         gbc.gridx = 0;
         gbc.gridy = 2;
