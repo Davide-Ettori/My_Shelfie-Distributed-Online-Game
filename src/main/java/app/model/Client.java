@@ -32,8 +32,8 @@ public class Client {
                     new PlayerTUI(SOCKET, TUI);
                     break;
                 } else if (net.equals("rmi")) {
-                    break;
                     new PlayerTUI(RMI, TUI);
+                    break;
                 }
             }
             if (ui.equals("GUI")) {

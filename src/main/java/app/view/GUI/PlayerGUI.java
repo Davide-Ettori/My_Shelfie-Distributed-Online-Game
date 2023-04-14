@@ -104,7 +104,7 @@ public class PlayerGUI extends Player implements Serializable{
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = COPointsPadding_x;
+        gbc.ipadx = 100 + COPointsPadding_x;
         gbc.ipady = COPointsPadding_y;
         gbc.anchor = LINE_END;
         gbc.weightx = 1.0;
@@ -118,7 +118,7 @@ public class PlayerGUI extends Player implements Serializable{
         internalPanelCyan.add(CO1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = COPointsPadding_x;
+        gbc.ipadx = 100 + COPointsPadding_x;
         gbc.ipady = COPointsPadding_y;
         gbc.anchor = LINE_END;
         gbc.weightx = 1.0;
