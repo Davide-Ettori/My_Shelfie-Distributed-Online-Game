@@ -27,7 +27,16 @@ public class Card implements Serializable {
         x = posX;
         y = posY;
     }
-
+    /**
+     * constructor that initialize both the color and the image
+     * @param col the color of the card
+     * @param image the path of the image file
+     * @author Ettori
+     */
+    public Card(Color col, String image){
+        color = col;
+        imagePath = image;
+    }
     /**
      * standard constructor to initialize card with the right color
      * @param col the color to set
