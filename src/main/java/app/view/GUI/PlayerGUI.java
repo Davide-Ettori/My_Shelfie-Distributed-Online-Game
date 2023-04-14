@@ -51,14 +51,15 @@ public class PlayerGUI extends Player implements Serializable{
         //External
         JPanel redPanel = new JPanel(new GridBagLayout());
         //Internals: first level of abstraction
-        JPanel internalPanelBlue = new JPanel(new GridBagLayout());
-        JPanel internalPanelGreen = new JPanel(new GridBagLayout());
+        //JPanel internalPanelBlue = new JPanel(new GridBagLayout());
+        //JPanel internalPanelGreen = new JPanel(new GridBagLayout());
         JPanel internalPanelCyan = new JPanel(new GridBagLayout());
         //Internals: second level of abstraction
         //BLUE
+        /*
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
             //Text on top of the board
-            JTextArea boardText = new JTextArea("B O A R D");
+            JTextArea boardText = new JTextArea("BOARD");
             final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
             JLabel boardLabel = new JLabel(boardImage);
             boardLabel.setLayout(new GridBagLayout());
@@ -100,6 +101,7 @@ public class PlayerGUI extends Player implements Serializable{
             final ImageIcon library3Image = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
             JLabel library3Label = new JLabel(library3Image);
             library3Label.setLayout(new GridBagLayout());
+         */
         //CYAN
         JLabel POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
         JLabel CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
@@ -149,6 +151,7 @@ public class PlayerGUI extends Player implements Serializable{
         internalPanelCyan.add(chairmanLabel,gbc);
         //GREEN
                 //player 1
+        /*
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -310,8 +313,9 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.0;
         gbc.weighty = 0.25;
         internalPanelBlue.add(chatPanel,gbc);
-
+         */
         //FIRST LEVEL
+        /*
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -326,6 +330,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         redPanel.add(internalPanelGreen,gbc);
+         */
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.ipadx = 0;
@@ -334,17 +339,15 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weighty = 0;
         redPanel.add(internalPanelCyan,gbc);
 
-        //External Panel
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        mainFrame.add(redPanel, gbc);
+        mainFrame.add(redPanel);
 
         mainFrame.setSize(screenSize.width, screenSize.height);
         mainFrame.setResizable(false);
-        mainFrame.setVisible(true);
+        mainFrame.setTitle("My Shelfie");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
+        mainFrame.setVisible(true);
+        System.out.println("fine draw");
     }
 
     /**
@@ -494,6 +497,7 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
+        System.out.println("aseptto");
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
