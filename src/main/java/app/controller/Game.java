@@ -78,8 +78,8 @@ public class Game implements Serializable {
             p = new Player();
             p.setName(names.get(i));
             p.setIsChairMan(i == 0);
-            //p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
-            p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_13_FAKE(), 13), new CommonObjective(new Algo_CO_14_FAKE(), 14));
+            p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
+            //p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_13_FAKE(), 13), new CommonObjective(new Algo_CO_14_FAKE(), 14));
             p.board.name = names.get(i);
             if(i == 0)
                 p.board.initBoard(numPlayers);

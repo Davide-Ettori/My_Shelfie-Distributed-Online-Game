@@ -24,6 +24,8 @@ import java.util.Scanner;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
+import static java.awt.GridBagConstraints.CENTER;
+import static java.awt.GridBagConstraints.LINE_END;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -47,8 +49,9 @@ public class PlayerGUI extends Player implements Serializable{
     private final int textCols = 30;
     private final int btnW = 200;
     private final int btnH = 50;
-    private final int COPointsPadding_x = 80;
+    private final int COPointsPadding_x = 35;
     private final int COPointsPadding_y = 10;
+    private final int generalBorder = 5;
     private final String pathPointsCO = "assets/scoring tokens/scoring";
     private final GridBagConstraints gbc = new GridBagConstraints();
 
@@ -62,6 +65,7 @@ public class PlayerGUI extends Player implements Serializable{
         //Internals: first level of abstraction
 
         //Internals: second level of abstraction
+        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
 
         //CYAN
 
@@ -102,35 +106,43 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = COPointsPadding_x;
         gbc.ipady = COPointsPadding_y;
+        gbc.anchor = LINE_END;
+        gbc.weightx = 1.0;
         CO1Label.add(pointsCO1Label,gbc);
+        gbc.weightx = 0.25;
+        gbc.anchor = CENTER;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = 0;
+        gbc.ipadx = 100;
         gbc.ipady = 0;
         internalPanelCyan.add(CO1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = COPointsPadding_x;
         gbc.ipady = COPointsPadding_y;
+        gbc.anchor = LINE_END;
+        gbc.weightx = 1.0;
         CO2Label.add(pointsCO2Label,gbc);
+        gbc.anchor = CENTER;
+        gbc.weightx = 0.25;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.ipadx = 0;
+        gbc.ipadx = 100;
         gbc.ipady = 0;
         internalPanelCyan.add(CO2Label,gbc);
         gbc.gridx = 2;
         gbc.gridy = 0;
-        gbc.ipadx = 0;
+        gbc.ipadx = 100;
         gbc.ipady = 0;
+        gbc.weightx = 0.25;
         internalPanelCyan.add(POLabel, gbc);
-
-
         gbc.gridx = 3;
         gbc.gridy = 0;
-        gbc.ipadx = 0;
+        gbc.ipadx = 100;
         gbc.ipady = 0;
+        gbc.weightx = 0.25;
         internalPanelCyan.add(chairmanLabel, gbc);
-
+        gbc.weightx = 0.0;
 
         //GREEN
         JPanel internalPanelGreen = new JPanel(new GridBagLayout());
@@ -138,6 +150,7 @@ public class PlayerGUI extends Player implements Serializable{
         JPanel player1Panel = new JPanel(new GridBagLayout());
         //Text
         JTextArea library1Text = new JTextArea("Library of the Player 1");
+        library1Text.setEditable(false);
         //Library of the player 1
         JLabel library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
         library1Label.setLayout(new GridBagLayout());
@@ -147,6 +160,7 @@ public class PlayerGUI extends Player implements Serializable{
 
         //Text
         JTextArea library2Text = new JTextArea("Library of the Player 2");
+        library2Text.setEditable(false);
 
         //Library of the player 2
         JLabel library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
@@ -157,6 +171,7 @@ public class PlayerGUI extends Player implements Serializable{
 
         //Text
         JTextArea library3Text = new JTextArea("Library of the Player 3");
+        library3Text.setEditable(false);
 
         //Library of the player 3
         JLabel library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
@@ -181,9 +196,9 @@ public class PlayerGUI extends Player implements Serializable{
         player1Panel.add(library1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = 0;
+        gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
+        gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         internalPanelGreen.add(player1Panel,gbc);
                 //player 2
@@ -203,9 +218,9 @@ public class PlayerGUI extends Player implements Serializable{
         player2Panel.add(library2Label,gbc);
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.ipadx = 0;
+        gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
+        gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         internalPanelGreen.add(player2Panel,gbc);
                 //player 3
@@ -225,22 +240,25 @@ public class PlayerGUI extends Player implements Serializable{
         player3Panel.add(library3Label,gbc);
         gbc.gridx = 2;
         gbc.gridy = 0;
-        gbc.ipadx = 0;
+        gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
+        gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         internalPanelGreen.add(player3Panel,gbc);
+        gbc.weightx = 0.0;
         //blue
         JPanel internalPanelBlue = new JPanel(new GridBagLayout());
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
         //Text on top of the board
-        JTextArea boardText = new JTextArea("BOARD");
+        JTextArea boardText = new JTextArea("Board");
+        boardText.setEditable(false);
         JLabel boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH)));
         boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
         boardLabel.setLayout(new GridBagLayout());
         JPanel myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
         JTextArea myLibraryText = new JTextArea("My personal Library");
+        myLibraryText.setEditable(false);
         JTextField chooseColText = new JTextField(textCols);
         chooseColText.setText("Insert the column: ");
         JButton pickCardsBtn = new JButton("Pick Cards");
@@ -362,7 +380,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
+        gbc.weightx = 0.8;
         gbc.weighty = 0.5;
         redPanel.add(internalPanelBlue,gbc);
 
@@ -371,8 +389,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.3;
         redPanel.add(internalPanelGreen,gbc);
 
 
@@ -380,8 +398,8 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.3;
-        gbc.weighty = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.2;
         redPanel.add(internalPanelCyan,gbc);
 
         mainFrame.add(redPanel, BorderLayout.CENTER);
