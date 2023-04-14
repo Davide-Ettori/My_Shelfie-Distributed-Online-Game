@@ -32,52 +32,61 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * @author Ettori Faccincani
  */
 public class PlayerGUI extends Player implements Serializable{
-
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
-
     private final JFrame mainFrame = new JFrame("My Shelfie");
-
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
+    private final int CO_w = 144;
+    private final int CO_h = 100;
+    private final int PO_h = 100;
+    private final int PO_w = 75;
+    private final int pointsDim = 40;
+    private final int chairmanDim = 100;
+    private final int libSecondaryDim = 250;
+    private final int libPrimaryDim = 300;
+    private final int boardDim = 400;
+    private final int textCols = 30;
+    private final int btnW = 75;
+    private final int btnH = 50;
+    private final int COPointsPadding_x = 50;
+    private final int COPointsPadding_y = 10;
+    private final String pathPointsCO = "assets/scoring tokens/scoring";
+    private final GridBagConstraints gbc = new GridBagConstraints();
 
     /**
      * Function that draw all the GUI
      * @author Gumus
      */
     public void drawAll(){
-        JFrame mainFrame = new JFrame("My Shelfie");
-        String pathPointsCO = "assets/scoring tokens/scoring";
-
         //Creation:
         //External
         //Internals: first level of abstraction
 
         //Internals: second level of abstraction
-        GridBagConstraints gbc = new GridBagConstraints();
 
         //CYAN
 
-        JLabel POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
-        POLabel.setPreferredSize(new Dimension(400, 400));
+        JLabel POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(PO_w, PO_h, Image.SCALE_SMOOTH)));
+        POLabel.setPreferredSize(new Dimension(PO_w, PO_h));
 
-        JLabel CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        JLabel CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
         //CO1Label.setIcon(); setta la nuova immagine a runtime
         CO1Label.setLayout(new GridBagLayout());
-        CO1Label.setPreferredSize(new Dimension(400, 400));
+        CO1Label.setPreferredSize(new Dimension(CO_w, CO_h));
 
-        JLabel CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)));
+        JLabel CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
         CO2Label.setLayout(new GridBagLayout());
-        CO2Label.setPreferredSize(new Dimension(400, 400));
+        CO2Label.setPreferredSize(new Dimension(CO_w, CO_h));
 
-        JLabel pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        pointsCO1Label.setPreferredSize(new Dimension(200, 200));
+        JLabel pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO1Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
 
-        JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        pointsCO2Label.setPreferredSize(new Dimension(200, 200));
+        JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO2Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
         System.out.println(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg");
 
 
-        JLabel chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-        chairmanLabel.setPreferredSize(new Dimension(400, 400));
+        JLabel chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));
+        chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
 
         //
 
@@ -91,8 +100,8 @@ public class PlayerGUI extends Player implements Serializable{
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = 25;
-        gbc.ipady = 25;
+        gbc.ipadx = COPointsPadding_x;
+        gbc.ipady = COPointsPadding_y;
         CO1Label.add(pointsCO1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -101,8 +110,8 @@ public class PlayerGUI extends Player implements Serializable{
         internalPanelCyan.add(CO1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = 25;
-        gbc.ipady = 25;
+        gbc.ipadx = COPointsPadding_y;
+        gbc.ipady = COPointsPadding_y;
         CO2Label.add(pointsCO2Label,gbc);
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -130,9 +139,9 @@ public class PlayerGUI extends Player implements Serializable{
         //Text
         JTextArea library1Text = new JTextArea("Library of the Player 1");
         //Library of the player 1
-        JLabel library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH)));
+        JLabel library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
         library1Label.setLayout(new GridBagLayout());
-        library1Label.setPreferredSize(new Dimension(600, 600));
+        library1Label.setPreferredSize(new Dimension(libSecondaryDim, libSecondaryDim));
 
         JPanel player2Panel = new JPanel(new GridBagLayout());
 
@@ -140,9 +149,9 @@ public class PlayerGUI extends Player implements Serializable{
         JTextArea library2Text = new JTextArea("Library of the Player 2");
 
         //Library of the player 2
-        JLabel library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH)));
+        JLabel library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
         library2Label.setLayout(new GridBagLayout());
-        library1Label.setPreferredSize(new Dimension(600, 600));
+        library1Label.setPreferredSize(new Dimension(libSecondaryDim, libSecondaryDim));
 
         JPanel player3Panel = new JPanel(new GridBagLayout());
 
@@ -150,9 +159,9 @@ public class PlayerGUI extends Player implements Serializable{
         JTextArea library3Text = new JTextArea("Library of the Player 3");
 
         //Library of the player 3
-        JLabel library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH)));
+        JLabel library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
         library3Label.setLayout(new GridBagLayout());
-        library1Label.setPreferredSize(new Dimension(600, 600));
+        library1Label.setPreferredSize(new Dimension(libSecondaryDim, libSecondaryDim));
 
         //player 1
 
@@ -226,26 +235,28 @@ public class PlayerGUI extends Player implements Serializable{
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
         //Text on top of the board
         JTextArea boardText = new JTextArea("BOARD");
-        final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        final ImageIcon boardImage = new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH));
         JLabel boardLabel = new JLabel(boardImage);
         boardLabel.setLayout(new GridBagLayout());
         JPanel myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
         JTextArea myLibraryText = new JTextArea("My personal Library");
-        JTextField chooseColText = new JTextField();
+        JTextField chooseColText = new JTextField(textCols);
         chooseColText.setText("Insert the column: ");
         JButton pickCardsBtn = new JButton("Pick Cards");
-        final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));
+        pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
+        final ImageIcon libraryImage = new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimaryDim, libPrimaryDim, Image.SCALE_SMOOTH));
         JLabel libraryLabel = new JLabel(libraryImage);
         libraryLabel.setLayout(new GridBagLayout());
         JPanel chatPanel = new JPanel(new GridBagLayout());
-        JTextArea chatHistory = new JTextArea();
-        JTextField insertMessage = new JTextField();
+        JTextArea chatHistory = new JTextArea(textCols / 3, textCols);
+        JTextField insertMessage = new JTextField(textCols);
         insertMessage.setText("Insert the message: ");
-        JTextField insertPlayer = new JTextField();
+        JTextField insertPlayer = new JTextField(textCols);
         insertMessage.setText("Insert the player: ");
         JButton sendMessageBtn = new JButton("Send Message");
-
+        sendMessageBtn.setPreferredSize(new Dimension());
+        sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
             //BOARD
         gbc.gridx = 0;
         gbc.gridy = 0;
