@@ -80,6 +80,7 @@ public class Example_GridBagLayout {
         gbc2.gridx = 0;
         gbc2.gridy = 0;
         externalPanel.add(boardLabel, gbc2);
+
         gbc2.gridx = 0;
         gbc2.gridy = 1;
         externalPanel.add(libraryLabel, gbc2);
