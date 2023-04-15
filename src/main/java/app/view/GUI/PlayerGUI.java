@@ -24,6 +24,7 @@ import java.util.Scanner;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
+import static app.view.Dimensions.*;
 import static java.awt.GridBagConstraints.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -36,28 +37,16 @@ public class PlayerGUI extends Player implements Serializable{
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
     private final JFrame mainFrame = new JFrame("My Shelfie");
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
-    private final int CO_w = 144;
-    private final int CO_h = 100;
-    private final int PO_h = 100;
-    private final int PO_w = 75;
-    private final int pointsDim = 40;
-    private final int chairmanDim = 100;
-    private final int libSecondaryDim = 250;
-    private final int libPrimaryDim = 300;
-    private final int boardDim = 400;
-    private final int textCols = 30;
-    private final int btnW = 200;
-    private final int btnH = 50;
-    private final int COPointsPadding_x = 30;
-    private final int generalBorder = 5;
-    private final String pathPointsCO = "assets/scoring tokens/scoring";
     private final GridBagConstraints gbc = new GridBagConstraints();
+    private void updateGUI(){
+        // aggiorna la GUI con i nuovi dati
+    }
 
     /**
      * Function that draw all the GUI
      * @author Gumus
      */
-    public void drawAll(){
+    public void initGUI(){
         //Creation:
         //External
         //Internals: first level of abstraction
@@ -461,6 +450,7 @@ public class PlayerGUI extends Player implements Serializable{
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
+        new Thread(this::updateGUI).start();
     }
 
     /**
@@ -598,7 +588,7 @@ public class PlayerGUI extends Player implements Serializable{
             alert("Be patient, the game will start soon...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
-            new Thread(this::drawAll).start();
+            new Thread(this::initGUI).start();
         }catch(Exception e){throw new RuntimeException(e);}
         if(name.equals(chairmanName))
             new Thread(this::waitForMove).start();
@@ -631,7 +621,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleYourTurnEvent(){
         activeName = name;
-        drawAll();
+        updateGUI();
         waitForMove();
     }
     /**
@@ -641,7 +631,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleChangeTurnEvent(Message msg){
         activeName = (String) msg.getContent();
-        drawAll();
+        updateGUI();
         waitForEvents();
     }
     /**
@@ -652,7 +642,7 @@ public class PlayerGUI extends Player implements Serializable{
     private void handleUpdateUnplayableEvent(Message msg){
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board) jsonObject.get("board");
-        drawAll();
+        updateGUI();
         alert("\nBoard updated because it was unplayable");
         waitForEvents();
     }
@@ -673,7 +663,7 @@ public class PlayerGUI extends Player implements Serializable{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
-        drawAll();
+        updateGUI();
         alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         waitForEvents();
     }
@@ -694,7 +684,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleChatEvent(Message msg){
         fullChat += msg.getContent();
-        drawAll();
+        updateGUI();
         waitForEvents();
     }
     /**
@@ -740,12 +730,12 @@ public class PlayerGUI extends Player implements Serializable{
         int col = selectColumn(coords.size() / 2);
         pickCards(coords, col);
 
-        drawAll();
+        updateGUI();
 
         boolean change = checkCO();
         change = change || checkLibFull();
         if(change)
-            drawAll();
+            updateGUI();
 
         sendDoneMove();
     }
@@ -919,7 +909,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void fixUnplayableBoard(){
         board.fillBoard(numPlayers);
-        drawAll();
+        updateGUI();
         alert("\nBoard updated because it was unplayble");
         try {
             boardStatus = new JSONObject();
