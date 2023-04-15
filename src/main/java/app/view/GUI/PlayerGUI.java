@@ -432,7 +432,6 @@ public class PlayerGUI extends Player implements Serializable{
         }
         boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
         gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
-
         myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
         myLibraryText = new JTextArea("Your personal Library (" + name + ")");
