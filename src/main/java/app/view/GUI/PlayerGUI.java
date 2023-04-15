@@ -52,6 +52,7 @@ public class PlayerGUI extends Player implements Serializable{
         activeTurnInfo.setText("The current active player is " + activeName);
         curPointsInfo.setText("You have achieved " + pointsUntilNow + " points until now");
         tempChatHistory.setText(fullChat);
+
     }
     /**
      * Function that initialize all the GUI
