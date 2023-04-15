@@ -107,7 +107,7 @@ public class PlayerGUI extends Player implements Serializable{
             }
         }
         endGame = true;
-        boardCards[libFullX][libFullY].setVisible(endGame);
+        boardCards[libFullX][libFullY].setVisible(endGame); // al posto di endGame metti: pointsUntilNow % 2 == 1 --> solito trucchetto
         endGame = false;
     }
     /**
