@@ -95,7 +95,7 @@ public class PlayerGUI extends Player implements Serializable{
         activeTurnInfo.setEditable(false);
         JTextField curPointsInfo = new JTextField("You have achieved 7 points until now");
         curPointsInfo.setEditable(false);
-        JTextField titleInfo = new JTextField("Information about the Game");
+        JTextField titleInfo = new JTextField("INFORMATIONS ABOUT THE GAME");
         titleInfo.setEditable(false);
 
         gbc.gridx = 0;
@@ -495,12 +495,12 @@ public class PlayerGUI extends Player implements Serializable{
     public PlayerGUI(NetMode mode, UIMode ui) { // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
-        System.out.println("\nSoon you will need to enter your nickname for the game");
+        alert("\nSoon you will need to enter your nickname for the game");
         try {
             mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
-        }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
+        }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
         showChooseNameWindow();
     }
@@ -595,6 +595,7 @@ public class PlayerGUI extends Player implements Serializable{
         // da qui in poi bisogna lavorarci
         PlayerGUI p;
         try {
+            alert("Be patient, the game will start soon...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             new Thread(this::drawAll).start();
