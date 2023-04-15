@@ -33,7 +33,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class PlayerGUI extends Player implements Serializable{
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
-    private final JFrame mainFrame = new JFrame("My Shelfie");
+    private JFrame mainFrame;
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final GridBagConstraints gbc = new GridBagConstraints();
     /**
@@ -51,6 +51,7 @@ public class PlayerGUI extends Player implements Serializable{
         //Creation:
         //External
         //Internals: first level of abstraction
+        mainFrame =  new JFrame("My Shelfie");
 
         //Internals: second level of abstraction
         gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
