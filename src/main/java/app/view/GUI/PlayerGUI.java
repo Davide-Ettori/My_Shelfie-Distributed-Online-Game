@@ -11,7 +11,6 @@ import playground.socket.Server;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
@@ -19,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import java.util.Date;
-import java.util.Scanner;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
@@ -38,13 +36,16 @@ public class PlayerGUI extends Player implements Serializable{
     private final JFrame mainFrame = new JFrame("My Shelfie");
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final GridBagConstraints gbc = new GridBagConstraints();
+    /**
+     * Function that update the GUI with the new information
+     * @author Ettori Giammusso
+     */
     private void updateGUI(){
         // aggiorna la GUI con i nuovi dati
     }
-
     /**
-     * Function that draw all the GUI
-     * @author Gumus
+     * Function that initialize all the GUI
+     * @author Ettori Faccincani Giammusso
      */
     public void initGUI(){
         //Creation:
