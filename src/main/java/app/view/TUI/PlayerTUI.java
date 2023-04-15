@@ -617,10 +617,8 @@ public class PlayerTUI extends Player implements Serializable{
         board.draw();
         objective.draw();
         library.draw();
-        for(int i = 0; i < numPlayers; i++){
-            if(!librariesOfOtherPlayers.get(i).name.equals(name))
-                librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name);
-        }
+        for(int i = 0; i < numPlayers - 1; i++)
+            librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name);
         if(pointsUntilNow % 2 == 1){
             System.out.println("\nYou have achieved " + (pointsUntilNow - 1) + " points from the common objectives (until now)");
             System.out.println("You also achieved 1 point for being the first player to complete the library");

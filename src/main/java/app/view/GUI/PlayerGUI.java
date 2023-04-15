@@ -47,7 +47,11 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori Giammusso
      */
     private void updateGUI(){
-        // aggiorna la GUI con i nuovi dati
+        pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+        activeTurnInfo.setText("The current active player is " + activeName);
+        curPointsInfo.setText("You have achieved " + pointsUntilNow + " points until now");
+        tempChatHistory.setText(fullChat);
     }
     /**
      * Function that initialize all the GUI
@@ -76,21 +80,22 @@ public class PlayerGUI extends Player implements Serializable{
         CO2Label.setLayout(new GridBagLayout());
         CO2Label.setPreferredSize(new Dimension(CO_w, CO_h));
 
-        pointsCO1Label = new JLabel(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
         pointsCO1Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
 
-        pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
         pointsCO2Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
 
         chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
 
         infoBox = new JPanel(new GridBagLayout());
-        chairmanInfo = new JTextField("The chairman of this game is Pignatta");
+        chairmanInfo = new JTextField(textCols - 5);
+        chairmanInfo.setText("The chairman of this game is " + chairmanName);
         chairmanInfo.setEditable(false);
-        activeTurnInfo = new JTextField("The current active player is Pino");
+        activeTurnInfo = new JTextField(textCols - 5);
         activeTurnInfo.setEditable(false);
-        curPointsInfo = new JTextField("You have achieved 7 points until now");
+        curPointsInfo = new JTextField(textCols - 5);
         curPointsInfo.setEditable(false);
         titleInfo = new JTextField("INFORMATIONS ABOUT THE GAME");
         titleInfo.setEditable(false);
@@ -188,7 +193,7 @@ public class PlayerGUI extends Player implements Serializable{
 
         player1Panel = new JPanel(new GridBagLayout());
         //Text
-        library1Text = new JTextArea("Library of the Player 1");
+        library1Text = new JTextArea(1, textCols * 2 / 3);
         library1Text.setEditable(false);
         //Library of the player 1
         library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
@@ -198,7 +203,7 @@ public class PlayerGUI extends Player implements Serializable{
         player2Panel = new JPanel(new GridBagLayout());
 
         //Text
-        library2Text = new JTextArea("Library of the Player 2");
+        library2Text = new JTextArea(1, textCols * 2 / 3);
         library2Text.setEditable(false);
 
         //Library of the player 2
@@ -209,13 +214,22 @@ public class PlayerGUI extends Player implements Serializable{
         player3Panel = new JPanel(new GridBagLayout());
 
         //Text
-        library3Text = new JTextArea("Library of the Player 3");
+        library3Text = new JTextArea(1, textCols * 2 / 3);
         library3Text.setEditable(false);
 
         //Library of the player 3
         library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
         library3Label.setLayout(new GridBagLayout());
         library1Label.setPreferredSize(new Dimension(libSecondaryDim, libSecondaryDim));
+
+        library2Text.setText("Empty Library");
+        library3Text.setText("Empty Library");
+
+        library1Text.setText("Library of " + librariesOfOtherPlayers.get(0).name);
+        if(numPlayers >= 3)
+            library2Text.setText("Library of " + librariesOfOtherPlayers.get(1).name);
+        if(numPlayers >= 4)
+            library3Text.setText("Library of " + librariesOfOtherPlayers.get(2).name);
 
         //player 1
 
@@ -984,11 +998,8 @@ public class PlayerGUI extends Player implements Serializable{
     public void sendChatMsg(String msg){
         if(msg.charAt(0) != '@')
             return;
-        if(!msg.contains(" ")){
-            if(msg.substring(1).equals("names"))
-                showAllNames();
+        if(!msg.contains(" "))
             return;
-        }
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
         msg = name + " says:" + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
@@ -1006,20 +1017,6 @@ public class PlayerGUI extends Player implements Serializable{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){throw new RuntimeException(e);}
     }
-    /**
-     * prints the name of all the players in the terminal, so that the user can choose the receiver of the chat messages
-     * @author Ettori
-     */
-    private void showAllNames(){
-        System.out.print("\nThe active players of this game are: ");
-        for(Library lib : librariesOfOtherPlayers) {
-            if(lib.name.equals(name))
-                continue;
-            System.out.print(lib.name + " ");
-        }
-        alert("and you");
-    }
-
     /**
      * prints 12 spaces (rows) to simulate the flush of the terminal
      * @author Gumus
