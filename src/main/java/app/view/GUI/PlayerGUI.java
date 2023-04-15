@@ -62,17 +62,23 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient ArrayList<JLabel[][]> otherLibrariesCards = new ArrayList<>(Arrays.asList(new JLabel[ROWS][COLS], new JLabel[ROWS][COLS], new JLabel[ROWS][COLS]));
 
     private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
+
     /**
-     * Function that update the GUI with the new information
-     * @author Ettori Giammusso
+     * method that update the information about the game
+     * @author Ettori
      */
-    private void updateGUI(){
+    private void updateInfo(){
         pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
         pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
         activeTurnInfo.setText("The current active player is " + activeName);
         curPointsInfo.setText("You have achieved " + pointsUntilNow + " points until now");
         tempChatHistory.setText(fullChat);
-
+    }
+    /**
+     * method that update the board of the game
+     * @author Ettori
+     */
+    private void updateBoard(){
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 if(i == libFullX && j == libFullY)
@@ -107,9 +113,27 @@ public class PlayerGUI extends Player implements Serializable{
                 });
             }
         }
-        endGame = true;
-        boardCards[libFullX][libFullY].setVisible(endGame); // al posto di endGame metti: pointsUntilNow % 2 == 1 --> solito trucchetto
-        endGame = false;
+        boardCards[libFullX][libFullY].setVisible(pointsUntilNow % 2 == 1); // solito trucchetto
+    }
+    /**
+     * method that update the library of the active player
+     * @author Ettori
+     */
+    private void updateMyLibrary(){}
+    /**
+     * method that update the libraries of all the player except the one which is active
+     * @author Ettori
+     */
+    private void updateOtherLibraries(){}
+    /**
+     * Function that update the GUI with the new information
+     * @author Ettori Giammusso
+     */
+    private void updateGUI(){
+        updateInfo();
+        updateBoard();
+        updateMyLibrary();
+        updateOtherLibraries();
     }
     /**
      * check if the card was already picked before
