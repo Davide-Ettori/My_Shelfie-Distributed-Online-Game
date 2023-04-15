@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
+import java.security.interfaces.EdECKey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -59,7 +60,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient JLabel[][] myLibraryCards = new JLabel[6][5];
     private final transient ArrayList<JLabel[][]> otherLibrariesCards = new ArrayList<>(Arrays.asList(new JLabel[6][5], new JLabel[6][5], new JLabel[6][5]));
 
-    private final transient ArrayList<Integer> cardsPicked = new ArrayList<>();
+    private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
     /**
      * Function that update the GUI with the new information
      * @author Ettori Giammusso
@@ -79,12 +80,16 @@ public class PlayerGUI extends Player implements Serializable{
                 boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
                 int finalI = i;
                 int finalJ = j;
+                try{boardCards[i][j].removeMouseListener(boardCards[i][j].getMouseListeners()[0]);}
+                catch (Exception ignored){}
                 boardCards[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        //System.out.println(activeName);
                         if(board.getGameBoard()[finalI][finalJ].color == EMPTY || !name.equals(activeName))
                             return;
                         int index = getCardIndex(finalI, finalJ);
+                        //System.out.println(index + " - " + cardsPicked.size());
                         if(index == -1){
                             if(cardsPicked.size() == 6)
                                 return;
@@ -105,6 +110,13 @@ public class PlayerGUI extends Player implements Serializable{
         boardCards[libFullX][libFullY].setVisible(endGame);
         endGame = false;
     }
+    /**
+     * check if the card was already picked before
+     * @author Ettori
+     * @param x the x coord
+     * @param y the y coord
+     * @return -1 if it was not picked before, the current index if it was picked before
+     */
     private int getCardIndex(int x, int y){
         for(int i = 0; i < cardsPicked.size(); i += 2){
             if(cardsPicked.get(i) == x && cardsPicked.get(i + 1) == y)
@@ -573,21 +585,30 @@ public class PlayerGUI extends Player implements Serializable{
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }
-
+    /**
+     * method that reads the cards chosen and the column chosen, then it tries to pick the cards (if possible)
+     * @author Ettori
+     */
     private void tryToPickCards(){
         ArrayList<Integer> cards = new ArrayList<>(cardsPicked);
+        cardsPicked = new ArrayList<>();
         int col;
         try{col = Integer.parseInt(chooseColText.getText());}
-        catch (Exception e){alert("Invalid Selection"); return;}
+        catch (Exception e){
+            alert("Invalid Selection");
+            chooseColText.setText("");
+            return;
+        }
         chooseColText.setText("");
         if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
             alert("Invalid Selection");
         else{
-            // prendi effettivamente le carte
+            pickCards(cards, col);
+            updateGUI();
+            // da qui continua --> devi mandare la mossa fatta al server
             }
         for(int i = 0; i < cards.size(); i += 2)
             boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
-        cardsPicked.clear();
     }
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
