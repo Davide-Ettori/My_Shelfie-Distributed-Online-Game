@@ -576,7 +576,9 @@ public class PlayerGUI extends Player implements Serializable{
 
     private void tryToPickCards(){
         ArrayList<Integer> cards = new ArrayList<>(cardsPicked);
-        int col = Integer.parseInt(chooseColText.getText());
+        int col;
+        try{col = Integer.parseInt(chooseColText.getText());}
+        catch (Exception e){alert("Invalid Selection"); return;}
         chooseColText.setText("");
         if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
             alert("Invalid Selection");
@@ -1111,7 +1113,7 @@ public class PlayerGUI extends Player implements Serializable{
         insertPlayer.setText("");
         insertMessage.setText("");
 
-        msg = name + " says:" + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
+        msg = name + " says: " + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
             alert("\nThe name chosen does not exists");
