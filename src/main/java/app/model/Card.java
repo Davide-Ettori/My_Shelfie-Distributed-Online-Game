@@ -10,7 +10,7 @@ import static app.model.Color.*;
 public class Card implements Serializable {
     /** the color of the card, 6 types + EMPTY */
     public Color color;
-    private String imagePath;
+    public String imagePath;
     private int x;
     private int y;
 
@@ -50,6 +50,7 @@ public class Card implements Serializable {
      */
     public Card(){
         color = EMPTY;
+        imagePath = "assets/item tiles/Gatti1.1.png"; // carta generica come placeholder
     }
     /**
      * copy constructor for this class, used for deep copying objects

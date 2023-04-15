@@ -4,6 +4,7 @@ import app.IP;
 import app.controller.*;
 import app.model.*;
 
+import app.model.Color;
 import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
@@ -24,6 +25,7 @@ import java.util.Date;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
+import static app.model.Color.EMPTY;
 import static app.model.State.*;
 import static app.view.Dimensions.*;
 import static java.awt.Color.*;
@@ -44,7 +46,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private transient JFrame mainFrame;
     private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, generalPanel;
-    private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel;
+    private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, endGameLabel;
     private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer;
     private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
     private transient JScrollPane chatHistory;
@@ -63,6 +65,18 @@ public class PlayerGUI extends Player implements Serializable{
         activeTurnInfo.setText("The current active player is " + activeName);
         curPointsInfo.setText("You have achieved " + pointsUntilNow + " points until now");
         tempChatHistory.setText(fullChat);
+
+        for(int i = 0; i < DIM; i++){
+            for(int j = 0; j < DIM; j++){
+                if(i == 6 && j == 8)
+                    continue;
+                boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
+            }
+        }
+        endGame = true;
+        boardCards[6][8].setVisible(endGame);
+        endGame = false;
     }
     /**
      * Function that initialize all the GUI
@@ -327,9 +341,32 @@ public class PlayerGUI extends Player implements Serializable{
         boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
         boardLabel.setLayout(new GridBagLayout());
 
-        for(int i = 0; i < DIM; i++){}
+        JLabel tempLabel;
+        for(int i = 0; i < DIM; i++){
+            for(int j = 0; j < DIM; j++){
+                tempLabel = new JLabel();
+                tempLabel.setIcon(new ImageIcon(new ImageIcon("assets/item tiles/Gatti1.1.png").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                tempLabel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
+                tempLabel.setMinimumSize(new Dimension(cardDimBoard, cardDimBoard));
+                tempLabel.setVisible(false);
 
-            myLibraryPanel = new JPanel(new GridBagLayout());
+                gbc.insets = new Insets(0,0,0,0);
+
+                gbc.gridx = j;
+                gbc.gridy = i;
+                gbc.ipadx = 2;
+                gbc.ipady = 2;
+                gbc.weightx = 0.0;
+                gbc.weighty = 0.0;
+                boardLabel.add(tempLabel,gbc);
+
+                boardCards[i][j] = tempLabel;
+            }
+        }
+        boardCards[6][8].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
+
+        myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
         myLibraryText = new JTextArea("Your personal Library");
         myLibraryText.setEditable(false);
