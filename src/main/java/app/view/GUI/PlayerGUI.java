@@ -36,6 +36,12 @@ public class PlayerGUI extends Player implements Serializable{
     private JFrame mainFrame;
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final GridBagConstraints gbc = new GridBagConstraints();
+    private JPanel infoBox, inter
+    private JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel,
+    private JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo
+    private JTextArea
+    private JScrollPane
+    private JButton
     /**
      * Function that update the GUI with the new information
      * @author Ettori Giammusso
@@ -80,8 +86,8 @@ public class PlayerGUI extends Player implements Serializable{
         chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
 
         JPanel infoBox = new JPanel(new GridBagLayout());
-        JTextField chairManInfo = new JTextField("The chairman of this game is Pignatta");
-        chairManInfo.setEditable(false);
+        JTextField chairmanInfo = new JTextField("The chairman of this game is Pignatta");
+        chairmanInfo.setEditable(false);
         JTextField activeTurnInfo = new JTextField("The current active player is Pino");
         activeTurnInfo.setEditable(false);
         JTextField curPointsInfo = new JTextField("You have achieved 7 points until now");
@@ -93,29 +99,29 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         infoBox.add(titleInfo,gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.3;
-        infoBox.add(chairManInfo,gbc);
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        infoBox.add(chairmanInfo,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.3;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
         infoBox.add(activeTurnInfo,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.3;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
         infoBox.add(curPointsInfo,gbc);
 
         //
@@ -126,7 +132,7 @@ public class PlayerGUI extends Player implements Serializable{
         //Addition: (Hierarchy of panels inside panels)
         //SECOND LEVEL
         //CYAN
-        JPanel internalPanelCyan = new JPanel(new GridBagLayout());
+        JPanel internalPanelLow = new JPanel(new GridBagLayout());
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -142,7 +148,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        internalPanelCyan.add(CO1Label,gbc);
+        internalPanelLow.add(CO1Label,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 100 + COPointsPadding_x;
@@ -156,29 +162,29 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        internalPanelCyan.add(CO2Label,gbc);
+        internalPanelLow.add(CO2Label,gbc);
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
         gbc.weightx = 0.2;
-        internalPanelCyan.add(POLabel, gbc);
+        internalPanelLow.add(POLabel, gbc);
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
         gbc.weightx = 0.2;
-        internalPanelCyan.add(chairmanLabel, gbc);
+        internalPanelLow.add(chairmanLabel, gbc);
         gbc.gridx = 4;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
         gbc.weightx = 0.2;
-        internalPanelCyan.add(infoBox, gbc);
+        internalPanelLow.add(infoBox, gbc);
         gbc.weightx = 0.0;
 
         //GREEN
-        JPanel internalPanelGreen = new JPanel(new GridBagLayout());
+        JPanel internalPanelMid = new JPanel(new GridBagLayout());
 
         JPanel player1Panel = new JPanel(new GridBagLayout());
         //Text
@@ -233,7 +239,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
-        internalPanelGreen.add(player1Panel,gbc);
+        internalPanelMid.add(player1Panel,gbc);
                 //player 2
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -255,7 +261,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
-        internalPanelGreen.add(player2Panel,gbc);
+        internalPanelMid.add(player2Panel,gbc);
                 //player 3
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -277,10 +283,10 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
-        internalPanelGreen.add(player3Panel,gbc);
+        internalPanelMid.add(player3Panel,gbc);
         gbc.weightx = 0.0;
         //blue
-        JPanel internalPanelBlue = new JPanel(new GridBagLayout());
+        JPanel internalPanelHigh = new JPanel(new GridBagLayout());
         JPanel gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
         //Text on top of the board
         JTextArea boardText = new JTextArea("Board of the Game");
@@ -334,7 +340,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.5;
         gbc.weighty = 0.0;
-        internalPanelBlue.add(gameBoardPanel,gbc);
+        internalPanelHigh.add(gameBoardPanel,gbc);
             //LIBRARY
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -370,7 +376,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.0;
         gbc.weighty = 0.25;
-        internalPanelBlue.add(myLibraryPanel,gbc);
+        internalPanelHigh.add(myLibraryPanel,gbc);
             //CHAT
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -413,12 +419,12 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.0;
         gbc.weighty = 0.25;
-        internalPanelBlue.add(chatPanel,gbc);
+        internalPanelHigh.add(chatPanel,gbc);
 
 
         //FIRST LEVEL - RED
 
-        JPanel redPanel = new JPanel(new GridBagLayout());
+        JPanel generalPanel = new JPanel(new GridBagLayout());
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -426,7 +432,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.8;
         gbc.weighty = 0.5;
-        redPanel.add(internalPanelBlue,gbc);
+        generalPanel.add(internalPanelHigh,gbc);
 
 
         gbc.gridx = 0;
@@ -435,7 +441,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.3;
-        redPanel.add(internalPanelGreen,gbc);
+        generalPanel.add(internalPanelMid,gbc);
 
 
         gbc.gridx = 0;
@@ -444,12 +450,13 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.2;
-        redPanel.add(internalPanelCyan,gbc);
+        generalPanel.add(internalPanelLow,gbc);
 
-        mainFrame.add(redPanel, BorderLayout.CENTER);
+        mainFrame.add(generalPanel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 4 / 5); // a tutto schermo completo mi dava problemi, così sta a 4/5 delle dimensioni
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
