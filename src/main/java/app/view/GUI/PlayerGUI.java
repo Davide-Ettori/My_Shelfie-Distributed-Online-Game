@@ -412,7 +412,7 @@ public class PlayerGUI extends Player implements Serializable{
 
                 if(i == libFullX && j == libFullY) {
                     tempPanel.setLayout(null);
-                    gbc.gridwidth = 3;
+                    gbc.gridwidth = 2;
                     gbc.gridheight = 2;
                 }
 
@@ -424,7 +424,7 @@ public class PlayerGUI extends Player implements Serializable{
 
                 if(i == libFullX && j == libFullY){
                     Insets insets = tempPanel.getInsets();
-                    tempLabel.setBounds(insets.left + 3, insets.top, cardDimBoard, cardDimBoard);
+                    tempLabel.setBounds(insets.left + 4, insets.top, cardDimBoard, cardDimBoard);
                 }
 
                 boardCards[i][j] = tempLabel;

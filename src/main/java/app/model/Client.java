@@ -1,11 +1,14 @@
 package app.model;
-import app.view.TUI.*;
-import app.view.GUI.*;
+
+import app.view.GUI.PlayerGUI;
+import app.view.TUI.PlayerTUI;
 
 import java.util.Scanner;
 
-import static app.model.NetMode.*;
-import static app.view.UIMode.*;
+import static app.model.NetMode.RMI;
+import static app.model.NetMode.SOCKET;
+import static app.view.UIMode.GUI;
+import static app.view.UIMode.TUI;
 
 /**
  * class which represent the entry point for teh client
