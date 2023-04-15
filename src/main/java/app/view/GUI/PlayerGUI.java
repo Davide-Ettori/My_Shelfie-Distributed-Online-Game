@@ -43,8 +43,8 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient int ROWS = 6;
     private final transient int COLS = 5;
     private final transient java.awt.Color borderColor = BLUE;
-    private final transient int libFullX = 6;
-    private final transient int libFullY = 8;
+    private final transient int libFullX = 6; // y sulla board
+    private final transient int libFullY = 8; // x sulla board
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final transient GridBagConstraints gbc = new GridBagConstraints();
@@ -56,9 +56,9 @@ public class PlayerGUI extends Player implements Serializable{
     private transient JScrollPane chatHistory;
     private transient JButton pickCardsBtn, sendMessageBtn;
 
-    private final transient JLabel[][] boardCards = new JLabel[9][9];
-    private final transient JLabel[][] myLibraryCards = new JLabel[6][5];
-    private final transient ArrayList<JLabel[][]> otherLibrariesCards = new ArrayList<>(Arrays.asList(new JLabel[6][5], new JLabel[6][5], new JLabel[6][5]));
+    private final transient JLabel[][] boardCards = new JLabel[DIM][DIM];
+    private final transient JLabel[][] myLibraryCards = new JLabel[ROWS][COLS];
+    private final transient ArrayList<JLabel[][]> otherLibrariesCards = new ArrayList<>(Arrays.asList(new JLabel[ROWS][COLS], new JLabel[ROWS][COLS], new JLabel[ROWS][COLS]));
 
     private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
     /**
@@ -406,6 +406,16 @@ public class PlayerGUI extends Player implements Serializable{
                 gbc.ipady = 2;
                 gbc.weightx = 0.0;
                 gbc.weighty = 0.0;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                /*
+                if(i == libFullX && j == libFullY){
+                    gbc.gridwidth = 2;
+                    gbc.gridheight = 2;
+                    gbc.weightx = 1;
+                    gbc.weighty = 1;
+                }
+                 */
                 tempPanel.add(tempLabel);
                 tempPanel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
                 tempPanel.setBackground(new java.awt.Color(0, 1, 0, 0));
@@ -597,6 +607,8 @@ public class PlayerGUI extends Player implements Serializable{
         catch (Exception e){
             alert("Invalid Selection");
             chooseColText.setText("");
+            for(int i = 0; i < cards.size(); i += 2)
+                boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
             return;
         }
         chooseColText.setText("");
