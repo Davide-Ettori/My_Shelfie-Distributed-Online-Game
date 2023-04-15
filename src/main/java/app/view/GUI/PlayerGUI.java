@@ -24,8 +24,7 @@ import java.util.Scanner;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
-import static java.awt.GridBagConstraints.CENTER;
-import static java.awt.GridBagConstraints.LINE_END;
+import static java.awt.GridBagConstraints.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -85,11 +84,48 @@ public class PlayerGUI extends Player implements Serializable{
 
         JLabel pointsCO2Label = new JLabel(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
         pointsCO2Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
-        System.out.println(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg");
-
 
         JLabel chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
+
+        JPanel infoBox = new JPanel(new GridBagLayout());
+        JTextField chairManInfo = new JTextField("The chairman of this game is Pignatta");
+        chairManInfo.setEditable(false);
+        JTextField activeTurnInfo = new JTextField("The current active player is Pino");
+        activeTurnInfo.setEditable(false);
+        JTextField curPointsInfo = new JTextField("You have achieved 7 points until now");
+        curPointsInfo.setEditable(false);
+        JTextField titleInfo = new JTextField("Information about the Game");
+        titleInfo.setEditable(false);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        infoBox.add(titleInfo,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.3;
+        infoBox.add(chairManInfo,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.3;
+        infoBox.add(activeTurnInfo,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.3;
+        infoBox.add(curPointsInfo,gbc);
 
         //
 
@@ -109,7 +145,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         CO1Label.add(pointsCO1Label,gbc);
-        gbc.weightx = 0.25;
+        gbc.weightx = 0.2;
         gbc.anchor = CENTER;
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -124,7 +160,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 1.0;
         CO2Label.add(pointsCO2Label,gbc);
         gbc.anchor = CENTER;
-        gbc.weightx = 0.25;
+        gbc.weightx = 0.2;
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.ipadx = 100;
@@ -134,14 +170,20 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.25;
+        gbc.weightx = 0.2;
         internalPanelCyan.add(POLabel, gbc);
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.25;
+        gbc.weightx = 0.2;
         internalPanelCyan.add(chairmanLabel, gbc);
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.ipadx = 100;
+        gbc.ipady = 0;
+        gbc.weightx = 0.2;
+        internalPanelCyan.add(infoBox, gbc);
         gbc.weightx = 0.0;
 
         //GREEN
@@ -267,7 +309,11 @@ public class PlayerGUI extends Player implements Serializable{
         libraryLabel.setPreferredSize(new Dimension(libPrimaryDim, libPrimaryDim));
         libraryLabel.setLayout(new GridBagLayout());
         JPanel chatPanel = new JPanel(new GridBagLayout());
-        JScrollPane chatHistory = new JScrollPane(new JTextArea(textCols / 3, textCols));
+        JTextArea chatTitle = new JTextArea("Chat history of the Game");
+        chatTitle.setEditable(false);
+        JTextArea tempChatHistory = new JTextArea(textCols / 3, textCols);
+        tempChatHistory.setEditable(false);
+        JScrollPane chatHistory = new JScrollPane(tempChatHistory);
         JTextField insertMessage = new JTextField(textCols);
         insertMessage.setText("Insert the message: ");
         JTextField insertPlayer = new JTextField(textCols);
@@ -339,25 +385,32 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.4;
+        gbc.weightx = 0.0;
         gbc.weighty = 0.0;
-        chatPanel.add(chatHistory,gbc);
+        chatPanel.add(chatTitle,gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.2;
+        gbc.weightx = 0.4;
         gbc.weighty = 0.0;
-        chatPanel.add(insertPlayer,gbc);
+        chatPanel.add(chatHistory,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0.2;
         gbc.weighty = 0.0;
-        chatPanel.add(insertMessage,gbc);
+        chatPanel.add(insertPlayer,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0.2;
+        gbc.weighty = 0.0;
+        chatPanel.add(insertMessage,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0.2;
@@ -408,7 +461,6 @@ public class PlayerGUI extends Player implements Serializable{
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
-        System.out.println("fine draw");
     }
 
     /**
@@ -557,7 +609,6 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
-        System.out.println("aspetto");
         try {
             Message msg = (Message) inStream.readObject();
             switch (msg.getType()) {
@@ -601,7 +652,7 @@ public class PlayerGUI extends Player implements Serializable{
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board) jsonObject.get("board");
         drawAll();
-        System.out.println("\nBoard updated because it was unplayable");
+        alert("\nBoard updated because it was unplayable");
         waitForEvents();
     }
     /**
@@ -622,7 +673,7 @@ public class PlayerGUI extends Player implements Serializable{
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
         drawAll();
-        System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         waitForEvents();
     }
     /**
@@ -631,7 +682,7 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleFinalScoreEvent(Message msg){
-        System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
+        alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
         Game.waitForSeconds(5);
         System.exit(0); // il gioco finisce e tutto si chiude forzatamente
     }
@@ -651,7 +702,7 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleCO_1Event(Message msg){
-        System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+        alert(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(2.5);
         waitForEvents();
     }
@@ -661,7 +712,7 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleCO_2Event(Message msg){
-        System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
+        alert(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(2.5);
         waitForEvents();
     }
@@ -671,7 +722,7 @@ public class PlayerGUI extends Player implements Serializable{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleLibFullEvent(Message msg){
-        System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+        alert(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         Game.waitForSeconds(2.5);
         endGame = true;
         waitForEvents();
@@ -711,7 +762,7 @@ public class PlayerGUI extends Player implements Serializable{
             try {
                 coordString = br.readLine();
             } catch (IOException e) {
-                System.out.println("errore");
+                alert("errore");
                 throw new RuntimeException(e);
             }
             if(coordString.length() == 0)
@@ -723,7 +774,7 @@ public class PlayerGUI extends Player implements Serializable{
                 continue;
             }
             if(!checkRawCoords(rawCoords)){
-                System.out.println("\nInvalid selection");
+                alert("\nInvalid selection");
                 continue;
             }
             coords = new ArrayList<>();
@@ -733,7 +784,7 @@ public class PlayerGUI extends Player implements Serializable{
             }
             if(board.areCardsPickable(coords) && library.maxCardsInsertable() >= coords.size() / 2)
                 break;
-            System.out.println("\nInvalid selection");
+            alert("\nInvalid selection");
         }
         return coords;
     }
@@ -765,9 +816,9 @@ public class PlayerGUI extends Player implements Serializable{
             try {
                 index_1 = Character.getNumericValue(coordOrder.charAt(0));
                 index_2 = Character.getNumericValue(coordOrder.charAt(2));
-            }catch (Exception e){System.out.println("\nInvalid selection"); continue;}
+            }catch (Exception e){alert("\nInvalid selection"); continue;}
             if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
-                System.out.println("\nInvalid selection");
+                alert("\nInvalid selection");
                 continue;
             }
             index_1 *= 2;
@@ -805,7 +856,7 @@ public class PlayerGUI extends Player implements Serializable{
             col = Integer.parseInt(column);
             if(library.checkCol(col, size))
                 break;
-            System.out.println("\nInvalid selection");
+            alert("\nInvalid selection");
         }
         return col;
     }
@@ -825,7 +876,7 @@ public class PlayerGUI extends Player implements Serializable{
                 pointsUntilNow += points;
                 CO_1_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
-                System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
+                alert("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
                 Game.waitForSeconds(2.5);
                 change = true;
             }
@@ -836,7 +887,7 @@ public class PlayerGUI extends Player implements Serializable{
                 pointsUntilNow += points;
                 CO_2_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
-                System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
+                alert("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
                 Game.waitForSeconds(2.5);
                 change = true;
             }
@@ -854,7 +905,7 @@ public class PlayerGUI extends Player implements Serializable{
                 endGame = true;
                 pointsUntilNow++;
                 outStream.writeObject(new Message(LIB_FULL, name, null));
-                System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
+                alert("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
                 Game.waitForSeconds(2.5);
                 return true;
             }
@@ -868,7 +919,7 @@ public class PlayerGUI extends Player implements Serializable{
     private void fixUnplayableBoard(){
         board.fillBoard(numPlayers);
         drawAll();
-        System.out.println("\nBoard updated because it was unplayble");
+        alert("\nBoard updated because it was unplayble");
         try {
             boardStatus = new JSONObject();
             boardStatus.put("board", board);
@@ -882,7 +933,7 @@ public class PlayerGUI extends Player implements Serializable{
     private void sendDoneMove(){
         gameStatus = new JSONObject();
         playerStatus = new JSONObject();
-        System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
+        alert("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
 
@@ -919,12 +970,11 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void printCurOrder(ArrayList<Integer> arr){
-        System.out.println("\nThe current order of your cards is: ");
+        alert("\nThe current order of your cards is: ");
         for(int i = 0; i < arr.size(); i += 2) {
             board.getGameBoard()[arr.get(i)][arr.get(i + 1)].draw();
             System.out.print(" ");
         }
-        System.out.println();
     }
     /**
      * Send with socket network the message of the chat to the right players
@@ -944,11 +994,11 @@ public class PlayerGUI extends Player implements Serializable{
         msg = name + " says:" + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
-            System.out.println("\nThe name chosen does not exists");
+            alert("\nThe name chosen does not exists");
             return;
         }
         if(dest.equals(name)){
-            System.out.println("\nYou can't send chat messages to yourself");
+            alert("\nYou can't send chat messages to yourself");
             return;
         }
         fullChat += msg;
@@ -967,7 +1017,7 @@ public class PlayerGUI extends Player implements Serializable{
                 continue;
             System.out.print(lib.name + " ");
         }
-        System.out.println("and you");
+        alert("and you");
     }
 
     /**
@@ -976,7 +1026,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void clearScreen(){
         for(int i = 0; i < 12; i++){
-            System.out.println();
+            //alert();
         }
     }
     /**
