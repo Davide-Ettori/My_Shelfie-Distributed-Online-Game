@@ -41,6 +41,9 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient int DIM = 9;
     private final transient int ROWS = 6;
     private final transient int COLS = 5;
+    private final transient java.awt.Color borderColor = BLUE;
+    private final transient int libFullX = 6;
+    private final transient int libFullY = 8;
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final transient GridBagConstraints gbc = new GridBagConstraints();
@@ -55,6 +58,8 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient JLabel[][] boardCards = new JLabel[9][9];
     private final transient JLabel[][] myLibraryCards = new JLabel[6][5];
     private final transient ArrayList<JLabel[][]> otherLibrariesCards = new ArrayList<>(Arrays.asList(new JLabel[6][5], new JLabel[6][5], new JLabel[6][5]));
+
+    private final transient ArrayList<Integer> cardsPicked = new ArrayList<>();
     /**
      * Function that update the GUI with the new information
      * @author Ettori Giammusso
@@ -68,15 +73,44 @@ public class PlayerGUI extends Player implements Serializable{
 
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
-                if(i == 6 && j == 8)
+                if(i == libFullX && j == libFullY)
                     continue;
                 boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
                 boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
+                int finalI = i;
+                int finalJ = j;
+                boardCards[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(board.getGameBoard()[finalI][finalJ].color == EMPTY || !name.equals(activeName))
+                            return;
+                        int index = getCardIndex(finalI, finalJ);
+                        if(index == -1){
+                            if(cardsPicked.size() == 6)
+                                return;
+                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 2));
+                            cardsPicked.add(finalI);
+                            cardsPicked.add(finalJ);
+                        }
+                        else{
+                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 0));
+                            cardsPicked.remove(index);
+                            cardsPicked.remove(index);
+                        }
+                    }
+                });
             }
         }
         endGame = true;
-        boardCards[6][8].setVisible(endGame);
+        boardCards[libFullX][libFullY].setVisible(endGame);
         endGame = false;
+    }
+    private int getCardIndex(int x, int y){
+        for(int i = 0; i < cardsPicked.size(); i += 2){
+            if(cardsPicked.get(i) == x && cardsPicked.get(i + 1) == y)
+                return i;
+        }
+        return -1;
     }
     /**
      * Function that initialize all the GUI
@@ -368,17 +402,18 @@ public class PlayerGUI extends Player implements Serializable{
                 boardCards[i][j] = tempLabel;
             }
         }
-        boardCards[6][8].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+        boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
         gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
 
         myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
-        myLibraryText = new JTextArea("Your personal Library");
+        myLibraryText = new JTextArea("Your personal Library (" + name + ")");
         myLibraryText.setEditable(false);
         chooseColText = new JTextField(textCols);
         chooseColText.setText("Insert the column: ");
         pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
+        pickCardsBtn.addActionListener(e -> tryToPickCards());
         libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimaryDim, libPrimaryDim, Image.SCALE_SMOOTH)));
         libraryLabel.setPreferredSize(new Dimension(libPrimaryDim, libPrimaryDim));
         libraryLabel.setLayout(new GridBagLayout());
@@ -395,7 +430,7 @@ public class PlayerGUI extends Player implements Serializable{
         sendMessageBtn = new JButton("Send Message");
         sendMessageBtn.setPreferredSize(new Dimension());
         sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
-        sendMessageBtn.addActionListener(e -> insertPlayer.setText("click !!!"));
+        sendMessageBtn.addActionListener(e -> sendChatMsg());
         //BOARD
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -539,6 +574,19 @@ public class PlayerGUI extends Player implements Serializable{
         new Thread(this::updateGUI).start();
     }
 
+    private void tryToPickCards(){
+        ArrayList<Integer> cards = new ArrayList<>(cardsPicked);
+        int col = Integer.parseInt(chooseColText.getText());
+        chooseColText.setText("");
+        if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
+            alert("Invalid Selection");
+        else{
+            // prendi effettivamente le carte
+            }
+        for(int i = 0; i < cards.size(); i += 2)
+            boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
+        cardsPicked.clear();
+    }
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
      * @param p the Player object to copy, received by the server
@@ -847,7 +895,7 @@ public class PlayerGUI extends Player implements Serializable{
             rawCoords = coordString.split(" ");
 
             if(coordString.charAt(0) == '@'){
-                sendChatMsg(coordString);
+                //sendChatMsg(coordString);
                 continue;
             }
             if(!checkRawCoords(rawCoords)){
@@ -887,7 +935,7 @@ public class PlayerGUI extends Player implements Serializable{
             if(coordOrder.length() == 0 || coordOrder.equals("-1"))
                 break;
             if(coordOrder.charAt(0) == '@'){
-                sendChatMsg(coordOrder);
+                //sendChatMsg(coordOrder);
                 continue;
             }
             try {
@@ -927,7 +975,7 @@ public class PlayerGUI extends Player implements Serializable{
             if(column.length() == 0)
                 continue;
             if(column.charAt(0) == '@'){
-                sendChatMsg(column);
+                //sendChatMsg(column);
                 continue;
             }
             col = Integer.parseInt(column);
@@ -1055,16 +1103,14 @@ public class PlayerGUI extends Player implements Serializable{
     }
     /**
      * Send with socket network the message of the chat to the right players
-     * @param msg content of the message
      * @author Ettori
      */
-    public void sendChatMsg(String msg){
-        if(msg.charAt(0) != '@')
-            return;
-        if(!msg.contains(" "))
-            return;
-        String dest = msg.substring(1, msg.indexOf(' '));
-        msg = msg.substring(msg.indexOf(' '));
+    public void sendChatMsg(){
+        String dest = insertPlayer.getText();
+        String msg = insertMessage.getText();
+        insertPlayer.setText("");
+        insertMessage.setText("");
+
         msg = name + " says:" + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
@@ -1076,6 +1122,7 @@ public class PlayerGUI extends Player implements Serializable{
             return;
         }
         fullChat += msg;
+        tempChatHistory.setText(fullChat);
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){throw new RuntimeException(e);}
