@@ -5,6 +5,7 @@ import app.controller.*;
 import app.model.*;
 
 import app.model.Color;
+import app.view.Dimensions;
 import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
@@ -44,7 +45,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient int COLS = 5;
     private final transient java.awt.Color borderColor = BLUE;
     private final transient int libFullX = 6; // y sulla board
-    private final transient int libFullY = 8; // x sulla board
+    private final transient int libFullY = 7; // x sulla board
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final transient GridBagConstraints gbc = new GridBagConstraints();
@@ -408,18 +409,22 @@ public class PlayerGUI extends Player implements Serializable{
                 gbc.weighty = 0.0;
                 gbc.gridwidth = 1;
                 gbc.gridheight = 1;
-                /*
-                if(i == libFullX && j == libFullY){
-                    gbc.gridwidth = 2;
+
+                if(i == libFullX && j == libFullY) {
+                    tempPanel.setLayout(null);
+                    gbc.gridwidth = 3;
                     gbc.gridheight = 2;
-                    gbc.weightx = 1;
-                    gbc.weighty = 1;
                 }
-                 */
+
                 tempPanel.add(tempLabel);
                 tempPanel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
                 tempPanel.setBackground(new java.awt.Color(0, 1, 0, 0));
                 boardLabel.add(tempPanel,gbc);
+
+                if(i == libFullX && j == libFullY){
+                    Insets insets = tempPanel.getInsets();
+                    tempLabel.setBounds(insets.left + 3, insets.top, cardDimBoard, cardDimBoard);
+                }
 
                 boardCards[i][j] = tempLabel;
             }
