@@ -356,8 +356,8 @@ public class PlayerGUI extends Player implements Serializable{
 
                 gbc.gridx = j;
                 gbc.gridy = i;
-                gbc.ipadx = 0;
-                gbc.ipady = 0;
+                gbc.ipadx = 2;
+                gbc.ipady = 2;
                 gbc.weightx = 0.0;
                 gbc.weighty = 0.0;
                 tempPanel.add(tempLabel);
