@@ -40,16 +40,16 @@ public class Board implements Serializable {
         commonObjective_1 = CO_1;
         commonObjective_2 = CO_2;
         if(numPlayers == 2){
-            pointsCO_1 = new LinkedList<Integer>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
-            pointsCO_2 = new LinkedList<Integer>(Arrays.asList(4, 8));
+            pointsCO_1 = new LinkedList<>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
+            pointsCO_2 = new LinkedList<>(Arrays.asList(4, 8));
         }
         else if(numPlayers == 3){
-            pointsCO_1 = new LinkedList<Integer>(Arrays.asList(4,6,8));
-            pointsCO_2 = new LinkedList<Integer>(Arrays.asList(4,6,8));
+            pointsCO_1 = new LinkedList<>(Arrays.asList(4,6,8));
+            pointsCO_2 = new LinkedList<>(Arrays.asList(4,6,8));
         }
         else{
-            pointsCO_1 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
-            pointsCO_2 = new LinkedList<Integer>(Arrays.asList(2,4,6,8));
+            pointsCO_1 = new LinkedList<>(Arrays.asList(2,4,6,8));
+            pointsCO_2 = new LinkedList<>(Arrays.asList(2,4,6,8));
         }
     }
     /**
