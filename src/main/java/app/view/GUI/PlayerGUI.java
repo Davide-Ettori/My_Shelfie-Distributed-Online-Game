@@ -11,18 +11,22 @@ import playground.socket.Server;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
 import static app.view.Dimensions.*;
+import static java.awt.Color.*;
 import static java.awt.GridBagConstraints.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -32,16 +36,23 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * @author Ettori Faccincani
  */
 public class PlayerGUI extends Player implements Serializable{
-    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
-    private JFrame mainFrame;
+    private final transient int DIM = 9;
+    private final transient int ROWS = 6;
+    private final transient int COLS = 5;
+    private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
-    private final GridBagConstraints gbc = new GridBagConstraints();
-    private JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, generalPanel;
-    private JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel;
-    private JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer;
-    private JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
-    private JScrollPane chatHistory;
-    private JButton pickCardsBtn, sendMessageBtn;
+    private final transient GridBagConstraints gbc = new GridBagConstraints();
+    private transient JFrame mainFrame;
+    private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, generalPanel;
+    private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel;
+    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer;
+    private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
+    private transient JScrollPane chatHistory;
+    private transient JButton pickCardsBtn, sendMessageBtn;
+
+    private final transient JLabel[][] boardCards = new JLabel[9][9];
+    private final transient JLabel[][] myLibraryCards = new JLabel[6][5];
+    private final transient ArrayList<JLabel[][]> otherLibrariesCards = new ArrayList<>(Arrays.asList(new JLabel[6][5], new JLabel[6][5], new JLabel[6][5]));
     /**
      * Function that update the GUI with the new information
      * @author Ettori Giammusso
@@ -52,7 +63,6 @@ public class PlayerGUI extends Player implements Serializable{
         activeTurnInfo.setText("The current active player is " + activeName);
         curPointsInfo.setText("You have achieved " + pointsUntilNow + " points until now");
         tempChatHistory.setText(fullChat);
-
     }
     /**
      * Function that initialize all the GUI
@@ -71,6 +81,13 @@ public class PlayerGUI extends Player implements Serializable{
 
         POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(PO_w, PO_h, Image.SCALE_SMOOTH)));
         POLabel.setPreferredSize(new Dimension(PO_w, PO_h));
+        POLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e){
+                chairmanInfo.setText("prova");
+                POLabel.setBorder(BorderFactory.createLineBorder(RED, 2));
+            }
+        });
 
         CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
         //CO1Label.setIcon(); setta la nuova immagine a runtime
@@ -255,7 +272,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         internalPanelMid.add(player1Panel,gbc);
-                //player 2
+        //player 2
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -277,7 +294,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         internalPanelMid.add(player2Panel,gbc);
-                //player 3
+        //player 3
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -309,7 +326,10 @@ public class PlayerGUI extends Player implements Serializable{
         boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH)));
         boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
         boardLabel.setLayout(new GridBagLayout());
-        myLibraryPanel = new JPanel(new GridBagLayout());
+
+        for(int i = 0; i < DIM; i++){}
+
+            myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
         myLibraryText = new JTextArea("Your personal Library");
         myLibraryText.setEditable(false);
@@ -334,7 +354,7 @@ public class PlayerGUI extends Player implements Serializable{
         sendMessageBtn.setPreferredSize(new Dimension());
         sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
         sendMessageBtn.addActionListener(e -> insertPlayer.setText("click !!!"));
-            //BOARD
+        //BOARD
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -356,7 +376,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.5;
         gbc.weighty = 0.0;
         internalPanelHigh.add(gameBoardPanel,gbc);
-            //LIBRARY
+        //LIBRARY
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -392,7 +412,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.0;
         gbc.weighty = 0.25;
         internalPanelHigh.add(myLibraryPanel,gbc);
-            //CHAT
+        //CHAT
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
