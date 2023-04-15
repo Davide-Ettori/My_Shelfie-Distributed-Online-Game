@@ -342,23 +342,28 @@ public class PlayerGUI extends Player implements Serializable{
         boardLabel.setLayout(new GridBagLayout());
 
         JLabel tempLabel;
+        JPanel tempPanel;
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 tempLabel = new JLabel();
+                tempPanel = new JPanel();
+
                 tempLabel.setIcon(new ImageIcon(new ImageIcon("assets/item tiles/Gatti1.1.png").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
                 tempLabel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
-                tempLabel.setMinimumSize(new Dimension(cardDimBoard, cardDimBoard));
                 tempLabel.setVisible(false);
 
                 gbc.insets = new Insets(0,0,0,0);
 
                 gbc.gridx = j;
                 gbc.gridy = i;
-                gbc.ipadx = 2;
-                gbc.ipady = 2;
+                gbc.ipadx = 0;
+                gbc.ipady = 0;
                 gbc.weightx = 0.0;
                 gbc.weighty = 0.0;
-                boardLabel.add(tempLabel,gbc);
+                tempPanel.add(tempLabel);
+                tempPanel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
+                tempPanel.setBackground(new java.awt.Color(0, 1, 0, 0));
+                boardLabel.add(tempPanel,gbc);
 
                 boardCards[i][j] = tempLabel;
             }
@@ -529,7 +534,7 @@ public class PlayerGUI extends Player implements Serializable{
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
+        //mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }

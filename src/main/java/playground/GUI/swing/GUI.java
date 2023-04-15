@@ -64,7 +64,7 @@ public class GUI{
         externalPanel = new JPanel();
         externalPanel.setLayout(new GridLayout(1,2));
 
-        JLabel panel = new JLabel(); // creo un pannello, dandogli i parametri dimensionali
+        JPanel panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
         panel.setPreferredSize(new Dimension(screenSize.width / 2, screenSize.height / 2));
         panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
         panel.setLayout(new GridLayout(0,3)); // griglia con o righe e 3 colonne
