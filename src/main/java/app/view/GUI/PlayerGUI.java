@@ -418,7 +418,8 @@ public class PlayerGUI extends Player implements Serializable{
 
                 tempPanel.add(tempLabel);
                 tempPanel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
-                tempPanel.setBackground(new java.awt.Color(0, 1, 0, 0));
+                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
+                tempPanel.setOpaque(false);
                 boardLabel.add(tempPanel,gbc);
 
                 if(i == libFullX && j == libFullY){
