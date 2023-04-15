@@ -91,8 +91,10 @@ public class Game implements Serializable {
             p.setState(NOT_ACTIVE);
             p.activeName = getChairmanName();
             p.chairmanName = getChairmanName();
-            for(int j = 0; j < numPlayers; j++)
-                p.librariesOfOtherPlayers.add(new Library(names.get(j)));
+            for(int j = 0; j < numPlayers; j++) {
+                if(!names.get(j).equals(names.get(i)))
+                    p.librariesOfOtherPlayers.add(new Library(names.get(j)));
+            }
             p.numPlayers = numPlayers;
             p.netMode = netModes.get(i);
             p.uiMode = uiModes.get(i);
