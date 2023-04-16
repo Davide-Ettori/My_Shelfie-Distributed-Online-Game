@@ -492,6 +492,7 @@ public class PlayerTUI extends Player implements Serializable{
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
             state = NOT_ACTIVE;
             //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+            Game.waitForSeconds(standardTimer / 5);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(standardTimer / 2.5);

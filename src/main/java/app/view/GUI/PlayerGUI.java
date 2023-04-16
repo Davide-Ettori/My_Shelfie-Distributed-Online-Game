@@ -39,7 +39,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient int DIM = 9;
     private final transient int ROWS = 6;
     private final transient int COLS = 5;
-    private final transient int cardBorderSize = 3;
+    private final transient int cardBorderSize = 2;
     private final transient java.awt.Color borderColor = BLACK;
     private final transient int libFullX = 6; // y sulla board
     private final transient int libFullY = 7; // x sulla board
@@ -524,6 +524,7 @@ public class PlayerGUI extends Player implements Serializable{
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
             state = NOT_ACTIVE;
             //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+            Game.waitForSeconds(standardTimer / 5);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(standardTimer / 2.5);
