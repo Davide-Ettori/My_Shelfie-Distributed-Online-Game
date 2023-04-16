@@ -354,21 +354,23 @@ public class PlayerGUI extends Player implements Serializable{
      * @author Ettori Faccincani
      */
     private void waitForEvents(){ // funzione principale di attesa
-        try {
-            Message msg = (Message) inStream.readObject();
-            switch (msg.getType()) {
-                case YOUR_TURN -> handleYourTurnEvent();
-                case CHANGE_TURN -> handleChangeTurnEvent(msg);
-                case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
-                case UPDATE_GAME -> handleUpdateGameEvent(msg);
-                case FINAL_SCORE -> handleFinalScoreEvent(msg);
-                case CHAT -> handleChatEvent(msg);
-                case CO_1 -> handleCO_1Event(msg);
-                case CO_2 -> handleCO_2Event(msg);
-                case LIB_FULL -> handleLibFullEvent(msg);
-                case STOP -> System.out.println("No thread to stop");
-            }
-        }catch(Exception e){throw new RuntimeException(e);}
+        while(true){
+            try {
+                Message msg = (Message) inStream.readObject();
+                switch (msg.getType()) {
+                    case YOUR_TURN -> handleYourTurnEvent();
+                    case CHANGE_TURN -> handleChangeTurnEvent(msg);
+                    case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+                    case UPDATE_GAME -> handleUpdateGameEvent(msg);
+                    case FINAL_SCORE -> handleFinalScoreEvent(msg);
+                    case CHAT -> handleChatEvent(msg);
+                    case CO_1 -> handleCO_1Event(msg);
+                    case CO_2 -> handleCO_2Event(msg);
+                    case LIB_FULL -> handleLibFullEvent(msg);
+                    case STOP -> System.out.println("No thread to stop");
+                }
+            }catch(Exception e){throw new RuntimeException(e);}
+        }
     }
     /**
      * helper function for handling the turn event notification from the server
@@ -379,7 +381,6 @@ public class PlayerGUI extends Player implements Serializable{
         if(board.isBoardUnplayable())
             fixUnplayableBoard();
         updateInfo();
-        waitForEvents();
     }
     /**
      * helper function for handling the change event notification from the server
@@ -389,7 +390,6 @@ public class PlayerGUI extends Player implements Serializable{
     private void handleChangeTurnEvent(Message msg){
         activeName = (String) msg.getContent();
         updateInfo();
-        waitForEvents();
     }
     /**
      * helper function for handling the unplayble board fixing event notification from the server
@@ -401,7 +401,6 @@ public class PlayerGUI extends Player implements Serializable{
         board = (Board) jsonObject.get("board");
         updateBoard();
         alert("\nBoard updated because it was unplayable");
-        waitForEvents();
     }
     /**
      * helper function for handling the update game notification from the server
@@ -423,7 +422,6 @@ public class PlayerGUI extends Player implements Serializable{
         updateBoard();
         updateOtherLibraries();
         alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        waitForEvents();
     }
     /**
      * helper function for handling the final score calculation event notification from the server
@@ -443,7 +441,6 @@ public class PlayerGUI extends Player implements Serializable{
     private void handleChatEvent(Message msg){
         fullChat += msg.getContent();
         updateInfo();
-        waitForEvents();
     }
     /**
      * helper function for handling the achievement of the first common objective event notification from the server
@@ -453,7 +450,6 @@ public class PlayerGUI extends Player implements Serializable{
     private void handleCO_1Event(Message msg){
         alert(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(2.5);
-        waitForEvents();
     }
     /**
      * helper function for handling the achievement of the second common objective event notification from the server
@@ -463,7 +459,6 @@ public class PlayerGUI extends Player implements Serializable{
     private void handleCO_2Event(Message msg){
         alert(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(2.5);
-        waitForEvents();
     }
     /**
      * helper function for handling the completion of the library event notification from the server
@@ -474,7 +469,6 @@ public class PlayerGUI extends Player implements Serializable{
         alert(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         Game.waitForSeconds(2.5);
         endGame = true;
-        waitForEvents();
     }
     private boolean checkCO(){
         int points, lastIndex;
@@ -1039,7 +1033,7 @@ public class PlayerGUI extends Player implements Serializable{
         chooseColText.addActionListener(event -> pickCardsBtn.doClick());
         pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
-        pickCardsBtn.addActionListener(e -> tryToPickCards());
+        pickCardsBtn.addActionListener(e -> new Thread(this::tryToPickCards).start());
         libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
         libraryLabel.setPreferredSize(new Dimension(lib_w, lib_h));
         libraryLabel.setLayout(null);
@@ -1079,7 +1073,7 @@ public class PlayerGUI extends Player implements Serializable{
         sendMessageBtn = new JButton("Send Message");
         sendMessageBtn.setPreferredSize(new Dimension());
         sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
-        sendMessageBtn.addActionListener(e -> sendChatMsg());
+        sendMessageBtn.addActionListener(e -> new Thread(this::sendChatMsg).start());
         //BOARD
         gbc.gridx = 0;
         gbc.gridy = 0;
