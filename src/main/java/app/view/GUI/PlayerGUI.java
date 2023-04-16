@@ -330,7 +330,7 @@ public class PlayerGUI extends Player implements Serializable{
         while(true){
             try {
                 Message msg = (Message) inStream.readObject();
-                System.out.println(msg.getType());
+                //System.out.println(msg.getType());
                 switch (msg.getType()) {
                     case YOUR_TURN -> handleYourTurnEvent();
                     case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -341,7 +341,7 @@ public class PlayerGUI extends Player implements Serializable{
                     case CO_1 -> handleCO_1Event(msg);
                     case CO_2 -> handleCO_2Event(msg);
                     case LIB_FULL -> handleLibFullEvent(msg);
-                    case STOP -> System.out.println("No thread to stop");
+                    case STOP -> {} // non devi fare niente
                 }
             }catch(Exception e){throw new RuntimeException(e);}
         }
