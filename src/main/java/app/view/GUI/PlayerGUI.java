@@ -355,6 +355,8 @@ public class PlayerGUI extends Player implements Serializable{
         if(board.isBoardUnplayable())
             fixUnplayableBoard();
         updateInfo();
+        updateBoard();
+        updateOtherLibraries();
     }
     /**
      * helper function for handling the change event notification from the server
@@ -364,6 +366,8 @@ public class PlayerGUI extends Player implements Serializable{
     private void handleChangeTurnEvent(Message msg){
         activeName = (String) msg.getContent();
         updateInfo();
+        updateBoard();
+        updateOtherLibraries();
     }
     /**
      * helper function for handling the unplayble board fixing event notification from the server
@@ -393,8 +397,8 @@ public class PlayerGUI extends Player implements Serializable{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
-        updateBoard();
-        updateOtherLibraries();
+        //updateBoard();
+        //updateOtherLibraries();
         alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
     }
     /**

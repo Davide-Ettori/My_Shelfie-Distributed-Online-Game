@@ -221,8 +221,9 @@ public class PlayerTUI extends Player implements Serializable{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
-        drawAll();
+        //drawAll();
         System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        Game.waitForSeconds(standardTimer);
         waitForEvents();
     }
     /**
