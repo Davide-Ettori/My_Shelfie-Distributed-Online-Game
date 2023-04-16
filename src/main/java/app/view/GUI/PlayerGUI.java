@@ -477,7 +477,6 @@ public class PlayerGUI extends Player implements Serializable{
         pickCardsBtn.addActionListener(e -> tryToPickCards());
         libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
         libraryLabel.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
-        libraryLabel.setLayout(new GridBagLayout());
         libraryLabel.setLayout(null);
         insets = libraryLabel.getInsets();
         // fill library
