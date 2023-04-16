@@ -319,11 +319,7 @@ public class PlayerGUI extends Player implements Serializable{
             clone(p);
             new Thread(this::initGUI).start();
         }catch(Exception e){throw new RuntimeException(e);}
-        if(name.equals(chairmanName) && false) // condizione forzata ad essere falsa, vedremo se è giusta LASCIARE così per ora
-            //new Thread(this::waitForMove).start();
-            System.out.println("wait for move method missing");
-        else
-            new Thread(this::waitForEvents).start();
+        new Thread(this::waitForEvents).start();
     }
     /**
      * function used to wait for notification from the server while the player is NON active
@@ -811,6 +807,12 @@ public class PlayerGUI extends Player implements Serializable{
             library2Text.setText("Library of " + librariesOfOtherPlayers.get(1).name);
         if(numPlayers >= 4)
             library3Text.setText("Library of " + librariesOfOtherPlayers.get(2).name);
+
+        if(numPlayers < 4)
+            player3Panel.setVisible(false);
+        if(numPlayers < 3)
+            player2Panel.setVisible(false);
+
         JLabel tempLabel;
         JPanel tempPanel;
         insets = library1Label.getInsets();
