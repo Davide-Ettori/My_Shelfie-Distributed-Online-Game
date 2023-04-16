@@ -257,23 +257,23 @@ public class PlayerGUI extends Player implements Serializable{
         POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(PO_w, PO_h, Image.SCALE_SMOOTH)));
         POLabel.setPreferredSize(new Dimension(PO_w, PO_h));
 
-        POPanel = new JPanel( new GridBagLayout());
+        POPanel = new JPanel(new GridBagLayout());
         POTitle = new JTextField("Your private objective");
         POTitle.setEditable(false);
 
         CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
-        CO1Label.setLayout(new GridBagLayout());
+        CO1Label.setLayout(null);
         CO1Label.setPreferredSize(new Dimension(CO_w, CO_h));
 
-        CO1Panel = new JPanel( new GridBagLayout());
+        CO1Panel = new JPanel(new GridBagLayout());
         CO1Title = new JTextField("The first common objective");
         CO1Title.setEditable(false);
 
         CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
-        CO2Label.setLayout(new GridBagLayout());
+        CO2Label.setLayout(null);
         CO2Label.setPreferredSize(new Dimension(CO_w, CO_h));
 
-        CO2Panel = new JPanel( new GridBagLayout());
+        CO2Panel = new JPanel(new GridBagLayout());
         CO2Title = new JTextField("The second common objective");
         CO2Title.setEditable(false);
 
@@ -286,7 +286,7 @@ public class PlayerGUI extends Player implements Serializable{
         chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
 
-        ChairmanPanel = new JPanel( new GridBagLayout());
+        ChairmanPanel = new JPanel(new GridBagLayout());
         ChairmanTitle = new JTextField("Chairman Icon");
         ChairmanTitle.setEditable(false);
 
@@ -339,15 +339,11 @@ public class PlayerGUI extends Player implements Serializable{
         //SECOND LEVEL
         //CYAN
         internalPanelLow = new JPanel(new GridBagLayout());
+        Insets insets = CO1Label.getInsets();
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 100 + COPointsPadding_x;
-        gbc.ipady = 0;
-        gbc.anchor = LINE_END;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        CO1Label.add(pointsCO1Label,gbc);
+        CO1Label.add(pointsCO1Label);
+        pointsCO1Label.setBounds(insets.left + 90, insets.top + 30, pointsDim, pointsDim);
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -370,13 +366,12 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipadx = 100;
         gbc.ipady = 0;
         internalPanelLow.add(CO1Panel,gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.ipadx = 100 + COPointsPadding_x;
-        gbc.ipady = 0;
-        gbc.anchor = LINE_END;
-        gbc.weightx = 1.0;
-        CO2Label.add(pointsCO2Label,gbc);
+
+        insets = CO2Label.getInsets();
+
+        CO2Label.add(pointsCO2Label);
+        pointsCO2Label.setBounds(insets.left + 90, insets.top + 30, pointsDim, pointsDim);
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -491,7 +486,6 @@ public class PlayerGUI extends Player implements Serializable{
             library2Text.setText("Library of " + librariesOfOtherPlayers.get(1).name);
         if(numPlayers >= 4)
             library3Text.setText("Library of " + librariesOfOtherPlayers.get(2).name);
-        Insets insets;
         JLabel tempLabel;
         JPanel tempPanel;
         insets = library1Label.getInsets();
