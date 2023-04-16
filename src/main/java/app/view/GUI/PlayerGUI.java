@@ -235,7 +235,7 @@ public class PlayerGUI extends Player implements Serializable{
         if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
             alert("Invalid Selection");
         else{
-            activeName = ""; // non voglio poter più prendere carte
+            activeName = "..."; // non voglio poter più prendere carte
             pickCards(cards, col);
             updateGUI();
             boolean change_1 = checkCO();
