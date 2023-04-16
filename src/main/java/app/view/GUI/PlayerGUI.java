@@ -900,6 +900,7 @@ public class PlayerGUI extends Player implements Serializable{
                 updateInfo();
 
             sendDoneMove(); // mando la mossa al server
+            activeName = ""; // non voglio poter più prendere carte
             }
         for(int i = 0; i < cards.size(); i += 2)
             boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
