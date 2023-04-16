@@ -422,6 +422,7 @@ public class PlayerGUI extends Player implements Serializable{
         // fill the board
         JLabel tempLabel;
         JPanel tempPanel;
+        Insets insets;
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 tempLabel = new JLabel();
@@ -454,7 +455,7 @@ public class PlayerGUI extends Player implements Serializable{
                 boardLabel.add(tempPanel,gbc);
 
                 if(i == libFullX && j == libFullY){
-                    Insets insets = tempPanel.getInsets();
+                    insets = tempPanel.getInsets();
                     tempLabel.setBounds(insets.left + 4, insets.top, cardDimBoard, cardDimBoard);
                 }
 
@@ -497,15 +498,17 @@ public class PlayerGUI extends Player implements Serializable{
                 gbc.gridwidth = 1;
                 gbc.gridheight = 1;
 
+                tempPanel.setLayout(null);
                 tempPanel.add(tempLabel);
                 tempPanel.setPreferredSize(new Dimension(cardDimLibPrimary - 3, cardDimLibPrimary + 3));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
-                if(i == ROWS - 1) {
-                    tempLabel.setBorder(new EmptyBorder(0, 0, 50, 0));
-                }
 
                 libraryLabel.add(tempPanel,gbc);
+
+                insets = tempPanel.getInsets();
+                tempLabel.setBounds(insets.left + ((j - 2) * 8), insets.top - 26, cardDimLibPrimary - 3, cardDimLibPrimary + 3);
+
                 myLibraryCards[i][j] = tempLabel;
             }
         }
