@@ -998,6 +998,7 @@ public class PlayerGUI extends Player implements Serializable{
                 case CO_1 -> handleCO_1Event(msg);
                 case CO_2 -> handleCO_2Event(msg);
                 case LIB_FULL -> handleLibFullEvent(msg);
+                case STOP -> System.out.println("No thread to stop");
             }
         }catch(Exception e){throw new RuntimeException(e);}
     }
@@ -1047,7 +1048,7 @@ public class PlayerGUI extends Player implements Serializable{
         }
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board)jsonObject.get("board");
-        for(int i = 0; i < numPlayers; i++){
+        for(int i = 0; i < numPlayers - 1; i++){
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }

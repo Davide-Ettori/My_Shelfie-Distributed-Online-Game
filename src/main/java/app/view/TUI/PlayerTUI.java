@@ -217,7 +217,7 @@ public class PlayerTUI extends Player implements Serializable{
         }
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board)jsonObject.get("board");
-        for(int i = 0; i < numPlayers; i++){
+        for(int i = 0; i < numPlayers - 1; i++){
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
