@@ -1002,8 +1002,6 @@ public class PlayerGUI extends Player implements Serializable{
             for(int j = 0; j < DIM; j++){
                 int finalI = i;
                 int finalJ = j;
-                try{boardCards[i][j].removeMouseListener(boardCards[i][j].getMouseListeners()[0]);}
-                catch (Exception ignored){}
                 boardCards[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
