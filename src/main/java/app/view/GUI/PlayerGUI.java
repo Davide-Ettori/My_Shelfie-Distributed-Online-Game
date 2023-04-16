@@ -240,6 +240,362 @@ public class PlayerGUI extends Player implements Serializable{
         return -1;
     }
     /**
+     * method that reads the cards chosen and the column chosen, then it tries to pick the cards (if possible)
+     * @author Ettori
+     */
+    private void tryToPickCards(){
+        ArrayList<Integer> cards = new ArrayList<>(cardsPicked);
+        cardsPicked = new ArrayList<>();
+        int col;
+        try{col = Integer.parseInt(chooseColText.getText());}
+        catch (Exception e){
+            alert("Invalid Selection");
+            chooseColText.setText("");
+            for(int i = 0; i < cards.size(); i += 2)
+                boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
+            return;
+        }
+        chooseColText.setText("");
+        if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
+            alert("Invalid Selection");
+        else{
+            pickCards(cards, col);
+            updateGUI();
+            boolean change_1 = checkCO();
+            boolean change_2 = checkLibFull();
+            if(change_1 || change_2)
+                updateInfo();
+
+            sendDoneMove(); // mando la mossa al server
+            activeName = ""; // non voglio poter più prendere carte
+            }
+        for(int i = 0; i < cards.size(); i += 2)
+            boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
+    }
+    /**
+     * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
+     * @author Ettori
+     */
+    private void showChooseNameWindow(){
+        JFrame frame;
+        JPanel panel;
+        JButton sendBtn;
+        JTextField textInput;
+        frame = new JFrame(); // creo la finestra
+
+        sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
+        textInput = new JTextField(20); // textbox input dall'utente
+
+        textInput.setBounds(100, 20, 165, 25);
+        textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
+
+        sendBtn.addActionListener((event) ->{ // funzione di event listener
+            NameStatus status;
+            name = textInput.getText();
+            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names")){
+                alert("Name invalid, choose another name"); // vedi JavaDoc di alert
+                textInput.setText("");
+                return;
+            }
+            try {
+                outStream.writeObject(name);
+                status = (NameStatus) inStream.readObject();
+            }catch(Exception e){throw new RuntimeException(e);};
+
+            if(status == NOT_TAKEN){
+                alert("\nName: '" + name + "' accepted by the server!");
+                //System.exit(0);
+                try {
+                    outStream.writeObject(netMode);
+                    outStream.writeObject(uiMode);
+                }catch(Exception e){throw new RuntimeException(e);}
+                getInitialState(); // partire a lavorare da questa funzione in poi
+                frame.setVisible(false);
+                return;
+            }
+            alert("Name Taken, choose another name");
+            textInput.setText("");
+        });
+
+        panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
+        panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
+        panel.setLayout(new GridLayout(2,1)); // griglia con 1 riga e 2 colonne
+
+        panel.add(textInput); // Aggiunge i componenti in ordine di griglia: tutta la prima riga, tutta la seconda, ecc. (sx -> dx)
+        panel.add(sendBtn);
+
+        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Window for Choosing the name");
+        frame.pack(); // preparo la finestra
+        frame.setVisible(true); // mostro il tutto a schermo, GUI
+    }
+    /**
+     * Receive the status of the player from the server and attend the start of the game
+     * @author Ettori Faccincani
+     */
+    private void getInitialState(){
+        // da qui in poi bisogna lavorarci
+        PlayerGUI p;
+        try {
+            alert("Be patient, the game will start soon...");
+            p = new PlayerGUI((Player)inStream.readObject());
+            clone(p);
+            new Thread(this::initGUI).start();
+        }catch(Exception e){throw new RuntimeException(e);}
+        if(name.equals(chairmanName) && false) // condizione forzata ad essere falsa, vedremo se è giusta LASCIARE così per ora
+            //new Thread(this::waitForMove).start();
+            System.out.println("wait for move method missing");
+        else
+            new Thread(this::waitForEvents).start();
+    }
+    /**
+     * function used to wait for notification from the server while the player is NON active
+     * @author Ettori Faccincani
+     */
+    private void waitForEvents(){ // funzione principale di attesa
+        try {
+            Message msg = (Message) inStream.readObject();
+            switch (msg.getType()) {
+                case YOUR_TURN -> handleYourTurnEvent();
+                case CHANGE_TURN -> handleChangeTurnEvent(msg);
+                case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+                case UPDATE_GAME -> handleUpdateGameEvent(msg);
+                case FINAL_SCORE -> handleFinalScoreEvent(msg);
+                case CHAT -> handleChatEvent(msg);
+                case CO_1 -> handleCO_1Event(msg);
+                case CO_2 -> handleCO_2Event(msg);
+                case LIB_FULL -> handleLibFullEvent(msg);
+                case STOP -> System.out.println("No thread to stop");
+            }
+        }catch(Exception e){throw new RuntimeException(e);}
+    }
+    /**
+     * helper function for handling the turn event notification from the server
+     * @author Ettori
+     */
+    private void handleYourTurnEvent(){
+        activeName = name;
+        if(board.isBoardUnplayable())
+            fixUnplayableBoard();
+        updateInfo();
+        waitForEvents();
+    }
+    /**
+     * helper function for handling the change event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleChangeTurnEvent(Message msg){
+        activeName = (String) msg.getContent();
+        updateInfo();
+        waitForEvents();
+    }
+    /**
+     * helper function for handling the unplayble board fixing event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleUpdateUnplayableEvent(Message msg){
+        JSONObject jsonObject = (JSONObject) msg.getContent();
+        board = (Board) jsonObject.get("board");
+        updateBoard();
+        alert("\nBoard updated because it was unplayable");
+        waitForEvents();
+    }
+    /**
+     * helper function for handling the update game notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleUpdateGameEvent(Message msg){
+        try {
+            outStream.writeObject(new Message(STOP, null, null));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        JSONObject jsonObject = (JSONObject) msg.getContent();
+        board = (Board)jsonObject.get("board");
+        for(int i = 0; i < numPlayers - 1; i++){
+            if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
+                librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
+        }
+        updateBoard();
+        updateOtherLibraries();
+        alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        waitForEvents();
+    }
+    /**
+     * helper function for handling the final score calculation event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleFinalScoreEvent(Message msg){
+        alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
+        Game.waitForSeconds(5);
+        System.exit(0); // il gioco finisce e tutto si chiude forzatamente
+    }
+    /**
+     * helper function for handling the chat message event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleChatEvent(Message msg){
+        fullChat += msg.getContent();
+        updateInfo();
+        waitForEvents();
+    }
+    /**
+     * helper function for handling the achievement of the first common objective event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleCO_1Event(Message msg){
+        alert(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+        Game.waitForSeconds(2.5);
+        waitForEvents();
+    }
+    /**
+     * helper function for handling the achievement of the second common objective event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleCO_2Event(Message msg){
+        alert(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
+        Game.waitForSeconds(2.5);
+        waitForEvents();
+    }
+    /**
+     * helper function for handling the completion of the library event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleLibFullEvent(Message msg){
+        alert(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+        Game.waitForSeconds(2.5);
+        endGame = true;
+        waitForEvents();
+    }
+    private boolean checkCO(){
+        int points, lastIndex;
+        boolean change = false;
+        try {
+            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
+                lastIndex = board.pointsCO_1.size() - 1;
+                points = board.pointsCO_1.get(lastIndex);
+                board.pointsCO_1.remove(lastIndex);
+                pointsUntilNow += points;
+                CO_1_Done = true;
+                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
+                alert("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
+                Game.waitForSeconds(2.5);
+                change = true;
+            }
+            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
+                lastIndex = board.pointsCO_2.size() - 1;
+                points = board.pointsCO_2.get(lastIndex);
+                board.pointsCO_2.remove(lastIndex);
+                pointsUntilNow += points;
+                CO_2_Done = true;
+                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
+                alert("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
+                Game.waitForSeconds(2.5);
+                change = true;
+            }
+        }catch(Exception e){throw new RuntimeException(e);}
+        return change;
+    }
+    /**
+     * method that checks if the current player completed his library, and in that case notify all the other players (and add 1 point)
+     * @author Ettori
+     * @return true iff the library was completed
+     */
+    private boolean checkLibFull(){
+        try {
+            if (library.isFull() && !endGame) {
+                endGame = true;
+                pointsUntilNow++;
+                outStream.writeObject(new Message(LIB_FULL, name, null));
+                alert("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
+                Game.waitForSeconds(2.5);
+                return true;
+            }
+        }catch (Exception e){throw new RuntimeException(e);}
+        return false;
+    }
+    /**
+     * helper method which update the board when it becomes unplayable (also notify other players)
+     * @author Ettori
+     */
+    private void fixUnplayableBoard(){
+        board.fillBoard(numPlayers);
+        updateGUI();
+        alert("\nBoard updated because it was unplayble");
+        try {
+            boardStatus = new JSONObject();
+            boardStatus.put("board", board);
+            outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
+        }catch (Exception e){throw new RuntimeException(e);}
+    }
+    /**
+     * method that sends the last move done by the current player to all other clients (after the move is done on this player)
+     * @author Ettori
+     */
+    private void sendDoneMove(){
+        gameStatus = new JSONObject();
+        playerStatus = new JSONObject();
+        alert("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
+        gameStatus.put("board", new Board(board));
+        gameStatus.put("library", new Library(library));
+
+        try {
+            outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
+            state = NOT_ACTIVE;
+            Game.waitForSeconds(5); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+            new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
+                try {
+                    Game.waitForSeconds(1);
+                    playerStatus.put("player", new Player(this));
+                    outStream.writeObject(new Message(END_TURN, name, playerStatus));
+                }catch (Exception e){throw new RuntimeException(e);}
+            }).start();
+
+        }catch(Exception e){throw new RuntimeException(e);}
+
+        waitForEvents();
+    }
+    /**
+     * Send with socket network the message of the chat to the right players
+     * @author Ettori
+     */
+    public void sendChatMsg(){
+        String dest = insertPlayer.getText();
+        String msg = insertMessage.getText();
+        insertPlayer.setText("");
+        insertMessage.setText("");
+
+        msg = name + " says: " + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
+
+        if(!doesPlayerExists(dest) && !dest.equals("all")) {
+            alert("\nThe name chosen does not exists");
+            return;
+        }
+        if(dest.equals(name)){
+            alert("\nYou can't send chat messages to yourself");
+            return;
+        }
+        fullChat += msg;
+        tempChatHistory.setText(fullChat);
+        try{
+            outStream.writeObject(new Message(CHAT, dest, msg));
+        }catch(Exception e){throw new RuntimeException(e);}
+    }
+    /**
+     * helper function for alerting a message to the user (pop-up)
+     * @param s the string og the message to show
+     */
+    private void alert(String s){showMessageDialog(null, s);}
+    /**
      * Function that initialize all the GUI
      * @author Ettori Faccincani Giammusso
      */
@@ -866,366 +1222,4 @@ public class PlayerGUI extends Player implements Serializable{
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }
-    /**
-     * method that reads the cards chosen and the column chosen, then it tries to pick the cards (if possible)
-     * @author Ettori
-     */
-    private void tryToPickCards(){
-        ArrayList<Integer> cards = new ArrayList<>(cardsPicked);
-        cardsPicked = new ArrayList<>();
-        int col;
-        try{col = Integer.parseInt(chooseColText.getText());}
-        catch (Exception e){
-            alert("Invalid Selection");
-            chooseColText.setText("");
-            for(int i = 0; i < cards.size(); i += 2)
-                boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
-            return;
-        }
-        chooseColText.setText("");
-        if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
-            alert("Invalid Selection");
-        else{
-            pickCards(cards, col);
-            updateGUI();
-            boolean change_1 = checkCO();
-            boolean change_2 = checkLibFull();
-            if(change_1 || change_2)
-                updateInfo();
-
-            sendDoneMove(); // mando la mossa al server
-            activeName = ""; // non voglio poter più prendere carte
-            }
-        for(int i = 0; i < cards.size(); i += 2)
-            boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
-    }
-    /**
-     * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
-     * @author Ettori
-     */
-    private void showChooseNameWindow(){
-        JFrame frame;
-        JPanel panel;
-        JButton sendBtn;
-        JTextField textInput;
-        frame = new JFrame(); // creo la finestra
-
-        sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
-        textInput = new JTextField(20); // textbox input dall'utente
-
-        textInput.setBounds(100, 20, 165, 25);
-        textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
-
-        sendBtn.addActionListener((event) ->{ // funzione di event listener
-            NameStatus status;
-            name = textInput.getText();
-            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names")){
-                alert("Name invalid, choose another name"); // vedi JavaDoc di alert
-                textInput.setText("");
-                return;
-            }
-            try {
-                outStream.writeObject(name);
-                status = (NameStatus) inStream.readObject();
-            }catch(Exception e){throw new RuntimeException(e);};
-
-            if(status == NOT_TAKEN){
-                alert("\nName: '" + name + "' accepted by the server!");
-                //System.exit(0);
-                try {
-                    outStream.writeObject(netMode);
-                    outStream.writeObject(uiMode);
-                }catch(Exception e){throw new RuntimeException(e);}
-                getInitialState(); // partire a lavorare da questa funzione in poi
-                frame.setVisible(false);
-                return;
-            }
-            alert("Name Taken, choose another name");
-            textInput.setText("");
-        });
-
-        panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
-        panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
-        panel.setLayout(new GridLayout(2,1)); // griglia con 1 riga e 2 colonne
-
-        panel.add(textInput); // Aggiunge i componenti in ordine di griglia: tutta la prima riga, tutta la seconda, ecc. (sx -> dx)
-        panel.add(sendBtn);
-
-        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Window for Choosing the name");
-        frame.pack(); // preparo la finestra
-        frame.setVisible(true); // mostro il tutto a schermo, GUI
-    }
-    /**
-     * Receive the status of the player from the server and attend the start of the game
-     * @author Ettori Faccincani
-     */
-    private void getInitialState(){
-        // da qui in poi bisogna lavorarci
-        PlayerGUI p;
-        try {
-            alert("Be patient, the game will start soon...");
-            p = new PlayerGUI((Player)inStream.readObject());
-            clone(p);
-            new Thread(this::initGUI).start();
-        }catch(Exception e){throw new RuntimeException(e);}
-        if(name.equals(chairmanName) && false) // condizione forzata ad essere falsa, vedremo se è giusta LASCIARE così per ora
-            //new Thread(this::waitForMove).start();
-            System.out.println("wait for move method missing");
-        else
-            new Thread(this::waitForEvents).start();
-    }
-    /**
-     * function used to wait for notification from the server while the player is NON active
-     * @author Ettori Faccincani
-     */
-    private void waitForEvents(){ // funzione principale di attesa
-        try {
-            Message msg = (Message) inStream.readObject();
-            switch (msg.getType()) {
-                case YOUR_TURN -> handleYourTurnEvent();
-                case CHANGE_TURN -> handleChangeTurnEvent(msg);
-                case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
-                case UPDATE_GAME -> handleUpdateGameEvent(msg);
-                case FINAL_SCORE -> handleFinalScoreEvent(msg);
-                case CHAT -> handleChatEvent(msg);
-                case CO_1 -> handleCO_1Event(msg);
-                case CO_2 -> handleCO_2Event(msg);
-                case LIB_FULL -> handleLibFullEvent(msg);
-                case STOP -> System.out.println("No thread to stop");
-            }
-        }catch(Exception e){throw new RuntimeException(e);}
-    }
-    /**
-     * helper function for handling the turn event notification from the server
-     * @author Ettori
-     */
-    private void handleYourTurnEvent(){
-        activeName = name;
-        if(board.isBoardUnplayable())
-            fixUnplayableBoard();
-        updateInfo();
-        waitForEvents();
-    }
-    /**
-     * helper function for handling the change event notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleChangeTurnEvent(Message msg){
-        activeName = (String) msg.getContent();
-        updateInfo();
-        waitForEvents();
-    }
-    /**
-     * helper function for handling the unplayble board fixing event notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleUpdateUnplayableEvent(Message msg){
-        JSONObject jsonObject = (JSONObject) msg.getContent();
-        board = (Board) jsonObject.get("board");
-        updateBoard();
-        alert("\nBoard updated because it was unplayable");
-        waitForEvents();
-    }
-    /**
-     * helper function for handling the update game notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleUpdateGameEvent(Message msg){
-        try {
-            outStream.writeObject(new Message(STOP, null, null));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        JSONObject jsonObject = (JSONObject) msg.getContent();
-        board = (Board)jsonObject.get("board");
-        for(int i = 0; i < numPlayers - 1; i++){
-            if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
-        }
-        updateBoard();
-        updateOtherLibraries();
-        alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        waitForEvents();
-    }
-    /**
-     * helper function for handling the final score calculation event notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleFinalScoreEvent(Message msg){
-        alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        Game.waitForSeconds(5);
-        System.exit(0); // il gioco finisce e tutto si chiude forzatamente
-    }
-    /**
-     * helper function for handling the chat message event notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleChatEvent(Message msg){
-        fullChat += msg.getContent();
-        updateInfo();
-        waitForEvents();
-    }
-    /**
-     * helper function for handling the achievement of the first common objective event notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleCO_1Event(Message msg){
-        alert(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
-        Game.waitForSeconds(2.5);
-        waitForEvents();
-    }
-    /**
-     * helper function for handling the achievement of the second common objective event notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleCO_2Event(Message msg){
-        alert(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
-        Game.waitForSeconds(2.5);
-        waitForEvents();
-    }
-    /**
-     * helper function for handling the completion of the library event notification from the server
-     * @author Ettori
-     * @param msg the message containing the necessary information for reacting to the event
-     */
-    private void handleLibFullEvent(Message msg){
-        alert(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
-        Game.waitForSeconds(2.5);
-        endGame = true;
-        waitForEvents();
-    }
-    private boolean checkCO(){
-        int points, lastIndex;
-        boolean change = false;
-        try {
-            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
-                lastIndex = board.pointsCO_1.size() - 1;
-                points = board.pointsCO_1.get(lastIndex);
-                board.pointsCO_1.remove(lastIndex);
-                pointsUntilNow += points;
-                CO_1_Done = true;
-                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
-                alert("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(2.5);
-                change = true;
-            }
-            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
-                lastIndex = board.pointsCO_2.size() - 1;
-                points = board.pointsCO_2.get(lastIndex);
-                board.pointsCO_2.remove(lastIndex);
-                pointsUntilNow += points;
-                CO_2_Done = true;
-                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
-                alert("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(2.5);
-                change = true;
-            }
-        }catch(Exception e){throw new RuntimeException(e);}
-        return change;
-    }
-    /**
-     * method that checks if the current player completed his library, and in that case notify all the other players (and add 1 point)
-     * @author Ettori
-     * @return true iff the library was completed
-     */
-    private boolean checkLibFull(){
-        try {
-            if (library.isFull() && !endGame) {
-                endGame = true;
-                pointsUntilNow++;
-                outStream.writeObject(new Message(LIB_FULL, name, null));
-                alert("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
-                Game.waitForSeconds(2.5);
-                return true;
-            }
-        }catch (Exception e){throw new RuntimeException(e);}
-        return false;
-    }
-    /**
-     * helper method which update the board when it becomes unplayable (also notify other players)
-     * @author Ettori
-     */
-    private void fixUnplayableBoard(){
-        board.fillBoard(numPlayers);
-        updateGUI();
-        alert("\nBoard updated because it was unplayble");
-        try {
-            boardStatus = new JSONObject();
-            boardStatus.put("board", board);
-            outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
-        }catch (Exception e){throw new RuntimeException(e);}
-    }
-    /**
-     * method that sends the last move done by the current player to all other clients (after the move is done on this player)
-     * @author Ettori
-     */
-    private void sendDoneMove(){
-        gameStatus = new JSONObject();
-        playerStatus = new JSONObject();
-        alert("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
-        gameStatus.put("board", new Board(board));
-        gameStatus.put("library", new Library(library));
-
-        try {
-            outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
-            state = NOT_ACTIVE;
-            Game.waitForSeconds(5); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
-            new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
-                try {
-                    Game.waitForSeconds(1);
-                    playerStatus.put("player", new Player(this));
-                    outStream.writeObject(new Message(END_TURN, name, playerStatus));
-                }catch (Exception e){throw new RuntimeException(e);}
-            }).start();
-
-        }catch(Exception e){throw new RuntimeException(e);}
-
-        waitForEvents();
-    }
-    /**
-     * Send with socket network the message of the chat to the right players
-     * @author Ettori
-     */
-    public void sendChatMsg(){
-        String dest = insertPlayer.getText();
-        String msg = insertMessage.getText();
-        insertPlayer.setText("");
-        insertMessage.setText("");
-
-        msg = name + " says: " + msg + " (to " + dest + ") at " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()) + "\n";
-
-        if(!doesPlayerExists(dest) && !dest.equals("all")) {
-            alert("\nThe name chosen does not exists");
-            return;
-        }
-        if(dest.equals(name)){
-            alert("\nYou can't send chat messages to yourself");
-            return;
-        }
-        fullChat += msg;
-        tempChatHistory.setText(fullChat);
-        try{
-            outStream.writeObject(new Message(CHAT, dest, msg));
-        }catch(Exception e){throw new RuntimeException(e);}
-    }
-    /**
-     * helper function for alerting a message to the user (pop-up)
-     * @param s the string og the message to show
-     */
-    private void alert(String s){showMessageDialog(null, s);}
-
-    /**
-     * helper function for closing a Swing GUI window
-     * @param frame the window to close
-     */
-    private void closeWindow(JFrame frame){frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));}
 }
