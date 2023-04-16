@@ -11,7 +11,7 @@ public class Dimensions {
     public static final int libPrimaryDim = 300;
     public static final int boardDim = 400; // every card is 400 / 9 = 44.44, approximately 44 pixels
     public static final int cardDimBoard = 400 / 10 - 2;
-    public static final int cardDimLibPrimary = cardDimBoard;
+    public static final int cardDimLibPrimary = cardDimBoard - 2;
     public static final int cardDimLibSecondary = cardDimBoard * (libSecondaryDim / 5) / (libPrimaryDim / 5); //should be circa 35 pixels
     public static final int textCols = 30;
     public static final int btnW = 200;

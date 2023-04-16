@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import playground.socket.Server;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -119,7 +120,14 @@ public class PlayerGUI extends Player implements Serializable{
      * method that update the library of the active player
      * @author Ettori
      */
-    private void updateMyLibrary(){}
+    private void updateMyLibrary(){
+        for(int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != EMPTY);
+            }
+        }
+    }
     /**
      * method that update the libraries of all the player except the one which is active
      * @author Ettori
@@ -411,7 +419,7 @@ public class PlayerGUI extends Player implements Serializable{
         boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH)));
         boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
         boardLabel.setLayout(new GridBagLayout());
-
+        // fill the board
         JLabel tempLabel;
         JPanel tempPanel;
         for(int i = 0; i < DIM; i++){
@@ -419,7 +427,6 @@ public class PlayerGUI extends Player implements Serializable{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setIcon(new ImageIcon(new ImageIcon("assets/item tiles/Gatti1.1.png").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
                 tempLabel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
                 tempLabel.setVisible(false);
 
@@ -460,14 +467,49 @@ public class PlayerGUI extends Player implements Serializable{
         //Text on top of my library
         myLibraryText = new JTextArea("Your personal Library (" + name + ")");
         myLibraryText.setEditable(false);
-        chooseColText = new JTextField(textCols);
+        chooseColText = new JTextField(textCols / 3);
         chooseColText.setText("Insert the column: ");
+        chooseColText.setText("");
+        chooseColText.addActionListener(event -> pickCardsBtn.doClick());
         pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
         pickCardsBtn.addActionListener(e -> tryToPickCards());
-        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimaryDim, libPrimaryDim, Image.SCALE_SMOOTH)));
-        libraryLabel.setPreferredSize(new Dimension(libPrimaryDim, libPrimaryDim));
+        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimaryDim - 50, libPrimaryDim - 50, Image.SCALE_SMOOTH)));
+        libraryLabel.setPreferredSize(new Dimension(libPrimaryDim - 50, libPrimaryDim - 50));
         libraryLabel.setLayout(new GridBagLayout());
+        // fill library
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
+                tempLabel = new JLabel();
+                tempPanel = new JPanel();
+
+                tempLabel.setPreferredSize(new Dimension(cardDimLibPrimary - 3, cardDimLibPrimary + 3));
+                tempLabel.setVisible(false);
+
+                gbc.insets = new Insets(0,0,0,0);
+
+                gbc.gridx = j;
+                gbc.gridy = i;
+                gbc.ipadx = 0;
+                gbc.ipady = 0;
+                gbc.weightx = 0.0;
+                gbc.weighty = 0.0;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+
+                tempPanel.add(tempLabel);
+                tempPanel.setPreferredSize(new Dimension(cardDimLibPrimary - 3, cardDimLibPrimary + 3));
+                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
+                tempPanel.setOpaque(false);
+                if(i == ROWS - 1) {
+                    tempLabel.setBorder(new EmptyBorder(0, 0, 50, 0));
+                }
+
+                libraryLabel.add(tempPanel,gbc);
+                myLibraryCards[i][j] = tempLabel;
+            }
+        }
+        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
         chatPanel = new JPanel(new GridBagLayout());
         chatTitle = new JTextArea("Chat history of the Game");
         chatTitle.setEditable(false);
@@ -476,6 +518,7 @@ public class PlayerGUI extends Player implements Serializable{
         chatHistory = new JScrollPane(tempChatHistory);
         insertMessage = new JTextField(textCols);
         insertMessage.setText("Insert the message: ");
+        insertMessage.addActionListener(event -> sendMessageBtn.doClick());
         insertPlayer = new JTextField(textCols);
         insertPlayer.setText("Insert the player: ");
         sendMessageBtn = new JButton("Send Message");
@@ -516,7 +559,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
+        gbc.weightx = 1.0;
         gbc.weighty = 0.6;
         myLibraryPanel.add(libraryLabel,gbc);
         gbc.gridx = 0;
