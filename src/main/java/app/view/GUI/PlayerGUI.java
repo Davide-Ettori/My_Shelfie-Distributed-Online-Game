@@ -475,9 +475,11 @@ public class PlayerGUI extends Player implements Serializable{
         pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
         pickCardsBtn.addActionListener(e -> tryToPickCards());
-        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimaryDim, libPrimaryDim, Image.SCALE_SMOOTH)));
-        libraryLabel.setPreferredSize(new Dimension(libPrimaryDim, libPrimaryDim));
+        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
+        libraryLabel.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
         libraryLabel.setLayout(new GridBagLayout());
+        libraryLabel.setLayout(null);
+        insets = libraryLabel.getInsets();
         // fill library
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
@@ -487,28 +489,14 @@ public class PlayerGUI extends Player implements Serializable{
                 tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
                 tempLabel.setVisible(false);
 
-                gbc.insets = new Insets(0,0,0,0);
-
-                gbc.gridx = j;
-                gbc.gridy = i;
-                gbc.ipadx = 0;
-                gbc.ipady = 0;
-                gbc.weightx = 0.0;
-                gbc.weighty = 0.0;
-                gbc.gridwidth = 1;
-                gbc.gridheight = 1;
-
-                tempPanel.setLayout(null);
                 tempPanel.add(tempLabel);
                 tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
+                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+
                 libraryLabel.add(tempPanel,gbc);
-
-                insets = tempPanel.getInsets();
-                tempLabel.setBounds(insets.left + ((j - 2) * 8), insets.top - 26, cardLibPrimary_w, cardLibPrimary_h);
-
                 myLibraryCards[i][j] = tempLabel;
             }
         }
