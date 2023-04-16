@@ -290,9 +290,9 @@ public class PlayerTUI extends Player implements Serializable{
 
         drawAll();
 
-        boolean change = checkCO();
-        change = change || checkLibFull();
-        if(change)
+        boolean change_1 = checkCO();
+        boolean change_2 = checkLibFull();
+        if(change_1 || change_2)
             drawAll();
 
         stopChatThread();

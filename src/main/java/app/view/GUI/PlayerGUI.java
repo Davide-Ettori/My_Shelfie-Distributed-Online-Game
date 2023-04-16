@@ -4,22 +4,17 @@ import app.IP;
 import app.controller.*;
 import app.model.*;
 
-import app.model.Color;
-import app.view.Dimensions;
-import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 import playground.socket.Server;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
-import java.security.interfaces.EdECKey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -93,11 +88,9 @@ public class PlayerGUI extends Player implements Serializable{
                 boardCards[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        //System.out.println(activeName);
-                        if(board.getGameBoard()[finalI][finalJ].color == EMPTY || !name.equals(activeName))
+                        if(board.getGameBoard()[finalI][finalJ].color == EMPTY || !name.equals(activeName) || board.isBoardUnplayable())
                             return;
                         int index = getCardIndex(finalI, finalJ);
-                        //System.out.println(index + " - " + cardsPicked.size());
                         if(index == -1){
                             if(cardsPicked.size() == 6)
                                 return;
@@ -180,7 +173,6 @@ public class PlayerGUI extends Player implements Serializable{
         POTitle.setEditable(false);
 
         CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
-        //CO1Label.setIcon(); setta la nuova immagine a runtime
         CO1Label.setLayout(new GridBagLayout());
         CO1Label.setPreferredSize(new Dimension(CO_w, CO_h));
 
@@ -748,6 +740,12 @@ public class PlayerGUI extends Player implements Serializable{
         else{
             pickCards(cards, col);
             updateGUI();
+            boolean change_1 = checkCO();
+            boolean change_2 = checkLibFull();
+            if(change_1 || change_2)
+                updateInfo();
+
+            sendDoneMove();
             // da qui continua --> devi mandare la mossa fatta al server
             }
         for(int i = 0; i < cards.size(); i += 2)
@@ -890,7 +888,7 @@ public class PlayerGUI extends Player implements Serializable{
             clone(p);
             new Thread(this::initGUI).start();
         }catch(Exception e){throw new RuntimeException(e);}
-        if(name.equals(chairmanName))
+        if(name.equals(chairmanName) && false) // condizione forzata ad essere falsa, vedremo se è giusta LASCIARE così per ora
             new Thread(this::waitForMove).start();
         else
             new Thread(this::waitForEvents).start();
@@ -921,8 +919,10 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleYourTurnEvent(){
         activeName = name;
-        updateGUI();
-        waitForMove();
+        if(board.isBoardUnplayable())
+            fixUnplayableBoard();
+        updateInfo();
+        waitForEvents();
     }
     /**
      * helper function for handling the change event notification from the server
@@ -931,7 +931,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleChangeTurnEvent(Message msg){
         activeName = (String) msg.getContent();
-        updateGUI();
+        updateInfo();
         waitForEvents();
     }
     /**
@@ -942,7 +942,7 @@ public class PlayerGUI extends Player implements Serializable{
     private void handleUpdateUnplayableEvent(Message msg){
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board) jsonObject.get("board");
-        updateGUI();
+        updateBoard();
         alert("\nBoard updated because it was unplayable");
         waitForEvents();
     }
@@ -963,7 +963,8 @@ public class PlayerGUI extends Player implements Serializable{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
-        updateGUI();
+        updateBoard();
+        updateOtherLibraries();
         alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         waitForEvents();
     }
@@ -984,7 +985,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleChatEvent(Message msg){
         fullChat += msg.getContent();
-        updateGUI();
+        updateInfo();
         waitForEvents();
     }
     /**
