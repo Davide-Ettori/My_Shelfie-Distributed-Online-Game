@@ -51,9 +51,9 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private transient JFrame mainFrame;
-    private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, generalPanel;
+    private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, generalPanel, CO1Panel, CO2Panel, POPanel, ChairmanPanel;
     private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, endGameLabel;
-    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer;
+    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, ChairmanTitle;
     private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
     private transient JScrollPane chatHistory;
     private transient JButton pickCardsBtn, sendMessageBtn;
@@ -174,22 +174,27 @@ public class PlayerGUI extends Player implements Serializable{
 
         POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(PO_w, PO_h, Image.SCALE_SMOOTH)));
         POLabel.setPreferredSize(new Dimension(PO_w, PO_h));
-        POLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e){
-                chairmanInfo.setText("prova");
-                POLabel.setBorder(BorderFactory.createLineBorder(RED, 2));
-            }
-        });
+
+        POPanel = new JPanel( new GridBagLayout());
+        POTitle = new JTextField("Your private objective");
+        POTitle.setEditable(false);
 
         CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
         //CO1Label.setIcon(); setta la nuova immagine a runtime
         CO1Label.setLayout(new GridBagLayout());
         CO1Label.setPreferredSize(new Dimension(CO_w, CO_h));
 
+        CO1Panel = new JPanel( new GridBagLayout());
+        CO1Title = new JTextField("The first common objective");
+        CO1Title.setEditable(false);
+
         CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
         CO2Label.setLayout(new GridBagLayout());
         CO2Label.setPreferredSize(new Dimension(CO_w, CO_h));
+
+        CO2Panel = new JPanel( new GridBagLayout());
+        CO2Title = new JTextField("The second common objective");
+        CO2Title.setEditable(false);
 
         pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
         pointsCO1Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
@@ -199,6 +204,10 @@ public class PlayerGUI extends Player implements Serializable{
 
         chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
+
+        ChairmanPanel = new JPanel( new GridBagLayout());
+        ChairmanTitle = new JTextField("Chairman Icon");
+        ChairmanTitle.setEditable(false);
 
         infoBox = new JPanel(new GridBagLayout());
         chairmanInfo = new JTextField(textCols - 5);
@@ -258,13 +267,28 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         CO1Label.add(pointsCO1Label,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.anchor = CENTER;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        CO1Panel.add(CO1Title, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        CO1Panel.add(CO1Label,gbc);
         gbc.weightx = 0.2;
         gbc.anchor = CENTER;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        internalPanelLow.add(CO1Label,gbc);
+        internalPanelLow.add(CO1Panel,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 100 + COPointsPadding_x;
@@ -272,25 +296,70 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.anchor = LINE_END;
         gbc.weightx = 1.0;
         CO2Label.add(pointsCO2Label,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.anchor = CENTER;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        CO2Panel.add(CO2Title, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        CO2Panel.add(CO2Label,gbc);
         gbc.anchor = CENTER;
         gbc.weightx = 0.2;
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        internalPanelLow.add(CO2Label,gbc);
+        internalPanelLow.add(CO2Panel,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.anchor = CENTER;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        POPanel.add(POTitle, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        POPanel.add(POLabel,gbc);
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
         gbc.weightx = 0.2;
-        internalPanelLow.add(POLabel, gbc);
+        internalPanelLow.add(POPanel, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.anchor = CENTER;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        ChairmanPanel.add(ChairmanTitle, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        ChairmanPanel.add(chairmanLabel,gbc);
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
         gbc.weightx = 0.2;
-        internalPanelLow.add(chairmanLabel, gbc);
+        internalPanelLow.add(ChairmanPanel, gbc);
         gbc.gridx = 4;
         gbc.gridy = 0;
         gbc.ipadx = 100;
@@ -716,7 +785,7 @@ public class PlayerGUI extends Player implements Serializable{
     public PlayerGUI(NetMode mode, UIMode ui) { // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
-        alert("\nSoon you will need to enter your nickname for the game");
+        //alert("\nSoon you will need to enter your nickname for the game");
         try {
             mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
