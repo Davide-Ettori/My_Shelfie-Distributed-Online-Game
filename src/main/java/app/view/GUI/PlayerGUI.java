@@ -147,30 +147,6 @@ public class PlayerGUI extends Player implements Serializable{
                     continue;
                 boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
                 boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
-                int finalI = i;
-                int finalJ = j;
-                try{boardCards[i][j].removeMouseListener(boardCards[i][j].getMouseListeners()[0]);}
-                catch (Exception ignored){}
-                boardCards[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if(board.getGameBoard()[finalI][finalJ].color == EMPTY || !name.equals(activeName) || board.isBoardUnplayable())
-                            return;
-                        int index = getCardIndex(finalI, finalJ);
-                        if(index == -1){
-                            if(cardsPicked.size() == 6)
-                                return;
-                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 2));
-                            cardsPicked.add(finalI);
-                            cardsPicked.add(finalJ);
-                        }
-                        else{
-                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 0));
-                            cardsPicked.remove(index);
-                            cardsPicked.remove(index);
-                        }
-                    }
-                });
             }
         }
         boardCards[libFullX][libFullY].setVisible(pointsUntilNow % 2 == 1); // solito trucchetto
@@ -1021,6 +997,36 @@ public class PlayerGUI extends Player implements Serializable{
                 boardCards[i][j] = tempLabel;
             }
         }
+
+        for(int i = 0; i < DIM; i++){
+            for(int j = 0; j < DIM; j++){
+                int finalI = i;
+                int finalJ = j;
+                try{boardCards[i][j].removeMouseListener(boardCards[i][j].getMouseListeners()[0]);}
+                catch (Exception ignored){}
+                boardCards[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(board.getGameBoard()[finalI][finalJ].color == EMPTY || !name.equals(activeName) || board.isBoardUnplayable())
+                            return;
+                        int index = getCardIndex(finalI, finalJ);
+                        if(index == -1){
+                            if(cardsPicked.size() == 6)
+                                return;
+                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 2));
+                            cardsPicked.add(finalI);
+                            cardsPicked.add(finalJ);
+                        }
+                        else{
+                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 0));
+                            cardsPicked.remove(index);
+                            cardsPicked.remove(index);
+                        }
+                    }
+                });
+            }
+        }
+
         boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
         gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
         myLibraryPanel = new JPanel(new GridBagLayout());
