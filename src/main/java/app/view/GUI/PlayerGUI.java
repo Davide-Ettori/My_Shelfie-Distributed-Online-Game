@@ -457,9 +457,9 @@ public class PlayerGUI extends Player implements Serializable{
         library1Text = new JTextArea(1, textCols * 2 / 3);
         library1Text.setEditable(false);
         //Library of the player 1
-        library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
+        library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
         library1Label.setLayout(null);
-        library1Label.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
+        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));
 
         player2Panel = new JPanel(new GridBagLayout());
 
@@ -468,9 +468,9 @@ public class PlayerGUI extends Player implements Serializable{
         library2Text.setEditable(false);
 
         //Library of the player 2
-        library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
+        library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
         library2Label.setLayout(null);
-        library1Label.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
+        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));
 
         player3Panel = new JPanel(new GridBagLayout());
 
@@ -479,9 +479,9 @@ public class PlayerGUI extends Player implements Serializable{
         library3Text.setEditable(false);
 
         //Library of the player 3
-        library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
+        library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
         library3Label.setLayout(null);
-        library1Label.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
+        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));
 
         library2Text.setText("Empty Library");
         library3Text.setText("Empty Library");
@@ -501,15 +501,15 @@ public class PlayerGUI extends Player implements Serializable{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
 
                 library1Label.add(tempPanel,gbc);
                 otherLibrariesCards.get(0)[i][j] = tempLabel;
@@ -523,15 +523,15 @@ public class PlayerGUI extends Player implements Serializable{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
 
                 library2Label.add(tempPanel,gbc);
                 otherLibrariesCards.get(1)[i][j] = tempLabel;
@@ -545,15 +545,15 @@ public class PlayerGUI extends Player implements Serializable{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
 
                 library3Label.add(tempPanel,gbc);
                 otherLibrariesCards.get(2)[i][j] = tempLabel;
@@ -690,8 +690,8 @@ public class PlayerGUI extends Player implements Serializable{
         pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
         pickCardsBtn.addActionListener(e -> tryToPickCards());
-        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
-        libraryLabel.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
+        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
+        libraryLabel.setPreferredSize(new Dimension(lib_w, lib_h));
         libraryLabel.setLayout(null);
         insets = libraryLabel.getInsets();
         // fill library
@@ -700,15 +700,15 @@ public class PlayerGUI extends Player implements Serializable{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
 
                 libraryLabel.add(tempPanel,gbc);
                 myLibraryCards[i][j] = tempLabel;
