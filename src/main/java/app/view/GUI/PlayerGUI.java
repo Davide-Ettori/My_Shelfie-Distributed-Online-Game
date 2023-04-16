@@ -235,6 +235,7 @@ public class PlayerGUI extends Player implements Serializable{
         if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
             alert("Invalid Selection");
         else{
+            activeName = ""; // non voglio poter più prendere carte
             pickCards(cards, col);
             updateGUI();
             boolean change_1 = checkCO();
@@ -243,7 +244,6 @@ public class PlayerGUI extends Player implements Serializable{
                 updateInfo();
 
             sendDoneMove(); // mando la mossa al server
-            activeName = ""; // non voglio poter più prendere carte
             }
         for(int i = 0; i < cards.size(); i += 2)
             boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
@@ -333,6 +333,7 @@ public class PlayerGUI extends Player implements Serializable{
         while(true){
             try {
                 Message msg = (Message) inStream.readObject();
+                System.out.println(msg.getType());
                 switch (msg.getType()) {
                     case YOUR_TURN -> handleYourTurnEvent();
                     case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -531,8 +532,6 @@ public class PlayerGUI extends Player implements Serializable{
             }).start();
 
         }catch(Exception e){throw new RuntimeException(e);}
-
-        waitForEvents();
     }
     /**
      * Send with socket network the message of the chat to the right players
