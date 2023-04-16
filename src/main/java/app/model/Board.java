@@ -250,7 +250,6 @@ public class Board implements Serializable {
                     continue;
                 if(numPlayers >= gameMatrix[i][j]){
                     card = bucketOfCards.get(0);
-                    card.setCoords(i, j);
                     gameBoard[i][j] = new Card(card);
                     bucketOfCards.remove(0); // bucketOfCards viene anche lui scambiato con il server tramite il client
                 }
