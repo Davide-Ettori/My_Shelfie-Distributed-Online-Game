@@ -342,7 +342,7 @@ public class PlayerGUI extends Player implements Serializable{
         Insets insets = CO1Label.getInsets();
 
         CO1Label.add(pointsCO1Label);
-        pointsCO1Label.setBounds(insets.left + 90, insets.top + 30, pointsDim, pointsDim);
+        pointsCO1Label.setBounds(insets.left + 85, insets.top + 27, pointsDim, pointsDim);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -370,7 +370,7 @@ public class PlayerGUI extends Player implements Serializable{
         insets = CO2Label.getInsets();
 
         CO2Label.add(pointsCO2Label);
-        pointsCO2Label.setBounds(insets.left + 90, insets.top + 30, pointsDim, pointsDim);
+        pointsCO2Label.setBounds(insets.left + 85, insets.top + 27, pointsDim, pointsDim);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -858,10 +858,10 @@ public class PlayerGUI extends Player implements Serializable{
         generalPanel.add(internalPanelLow,gbc);
 
         mainFrame.add(generalPanel, BorderLayout.CENTER);
-        mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 4 / 5); // a tutto schermo completo mi dava problemi, così sta a 4/5 delle dimensioni
+        mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 9 / 10);
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
