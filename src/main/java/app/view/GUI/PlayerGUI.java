@@ -60,6 +60,72 @@ public class PlayerGUI extends Player implements Serializable{
     private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
 
     /**
+     * constructor that copies a generic Player object inside a new PlayerTUI object
+     * @param p the Player object to copy, received by the server
+     */
+    public PlayerGUI(Player p){
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.getName();
+        isChairMan = p.getIsChairMan();
+        library = new Library(p.library);
+        objective = p.getPrivateObjective();
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.getState();
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        CO_1_Done = p.getCO_1_Done();
+        CO_2_Done = p.getCO_2_Done();
+        fullChat = p.getFullChat();
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.getEndGame();
+    }
+    /**
+     * standard constructor, starts the main game process on the client side
+     * @param mode type of the network chosen by the user
+     * @param ui type of ui chosen by the user
+     * @author Ettori
+     */
+    public PlayerGUI(NetMode mode, UIMode ui) { // Costruttore iniziale
+        uiMode = ui;
+        netMode = mode;
+        //alert("\nSoon you will need to enter your nickname for the game");
+        try {
+            mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
+            outStream = new ObjectOutputStream(mySocket.getOutputStream());
+            inStream = new ObjectInputStream(mySocket.getInputStream());
+        }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
+        System.out.println("\nClient connected");
+        showChooseNameWindow();
+    }
+    /**
+     * Clone the player on the client in the player on the server
+     * @author Ettori
+     * @param p the Player that will be cloned in the current Object
+     */
+    public void clone(PlayerGUI p){ // copia la versione sul server dentro a quella del client
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        state = p.state;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.endGame;
+    }
+    /**
      * method that update the information about the game
      * @author Ettori
      */
@@ -125,7 +191,30 @@ public class PlayerGUI extends Player implements Serializable{
      * method that update the libraries of all the player except the one which is active
      * @author Ettori
      */
-    private void updateOtherLibraries(){}
+    private void updateOtherLibraries(){
+        for(int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);
+            }
+        }
+        if(numPlayers >= 3){
+            for(int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLS; j++) {
+                    otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                    otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != EMPTY);
+                }
+            }
+        }
+        if(numPlayers >= 4){
+            for(int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLS; j++) {
+                    otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                    otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != EMPTY);
+                }
+            }
+        }
+    }
     /**
      * Function that update the GUI with the new information
      * @author Ettori Giammusso
@@ -368,9 +457,9 @@ public class PlayerGUI extends Player implements Serializable{
         library1Text = new JTextArea(1, textCols * 2 / 3);
         library1Text.setEditable(false);
         //Library of the player 1
-        library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
-        library1Label.setLayout(new GridBagLayout());
-        library1Label.setPreferredSize(new Dimension(libSecondaryDim, libSecondaryDim));
+        library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
+        library1Label.setLayout(null);
+        library1Label.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
 
         player2Panel = new JPanel(new GridBagLayout());
 
@@ -379,9 +468,9 @@ public class PlayerGUI extends Player implements Serializable{
         library2Text.setEditable(false);
 
         //Library of the player 2
-        library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
-        library2Label.setLayout(new GridBagLayout());
-        library1Label.setPreferredSize(new Dimension(libSecondaryDim, libSecondaryDim));
+        library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
+        library2Label.setLayout(null);
+        library1Label.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
 
         player3Panel = new JPanel(new GridBagLayout());
 
@@ -390,9 +479,9 @@ public class PlayerGUI extends Player implements Serializable{
         library3Text.setEditable(false);
 
         //Library of the player 3
-        library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libSecondaryDim, libSecondaryDim, Image.SCALE_SMOOTH)));
-        library3Label.setLayout(new GridBagLayout());
-        library1Label.setPreferredSize(new Dimension(libSecondaryDim, libSecondaryDim));
+        library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(libPrimary_w, libPrimary_h, Image.SCALE_SMOOTH)));
+        library3Label.setLayout(null);
+        library1Label.setPreferredSize(new Dimension(libPrimary_w, libPrimary_h));
 
         library2Text.setText("Empty Library");
         library3Text.setText("Empty Library");
@@ -402,6 +491,74 @@ public class PlayerGUI extends Player implements Serializable{
             library2Text.setText("Library of " + librariesOfOtherPlayers.get(1).name);
         if(numPlayers >= 4)
             library3Text.setText("Library of " + librariesOfOtherPlayers.get(2).name);
+        Insets insets;
+        JLabel tempLabel;
+        JPanel tempPanel;
+        insets = library1Label.getInsets();
+        // fill library
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
+                tempLabel = new JLabel();
+                tempPanel = new JPanel();
+
+                tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempLabel.setVisible(false);
+
+                tempPanel.add(tempLabel);
+                tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
+                tempPanel.setOpaque(false);
+
+                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+
+                library1Label.add(tempPanel,gbc);
+                otherLibrariesCards.get(0)[i][j] = tempLabel;
+            }
+        }
+
+        insets = library2Label.getInsets();
+        // fill library
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
+                tempLabel = new JLabel();
+                tempPanel = new JPanel();
+
+                tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempLabel.setVisible(false);
+
+                tempPanel.add(tempLabel);
+                tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
+                tempPanel.setOpaque(false);
+
+                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+
+                library2Label.add(tempPanel,gbc);
+                otherLibrariesCards.get(1)[i][j] = tempLabel;
+            }
+        }
+
+        insets = library3Label.getInsets();
+        // fill library
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
+                tempLabel = new JLabel();
+                tempPanel = new JPanel();
+
+                tempLabel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempLabel.setVisible(false);
+
+                tempPanel.add(tempLabel);
+                tempPanel.setPreferredSize(new Dimension(cardLibPrimary_w, cardLibPrimary_h));
+                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
+                tempPanel.setOpaque(false);
+
+                tempPanel.setBounds(insets.left + (cardLibPrimary_w * j) + 30 + (9 * j), insets.top + (cardLibPrimary_h * i) + 18 + (2 * i), cardLibPrimary_w, cardLibPrimary_h);
+
+                library3Label.add(tempPanel,gbc);
+                otherLibrariesCards.get(2)[i][j] = tempLabel;
+            }
+        }
 
         //player 1
 
@@ -481,9 +638,6 @@ public class PlayerGUI extends Player implements Serializable{
         boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
         boardLabel.setLayout(new GridBagLayout());
         // fill the board
-        JLabel tempLabel;
-        JPanel tempPanel;
-        Insets insets;
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 tempLabel = new JLabel();
@@ -745,77 +899,10 @@ public class PlayerGUI extends Player implements Serializable{
             if(change_1 || change_2)
                 updateInfo();
 
-            sendDoneMove();
-            // da qui continua --> devi mandare la mossa fatta al server
+            sendDoneMove(); // mando la mossa al server
             }
         for(int i = 0; i < cards.size(); i += 2)
             boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
-    }
-    /**
-     * constructor that copies a generic Player object inside a new PlayerTUI object
-     * @param p the Player object to copy, received by the server
-     */
-    public PlayerGUI(Player p){
-        netMode = p.netMode;
-        uiMode = p.uiMode;
-        name = p.getName();
-        isChairMan = p.getIsChairMan();
-        library = new Library(p.library);
-        objective = p.getPrivateObjective();
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.getState();
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        CO_1_Done = p.getCO_1_Done();
-        CO_2_Done = p.getCO_2_Done();
-        fullChat = p.getFullChat();
-        chairmanName = p.chairmanName;
-        activeName = p.activeName;
-        numPlayers = p.numPlayers;
-        endGame = p.getEndGame();
-    }
-    /**
-     * standard constructor, starts the main game process on the client side
-     * @param mode type of the network chosen by the user
-     * @param ui type of ui chosen by the user
-     * @author Ettori
-     */
-    public PlayerGUI(NetMode mode, UIMode ui) { // Costruttore iniziale
-        uiMode = ui;
-        netMode = mode;
-        //alert("\nSoon you will need to enter your nickname for the game");
-        try {
-            mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
-            outStream = new ObjectOutputStream(mySocket.getOutputStream());
-            inStream = new ObjectInputStream(mySocket.getInputStream());
-        }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
-        System.out.println("\nClient connected");
-        showChooseNameWindow();
-    }
-    /**
-     * Clone the player on the client in the player on the server
-     * @author Ettori
-     * @param p the Player that will be cloned in the current Object
-     */
-    public void clone(PlayerGUI p){ // copia la versione sul server dentro a quella del client
-        netMode = p.netMode;
-        uiMode = p.uiMode;
-        name = p.name;
-        isChairMan = p.isChairMan;
-        library = new Library(p.library);
-        objective = p.objective;
-        pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
-        board = new Board(p.board);
-        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
-        CO_1_Done = p.CO_1_Done;
-        CO_2_Done = p.CO_2_Done;
-        fullChat = p.fullChat;
-        chairmanName = p.chairmanName;
-        activeName = p.activeName;
-        numPlayers = p.numPlayers;
-        endGame = p.endGame;
     }
     /**
      * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
@@ -889,7 +976,8 @@ public class PlayerGUI extends Player implements Serializable{
             new Thread(this::initGUI).start();
         }catch(Exception e){throw new RuntimeException(e);}
         if(name.equals(chairmanName) && false) // condizione forzata ad essere falsa, vedremo se è giusta LASCIARE così per ora
-            new Thread(this::waitForMove).start();
+            //new Thread(this::waitForMove).start();
+            System.out.println("wait for move method missing");
         else
             new Thread(this::waitForEvents).start();
     }
@@ -1019,144 +1107,6 @@ public class PlayerGUI extends Player implements Serializable{
         endGame = true;
         waitForEvents();
     }
-    /**
-     * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
-     * @author Ettori Faccincani
-     */
-    private void waitForMove(){
-        if(board.isBoardUnplayable())
-            fixUnplayableBoard();
-
-        ArrayList<Integer> coords = selectOrder(selectCards());
-        int col = selectColumn(coords.size() / 2);
-        pickCards(coords, col);
-
-        updateGUI();
-
-        boolean change = checkCO();
-        change = change || checkLibFull();
-        if(change)
-            updateGUI();
-
-        sendDoneMove();
-    }
-    /**
-     * helper method used for getting the cards chosen by the user (coordinates)
-     * @author Ettori
-     * @return the list og the cards chosen by the player
-     */
-    private ArrayList<Integer> selectCards(){
-        String coordString;
-        String[] rawCoords;
-        ArrayList<Integer> coords;
-        while(true){
-            System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
-            try {
-                coordString = br.readLine();
-            } catch (IOException e) {
-                alert("errore");
-                throw new RuntimeException(e);
-            }
-            if(coordString.length() == 0)
-                continue;
-            rawCoords = coordString.split(" ");
-
-            if(coordString.charAt(0) == '@'){
-                //sendChatMsg(coordString);
-                continue;
-            }
-            if(!checkRawCoords(rawCoords)){
-                alert("\nInvalid selection");
-                continue;
-            }
-            coords = new ArrayList<>();
-            for(int i = 0; i < rawCoords.length; i += 2){
-                coords.add(Integer.parseInt(rawCoords[i]));
-                coords.add(Integer.parseInt(rawCoords[i + 1]));
-            }
-            if(board.areCardsPickable(coords) && library.maxCardsInsertable() >= coords.size() / 2)
-                break;
-            alert("\nInvalid selection");
-        }
-        return coords;
-    }
-    /**
-     * helper method for letting the user select the order of the cards chosen before
-     * @author Ettori
-     * @param coords the coordinates of the cards chosen
-     * @return the list of the cards in the right order
-     */
-    private ArrayList<Integer> selectOrder(ArrayList<Integer> coords){
-        String coordOrder;
-        int temp_1, temp_2, index_1, index_2;
-        while(true){
-            printCurOrder(coords);
-            if(coords.size() == 2)
-                break;
-            System.out.print("\nInsert which cards to switch (-1 for exit) (or @ for chat):\n");
-            try {
-                coordOrder = br.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if(coordOrder.length() == 0 || coordOrder.equals("-1"))
-                break;
-            if(coordOrder.charAt(0) == '@'){
-                //sendChatMsg(coordOrder);
-                continue;
-            }
-            try {
-                index_1 = Character.getNumericValue(coordOrder.charAt(0));
-                index_2 = Character.getNumericValue(coordOrder.charAt(2));
-            }catch (Exception e){alert("\nInvalid selection"); continue;}
-            if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
-                alert("\nInvalid selection");
-                continue;
-            }
-            index_1 *= 2;
-            index_2 *= 2;
-            temp_1 = coords.get(index_1);
-            temp_2 = coords.get(index_1 + 1);
-            coords.set(index_1, coords.get(index_2));
-            coords.set(index_1 + 1, coords.get(index_2 + 1));
-            coords.set(index_2, temp_1);
-            coords.set(index_2 + 1, temp_2);
-        }
-        return coords;
-    }
-    /**
-     * helper method useful for getting the column chosen by the user (where tha cards will be placed)
-     * @author Ettori
-     * @return the column chosen by the player
-     */
-    private int selectColumn(int size){
-        int col;
-        String column;
-        while(true){
-            System.out.print("\nInsert the column where you wish to put the cards (or @ for chat):\n");
-            try {
-                column = br.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if(column.length() == 0)
-                continue;
-            if(column.charAt(0) == '@'){
-                //sendChatMsg(column);
-                continue;
-            }
-            col = Integer.parseInt(column);
-            if(library.checkCol(col, size))
-                break;
-            alert("\nInvalid selection");
-        }
-        return col;
-    }
-    /**
-     * method that checks if some of the common objectives where achieved by the current player, and in that case points will be added
-     * @author Ettori
-     * @return true iff at least one objective was completed
-     */
     private boolean checkCO(){
         int points, lastIndex;
         boolean change = false;
@@ -1246,29 +1196,6 @@ public class PlayerGUI extends Player implements Serializable{
         waitForEvents();
     }
     /**
-     * Check if the index to switch are valid
-     * @param index_1 first card
-     * @param index_2 second card
-     * @param size  number of switch
-     * @return true if the index are valid
-     * @author Ettori Faccincani
-     */
-    private boolean isCharValid(int index_1, int index_2, int size){
-        return index_1 >= 0 && index_1 < size && index_2 > 0 && index_2 < size;
-    }
-    /**
-     * Return to the player the current order of the cards to be placed
-     * @param arr list of the cards
-     * @author Ettori Faccincani
-     */
-    private void printCurOrder(ArrayList<Integer> arr){
-        alert("\nThe current order of your cards is: ");
-        for(int i = 0; i < arr.size(); i += 2) {
-            board.getGameBoard()[arr.get(i)][arr.get(i + 1)].draw();
-            System.out.print(" ");
-        }
-    }
-    /**
      * Send with socket network the message of the chat to the right players
      * @author Ettori
      */
@@ -1293,15 +1220,6 @@ public class PlayerGUI extends Player implements Serializable{
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){throw new RuntimeException(e);}
-    }
-    /**
-     * prints 12 spaces (rows) to simulate the flush of the terminal
-     * @author Gumus
-     */
-    private void clearScreen(){
-        for(int i = 0; i < 12; i++){
-            //alert();
-        }
     }
     /**
      * helper function for alerting a message to the user (pop-up)
