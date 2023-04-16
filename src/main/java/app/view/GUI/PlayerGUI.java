@@ -39,7 +39,8 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient int DIM = 9;
     private final transient int ROWS = 6;
     private final transient int COLS = 5;
-    private final transient java.awt.Color borderColor = BLUE;
+    private final transient int cardBorderSize = 3;
+    private final transient java.awt.Color borderColor = BLACK;
     private final transient int libFullX = 6; // y sulla board
     private final transient int libFullY = 7; // x sulla board
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
@@ -403,7 +404,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleFinalScoreEvent(Message msg){
         alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        Game.waitForSeconds(5);
+        Game.waitForSeconds(standardTimer * 2);
         System.exit(0); // il gioco finisce e tutto si chiude forzatamente
     }
     /**
@@ -422,7 +423,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleCO_1Event(Message msg){
         alert(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
-        Game.waitForSeconds(2.5);
+        //Game.waitForSeconds(standardTimer);
     }
     /**
      * helper function for handling the achievement of the second common objective event notification from the server
@@ -431,7 +432,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleCO_2Event(Message msg){
         alert(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
-        Game.waitForSeconds(2.5);
+        //Game.waitForSeconds(standardTimer);
     }
     /**
      * helper function for handling the completion of the library event notification from the server
@@ -440,7 +441,7 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleLibFullEvent(Message msg){
         alert(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
-        Game.waitForSeconds(2.5);
+        //Game.waitForSeconds(standardTimer);
         endGame = true;
     }
     private boolean checkCO(){
@@ -455,7 +456,7 @@ public class PlayerGUI extends Player implements Serializable{
                 CO_1_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 alert("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(2.5);
+                //Game.waitForSeconds(standardTimer);
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
@@ -466,7 +467,7 @@ public class PlayerGUI extends Player implements Serializable{
                 CO_2_Done = true;
                 outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
                 alert("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(2.5);
+                //Game.waitForSeconds(standardTimer);
                 change = true;
             }
         }catch(Exception e){throw new RuntimeException(e);}
@@ -484,7 +485,7 @@ public class PlayerGUI extends Player implements Serializable{
                 pointsUntilNow++;
                 outStream.writeObject(new Message(LIB_FULL, name, null));
                 alert("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
-                Game.waitForSeconds(2.5);
+                //Game.waitForSeconds(standardTimer);
                 return true;
             }
         }catch (Exception e){throw new RuntimeException(e);}
@@ -518,10 +519,10 @@ public class PlayerGUI extends Player implements Serializable{
         try {
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
             state = NOT_ACTIVE;
-            Game.waitForSeconds(5); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+            //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
-                    Game.waitForSeconds(1);
+                    Game.waitForSeconds(standardTimer / 2.5);
                     playerStatus.put("player", new Player(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){throw new RuntimeException(e);}
@@ -1012,7 +1013,7 @@ public class PlayerGUI extends Player implements Serializable{
                         if(index == -1){
                             if(cardsPicked.size() == 6)
                                 return;
-                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 2));
+                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, cardBorderSize));
                             cardsPicked.add(finalI);
                             cardsPicked.add(finalJ);
                         }

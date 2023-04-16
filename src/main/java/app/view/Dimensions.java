@@ -1,5 +1,9 @@
 package app.view;
 
+/**
+ * helper class which defines the dimensions of the objects showed in the GUI
+ * @author Ettori
+ */
 public class Dimensions {
     public static final int CO_w = 144;
     public static final int CO_h = 100;
@@ -16,7 +20,6 @@ public class Dimensions {
     public static final int textCols = 30;
     public static final int btnW = 200;
     public static final int btnH = 50;
-    public static final int COPointsPadding_x = 30;
     public static final int generalBorder = 2;
     public static final String pathPointsCO = "assets/scoring tokens/scoring";
 }

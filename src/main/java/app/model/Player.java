@@ -53,6 +53,7 @@ public class Player implements Serializable {
     protected transient JSONObject boardStatus;
     protected transient JSONObject playerStatus;
     protected transient JSONObject gameStatus;
+    protected transient double standardTimer = 2.5;
 
     /**
      * constructor used by the server to initializer a base Player object
