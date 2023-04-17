@@ -134,8 +134,8 @@ public class PlayerGUI extends Player implements Serializable{
     private void updateInfo(){
         pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
         pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-        activeTurnInfo.setText("The current active player is " + activeName);
-        curPointsInfo.setText("You have achieved " + pointsUntilNow + " points until now");
+        activeTurnInfo.setText("The active player is " + activeName);
+        curPointsInfo.setText(pointsUntilNow + " points achieved until now");
         tempChatHistory.setText(fullChat);
     }
     /**
@@ -641,17 +641,17 @@ public class PlayerGUI extends Player implements Serializable{
 
         infoBox = new JPanel(new GridBagLayout());
         chairmanInfo = new JTextField();
-        chairmanInfo.setText("The chairman of this game is " + chairmanName);
+        chairmanInfo.setText("The chairman is " + chairmanName);
         chairmanInfo.setBorder(null);
-        chairmanInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 6), textCols));
+        chairmanInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));
         chairmanInfo.setEditable(false);
         activeTurnInfo = new JTextField();
         activeTurnInfo.setBorder(null);
-        activeTurnInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 9), textCols));
+        activeTurnInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));
         activeTurnInfo.setEditable(false);
         curPointsInfo = new JTextField();
         curPointsInfo.setBorder(null);
-        curPointsInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 6), textCols));
+        curPointsInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));
         curPointsInfo.setEditable(false);
         titleInfo = new JTextField("INFORMATIONS ABOUT THE GAME");
         titleInfo.setBorder(null);
@@ -1232,14 +1232,14 @@ public class PlayerGUI extends Player implements Serializable{
 
         //FIRST LEVEL - RED
 
-        generalLabel = new JLabel(new ImageIcon(new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(screenSize.width * 9 / 10, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        generalLabel = new JLabel(new ImageIcon(new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
         //generalLabel.setPreferredSize(new Dimension(screenSize.width * 9 / 10, screenSize.height * 9 / 10));
         generalLabel.setLayout(new GridBagLayout());
 
         internalPanelHigh.setBackground(new Color(0, 0, 0, 0));
         internalPanelLow.setBackground(new Color(0, 0, 0, 0));
         internalPanelMid.setBackground(new Color(0, 0, 0, 0));
-        infoBox.setBackground(new Color(0, 0, 0, 0));
+        infoBox.setBackground(new Color(1, 0, 0, 1));
         player1Panel.setBackground(new Color(0, 0, 0, 0));
         player2Panel.setBackground(new Color(0, 0, 0, 0));
         player3Panel.setBackground(new Color(0, 0, 0, 0));
@@ -1255,7 +1255,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.7;
+        gbc.weightx = 0.8;
         gbc.weighty = 0.6;
         generalLabel.add(internalPanelHigh,gbc);
 
@@ -1264,7 +1264,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.7;
+        gbc.weightx = 0.8;
         gbc.weighty = 0.4;
         generalLabel.add(internalPanelMid,gbc);
 
@@ -1273,14 +1273,13 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.2;
         gbc.weighty = 1.0;
         gbc.gridheight = 2;
         generalLabel.add(internalPanelLow,gbc);
 
         mainFrame.add(generalLabel, BorderLayout.CENTER);
-        //mainFrame.setSize(screenSize.width * 8 / 10, screenSize.height * 8 / 10);
-        mainFrame.setSize(screenSize.width * 9 / 10, screenSize.height * 9 / 10);
+        mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
