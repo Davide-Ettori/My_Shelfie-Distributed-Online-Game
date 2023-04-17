@@ -26,7 +26,7 @@ public class Client {
         int numP;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            Socket mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
+            Socket mySocket = new Socket(IP.DAVIDE_XIAOMI_IP_G, Server.PORT);
             ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
             out.writeObject(true);
             System.out.println("\nThere is already an active game...");
