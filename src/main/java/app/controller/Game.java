@@ -438,7 +438,7 @@ public class Game implements Serializable {
         if(Game.showErrors)
             throw new RuntimeException(e);
         else
-            System.out.println("\nThe connection was lost and the server is disconnecting...");
+            System.out.println("\nThe connection was lost and the application is disconnecting...");
         Game.waitForSeconds(5);
         System.exit(0);
     }

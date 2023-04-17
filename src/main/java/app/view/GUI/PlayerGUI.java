@@ -570,7 +570,7 @@ public class PlayerGUI extends Player implements Serializable{
         if(Game.showErrors)
             throw new RuntimeException(e);
         else
-            alert("\nThe connection was lost and the client is disconnecting...");
+            alert("\nThe connection was lost and the application is disconnecting...");
         Game.waitForSeconds(standardTimer);
         System.exit(0);
     }
