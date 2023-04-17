@@ -110,11 +110,18 @@ public class Game implements Serializable {
      */
     private void listenForPlayersConnections(){
         ArrayList<Thread> ths = new ArrayList<>();
+        ObjectInputStream testClient;
         Thread th;
 
         while(numPlayers < targetPlayers){
             try{
                 playersSocket.add(serverSocket.accept());
+                testClient = (ObjectInputStream) playersSocket.get(playersSocket.size() - 1).getInputStream();
+                boolean isFake = (boolean) testClient.readObject();
+                if(isFake) {
+                    playersSocket.remove(playersSocket.size() - 1);
+                    continue;
+                }
                 th = new Thread(() ->{
                     try{getUserName(playersSocket.get(playersSocket.size() - 1));}
                     catch(Exception e){System.out.println(e);}

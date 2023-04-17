@@ -1,4 +1,4 @@
-package app;
+package app.view;
 
 public class IP {
     public static final String DAVIDE_HOTSPOT_IP = "172.20.10.3" ;

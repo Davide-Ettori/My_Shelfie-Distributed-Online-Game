@@ -1,6 +1,6 @@
 package app.view.TUI;
 
-import app.IP;
+import app.view.IP;
 import app.controller.*;
 import app.model.*;
 import app.model.chat.ReceiveChat;

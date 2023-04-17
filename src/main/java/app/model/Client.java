@@ -1,8 +1,14 @@
 package app.model;
 
+import app.controller.Game;
 import app.view.GUI.PlayerGUI;
+import app.view.IP;
 import app.view.TUI.PlayerTUI;
+import playground.socket.Server;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Scanner;
 
 import static app.model.NetMode.RMI;
@@ -16,10 +22,30 @@ import static app.view.UIMode.TUI;
 public class Client {
     /**
      * main method which is used by the user to choose the UI and the Network
-     * @param args terminal arguments passed during running
      */
-    public static void main(String[] args) {
+    public Client() {
+        String numPlayers;
+        int numP;
         Scanner in = new Scanner(System.in);
+        try {
+            Socket mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
+            ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
+            out.writeObject(true);
+        }catch (Exception e){
+            while(true) {
+                System.out.println("\nYou are the first player to connect, insert the number of players: ");
+                numPlayers = in.nextLine();
+                if(numPlayers.length() == 0)
+                    numPlayers = "2";
+                numP = Integer.parseInt(numPlayers);
+                if(numP < 2 || numP > 4){
+                    System.out.println("\nInvalid choice, try again");
+                    continue;
+                }
+                new Game(numP);
+                break;
+            }
+        }
 
         while(true) {
             System.out.print("\nChoose game mode (TUI or GUI): ");

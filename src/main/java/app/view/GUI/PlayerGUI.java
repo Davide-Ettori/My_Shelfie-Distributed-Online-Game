@@ -1,6 +1,6 @@
 package app.view.GUI;
 
-import app.IP;
+import app.view.IP;
 import app.controller.*;
 import app.model.*;
 
@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
