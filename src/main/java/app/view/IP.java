@@ -9,7 +9,7 @@ public class IP {
     public static final String DAVIDE_IP_MANTOVA = "192.168.1.21";
     public static final String SAMUG_IP_MILANO = "192.168.1.3";
     public static final String LOCAL_HOST = "127.0.0.1"; //è il computer stesso
-    public static final String activeIP = LOCAL_HOST;
+    public static String activeIP = LOCAL_HOST;
 
 }
 

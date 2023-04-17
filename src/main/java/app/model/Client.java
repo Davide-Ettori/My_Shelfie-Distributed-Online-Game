@@ -25,6 +25,17 @@ public class Client {
         String numPlayers;
         int numP;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("\nInsert the IP address of the server: ");
+        String ip;
+        try {
+            ip = br.readLine();
+        } catch (IOException exc) {
+            System.out.println("errore");
+            throw new RuntimeException(exc);
+        }
+        if(!ip.equals(""))
+            IP.activeIP = ip;
+
         try {
             Socket mySocket = new Socket(IP.activeIP, Server.PORT);
             ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
@@ -46,8 +57,16 @@ public class Client {
                     System.out.println("\nInvalid choice, try again");
                     continue;
                 }
+                String old;
+                System.out.print("\nDo you want to load an old game ? (yes): ");
+                try {
+                    old = br.readLine();
+                } catch (IOException exc) {
+                    System.out.println("errore");
+                    throw new RuntimeException(exc);
+                }
                 int finalNumP = numP;
-                new Thread(() -> new Game(finalNumP)).start();
+                new Thread(() -> new Game(finalNumP, old)).start();
                 Game.waitForSeconds(1);
                 break;
             }

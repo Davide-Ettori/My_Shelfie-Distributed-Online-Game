@@ -49,12 +49,16 @@ public class Game implements Serializable {
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
      */
-    public Game(int maxP){
+    public Game(int maxP, String old){
         targetPlayers = maxP;
-        if(FILEHelper.havaCachedServer()) { // per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
-            clone(FILEHelper.loadServerCLI());
-            // da qui in poi fai continuare il server che hai caricato dalla cache
+        if(old.equals("yes")){
+            if(FILEHelper.havaCachedServer())// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
+                clone(FILEHelper.loadServerCLI());
+                // da qui in poi fai continuare il server che hai caricato dalla cache
+            else
+                System.out.println("\nThere is no game to load, starting a new game...");
         }
+        FILEHelper.writeFail();
         shuffleObjBucket();
         numPlayers = 0;
         new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
@@ -297,6 +301,7 @@ public class Game implements Serializable {
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
             }catch (Exception e){connectionLost(e);}
         }
+        FILEHelper.writeServer(this);
         waitMoveFromClient();
     }
     /**
@@ -414,8 +419,8 @@ public class Game implements Serializable {
                 outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", finalScores));
             } catch (Exception e) {connectionLost(e);}
         }
-        //FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
-        System.exit(0);
+        FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
+        while (true){}
     }
     /**
      * getter for the input streams from the server to all the clients
