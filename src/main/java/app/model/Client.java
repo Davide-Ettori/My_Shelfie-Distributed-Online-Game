@@ -48,7 +48,7 @@ public class Client {
                 }
                 int finalNumP = numP;
                 new Thread(() -> new Game(finalNumP)).start();
-                Game.waitForSeconds(2.5);
+                Game.waitForSeconds(1);
                 break;
             }
         }

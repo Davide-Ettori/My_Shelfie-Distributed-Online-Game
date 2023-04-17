@@ -27,7 +27,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
-    public static boolean showErrors = false;
+    public static boolean showErrors = true;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;

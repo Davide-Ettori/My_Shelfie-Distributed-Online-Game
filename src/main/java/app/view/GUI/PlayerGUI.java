@@ -10,6 +10,7 @@ import playground.socket.Server;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
@@ -46,9 +47,9 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private transient JFrame mainFrame;
-    private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, generalPanel, CO1Panel, CO2Panel, POPanel, ChairmanPanel;
-    private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, endGameLabel;
-    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, ChairmanTitle;
+    private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
+    private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, generalLabel;
+    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle;
     private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
     private transient JScrollPane chatHistory;
     private transient JButton pickCardsBtn, sendMessageBtn;
@@ -594,7 +595,9 @@ public class PlayerGUI extends Player implements Serializable{
 
         POPanel = new JPanel(new GridBagLayout());
         POTitle = new JTextField("Your private objective");
+        POTitle.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         POTitle.setEditable(false);
+        POTitle.setBorder(null);
 
         CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
         CO1Label.setLayout(null);
@@ -602,6 +605,8 @@ public class PlayerGUI extends Player implements Serializable{
 
         CO1Panel = new JPanel(new GridBagLayout());
         CO1Title = new JTextField("The first common objective");
+        CO1Title.setBorder(null);
+        CO1Title.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         CO1Title.setEditable(false);
 
         CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
@@ -610,6 +615,8 @@ public class PlayerGUI extends Player implements Serializable{
 
         CO2Panel = new JPanel(new GridBagLayout());
         CO2Title = new JTextField("The second common objective");
+        CO2Title.setBorder(null);
+        CO2Title.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         CO2Title.setEditable(false);
 
         pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
@@ -621,48 +628,58 @@ public class PlayerGUI extends Player implements Serializable{
         chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
 
-        ChairmanPanel = new JPanel(new GridBagLayout());
-        ChairmanTitle = new JTextField("Chairman Icon");
-        ChairmanTitle.setEditable(false);
+        chairmanPanel = new JPanel(new GridBagLayout());
+        chairmanTitle = new JTextField("Chairman Icon");
+        chairmanTitle.setBorder(null);
+        chairmanTitle.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        chairmanTitle.setEditable(false);
 
         infoBox = new JPanel(new GridBagLayout());
-        chairmanInfo = new JTextField(textCols - 5);
+        chairmanInfo = new JTextField();
         chairmanInfo.setText("The chairman of this game is " + chairmanName);
+        chairmanInfo.setBorder(null);
+        chairmanInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 6), textCols));
         chairmanInfo.setEditable(false);
-        activeTurnInfo = new JTextField(textCols - 5);
+        activeTurnInfo = new JTextField();
+        activeTurnInfo.setBorder(null);
+        activeTurnInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 9), textCols));
         activeTurnInfo.setEditable(false);
-        curPointsInfo = new JTextField(textCols - 5);
+        curPointsInfo = new JTextField();
+        curPointsInfo.setBorder(null);
+        curPointsInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 6), textCols));
         curPointsInfo.setEditable(false);
         titleInfo = new JTextField("INFORMATIONS ABOUT THE GAME");
+        titleInfo.setBorder(null);
+        titleInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));
         titleInfo.setEditable(false);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.25;
         infoBox.add(titleInfo,gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.25;
         infoBox.add(chairmanInfo,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.25;
         infoBox.add(activeTurnInfo,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.25;
         infoBox.add(curPointsInfo,gbc);
 
         //
@@ -684,22 +701,22 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.anchor = CENTER;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
         CO1Panel.add(CO1Title, gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0;
-        gbc.weighty = 0;
+        gbc.weighty = 0.9;
         CO1Panel.add(CO1Label,gbc);
-        gbc.weightx = 0.2;
+        gbc.weighty = 0.2;
         gbc.anchor = CENTER;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipadx = 100;
-        gbc.ipady = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 100;
         internalPanelLow.add(CO1Panel,gbc);
 
         insets = CO2Label.getInsets();
@@ -712,70 +729,71 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.anchor = CENTER;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
         CO2Panel.add(CO2Title, gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0;
-        gbc.weighty = 0;
+        gbc.weighty = 0.9;
         CO2Panel.add(CO2Label,gbc);
         gbc.anchor = CENTER;
-        gbc.weightx = 0.2;
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.ipadx = 100;
-        gbc.ipady = 0;
+        gbc.weighty = 0.2;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 100;
         internalPanelLow.add(CO2Panel,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.anchor = CENTER;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
         POPanel.add(POTitle, gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0;
-        gbc.weighty = 0;
+        gbc.weighty = 0.9;
         POPanel.add(POLabel,gbc);
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.ipadx = 100;
-        gbc.ipady = 0;
-        gbc.weightx = 0.2;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.ipadx = 0;
+        gbc.ipady = 100;
+        gbc.weighty = 0.2;
         internalPanelLow.add(POPanel, gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.anchor = CENTER;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        ChairmanPanel.add(ChairmanTitle, gbc);
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
+        chairmanPanel.add(chairmanTitle, gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0;
-        gbc.weighty = 0;
-        ChairmanPanel.add(chairmanLabel,gbc);
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.ipadx = 100;
-        gbc.ipady = 0;
-        gbc.weightx = 0.2;
-        internalPanelLow.add(ChairmanPanel, gbc);
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        gbc.ipadx = 100;
-        gbc.ipady = 0;
-        gbc.weightx = 0.2;
+        gbc.weighty = 0.9;
+        chairmanPanel.add(chairmanLabel,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.ipadx = 0;
+        gbc.ipady = 100;
+        gbc.weighty = 0.2;
+        internalPanelLow.add(chairmanPanel, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.ipadx = 0;
+        gbc.ipady = 100;
+        gbc.weighty = 0.2;
+        gbc.weightx = 1.0;
         internalPanelLow.add(infoBox, gbc);
         gbc.weightx = 0.0;
 
@@ -822,10 +840,12 @@ public class PlayerGUI extends Player implements Serializable{
         if(numPlayers >= 4)
             library3Text.setText("Library of " + librariesOfOtherPlayers.get(2).name);
 
+
         if(numPlayers < 4)
             player3Panel.setVisible(false);
         if(numPlayers < 3)
             player2Panel.setVisible(false);
+
 
         JLabel tempLabel;
         JPanel tempPanel;
@@ -1046,11 +1066,13 @@ public class PlayerGUI extends Player implements Serializable{
         //Text on top of my library
         myLibraryText = new JTextArea("Your personal Library (" + name + ")");
         myLibraryText.setEditable(false);
-        chooseColText = new JTextField(textCols / 3);
-        chooseColText.setText("Insert the column: ");
+        chooseColText = new JTextField();
+        chooseColText.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        chooseColText.setBorder(null);
         chooseColText.setText("");
         chooseColText.addActionListener(event -> pickCardsBtn.doClick());
         pickCardsBtn = new JButton("Pick Cards");
+        //pickCardsBtn.setBorder(null);
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
         pickCardsBtn.addActionListener(e -> new Thread(this::tryToPickCards).start());
         libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
@@ -1081,15 +1103,22 @@ public class PlayerGUI extends Player implements Serializable{
         chatPanel = new JPanel(new GridBagLayout());
         chatTitle = new JTextArea("Chat history of the Game");
         chatTitle.setEditable(false);
-        tempChatHistory = new JTextArea(textCols / 3, textCols);
+        tempChatHistory = new JTextArea();
+        tempChatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));
         tempChatHistory.setEditable(false);
         chatHistory = new JScrollPane(tempChatHistory);
+        chatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));
         insertMessage = new JTextField(textCols);
+        insertMessage.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         insertMessage.setText("Insert the message: ");
+        insertMessage.setBorder(null);
         insertMessage.addActionListener(event -> sendMessageBtn.doClick());
         insertPlayer = new JTextField(textCols);
+        insertPlayer.setBorder(null);
         insertPlayer.setText("Insert the player: ");
+        insertPlayer.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         sendMessageBtn = new JButton("Send Message");
+        //sendMessageBtn.setBorder(null);
         sendMessageBtn.setPreferredSize(new Dimension());
         sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
         sendMessageBtn.addActionListener(e -> new Thread(this::sendChatMsg).start());
@@ -1134,7 +1163,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.0;
+        gbc.weightx = 1.0;
         gbc.weighty = 0.15;
         myLibraryPanel.add(chooseColText,gbc);
         gbc.gridx = 0;
@@ -1163,22 +1192,22 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.4;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.5;
         chatPanel.add(chatHistory,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.2;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
         chatPanel.add(insertPlayer,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.2;
-        gbc.weighty = 0.0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
         chatPanel.add(insertMessage,gbc);
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -1198,40 +1227,59 @@ public class PlayerGUI extends Player implements Serializable{
 
         //FIRST LEVEL - RED
 
-        generalPanel = new JPanel(new GridBagLayout());
+        generalLabel = new JLabel(new ImageIcon(new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(screenSize.width * 9 / 10, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        //generalLabel.setPreferredSize(new Dimension(screenSize.width * 9 / 10, screenSize.height * 9 / 10));
+        generalLabel.setLayout(new GridBagLayout());
+
+        internalPanelHigh.setBackground(new Color(0, 0, 0, 0));
+        internalPanelLow.setBackground(new Color(0, 0, 0, 0));
+        internalPanelMid.setBackground(new Color(0, 0, 0, 0));
+        infoBox.setBackground(new Color(0, 0, 0, 0));
+        player1Panel.setBackground(new Color(0, 0, 0, 0));
+        player2Panel.setBackground(new Color(0, 0, 0, 0));
+        player3Panel.setBackground(new Color(0, 0, 0, 0));
+        gameBoardPanel.setBackground(new Color(0, 0, 0, 0));
+        myLibraryPanel.setBackground(new Color(0, 0, 0, 0));
+        chatPanel.setBackground(new Color(0, 0, 0, 0));
+        CO1Panel.setBackground(new Color(0, 0, 0, 0));
+        CO2Panel.setBackground(new Color(0, 0, 0, 0));
+        POPanel.setBackground(new Color(0, 0, 0, 0));
+        chairmanPanel.setBackground(new Color(0, 0, 0, 0));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 0.8;
-        gbc.weighty = 0.5;
-        generalPanel.add(internalPanelHigh,gbc);
+        gbc.weightx = 0.7;
+        gbc.weighty = 0.6;
+        generalLabel.add(internalPanelHigh,gbc);
 
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.3;
-        generalPanel.add(internalPanelMid,gbc);
+        gbc.weightx = 0.7;
+        gbc.weighty = 0.4;
+        generalLabel.add(internalPanelMid,gbc);
 
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.2;
-        generalPanel.add(internalPanelLow,gbc);
+        gbc.weightx = 0.3;
+        gbc.weighty = 1.0;
+        gbc.gridheight = 2;
+        generalLabel.add(internalPanelLow,gbc);
 
-        mainFrame.add(generalPanel, BorderLayout.CENTER);
-        mainFrame.setSize(screenSize.width * 4 / 5, screenSize.height * 9 / 10);
+        mainFrame.add(generalLabel, BorderLayout.CENTER);
+        //mainFrame.setSize(screenSize.width * 8 / 10, screenSize.height * 8 / 10);
+        mainFrame.setSize(screenSize.width * 9 / 10, screenSize.height * 9 / 10);
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
+        mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }

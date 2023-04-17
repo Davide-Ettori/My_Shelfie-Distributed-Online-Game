@@ -17,7 +17,8 @@ public class Dimensions {
     public static final int cardDimBoard = 400 / 10 - 2;
     public static final int cardLib_w = cardDimBoard - 7;
     public static final int cardLib_h = cardDimBoard + 1;
-    public static final int textCols = 30;
+    public static final int textCols = 20;
+    public static final int textCharsNum = 11;
     public static final int btnW = 200;
     public static final int btnH = 50;
     public static final int generalBorder = 2;
