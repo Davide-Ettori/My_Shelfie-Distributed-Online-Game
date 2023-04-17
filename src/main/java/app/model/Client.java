@@ -25,7 +25,7 @@ public class Client {
         String numPlayers;
         int numP;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nInsert the IP address of the server: ");
+        System.out.print("\nInsert the IP address of the server: ");
         String ip;
         try {
             ip = br.readLine();
