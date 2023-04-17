@@ -52,9 +52,17 @@ public class Game implements Serializable {
     public Game(int maxP, String old){
         targetPlayers = maxP;
         if(old.equals("yes")){
-            if(FILEHelper.havaCachedServer())// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
-                clone(FILEHelper.loadServerCLI());
-                // da qui in poi fai continuare il server che hai caricato dalla cache
+            if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
+                Game gameTemp = FILEHelper.loadServerCLI();
+                FILEHelper.writeFail();
+                if(gameTemp.numPlayers != maxP)
+                    System.out.println("\nThe old game is not compatible, starting a new game...");
+                else {
+                    clone(gameTemp);
+                    System.out.println("\nLoading the old game...");
+                    // chiama la funzione che si occupa di riprendere la vecchia partita in corso
+                }
+            }// da qui in poi fai continuare il server che hai caricato dalla cache
             else
                 System.out.println("\nThere is no game to load, starting a new game...");
         }
