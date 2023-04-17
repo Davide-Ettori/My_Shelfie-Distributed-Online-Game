@@ -428,6 +428,8 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleCO_1Event(Message msg){
         alert(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+        board.pointsCO_1.remove(board.pointsCO_1.size() - 1);
+        updateInfo();
         //Game.waitForSeconds(standardTimer);
     }
     /**
@@ -437,6 +439,8 @@ public class PlayerGUI extends Player implements Serializable{
      */
     private void handleCO_2Event(Message msg){
         alert(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
+        board.pointsCO_2.remove(board.pointsCO_2.size() - 1);
+        updateInfo();
         //Game.waitForSeconds(standardTimer);
     }
     /**
