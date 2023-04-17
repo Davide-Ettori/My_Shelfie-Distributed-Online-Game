@@ -27,7 +27,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
@@ -36,15 +36,15 @@ public class Game implements Serializable {
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
     private ArrayList<UIMode> uiModes = new ArrayList<>();
-    private ArrayList<Socket> playersSocket = new ArrayList<>();
-    private ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
-    private ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
+    private transient ArrayList<Socket> playersSocket = new ArrayList<>();
+    private transient ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
+    private transient ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
     private ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
     private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean endGameSituation = false;
     private boolean timeExp = true;
-    private ArrayList<Thread> chatThreads = new ArrayList<>();
-    private ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
+    private transient ArrayList<Thread> chatThreads = new ArrayList<>();
+    private transient ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -452,6 +452,11 @@ public class Game implements Serializable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * function that handle the eventual disconnection
+     * @param e the exception to throw
+     * @author Ettori
+     */
     public void connectionLost(Exception e){
         if(Game.showErrors)
             throw new RuntimeException(e);

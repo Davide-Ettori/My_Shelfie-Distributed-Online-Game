@@ -572,6 +572,11 @@ public class PlayerGUI extends Player implements Serializable{
      * @param s the string og the message to show
      */
     private void alert(String s){showMessageDialog(null, s);}
+    /**
+     * function that handle the eventual disconnection
+     * @param e the exception to throw
+     * @author Ettori
+     */
     public void connectionLost(Exception e){
         if(Game.showErrors)
             throw new RuntimeException(e);

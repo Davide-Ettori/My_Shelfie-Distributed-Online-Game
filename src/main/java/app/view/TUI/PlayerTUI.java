@@ -646,6 +646,11 @@ public class PlayerTUI extends Player implements Serializable{
             System.out.println();
         }
     }
+    /**
+     * function that handle the eventual disconnection
+     * @param e the exception to throw
+     * @author Ettori
+     */
     public void connectionLost(Exception e){
         if(Game.showErrors)
             throw new RuntimeException(e);
