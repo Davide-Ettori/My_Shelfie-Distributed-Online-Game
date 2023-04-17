@@ -31,6 +31,7 @@ public class Client {
             Socket mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
             ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
             out.writeObject(true);
+            System.out.println("\nThere is already an active game...");
         }catch (Exception e){
             while(true) {
                 System.out.print("\nYou are the first player to connect, insert the number of players: ");
