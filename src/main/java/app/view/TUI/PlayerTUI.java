@@ -66,7 +66,6 @@ public class PlayerTUI extends Player implements Serializable{
         try {
             mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
-            outStream.flush();
             inStream = new ObjectInputStream(mySocket.getInputStream());
             outStream.writeObject(false);
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
