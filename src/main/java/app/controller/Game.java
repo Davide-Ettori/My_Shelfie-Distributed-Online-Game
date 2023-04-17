@@ -116,7 +116,7 @@ public class Game implements Serializable {
         while(numPlayers < targetPlayers){
             try{
                 playersSocket.add(serverSocket.accept());
-                testClient = (ObjectInputStream) playersSocket.get(playersSocket.size() - 1).getInputStream();
+                testClient = new ObjectInputStream(playersSocket.get(playersSocket.size() - 1).getInputStream());
                 boolean isFake = (boolean) testClient.readObject();
                 if(isFake) {
                     playersSocket.remove(playersSocket.size() - 1);
