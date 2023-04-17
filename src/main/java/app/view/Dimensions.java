@@ -21,6 +21,6 @@ public class Dimensions {
     public static final int textCharsNum = 11;
     public static final int btnW = 200;
     public static final int btnH = 50;
-    public static final int generalBorder = 2;
+    public static final int generalBorder = 5;
     public static final String pathPointsCO = "assets/scoring tokens/scoring";
 }
