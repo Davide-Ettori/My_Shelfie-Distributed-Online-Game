@@ -60,6 +60,7 @@ public class Game implements Serializable {
                 else {
                     clone(gameTemp);
                     System.out.println("\nLoading the old game...");
+                    System.exit(0); // continuare da qui in poi per fare la FA persistenza del server
                     // chiama la funzione che si occupa di riprendere la vecchia partita in corso
                 }
             }// da qui in poi fai continuare il server che hai caricato dalla cache
