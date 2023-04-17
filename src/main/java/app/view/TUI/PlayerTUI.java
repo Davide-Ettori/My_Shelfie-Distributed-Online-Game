@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import java.util.Date;
-import java.util.Scanner;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
@@ -104,11 +103,15 @@ public class PlayerTUI extends Player implements Serializable{
      * @author Ettori
      */
     private void chooseUserName(){
-        Scanner in = new Scanner(System.in);
         NameStatus status;
         while(true){
             System.out.print("\nInsert your name: ");
-            name = in.nextLine();
+            try {
+                name = br.readLine();
+            } catch (IOException e) {
+                System.out.println("errore");
+                throw new RuntimeException(e);
+            }
             if(name.length() == 0 || name.charAt(0) == '@'){
                 System.out.println("Name invalid, choose another name");
                 continue;
