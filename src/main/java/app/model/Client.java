@@ -55,7 +55,7 @@ public class Client {
             String ui = in.nextLine();
             if(ui.length() == 0)
                 ui = "TUI";
-            System.out.print("\nChoose game mode (Socket or rmi): ");
+            System.out.print("\nChoose game mode (Socket or RMI): ");
             String net = in.nextLine();
             if(net.length() == 0)
                 net = "Socket";
@@ -63,7 +63,7 @@ public class Client {
                 if (net.equals("Socket")) {
                     new PlayerTUI(SOCKET, TUI);
                     break;
-                } else if (net.equals("rmi")) {
+                } else if (net.equals("RMI")) {
                     new PlayerTUI(RMI, TUI);
                     break;
                 }
@@ -72,7 +72,7 @@ public class Client {
                 if (net.equals("Socket")) {
                     new PlayerGUI(SOCKET, GUI);
                     break;
-                } else if (net.equals("rmi")) {
+                } else if (net.equals("RMI")) {
                     new PlayerGUI(RMI, GUI);
                     break;
                 }
