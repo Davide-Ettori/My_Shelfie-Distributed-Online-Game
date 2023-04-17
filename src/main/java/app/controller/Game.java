@@ -466,7 +466,7 @@ public class Game implements Serializable {
             else
                 showMessageDialog(null, "The connection was lost and the application is disconnecting...");
         }
-        Game.waitForSeconds(2.5);
+        Game.waitForSeconds(1);
         System.exit(0);
     }
 }
