@@ -490,6 +490,7 @@ public class PlayerGUI extends Player implements Serializable{
                 pointsUntilNow++;
                 outStream.writeObject(new Message(LIB_FULL, name, null));
                 alert("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
+                updateBoard();
                 //Game.waitForSeconds(standardTimer);
                 return true;
             }
