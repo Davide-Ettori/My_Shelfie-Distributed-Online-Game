@@ -58,7 +58,7 @@ public class Client {
                     continue;
                 }
                 String old;
-                System.out.print("\nDo you want to load an old game ? (yes): ");
+                System.out.print("\nDo you want to load an old game ? (yes or no): ");
                 try {
                     old = br.readLine();
                 } catch (IOException exc) {
