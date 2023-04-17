@@ -2,6 +2,7 @@ package app.controller;
 
 import app.model.*;
 import app.model.NetMode;
+import app.view.GUI.PlayerGUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
@@ -17,13 +18,16 @@ import java.util.Random;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
+import static app.view.UIMode.TUI;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 /**
  * class which represent the instance of the current game
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
@@ -437,9 +441,13 @@ public class Game implements Serializable {
     public void connectionLost(Exception e){
         if(Game.showErrors)
             throw new RuntimeException(e);
-        else
-            System.out.println("\nThe connection was lost and the application is disconnecting...");
-        Game.waitForSeconds(5);
+        else {
+            if(getChairman().uiMode == TUI)
+                System.out.println("\nThe connection was lost and the application is disconnecting...");
+            else
+                showMessageDialog(null, "The connection was lost and the application is disconnecting...");
+        }
+        Game.waitForSeconds(2.5);
         System.exit(0);
     }
 }
