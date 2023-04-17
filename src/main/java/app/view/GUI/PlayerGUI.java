@@ -1109,7 +1109,7 @@ public class PlayerGUI extends Player implements Serializable{
         chatPanel = new JPanel(new GridBagLayout());
         chatTitle = new JTextArea(" Chat history of the Game ");
         chatTitle.setEditable(false);
-        tempChatHistory = new JTextArea();
+        tempChatHistory = new JTextArea(textCols, textCols - 8);
         tempChatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));
         tempChatHistory.setEditable(false);
         chatHistory = new JScrollPane(tempChatHistory);
@@ -1200,6 +1200,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.5;
+        //gbc.fill = GridBagConstraints.BOTH;
         chatPanel.add(chatHistory,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -1207,6 +1208,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.1;
+        //gbc.fill = NONE;
         chatPanel.add(insertPlayer,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
