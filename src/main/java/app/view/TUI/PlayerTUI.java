@@ -63,7 +63,7 @@ public class PlayerTUI extends Player implements Serializable{
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
-            mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
+            mySocket = new Socket(IP.activeIP, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
             outStream.writeObject(false);

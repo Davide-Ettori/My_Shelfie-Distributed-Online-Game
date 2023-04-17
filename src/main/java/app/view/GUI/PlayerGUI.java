@@ -94,7 +94,7 @@ public class PlayerGUI extends Player implements Serializable{
         netMode = mode;
         //alert("\nSoon you will need to enter your nickname for the game");
         try {
-            mySocket = new Socket(IP.DAVIDE_XIAOMI_IP_G, Server.PORT);
+            mySocket = new Socket(IP.activeIP, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
             outStream.writeObject(false);
