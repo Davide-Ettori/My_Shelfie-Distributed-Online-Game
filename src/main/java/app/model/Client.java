@@ -17,7 +17,7 @@ import static app.view.UIMode.GUI;
 import static app.view.UIMode.TUI;
 
 /**
- * class which represent the entry point for teh client
+ * class which represent the entry point for the client
  */
 public class Client {
     /**
@@ -33,7 +33,7 @@ public class Client {
             out.writeObject(true);
         }catch (Exception e){
             while(true) {
-                System.out.println("\nYou are the first player to connect, insert the number of players: ");
+                System.out.print("\nYou are the first player to connect, insert the number of players: ");
                 numPlayers = in.nextLine();
                 if(numPlayers.length() == 0)
                     numPlayers = "2";
@@ -42,7 +42,9 @@ public class Client {
                     System.out.println("\nInvalid choice, try again");
                     continue;
                 }
-                new Game(numP);
+                int finalNumP = numP;
+                new Thread(() -> new Game(finalNumP)).start();
+                Game.waitForSeconds(2.5);
                 break;
             }
         }
