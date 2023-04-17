@@ -470,7 +470,7 @@ public class PlayerGUI extends Player implements Serializable{
                 board.pointsCO_2.remove(lastIndex);
                 pointsUntilNow += points;
                 CO_2_Done = true;
-                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
+                outStream.writeObject(new Message(CO_2, name, Integer.toString(points)));
                 alert("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
                 //Game.waitForSeconds(standardTimer);
                 change = true;
