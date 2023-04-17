@@ -23,6 +23,7 @@ import static app.model.State.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game implements Serializable {
+    public static boolean showErrors = true;
     private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
@@ -61,7 +62,7 @@ public class Game implements Serializable {
         }).start();
 
         try{serverSocket = new ServerSocket(PORT);}
-        catch(Exception e){throw new RuntimeException(e);}
+        catch(Exception e){connectionLost(e);}
         System.out.println("\nServer listening...");
 
         listenForPlayersConnections();
@@ -100,7 +101,7 @@ public class Game implements Serializable {
             p.uiMode = uiModes.get(i);
             try {
                 outStreams.get(i).writeObject(p);
-            }catch (Exception e){throw new RuntimeException(e);}
+            }catch (Exception e){connectionLost(e);}
             players.add(new Player(p));
         }
     }
@@ -134,12 +135,12 @@ public class Game implements Serializable {
                 ths.add(th);
                 numPlayers++;
             }
-            catch(Exception e){throw new RuntimeException(e);}
+            catch(Exception e){connectionLost(e);}
         }
         timeExp = false;
         for(Thread t: ths){
             try{t.join();}
-            catch(Exception e){throw new RuntimeException(e);}
+            catch(Exception e){connectionLost(e);}
         }
         if(numPlayers < targetPlayers){
             System.out.println("\nPlayer number not sufficient");
@@ -170,7 +171,7 @@ public class Game implements Serializable {
                 names.add(name);
                 break;
             }
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
     }
     /**
      * Make a clone of the server, helps for the persistence
@@ -238,7 +239,7 @@ public class Game implements Serializable {
             }
             else
                 waitMoveFromClient();
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
     }
     /**
      * Wait the end of the turn of the client and check if the library is full
@@ -258,7 +259,7 @@ public class Game implements Serializable {
                 }
             }
             advanceTurn();
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
     }
     /**
      * Set the status of the players for the next turn and assign activePlayer to who will play this turn
@@ -290,7 +291,7 @@ public class Game implements Serializable {
                 }
                 else
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-            }catch (Exception e){throw new RuntimeException(e);}
+            }catch (Exception e){connectionLost(e);}
         }
         waitMoveFromClient();
     }
@@ -326,7 +327,7 @@ public class Game implements Serializable {
             else if(getNameIndex(to) != -1){
                 outStreams.get(getNameIndex(to)).writeObject(new Message(CHAT, "", msg));
             }
-        }catch (Exception e){throw new RuntimeException(e);}
+        }catch (Exception e){connectionLost(e);}
     }
     /**
      * find and return the name of the chairman of this game
@@ -407,7 +408,7 @@ public class Game implements Serializable {
         for(int i = 0; i < numPlayers; i++) {
             try {
                 outStreams.get(i).writeObject(new Message(FINAL_SCORE, "server", finalScores));
-            } catch (Exception e) {throw new RuntimeException(e);}
+            } catch (Exception e) {connectionLost(e);}
         }
         //FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
         System.exit(0);
@@ -432,5 +433,13 @@ public class Game implements Serializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void connectionLost(Exception e){
+        if(Game.showErrors)
+            throw new RuntimeException(e);
+        else
+            System.out.println("\nThe connection was lost and the server is disconnecting...");
+        Game.waitForSeconds(5);
+        System.exit(0);
     }
 }

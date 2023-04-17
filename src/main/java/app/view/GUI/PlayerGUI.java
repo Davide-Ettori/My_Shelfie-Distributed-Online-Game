@@ -267,7 +267,7 @@ public class PlayerGUI extends Player implements Serializable{
         textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
 
         sendBtn.addActionListener((event) ->{ // funzione di event listener
-            NameStatus status;
+            NameStatus status = null;
             name = textInput.getText();
             if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names")){
                 alert("Name invalid, choose another name"); // vedi JavaDoc di alert
@@ -277,7 +277,7 @@ public class PlayerGUI extends Player implements Serializable{
             try {
                 outStream.writeObject(name);
                 status = (NameStatus) inStream.readObject();
-            }catch(Exception e){throw new RuntimeException(e);};
+            }catch(Exception e){connectionLost(e);};
 
             if(status == NOT_TAKEN){
                 alert("\nName: '" + name + "' accepted by the server!");
@@ -285,7 +285,7 @@ public class PlayerGUI extends Player implements Serializable{
                 try {
                     outStream.writeObject(netMode);
                     outStream.writeObject(uiMode);
-                }catch(Exception e){throw new RuntimeException(e);}
+                }catch(Exception e){connectionLost(e);}
                 getInitialState(); // partire a lavorare da questa funzione in poi
                 frame.setVisible(false);
                 return;
@@ -319,7 +319,7 @@ public class PlayerGUI extends Player implements Serializable{
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             new Thread(this::initGUI).start();
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
         new Thread(this::waitForEvents).start();
     }
     /**
@@ -343,7 +343,7 @@ public class PlayerGUI extends Player implements Serializable{
                     case LIB_FULL -> handleLibFullEvent(msg);
                     case STOP -> {} // non devi fare niente
                 }
-            }catch(Exception e){throw new RuntimeException(e);}
+            }catch(Exception e){connectionLost(e);}
         }
     }
     /**
@@ -389,7 +389,7 @@ public class PlayerGUI extends Player implements Serializable{
         try {
             outStream.writeObject(new Message(STOP, null, null));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            connectionLost(e);
         }
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board)jsonObject.get("board");
@@ -474,7 +474,7 @@ public class PlayerGUI extends Player implements Serializable{
                 //Game.waitForSeconds(standardTimer);
                 change = true;
             }
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
         return change;
     }
     /**
@@ -492,7 +492,7 @@ public class PlayerGUI extends Player implements Serializable{
                 //Game.waitForSeconds(standardTimer);
                 return true;
             }
-        }catch (Exception e){throw new RuntimeException(e);}
+        }catch (Exception e){connectionLost(e);}
         return false;
     }
     /**
@@ -507,7 +507,7 @@ public class PlayerGUI extends Player implements Serializable{
             boardStatus = new JSONObject();
             boardStatus.put("board", board);
             outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
-        }catch (Exception e){throw new RuntimeException(e);}
+        }catch (Exception e){connectionLost(e);}
     }
     /**
      * method that sends the last move done by the current player to all other clients (after the move is done on this player)
@@ -530,10 +530,10 @@ public class PlayerGUI extends Player implements Serializable{
                     Game.waitForSeconds(standardTimer / 2.5);
                     playerStatus.put("player", new Player(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
-                }catch (Exception e){throw new RuntimeException(e);}
+                }catch (Exception e){connectionLost(e);}
             }).start();
 
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
     }
     /**
      * Send with socket network the message of the chat to the right players
@@ -559,13 +559,21 @@ public class PlayerGUI extends Player implements Serializable{
         tempChatHistory.setText(fullChat);
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
     }
     /**
      * helper function for alerting a message to the user (pop-up)
      * @param s the string og the message to show
      */
     private void alert(String s){showMessageDialog(null, s);}
+    private void connectionLost(Exception e){
+        if(Game.showErrors)
+            throw new RuntimeException(e);
+        else
+            alert("\nThe connection was lost and the client is disconnecting...");
+        Game.waitForSeconds(standardTimer);
+        System.exit(0);
+    }
     /**
      * Function that initialize all the GUI
      * @author Ettori Faccincani Giammusso

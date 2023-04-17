@@ -103,14 +103,14 @@ public class PlayerTUI extends Player implements Serializable{
      * @author Ettori
      */
     private void chooseUserName(){
-        NameStatus status;
+        NameStatus status = null;
         while(true){
             System.out.print("\nInsert your name: ");
             try {
                 name = br.readLine();
             } catch (IOException e) {
                 System.out.println("errore");
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
             if(name.length() == 0 || name.charAt(0) == '@'){
                 System.out.println("Name invalid, choose another name");
@@ -119,7 +119,7 @@ public class PlayerTUI extends Player implements Serializable{
             try {
                 outStream.writeObject(name);
                 status = (NameStatus) inStream.readObject();
-            }catch(Exception e){throw new RuntimeException(e);};
+            }catch(Exception e){connectionLost(e);};
 
             if(status == NOT_TAKEN)
                 break;
@@ -128,7 +128,7 @@ public class PlayerTUI extends Player implements Serializable{
         try {
             outStream.writeObject(netMode);
             outStream.writeObject(uiMode);
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
         System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
     }
@@ -143,7 +143,7 @@ public class PlayerTUI extends Player implements Serializable{
             p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
             drawAll();
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
         if(name.equals(chairmanName)) {
             startChatReceiveThread();
             waitForMove();
@@ -172,7 +172,7 @@ public class PlayerTUI extends Player implements Serializable{
                 case CO_2 -> handleCO_2Event(msg);
                 case LIB_FULL -> handleLibFullEvent(msg);
             }
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
     }
     /**
      * helper function for handling the turn event notification from the server
@@ -217,7 +217,7 @@ public class PlayerTUI extends Player implements Serializable{
         try {
             outStream.writeObject(new Message(STOP, null, null));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            connectionLost(e);
         }
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board)jsonObject.get("board");
@@ -309,7 +309,7 @@ public class PlayerTUI extends Player implements Serializable{
      * @return the list og the cards chosen by the player
      */
     private ArrayList<Integer> selectCards(){
-        String coordString;
+        String coordString = "";
         String[] rawCoords;
         ArrayList<Integer> coords;
         while(true){
@@ -318,7 +318,7 @@ public class PlayerTUI extends Player implements Serializable{
                 coordString = br.readLine();
             } catch (IOException e) {
                 System.out.println("errore");
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
             if(coordString.length() == 0)
                 continue;
@@ -350,7 +350,7 @@ public class PlayerTUI extends Player implements Serializable{
      * @return the list of the cards in the right order
      */
     private ArrayList<Integer> selectOrder(ArrayList<Integer> coords){
-        String coordOrder;
+        String coordOrder = "";
         int temp_1, temp_2, index_1, index_2;
         while(true){
             printCurOrder(coords);
@@ -360,7 +360,7 @@ public class PlayerTUI extends Player implements Serializable{
             try {
                 coordOrder = br.readLine();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
             if(coordOrder.length() == 0 || coordOrder.equals("-1"))
                 break;
@@ -394,13 +394,13 @@ public class PlayerTUI extends Player implements Serializable{
      */
     private int selectColumn(int size){
         int col;
-        String column;
+        String column = "";
         while(true){
             System.out.print("\nInsert the column where you wish to put the cards (or @ for chat):\n");
             try {
                 column = br.readLine();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
             if(column.length() == 0)
                 continue;
@@ -446,7 +446,7 @@ public class PlayerTUI extends Player implements Serializable{
                 Game.waitForSeconds(standardTimer);
                 change = true;
             }
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
         return change;
     }
     /**
@@ -464,7 +464,7 @@ public class PlayerTUI extends Player implements Serializable{
                 Game.waitForSeconds(standardTimer);
                 return true;
             }
-        }catch (Exception e){throw new RuntimeException(e);}
+        }catch (Exception e){connectionLost(e);}
         return false;
     }
     /**
@@ -479,7 +479,7 @@ public class PlayerTUI extends Player implements Serializable{
             boardStatus = new JSONObject();
             boardStatus.put("board", board);
             outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
-        }catch (Exception e){throw new RuntimeException(e);}
+        }catch (Exception e){connectionLost(e);}
     }
     /**
      * method that sends the last move done by the current player to all other clients (after the move is done on this player)
@@ -502,10 +502,10 @@ public class PlayerTUI extends Player implements Serializable{
                     Game.waitForSeconds(standardTimer / 2.5);
                     playerStatus.put("player", new Player(this));
                     outStream.writeObject(new Message(END_TURN, name, playerStatus));
-                }catch (Exception e){throw new RuntimeException(e);}
+                }catch (Exception e){connectionLost(e);}
             }).start();
 
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
 
         waitForEvents();
     }
@@ -592,7 +592,7 @@ public class PlayerTUI extends Player implements Serializable{
         fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
-        }catch(Exception e){throw new RuntimeException(e);}
+        }catch(Exception e){connectionLost(e);}
     }
     /**
      * prints the name of all the players in the terminal, so that the user can choose the receiver of the chat messages
@@ -645,5 +645,13 @@ public class PlayerTUI extends Player implements Serializable{
         for(int i = 0; i < 12; i++){
             System.out.println();
         }
+    }
+    private void connectionLost(Exception e){
+        if(Game.showErrors)
+            throw new RuntimeException(e);
+        else
+            System.out.println("\nThe connection was lost and the client is disconnecting...");
+        Game.waitForSeconds(standardTimer);
+        System.exit(0);
     }
 }
