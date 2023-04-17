@@ -96,6 +96,7 @@ public class PlayerGUI extends Player implements Serializable{
             mySocket = new Socket(IP.LOCAL_HOST, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
+            outStream.writeObject(false);
         }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
         showChooseNameWindow();
