@@ -301,7 +301,7 @@ public class Game implements Serializable {
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
             }catch (Exception e){connectionLost(e);}
         }
-        FILEHelper.writeServer(this);
+        FILEHelper.writeServer(this); // salvo lo stato della partita
         waitMoveFromClient();
     }
     /**
