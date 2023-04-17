@@ -110,34 +110,36 @@ public class Game implements Serializable {
      */
     private void listenForPlayersConnections(){
         ArrayList<Thread> ths = new ArrayList<>();
-        ObjectInputStream testClientIn;
-        ObjectOutputStream testClientOut;
+        ObjectInputStream clientIn;
+        ObjectOutputStream clientOut;
         Thread th;
 
         while(numPlayers < targetPlayers){
             try{
                 playersSocket.add(serverSocket.accept());
-                testClientOut = new ObjectOutputStream(playersSocket.get(playersSocket.size() - 1).getOutputStream());
-                testClientIn = new ObjectInputStream(playersSocket.get(playersSocket.size() - 1).getInputStream());
-                boolean isFake = (boolean) testClientIn.readObject();
+                clientOut = new ObjectOutputStream(playersSocket.get(playersSocket.size() - 1).getOutputStream());
+                clientIn = new ObjectInputStream(playersSocket.get(playersSocket.size() - 1).getInputStream());
+                boolean isFake = (boolean) clientIn.readObject();
                 if(isFake) {
                     playersSocket.remove(playersSocket.size() - 1);
                     continue;
                 }
+                ObjectInputStream finalClientIn = clientIn;
+                ObjectOutputStream finalClientOut = clientOut;
                 th = new Thread(() ->{
-                    try{getUserName(playersSocket.get(playersSocket.size() - 1));}
+                    try{getUserName(finalClientIn, finalClientOut);}
                     catch(Exception e){System.out.println(e);}
                 });
                 th.start();
                 ths.add(th);
                 numPlayers++;
             }
-            catch(Exception e){System.out.println(e.toString());}
+            catch(Exception e){throw new RuntimeException(e);}
         }
         timeExp = false;
         for(Thread t: ths){
             try{t.join();}
-            catch(Exception e){System.out.println(e.toString());}
+            catch(Exception e){throw new RuntimeException(e);}
         }
         if(numPlayers < targetPlayers){
             System.out.println("\nPlayer number not sufficient");
@@ -145,15 +147,17 @@ public class Game implements Serializable {
         }
         System.out.println("\nThe game started");
     }
+
     /**
      * Check if the name that the client choose is already TAKEN
-     * @param socket socket of the client that send his name
+     * @param in the input stream of the socket
+     * @param out the output stream of the socket
      * @author Ettori
      */
-    synchronized private void getUserName(Socket socket){
+    synchronized private void getUserName(ObjectInputStream in, ObjectOutputStream out){
         try {
-            outStreams.add(new ObjectOutputStream(socket.getOutputStream()));
-            inStreams.add(new ObjectInputStream(socket.getInputStream()));
+            outStreams.add(out);
+            inStreams.add(in);
             while (true) {
                 String name = (String) inStreams.get(inStreams.size() - 1).readObject();
                 if (isNameTaken(name)) {
