@@ -29,6 +29,6 @@ public class ChatBroadcast extends Thread{
                 game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());
             }
         }
-        catch(Exception e){throw new RuntimeException(e);}
+        catch(Exception e){game.connectionLost(e);}
     }
 }

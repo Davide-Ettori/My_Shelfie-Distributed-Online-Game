@@ -32,6 +32,6 @@ public class SendChat extends Thread{
             }
         }
         catch (InterruptedException e){}
-        catch(Exception e){System.out.println(e);}
+        catch(Exception e){player.connectionLost(e);}
     }
 }

@@ -646,7 +646,7 @@ public class PlayerTUI extends Player implements Serializable{
             System.out.println();
         }
     }
-    private void connectionLost(Exception e){
+    public void connectionLost(Exception e){
         if(Game.showErrors)
             throw new RuntimeException(e);
         else

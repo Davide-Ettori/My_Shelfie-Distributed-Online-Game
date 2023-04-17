@@ -31,6 +31,6 @@ public class ReceiveChat extends Thread{
                 player.addToFullChat((String)msg.getContent());
             }
         }
-        catch(Exception e){System.out.println(e);}
+        catch(Exception e){player.connectionLost(e);}
     }
 }

@@ -434,7 +434,7 @@ public class Game implements Serializable {
             throw new RuntimeException(e);
         }
     }
-    private void connectionLost(Exception e){
+    public void connectionLost(Exception e){
         if(Game.showErrors)
             throw new RuntimeException(e);
         else
