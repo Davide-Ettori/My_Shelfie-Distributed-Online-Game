@@ -160,10 +160,7 @@ public class PlayerTUI extends Player implements Serializable{
      * @author Ettori
      * @param s the message received, it will be added to the fullChat attribute
      */
-    public void addToFullChat(String s) throws IOException {
-        fullChat += s;
-        //drawAll();
-    }
+    public void addToFullChat(String s) throws IOException {fullChat += s;}
     /**
      * function  used to wait for notification from the server while the player is NON active
      * @author Ettori
