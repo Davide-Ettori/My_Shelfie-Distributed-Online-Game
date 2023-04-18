@@ -684,6 +684,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.25;
+        gbc.fill = HORIZONTAL;
         infoBox.add(activeTurnInfo,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -691,6 +692,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.25;
+        gbc.fill = NONE;
         infoBox.add(curPointsInfo,gbc);
 
         //
