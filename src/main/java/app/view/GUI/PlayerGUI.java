@@ -44,7 +44,6 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient int libFullX = 6; // y sulla board
     private final transient int libFullY = 7; // x sulla board
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
-    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // da togliere in futuro perchè inutile
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private transient JFrame mainFrame;
     private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
@@ -92,8 +91,8 @@ public class PlayerGUI extends Player implements Serializable{
     public PlayerGUI(NetMode mode, UIMode ui) { // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
-        //alert("\nSoon you will need to enter your nickname for the game");
-        showMessageDialog(new JFrame(), "Soon you will need to enter your nickname for the game");
+        System.out.println("\nSoon you will need to enter your nickname for the game");
+        //showMessageDialog(new JFrame(), "Soon you will need to enter your nickname for the game");
         try {
             mySocket = new Socket(IP.activeIP, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());

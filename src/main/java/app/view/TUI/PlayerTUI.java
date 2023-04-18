@@ -1,5 +1,6 @@
 package app.view.TUI;
 
+import app.model.chat.ReadMove;
 import app.view.IP;
 import app.controller.*;
 import app.model.*;
@@ -29,7 +30,10 @@ import static app.model.State.*;
  */
 public class PlayerTUI extends Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    private transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    //private transient InputStreamReader terminalIn = new InputStreamReader(System.in);
+    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private transient Thread readThread;
+    public transient String stringRead = "";
 
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
@@ -162,15 +166,9 @@ public class PlayerTUI extends Player implements Serializable{
      */
     public void addToFullChat(String s) throws IOException {
         fullChat += s;
-        //drawAll();
-        //br.close();
-        /*
-        try {
-            new Robot().keyPress(KeyEvent.VK_ENTER);
-        } catch (AWTException e) {
-            throw new RuntimeException(e);
-        }
-        */
+        drawAll();
+        Game.waitForSeconds(0.5);
+        chatThread.interrupt();
     }
     /**
      * function  used to wait for notification from the server while the player is NON active
@@ -333,12 +331,12 @@ public class PlayerTUI extends Player implements Serializable{
         ArrayList<Integer> coords;
         while(true){
             System.out.print("\nInsert coordinates of the cards to pick (or @ for chat):\n");
+            readThread = new ReadMove(this, br);
+            readThread.start();
             try {
-                coordString = br.readLine();
-            } catch (IOException e) {
-                br = new BufferedReader(new InputStreamReader(System.in));
-                continue;
-            }
+                readThread.join();
+            } catch (InterruptedException ignored) {}
+            coordString = stringRead;
             if(coordString.length() == 0)
                 continue;
             rawCoords = coordString.split(" ");
@@ -376,12 +374,12 @@ public class PlayerTUI extends Player implements Serializable{
             if(coords.size() == 2)
                 break;
             System.out.print("\nInsert which cards to switch (-1 for exit) (or @ for chat):\n");
+            readThread = new ReadMove(this, br);
+            readThread.start();
             try {
-                coordOrder = br.readLine();
-            } catch (IOException e) {
-                br = new BufferedReader(new InputStreamReader(System.in));
-                continue;
-            }
+                readThread.join();
+            } catch (InterruptedException ignored) {}
+            coordOrder = stringRead;
             if(coordOrder.length() == 0)
                 continue;
             if(coordOrder.equals("-1"))
@@ -419,12 +417,12 @@ public class PlayerTUI extends Player implements Serializable{
         String column = "";
         while(true){
             System.out.print("\nInsert the column where you wish to put the cards (or @ for chat):\n");
+            readThread = new ReadMove(this, br);
+            readThread.start();
             try {
-                column = br.readLine();
-            } catch (IOException e) {
-                br = new BufferedReader(new InputStreamReader(System.in));
-                continue;
-            }
+                readThread.join();
+            } catch (InterruptedException ignored) {}
+            column = stringRead;
             if(column.length() == 0)
                 continue;
             if(column.charAt(0) == '@'){

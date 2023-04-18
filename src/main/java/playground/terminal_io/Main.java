@@ -1,10 +1,13 @@
 package playground.terminal_io;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main { // questo è il miglior modo di prendere un generico input da terminale il Java
@@ -29,16 +32,35 @@ public class Main { // questo è il miglior modo di prendere un generico input d
         System.out.println(s);
     }
     public static void cycle(){
-        while (true){
-            Scanner in = new Scanner(System.in);
-            flushInputBuffer();
-            System.out.println("inserisci input: ");
-            String s = in.nextLine();
-            System.out.println(s);
+        InputStreamReader y = new InputStreamReader(System.in);
+        BufferedReader in = new BufferedReader(y);
+        System.out.print("inserisci input: ");
+        String s = null;
+        new Thread(() ->{
+            try {
+                String str;
+                while (true) {
+                    while (System.in.available() == 0) {
+                        Thread.sleep(100);
+                    }
+                    str = in.readLine();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+        try {
+            s = in.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        System.out.println(s);
     }
     public static void main(String[] args) throws IOException {
-        testBuffer();
+        //testBuffer();
+        cycle();
         /*
         Scanner in = new Scanner(System.in); // inizializzo uno scanner sul terminale
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
