@@ -26,7 +26,6 @@ public class Player implements Serializable {
     public Board board;
     /** the personal library of this player */
     public Library library;
-    protected State state;
     protected boolean isChairMan;
     protected transient ObjectInputStream inStream;
     protected transient ObjectOutputStream outStream;
@@ -73,7 +72,6 @@ public class Player implements Serializable {
         library = new Library(p.library);
         objective = p.objective;
         pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
@@ -152,12 +150,6 @@ public class Player implements Serializable {
      */
     public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
     /**
-     * set the current state of the player
-     * @author Ettori
-     * @param s the state that must be set
-     */
-    public void setState(State s){state = s;}
-    /**
      * setter for the attribute name
      * @author Ettori
      * @param n the name to set
@@ -169,12 +161,6 @@ public class Player implements Serializable {
      * @param b the boolean to set
      */
     public void setIsChairMan(boolean b){isChairMan = b;}
-    /**
-     * find the current state of the player (ACTIVE, NOT_ACTIVE, DISCONNECTED)
-     * @author Ettori
-     * @return the state of the player (enum value)
-     */
-    public State getState(){return state;}
     /**
      * getter for the socket input stream (from the server)
      * @author Ettori

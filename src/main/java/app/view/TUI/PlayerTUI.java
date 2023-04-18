@@ -43,7 +43,6 @@ public class PlayerTUI extends Player implements Serializable{
         library = new Library(p.library);
         objective = p.getPrivateObjective();
         pointsUntilNow = p.pointsUntilNow;
-        state = p.getState();
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         CO_1_Done = p.getCO_1_Done();
@@ -88,7 +87,6 @@ public class PlayerTUI extends Player implements Serializable{
         library = new Library(p.library);
         objective = p.objective;
         pointsUntilNow = p.pointsUntilNow;
-        state = p.state;
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
         mySocket = p.mySocket;
@@ -503,7 +501,6 @@ public class PlayerTUI extends Player implements Serializable{
 
         try {
             outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
-            state = NOT_ACTIVE;
             //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             Game.waitForSeconds(standardTimer / 5);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno

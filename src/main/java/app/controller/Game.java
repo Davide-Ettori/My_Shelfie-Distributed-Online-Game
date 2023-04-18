@@ -118,7 +118,6 @@ public class Game implements Serializable {
             p.library = new Library(names.get(i));
             p.setPrivateObjective(getPrivateObjective());
             p.pointsUntilNow = 0;
-            p.setState(NOT_ACTIVE);
             p.activeName = getChairmanName();
             p.chairmanName = getChairmanName();
             for(int j = 0; j < numPlayers; j++) {
@@ -295,12 +294,7 @@ public class Game implements Serializable {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
-        players.get(activePlayer).setState(NOT_ACTIVE);
-        do {
-            activePlayer = (activePlayer + 1) % numPlayers;
-        }while(players.get(activePlayer).getState() == DISCONNECTED);
-        players.get(activePlayer).setState(ACTIVE);
-
+        activePlayer = (activePlayer + 1) % numPlayers;
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
             sendFinalScoresToAll();
@@ -316,7 +310,6 @@ public class Game implements Serializable {
             try {
                 if (i == activePlayer) {
                     outStreams.get(i).writeObject(new Message(YOUR_TURN, "server", ""));
-                    players.get(i).setState(ACTIVE);
                 }
                 else
                     outStreams.get(i).writeObject(new Message(CHANGE_TURN, "server", names.get(activePlayer)));
