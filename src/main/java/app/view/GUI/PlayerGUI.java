@@ -93,6 +93,7 @@ public class PlayerGUI extends Player implements Serializable{
         uiMode = ui;
         netMode = mode;
         //alert("\nSoon you will need to enter your nickname for the game");
+        showMessageDialog(new JFrame(), "Soon you will need to enter your nickname for the game");
         try {
             mySocket = new Socket(IP.activeIP, Server.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
