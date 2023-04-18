@@ -1289,7 +1289,7 @@ public class PlayerGUI extends Player implements Serializable{
 
         mainFrame.add(generalLabel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
-        mainFrame.setResizable(true);
+        mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
