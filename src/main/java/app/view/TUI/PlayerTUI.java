@@ -154,6 +154,12 @@ public class PlayerTUI extends Player implements Serializable{
         }
     }
     /**
+     * add a string (chat message) to the full chat of the game
+     * @author Ettori
+     * @param s the message received, it will be added to the fullChat attribute
+     */
+    public void addToFullChat(String s){fullChat += s; drawAll();}
+    /**
      * function  used to wait for notification from the server while the player is NON active
      * @author Ettori
      * @author Ettori Faccincani

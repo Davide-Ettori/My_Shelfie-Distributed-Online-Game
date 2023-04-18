@@ -146,12 +146,6 @@ public class Player implements Serializable {
         library.insertCards(col, cards);
     }
     /**
-     * add a string (chat message) to the full chat of the game
-     * @author Ettori
-     * @param s the message received, it will be added to the fullChat attribute
-     */
-    public void addToFullChat(String s){fullChat += s;}
-    /**
      * setter for the PO
      * @author Ettori
      * @param obj  the PO that needs to be set
