@@ -6,6 +6,7 @@ import app.view.GUI.PlayerGUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -91,6 +92,10 @@ public class Game implements Serializable {
      * @author Ettori
      */
     private void initializeAllClients(){
+        int temp = new Random().nextInt(numPlayers);
+        String n = names.get(0);
+        names.set(0, names.get(temp));
+        names.set(temp, n);
         Player p;
         for(int i = 0; i < names.size(); i++){
             p = new Player();
@@ -460,6 +465,18 @@ public class Game implements Serializable {
     public void connectionLost(Exception e){
         if(Game.showErrors)
             throw new RuntimeException(e);
+        else{
+            System.out.println("\nConnection lost, the server is closing...");
+            try {
+                serverSocket.close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            while (true){}
+        }
+        /*
+        if(Game.showErrors)
+            throw new RuntimeException(e);
         else {
             if(getChairman().uiMode == TUI)
                 System.out.println("\nThe connection was lost and the application is disconnecting...");
@@ -468,5 +485,6 @@ public class Game implements Serializable {
         }
         Game.waitForSeconds(1);
         System.exit(0);
+         */
     }
 }
