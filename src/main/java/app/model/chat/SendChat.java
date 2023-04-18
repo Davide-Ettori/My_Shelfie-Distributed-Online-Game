@@ -28,8 +28,8 @@ public class SendChat extends Thread{
                     Thread.sleep(100);
                 }
                 s = br.readLine();
-                player.sendChatMsg(s);
-                player.drawAll();
+                if(player.sendChatMsg(s))
+                    player.drawAll();
             }
         }
         catch (InterruptedException e){}

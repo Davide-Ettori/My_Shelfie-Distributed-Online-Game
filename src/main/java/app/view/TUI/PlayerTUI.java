@@ -160,14 +160,10 @@ public class PlayerTUI extends Player implements Serializable{
      * @author Ettori
      * @param s the message received, it will be added to the fullChat attribute
      */
-    public void addToFullChat(String s){
+    public void addToFullChat(String s) throws IOException {
         fullChat += s;
-        drawAll();
-        try {
-            br.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //drawAll();
+        //br.close();
         /*
         try {
             new Robot().keyPress(KeyEvent.VK_ENTER);
@@ -596,15 +592,15 @@ public class PlayerTUI extends Player implements Serializable{
      * @param msg content of the message
      * @author Ettori
      */
-    public void sendChatMsg(String msg){
+    public boolean sendChatMsg(String msg){
         if(msg.length() == 0)
-            return;
+            return false;
         if(msg.charAt(0) != '@')
-            return;
+            return false;
         if(!msg.contains(" ")){
             if(msg.substring(1).equals("names"))
                 showAllNames();
-            return;
+            return false;
         }
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
@@ -612,16 +608,17 @@ public class PlayerTUI extends Player implements Serializable{
 
         if(!doesPlayerExists(dest) && !dest.equals("all")) {
             System.out.println("\nThe name chosen does not exists");
-            return;
+            return false;
         }
         if(dest.equals(name)){
             System.out.println("\nYou can't send chat messages to yourself");
-            return;
+            return false;
         }
         fullChat += msg;
         try{
             outStream.writeObject(new Message(CHAT, dest, msg));
         }catch(Exception e){connectionLost(e);}
+        return true;
     }
     /**
      * prints the name of all the players in the terminal, so that the user can choose the receiver of the chat messages

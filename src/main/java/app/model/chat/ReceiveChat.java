@@ -3,6 +3,8 @@ package app.model.chat;
 import app.controller.Message;
 import app.view.TUI.PlayerTUI;
 
+import java.io.IOException;
+
 import static app.controller.MessageType.*;
 
 /**
@@ -27,10 +29,11 @@ public class ReceiveChat extends Thread{
                 Message msg = (Message) player.getInStream().readObject();
                 if(msg.getType() == STOP)
                     return;
-                //System.out.println("\n" + msg.getContent());
+                System.out.println("\n" + msg.getContent());
                 player.addToFullChat((String)msg.getContent());
             }
         }
+        catch (IOException ignored){}
         catch(Exception e){player.connectionLost(e);}
     }
 }
