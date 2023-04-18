@@ -151,7 +151,7 @@ public class PlayerGUI extends Player implements Serializable{
                 boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
             }
         }
-        boardCards[libFullX][libFullY].setVisible(pointsUntilNow % 2 == 1); // solito trucchetto
+        boardCards[libFullX][libFullY].setVisible(!endGame);
     }
     /**
      * method that update the library of the active player
@@ -452,6 +452,7 @@ public class PlayerGUI extends Player implements Serializable{
         alert(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         //Game.waitForSeconds(standardTimer);
         endGame = true;
+        boardCards[libFullX][libFullY].setVisible(false);
     }
     private boolean checkCO(){
         int points, lastIndex;
