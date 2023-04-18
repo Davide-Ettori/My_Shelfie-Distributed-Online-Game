@@ -46,6 +46,7 @@ public class Game implements Serializable {
     private boolean timeExp = true;
     private transient ArrayList<Thread> chatThreads = new ArrayList<>();
     private transient ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
+    private transient boolean closed = false;
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -463,28 +464,21 @@ public class Game implements Serializable {
      * @author Ettori
      */
     public void connectionLost(Exception e){
+        if(closed)
+            return;
         if(Game.showErrors)
             throw new RuntimeException(e);
         else{
+            closed = true;
             System.out.println("\nConnection lost, the server is closing...");
             try {
                 serverSocket.close();
+                for(Socket s: playersSocket)
+                    s.close();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             while (true){}
         }
-        /*
-        if(Game.showErrors)
-            throw new RuntimeException(e);
-        else {
-            if(getChairman().uiMode == TUI)
-                System.out.println("\nThe connection was lost and the application is disconnecting...");
-            else
-                showMessageDialog(null, "The connection was lost and the application is disconnecting...");
-        }
-        Game.waitForSeconds(1);
-        System.exit(0);
-         */
     }
 }
