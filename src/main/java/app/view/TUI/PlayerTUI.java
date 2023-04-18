@@ -570,6 +570,8 @@ public class PlayerTUI extends Player implements Serializable{
      * @author Ettori
      */
     public void sendChatMsg(String msg){
+        if(msg.length() == 0)
+            return;
         if(msg.charAt(0) != '@')
             return;
         if(!msg.contains(" ")){
