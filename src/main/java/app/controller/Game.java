@@ -94,6 +94,15 @@ public class Game implements Serializable {
         String n = names.get(0);
         names.set(0, names.get(temp));
         names.set(temp, n);
+
+        ObjectOutputStream outTemp = outStreams.get(0);
+        outStreams.set(0, outStreams.get(temp));
+        outStreams.set(temp, outTemp);
+
+        ObjectInputStream inTemp = inStreams.get(0);
+        inStreams.set(0, inStreams.get(temp));
+        inStreams.set(temp, inTemp);
+
         Player p;
         for(int i = 0; i < names.size(); i++){
             p = new Player();
