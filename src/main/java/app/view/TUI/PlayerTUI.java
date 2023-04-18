@@ -29,7 +29,7 @@ import static app.model.State.*;
  */
 public class PlayerTUI extends Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
@@ -164,10 +164,17 @@ public class PlayerTUI extends Player implements Serializable{
         fullChat += s;
         drawAll();
         try {
+            br.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        /*
+        try {
             new Robot().keyPress(KeyEvent.VK_ENTER);
         } catch (AWTException e) {
             throw new RuntimeException(e);
         }
+        */
     }
     /**
      * function  used to wait for notification from the server while the player is NON active
@@ -333,8 +340,8 @@ public class PlayerTUI extends Player implements Serializable{
             try {
                 coordString = br.readLine();
             } catch (IOException e) {
-                System.out.println("errore");
-                connectionLost(e);
+                br = new BufferedReader(new InputStreamReader(System.in));
+                continue;
             }
             if(coordString.length() == 0)
                 continue;
@@ -376,7 +383,8 @@ public class PlayerTUI extends Player implements Serializable{
             try {
                 coordOrder = br.readLine();
             } catch (IOException e) {
-                connectionLost(e);
+                br = new BufferedReader(new InputStreamReader(System.in));
+                continue;
             }
             if(coordOrder.length() == 0)
                 continue;
@@ -418,7 +426,8 @@ public class PlayerTUI extends Player implements Serializable{
             try {
                 column = br.readLine();
             } catch (IOException e) {
-                connectionLost(e);
+                br = new BufferedReader(new InputStreamReader(System.in));
+                continue;
             }
             if(column.length() == 0)
                 continue;
