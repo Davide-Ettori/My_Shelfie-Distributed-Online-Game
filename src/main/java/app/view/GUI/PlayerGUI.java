@@ -46,7 +46,7 @@ public class PlayerGUI extends Player implements Serializable{
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private transient JFrame mainFrame;
-    private transient JPanel infoBox, internalPanelLow, internalPanelHigh, internalPanelMid, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
+    private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
     private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, generalLabel;
     private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle;
     private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
@@ -705,7 +705,7 @@ public class PlayerGUI extends Player implements Serializable{
         //Addition: (Hierarchy of panels inside panels)
         //SECOND LEVEL
         //CYAN
-        internalPanelLow = new JPanel(new GridBagLayout());
+        internalPanelSide = new JPanel(new GridBagLayout());
         Insets insets = CO1Label.getInsets();
 
         CO1Label.add(pointsCO1Label);
@@ -733,7 +733,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipadx = 0;
         gbc.ipady = 100;
         gbc.insets = new Insets(25,0,0,0);
-        internalPanelLow.add(CO1Panel,gbc);
+        internalPanelSide.add(CO1Panel,gbc);
         gbc.insets = new Insets(generalBorder, generalBorder, generalBorder, generalBorder);
 
         insets = CO2Label.getInsets();
@@ -762,7 +762,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.gridy = 1;
         gbc.ipadx = 0;
         gbc.ipady = 100;
-        internalPanelLow.add(CO2Panel,gbc);
+        internalPanelSide.add(CO2Panel,gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -783,7 +783,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipadx = 0;
         gbc.ipady = 100;
         gbc.weighty = 0.2;
-        internalPanelLow.add(POPanel, gbc);
+        internalPanelSide.add(POPanel, gbc);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -804,7 +804,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipadx = 0;
         gbc.ipady = 100;
         gbc.weighty = 0.2;
-        internalPanelLow.add(chairmanPanel, gbc);
+        internalPanelSide.add(chairmanPanel, gbc);
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.ipadx = 0;
@@ -812,12 +812,12 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weighty = 0.2;
         gbc.weightx = 1.0;
         gbc.insets = new Insets(0,0,25,0);
-        internalPanelLow.add(infoBox, gbc);
+        internalPanelSide.add(infoBox, gbc);
         gbc.insets = new Insets(generalBorder, generalBorder, generalBorder, generalBorder);
         gbc.weightx = 0.0;
 
         //GREEN
-        internalPanelMid = new JPanel(new GridBagLayout());
+        internalPanelLow = new JPanel(new GridBagLayout());
 
         player1Panel = new JPanel(new GridBagLayout());
         //Text
@@ -953,7 +953,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
-        internalPanelMid.add(player1Panel,gbc);
+        internalPanelLow.add(player1Panel,gbc);
         //player 2
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -975,7 +975,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
-        internalPanelMid.add(player2Panel,gbc);
+        internalPanelLow.add(player2Panel,gbc);
         //player 3
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -997,7 +997,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
-        internalPanelMid.add(player3Panel,gbc);
+        internalPanelLow.add(player3Panel,gbc);
         gbc.weightx = 0.0;
         //blue
         internalPanelHigh = new JPanel(new GridBagLayout());
@@ -1250,8 +1250,8 @@ public class PlayerGUI extends Player implements Serializable{
         generalLabel.setLayout(new GridBagLayout());
 
         internalPanelHigh.setBackground(new Color(0, 0, 0, 0));
+        internalPanelSide.setBackground(new Color(0, 0, 0, 0));
         internalPanelLow.setBackground(new Color(0, 0, 0, 0));
-        internalPanelMid.setBackground(new Color(0, 0, 0, 0));
         //infoBox.setBackground(new Color(0, 0, 0, 0));
         player1Panel.setBackground(new Color(0, 0, 0, 0));
         player2Panel.setBackground(new Color(0, 0, 0, 0));
@@ -1280,7 +1280,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.ipady = 0;
         gbc.weightx = 0.8;
         gbc.weighty = 0.4;
-        generalLabel.add(internalPanelMid,gbc);
+        generalLabel.add(internalPanelLow,gbc);
 
 
         gbc.gridx = 1;
@@ -1290,7 +1290,7 @@ public class PlayerGUI extends Player implements Serializable{
         gbc.weightx = 0.2;
         gbc.weighty = 0.8;
         gbc.gridheight = 2;
-        generalLabel.add(internalPanelLow,gbc);
+        generalLabel.add(internalPanelSide,gbc);
 
         mainFrame.add(generalLabel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
