@@ -9,6 +9,8 @@ import app.view.UIMode;
 import org.json.simple.JSONObject;
 import playground.socket.Server;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -158,7 +160,15 @@ public class PlayerTUI extends Player implements Serializable{
      * @author Ettori
      * @param s the message received, it will be added to the fullChat attribute
      */
-    public void addToFullChat(String s){fullChat += s; drawAll();}
+    public void addToFullChat(String s){
+        fullChat += s;
+        drawAll();
+        try {
+            new Robot().keyPress(KeyEvent.VK_ENTER);
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * function  used to wait for notification from the server while the player is NON active
      * @author Ettori
@@ -368,7 +378,9 @@ public class PlayerTUI extends Player implements Serializable{
             } catch (IOException e) {
                 connectionLost(e);
             }
-            if(coordOrder.length() == 0 || coordOrder.equals("-1"))
+            if(coordOrder.length() == 0)
+                continue;
+            if(coordOrder.equals("-1"))
                 break;
             if(coordOrder.charAt(0) == '@'){
                 sendChatMsg(coordOrder);
