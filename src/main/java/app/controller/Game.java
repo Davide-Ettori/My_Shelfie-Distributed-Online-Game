@@ -2,7 +2,6 @@ package app.controller;
 
 import app.model.*;
 import app.model.NetMode;
-import app.view.GUI.PlayerGUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
@@ -19,8 +18,6 @@ import java.util.Random;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.State.*;
-import static app.view.UIMode.TUI;
-import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * class which represent the instance of the current game
