@@ -532,7 +532,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(standardTimer / 2.5);
-                    playerStatus.put("player", new Player(this));
+                    if(netMode == SOCKET)
+                        playerStatus.put("player", new Player(this));
                     sendToServer(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){connectionLost(e);}
             }).start();
@@ -548,9 +549,13 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      */
     private void stopChatThread(){
+        if(chatThread == null){
+            System.out.println("THREAD");
+            return;
+        }
         try {
             chatThread.interrupt();
-        }catch (Exception e){System.out.println();}
+        }catch (Exception e){connectionLost(e);}
     }
     /**
      * starts all the threads that listen for chat message from other clients (receiving)

@@ -534,7 +534,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             case CHAT -> sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
             case END_TURN -> {
                 JSONObject jsonObject = (JSONObject) msg.getContent();
-                players.set(activePlayer, (Player) jsonObject.get("player"));
+                //players.set(activePlayer, (Player) jsonObject.get("player"));
                 if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     for(int i = 0; i < names.size(); i++){
