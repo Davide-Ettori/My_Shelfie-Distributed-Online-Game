@@ -668,4 +668,6 @@ public class PlayerTUI extends Player implements Serializable{
         Game.waitForSeconds(standardTimer / 2.5);
         System.exit(0);
     }
+
+    /********************************************* RMI ***************************************************************/
 }

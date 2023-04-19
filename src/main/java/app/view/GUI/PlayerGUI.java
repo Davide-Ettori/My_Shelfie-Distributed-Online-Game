@@ -1298,4 +1298,5 @@ public class PlayerGUI extends Player implements Serializable{
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }
+    /******************************************** RMI ***************************************************************/
 }
