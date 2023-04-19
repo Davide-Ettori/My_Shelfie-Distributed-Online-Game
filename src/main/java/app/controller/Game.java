@@ -17,7 +17,6 @@ import java.util.Random;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
-import static app.model.State.*;
 
 /**
  * class which represent the instance of the current game
