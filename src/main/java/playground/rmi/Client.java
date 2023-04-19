@@ -1,5 +1,6 @@
 package playground.rmi;
 
+import java.io.Serializable;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -36,9 +37,9 @@ public class Client{
         }
     }
 }
-class GreetRemoteClient extends UnicastRemoteObject implements GreetInterfaceClient{ // oggetto utilizzatore lato client
+class GreetRemoteClient implements GreetInterfaceClient { // oggetto utilizzatore lato client
     GreetRemoteClient() throws Exception{
-        super();
+        UnicastRemoteObject.exportObject(this, 3333);
     }
     public void printExitMessage(String msg) throws Exception{
         System.out.println("\n" + msg);

@@ -24,12 +24,12 @@ public class Server {
         }
     }
 }
-class GreetRemoteServer extends UnicastRemoteObject implements GreetInterfaceServer{ // oggetto remoto lato server
+class GreetRemoteServer implements GreetInterfaceServer{ // oggetto remoto lato server
     private GreetInterfaceClient client; // nel caso di più client basterebbe mettere una lista o una mappa al posto di una variabile
     private Server serverInstance; // questo è un puntatore all'oggetto server originale, può essere utile
     // in questo caso non lo uso perché è un esempio semplice. La stessa cose si può fare sul client
     GreetRemoteServer(Server server) throws Exception{ // costruttore classico con eventuale logica aggiuntiva e la chiamata al costruttore della superclasse
-        super();
+        UnicastRemoteObject.exportObject(this, Server.PORT);
         this.client = null;
         this.serverInstance = server;
         // tutta la logica del server va inserita in questa classe qui, queste funzioni saranno quindi chiamate dai vari client
