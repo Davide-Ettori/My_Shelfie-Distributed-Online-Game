@@ -158,6 +158,7 @@ public class PlayerTUI extends Player implements Serializable{
         }
         try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
             server.stampa("hello world");
+            server.addClient(name, this);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

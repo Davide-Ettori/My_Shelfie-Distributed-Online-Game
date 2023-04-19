@@ -19,6 +19,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 
 import static app.controller.MessageType.*;
@@ -48,6 +49,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private transient ArrayList<Thread> chatThreads = new ArrayList<>();
     private transient ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     private transient boolean closed = false;
+    private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -498,4 +500,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     }
     /******************************************** RMI ***************************************************************/
     public void stampa(String s){System.out.println(s);}
+    public void addClient(String name, PlayerI p){
+        rmiClients.put(name, p);
+        try {
+            rmiClients.get(name).stampaTerminale("Client added to rmi server");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
