@@ -26,7 +26,7 @@ import static app.controller.NameStatus.*;
  * implements Serializable because it will be sent in the socket network
  * @author Ettori Faccincani
  */
-public class PlayerTUI extends Player implements Serializable{
+public class PlayerTUI extends Player implements Serializable, PlayerI{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     //private transient InputStreamReader terminalIn = new InputStreamReader(System.in);
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

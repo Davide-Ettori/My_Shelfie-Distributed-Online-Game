@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * class which represent the parent of PlayerGUI and PlayerTUI. Immutable
  * @author Ettori Giammusso
  */
-public class Player extends UnicastRemoteObject implements Serializable, PlayerI {
+public class Player extends UnicastRemoteObject implements Serializable {
 
     //Questi che seguono sono gli attributi necessari per i metodi spostati da PlayerTUI a qui
     protected String name;

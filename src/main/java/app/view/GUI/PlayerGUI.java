@@ -34,7 +34,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * implements Serializable because it will be sent in the socket network
  * @author Ettori Faccincani
  */
-public class PlayerGUI extends Player implements Serializable{
+public class PlayerGUI extends Player implements Serializable, PlayerI{
     private final transient int DIM = 9;
     private final transient int ROWS = 6;
     private final transient int COLS = 5;
