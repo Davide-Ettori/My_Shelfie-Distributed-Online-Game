@@ -90,7 +90,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
 
         listenForPlayersConnections();
         initializeAllClients();
-        waitMoveFromClient();
+        if(!rmiClients.containsKey(names.get(0)))
+            waitMoveFromClient();
     }
     /**
      * helper method for initializing all the clients (players) with the same board state
@@ -350,7 +351,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }catch (Exception e){connectionLost(e);}
         }
         FILEHelper.writeServer(this); // salvo lo stato della partita
-        waitMoveFromClient();
+        if(!rmiClients.containsKey(names.get(activePlayer)))
+            waitMoveFromClient();
     }
     /**
      * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
@@ -360,7 +362,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
             return;
         for(int i = 0; i < numPlayers; i++){
-            if(i == activePlayer)
+            if(i == activePlayer || rmiClients.containsKey(names.get(i)))
                 continue;
             chatThreads.add(new ChatBroadcast(this, i));
             chatThreads.get(chatThreads.size() - 1).start();
