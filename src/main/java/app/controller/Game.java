@@ -529,8 +529,24 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     }
     public void redirectToClientRMI(Message msg){
         switch (msg.getType()){
-            case UPDATE_GAME -> {
-
+            case CHAT -> sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
+            case END_TURN -> {
+                JSONObject jsonObject = (JSONObject) msg.getContent();
+                players.set(activePlayer, (Player) jsonObject.get("player"));
+                if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
+                    endGameSituation = true;
+                    for(int i = 0; i < names.size(); i++){
+                        if(i != activePlayer)
+                            sendToClient(i, new Message(LIB_FULL, names.get(activePlayer), null));
+                    }
+                }
+                advanceTurn();
+            }
+            default -> {
+                for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                    if (i != activePlayer)
+                        sendToClient(i,msg);
+                }
             }
         }
     }
