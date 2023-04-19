@@ -24,6 +24,7 @@ import java.util.Date;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.Color.EMPTY;
+import static app.model.NetMode.SOCKET;
 import static app.view.Dimensions.*;
 import static java.awt.Color.*;
 import static java.awt.GridBagConstraints.*;
@@ -57,6 +58,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private final transient ArrayList<JLabel[][]> otherLibrariesCards = new ArrayList<>(Arrays.asList(new JLabel[ROWS][COLS], new JLabel[ROWS][COLS], new JLabel[ROWS][COLS]));
 
     private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
+    private transient GameI server;
 
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
@@ -1300,4 +1302,33 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         new Thread(this::updateGUI).start();
     }
     /******************************************** RMI ***************************************************************/
+    public void receivedEventRMI(Message msg){ // funzione principale di attesa
+        switch (msg.getType()) {
+            case YOUR_TURN -> handleYourTurnEvent();
+            case CHANGE_TURN -> handleChangeTurnEvent(msg);
+            case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+            case UPDATE_GAME -> handleUpdateGameEvent(msg);
+            case FINAL_SCORE -> handleFinalScoreEvent(msg);
+            case CHAT -> handleChatEvent(msg);
+            case CO_1 -> handleCO_1Event(msg);
+            case CO_2 -> handleCO_2Event(msg);
+            case LIB_FULL -> handleLibFullEvent(msg);
+        }
+    }
+    public void sendToServer(Message msg){
+        if(netMode == SOCKET) {
+            try {
+                outStream.writeObject(msg);
+            } catch (IOException e) {
+                connectionLost(e);
+            }
+        }
+        else{
+            try {
+                server.redirectToClientRMI(msg);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
