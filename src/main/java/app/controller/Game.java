@@ -4,6 +4,7 @@ import app.model.*;
 import app.model.NetMode;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
+import playground.rmi.Server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +14,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +29,7 @@ import static app.controller.NameStatus.*;
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
-public class Game extends UnicastRemoteObject implements Serializable, Remote {
+public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public static boolean showErrors = false;
     private int targetPlayers;
     private int numPlayers;
@@ -51,6 +54,9 @@ public class Game extends UnicastRemoteObject implements Serializable, Remote {
      */
     public Game(int maxP, String old) throws RemoteException {
         super();
+
+        LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind("Server", this); // hosto il server sulla rete
+
         targetPlayers = maxP;
         if(old.equals("yes")){
             if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
@@ -491,4 +497,5 @@ public class Game extends UnicastRemoteObject implements Serializable, Remote {
         }
     }
     /******************************************** RMI ***************************************************************/
+    public void stampa(String s){System.out.println(s);}
 }

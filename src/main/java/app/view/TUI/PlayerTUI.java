@@ -7,13 +7,16 @@ import app.model.chat.ReceiveChat;
 import app.model.chat.SendChat;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
+import playground.rmi.Client;
 import playground.socket.Server;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -32,6 +35,7 @@ public class PlayerTUI extends Player implements Serializable{
     private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
     //private transient InputStreamReader terminalIn = new InputStreamReader(System.in);
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private transient GameI server;
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
      * @param p the Player object to copy, received by the server
@@ -147,6 +151,16 @@ public class PlayerTUI extends Player implements Serializable{
             clone(p);
             drawAll();
         }catch(Exception e){connectionLost(e);}
+        try { // ottieni la reference al server remoto
+            server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
+        } catch (RemoteException | NotBoundException e) {
+            throw new RuntimeException(e);
+        }
+        try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
+            server.stampa("hello world");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
         if(name.equals(chairmanName)) {
             startChatReceiveThread();
             waitForMove();
