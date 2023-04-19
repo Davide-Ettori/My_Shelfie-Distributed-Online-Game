@@ -523,7 +523,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             throw new RuntimeException(e);
         }
     }
-    public void redirectToClientRMI(Message msg){}
+    public void redirectToClientRMI(Message msg){
+
+    }
     public void sendToClient(int i, Message msg){
         if(rmiClients.containsKey(names.get(i))){
             try {

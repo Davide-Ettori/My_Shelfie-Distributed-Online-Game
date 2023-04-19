@@ -161,12 +161,16 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
         }
         if(name.equals(chairmanName)) {
-            startChatReceiveThread();
+            if(netMode == SOCKET) {
+                startChatReceiveThread();
+            }
             waitForMove();
         }
         else {
+            if(netMode == SOCKET) {
+                waitForEvents();
+            }
             startChatSendThread();
-            waitForEvents();
         }
     }
     /**
@@ -201,9 +205,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      */
     private void handleYourTurnEvent(){
-        startChatReceiveThread();
         activeName = name;
         drawAll();
+        if(netMode == SOCKET) {
+            startChatReceiveThread();
+        }
         waitForMove();
     }
     /**
@@ -215,7 +221,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         startChatSendThread();
         activeName = (String) msg.getContent();
         drawAll();
-        waitForEvents();
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * helper function for handling the unplayble board fixing event notification from the server
@@ -227,7 +234,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         board = (Board) jsonObject.get("board");
         drawAll();
         System.out.println("\nBoard updated because it was unplayable");
-        waitForEvents();
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * helper function for handling the update game notification from the server
@@ -246,7 +254,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         //drawAll();
         System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         Game.waitForSeconds(standardTimer);
-        waitForEvents();
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * helper function for handling the final score calculation event notification from the server
@@ -266,7 +275,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleChatEvent(Message msg){
         fullChat += msg.getContent();
         drawAll();
-        waitForEvents();
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * helper function for handling the achievement of the first common objective event notification from the server
@@ -276,7 +286,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleCO_1Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(standardTimer);
-        waitForEvents();
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * helper function for handling the achievement of the second common objective event notification from the server
@@ -286,7 +297,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleCO_2Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(standardTimer);
-        waitForEvents();
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * helper function for handling the completion of the library event notification from the server
@@ -297,7 +309,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         Game.waitForSeconds(standardTimer);
         endGame = true;
-        waitForEvents();
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
@@ -533,10 +546,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void stopChatThread(){
         try {
-            if(chatThread.getClass().getSimpleName().equals("SendChat"))
-                chatThread.interrupt();
-            else
-                chatThread.interrupt();
+            chatThread.interrupt();
         }catch (Exception e){System.out.println();}
     }
     /**
