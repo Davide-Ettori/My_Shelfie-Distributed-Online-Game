@@ -28,7 +28,6 @@ import static app.controller.NameStatus.*;
  */
 public class Game extends UnicastRemoteObject implements Serializable, Remote {
     public static boolean showErrors = false;
-    private final int PORT = 3000;
     private int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
@@ -80,7 +79,7 @@ public class Game extends UnicastRemoteObject implements Serializable, Remote {
             System.exit(0);
         }).start();
 
-        try{serverSocket = new ServerSocket(PORT);}
+        try{serverSocket = new ServerSocket(Initializer.PORT);}
         catch(Exception e){connectionLost(e);}
         System.out.println("\nServer listening...");
 

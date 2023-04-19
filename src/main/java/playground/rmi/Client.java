@@ -10,7 +10,7 @@ public class Client{
     public static int PORT; // la porta di default RMI è 1099
     private final int id;
     public static void main(String args[]) throws Exception {
-        new Client(3000).run();
+        new Client(5555).run();
     }
     public Client(int port){
         this.id = 123456789;
@@ -37,9 +37,9 @@ public class Client{
         }
     }
 }
-class GreetRemoteClient implements GreetInterfaceClient { // oggetto utilizzatore lato client
+class GreetRemoteClient extends UnicastRemoteObject implements GreetInterfaceClient { // oggetto utilizzatore lato client
     GreetRemoteClient() throws Exception{
-        UnicastRemoteObject.exportObject(this, 3333);
+        super();
     }
     public void printExitMessage(String msg) throws Exception{
         System.out.println("\n" + msg);

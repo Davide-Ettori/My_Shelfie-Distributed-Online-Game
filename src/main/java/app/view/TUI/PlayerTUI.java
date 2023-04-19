@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -35,7 +36,8 @@ public class PlayerTUI extends Player implements Serializable{
      * constructor that copies a generic Player object inside a new PlayerTUI object
      * @param p the Player object to copy, received by the server
      */
-    public PlayerTUI(Player p){
+    public PlayerTUI(Player p) throws RemoteException {
+        super();
         netMode = p.netMode;
         uiMode = p.uiMode;
         name = p.getName();
@@ -59,12 +61,13 @@ public class PlayerTUI extends Player implements Serializable{
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public PlayerTUI(NetMode mode, UIMode ui) { // Costruttore iniziale
+    public PlayerTUI(NetMode mode, UIMode ui) throws RemoteException {
+        super(); // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
-            mySocket = new Socket(IP.activeIP, Server.PORT);
+            mySocket = new Socket(IP.activeIP, Initializer.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
             outStream.writeObject(false);

@@ -102,19 +102,35 @@ public class Client {
                 net = "Socket";
             if (ui.equals("TUI")) {
                 if (net.equals("Socket")) {
-                    new PlayerTUI(SOCKET, TUI);
+                    try {
+                        new PlayerTUI(SOCKET, TUI);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 } else if (net.equals("RMI")) {
-                    new PlayerTUI(RMI, TUI);
+                    try {
+                        new PlayerTUI(RMI, TUI);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 }
             }
             if (ui.equals("GUI")) {
                 if (net.equals("Socket")) {
-                    new PlayerGUI(SOCKET, GUI);
+                    try {
+                        new PlayerGUI(SOCKET, GUI);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 } else if (net.equals("RMI")) {
-                    new PlayerGUI(RMI, GUI);
+                    try {
+                        new PlayerGUI(RMI, GUI);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 }
             }
