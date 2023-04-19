@@ -25,7 +25,9 @@ public class Client{
         try {
             GreetRemoteClient client = new GreetRemoteClient(); // potresti passare this come parametro per
             // modificare il Client direttamente dalla classe GreetRemoteClient (passi la reference)
-            Registry registry = LocateRegistry.getRegistry(Client.PORT); // scarico il registry con gli oggetti remoti
+            String ip = "127.0.0.1";
+            ip = "192.168.1.21"; // wifi 1P ufficio
+            Registry registry = LocateRegistry.getRegistry(ip, Client.PORT); // scarico il registry con gli oggetti remoti
             GreetInterfaceServer remoteServerObj = (GreetInterfaceServer) registry.lookup("RMI_Greet"); // prendo l'oggetto che ho creato sul server
             remoteServerObj.setClient(client); // setto questo oggetto come client e lo imposto sull'oggetto remoto del server
 
