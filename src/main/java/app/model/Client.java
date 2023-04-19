@@ -1,6 +1,7 @@
 package app.model;
 
 import app.controller.Game;
+import app.controller.Initializer;
 import app.view.GUI.PlayerGUI;
 import app.view.IP;
 import app.view.TUI.PlayerTUI;
@@ -38,7 +39,7 @@ public class Client {
             IP.activeIP = ip;
 
         try {
-            Socket mySocket = new Socket(IP.activeIP, Server.PORT);
+            Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);
             ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
             out.writeObject(true);
             System.out.println("\nThere is already an active game...");
