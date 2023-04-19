@@ -6,7 +6,6 @@ import app.model.*;
 
 import app.view.UIMode;
 import org.json.simple.JSONObject;
-import playground.socket.Server;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +24,6 @@ import java.util.Date;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.Color.EMPTY;
-import static app.model.State.*;
 import static app.view.Dimensions.*;
 import static java.awt.Color.*;
 import static java.awt.GridBagConstraints.*;

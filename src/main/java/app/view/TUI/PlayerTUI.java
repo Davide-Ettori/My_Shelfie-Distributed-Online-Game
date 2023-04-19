@@ -7,11 +7,7 @@ import app.model.chat.ReceiveChat;
 import app.model.chat.SendChat;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
-import playground.rmi.Client;
-import playground.socket.Server;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.Socket;
 import java.rmi.NotBoundException;
@@ -24,7 +20,6 @@ import java.util.Date;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
-import static app.model.State.*;
 
 /**
  * class which represent the player on the client side, mutable,

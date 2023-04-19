@@ -4,7 +4,6 @@ import app.model.*;
 import app.model.NetMode;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
-import playground.rmi.Server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,10 +11,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
