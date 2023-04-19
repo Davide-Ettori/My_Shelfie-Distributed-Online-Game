@@ -8,6 +8,7 @@ import playground.socket.Server;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 import static app.model.NetMode.RMI;
 import static app.model.NetMode.SOCKET;
@@ -66,7 +67,13 @@ public class Client {
                     throw new RuntimeException(exc);
                 }
                 int finalNumP = numP;
-                new Thread(() -> new Game(finalNumP, old)).start();
+                new Thread(() -> {
+                    try {
+                        new Game(finalNumP, old);
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }).start();
                 Game.waitForSeconds(1);
                 break;
             }

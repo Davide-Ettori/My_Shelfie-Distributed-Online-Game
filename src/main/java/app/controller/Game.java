@@ -11,6 +11,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -23,7 +26,7 @@ import static app.controller.NameStatus.*;
  * @author Ettori Faccincani
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
-public class Game implements Serializable {
+public class Game extends UnicastRemoteObject implements Serializable, Remote {
     public static boolean showErrors = false;
     private final int PORT = 3000;
     private int targetPlayers;
@@ -47,7 +50,8 @@ public class Game implements Serializable {
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
      */
-    public Game(int maxP, String old){
+    public Game(int maxP, String old) throws RemoteException {
+        super();
         targetPlayers = maxP;
         if(old.equals("yes")){
             if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
@@ -104,7 +108,11 @@ public class Game implements Serializable {
 
         Player p;
         for(int i = 0; i < names.size(); i++){
-            p = new Player();
+            try {
+                p = new Player();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             p.setName(names.get(i));
             p.setIsChairMan(i == 0);
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
@@ -129,7 +137,11 @@ public class Game implements Serializable {
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){connectionLost(e);}
-            players.add(new Player(p));
+            try {
+                players.add(new Player(p));
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     /**

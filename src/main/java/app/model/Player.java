@@ -8,6 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 
@@ -15,7 +18,7 @@ import java.util.ArrayList;
  * class which represent the parent of PlayerGUI and PlayerTUI. Immutable
  * @author Ettori Giammusso
  */
-public class Player implements Serializable {
+public class Player extends UnicastRemoteObject implements Serializable, Remote {
 
     //Questi che seguono sono gli attributi necessari per i metodi spostati da PlayerTUI a qui
     protected String name;
@@ -58,13 +61,16 @@ public class Player implements Serializable {
      * constructor used by the server to initializer a base Player object
      * @author Ettori
      */
-    public Player(){}
+    public Player() throws RemoteException {
+        super();
+    }
     /**
      * copy constructor for the Player object
      * @author Ettori
      * @param p the Player object to copy
      */
-    public Player(Player p){
+    public Player(Player p) throws RemoteException {
+        super();
         netMode = p.netMode;
         uiMode = p.uiMode;
         name = p.name;
