@@ -306,6 +306,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         chatThreads = new ArrayList<>();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
+            if(msg.getType() == PING)
+                waitForEndTurn();
+            if(msg.getType() != END_TURN)
+                throw new RuntimeException();
             JSONObject jsonObject = (JSONObject) msg.getContent();
             players.set(activePlayer, (Player) jsonObject.get("player"));
             if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
