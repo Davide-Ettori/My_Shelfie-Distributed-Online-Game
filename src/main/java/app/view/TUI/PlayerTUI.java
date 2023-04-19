@@ -197,6 +197,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 case CO_1 -> handleCO_1Event(msg);
                 case CO_2 -> handleCO_2Event(msg);
                 case LIB_FULL -> handleLibFullEvent(msg);
+                //case STOP -> waitForEvents();
             }
         }catch(Exception e){connectionLost(e);}
     }
@@ -537,8 +538,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }).start();
 
         }catch(Exception e){connectionLost(e);}
-
-        waitForEvents();
+        if(netMode == SOCKET) {
+            System.out.println("prima di wait");
+            waitForEvents();
+        }
     }
     /**
      * stops all the thread interaction related to the chat (should be only ReceiveChat)

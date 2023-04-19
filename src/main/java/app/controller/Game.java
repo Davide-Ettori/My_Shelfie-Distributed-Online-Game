@@ -307,11 +307,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void waitForEndTurn(){
         try {
+            System.out.println("aspetto la fine");
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == PING)
                 waitForEndTurn();
             if(msg.getType() != END_TURN)
                 throw new RuntimeException();
+            System.out.println("ecco la fine - socket");
             JSONObject jsonObject = (JSONObject) msg.getContent();
             players.set(activePlayer, (Player) jsonObject.get("player"));
             if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
@@ -532,7 +534,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             case CHAT -> sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
             case END_TURN -> {
                 JSONObject jsonObject = (JSONObject) msg.getContent();
-                players.set(activePlayer, (Player) jsonObject.get("player"));
+                //players.set(activePlayer, (Player) jsonObject.get("player"));
                 if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     for(int i = 0; i < names.size(); i++){
@@ -541,6 +543,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     }
                 }
                 advanceTurn();
+            }
+            case UPDATE_GAME -> {
+                for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                    if (i != activePlayer)
+                        sendToClient(i,msg);
+                }
+                sendToClient(activePlayer, new Message(STOP, null, null));
+                chatThreads = new ArrayList<>();
             }
             default -> {
                 for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
@@ -551,6 +561,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
     }
     public void sendToClient(int i, Message msg){
+        System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(!rmiClients.containsKey(names.get(i))){
             try {
                 outStreams.get(i).writeObject(msg);
