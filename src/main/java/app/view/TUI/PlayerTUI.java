@@ -717,7 +717,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             try {
                 server.redirectToClientRMI(msg);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
         }
     }
