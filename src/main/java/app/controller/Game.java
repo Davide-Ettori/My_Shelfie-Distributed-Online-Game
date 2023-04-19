@@ -279,31 +279,32 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-        startChatServerThread();
-        try {
-            Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
-            if(msg.getType() == CHAT){
-                sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
-                waitMoveFromClient();
-            }
-            for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
-                if (i != activePlayer)
-                    sendToClient(i,msg);
-            }
-            if(msg.getType() == UPDATE_GAME) {
-                sendToClient(activePlayer, new Message(STOP, null, null));
-                waitForEndTurn();
-            }
-            else
-                waitMoveFromClient();
-        }catch(Exception e){connectionLost(e);}
+        while(true){
+            startChatServerThread();
+            try {
+                Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
+                if(msg.getType() == CHAT){
+                    sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
+                    continue;
+                }
+                for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                    if (i != activePlayer)
+                        sendToClient(i,msg);
+                }
+                if(msg.getType() == UPDATE_GAME) {
+                    sendToClient(activePlayer, new Message(STOP, null, null));
+                    chatThreads = new ArrayList<>();
+                    break;
+                }
+            }catch(Exception e){connectionLost(e);}
+        }
+        waitForEndTurn();
     }
     /**
      * Wait the end of the turn of the client and check if the library is full
      * @author Ettori Faccincani
      */
     private void waitForEndTurn(){
-        chatThreads = new ArrayList<>();
         try {
             Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == PING)
@@ -513,6 +514,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             while (true){}
         }
     }
+    private int getClientIndex(String s){return names.indexOf(s);}
     /******************************************** RMI ***************************************************************/
     public void stampa(String s){System.out.println(s);}
     public void addClient(String name, PlayerI p){
@@ -524,7 +526,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
     }
     public void redirectToClientRMI(Message msg){
+        switch (msg.getType()){
+            case UPDATE_GAME -> {
 
+            }
+        }
     }
     public void sendToClient(int i, Message msg){
         if(!rmiClients.containsKey(names.get(i))){
