@@ -245,7 +245,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleUpdateGameEvent(Message msg){
         stopChatThread();
-        sendToServer(new Message(STOP, null, null));
+        sendToServer(new Message(STOP, null, null)); // scrivi questo messaggio sulla tua stessa socket
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board)jsonObject.get("board");
         for(int i = 0; i < numPlayers - 1; i++){
@@ -332,7 +332,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         if(change_1 || change_2)
             drawAll();
 
-        stopChatThread();
+        stopChatThread(); // devo fermare il mio thread che ascolta le chat dei player inattivi
         sendDoneMove();
     }
     /**

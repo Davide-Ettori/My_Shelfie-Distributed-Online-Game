@@ -293,6 +293,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         sendToClient(i,msg);
                 }
                 if(msg.getType() == UPDATE_GAME) {
+                    System.out.println(activePlayer + " - " + names.get(activePlayer));
                     sendToClient(activePlayer, new Message(STOP, null, null));
                     chatThreads = new ArrayList<>();
                     break;

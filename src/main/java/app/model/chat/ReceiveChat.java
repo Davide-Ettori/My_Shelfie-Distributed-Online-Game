@@ -1,6 +1,7 @@
 package app.model.chat;
 
 import app.controller.Message;
+import app.model.NetMode;
 import app.view.TUI.PlayerTUI;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class ReceiveChat extends Thread{
      */
     @Override
     public void run(){
+        if(player.netMode == NetMode.RMI)
+            return;
         try {
             while (true) {
                 Message msg = (Message) player.getInStream().readObject();
