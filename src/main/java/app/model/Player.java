@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * class which represent the parent of PlayerGUI and PlayerTUI. Immutable
  * @author Ettori Giammusso
  */
-public class Player extends UnicastRemoteObject implements Serializable, Remote {
+public class Player extends UnicastRemoteObject implements Serializable, PlayerI {
 
     //Questi che seguono sono gli attributi necessari per i metodi spostati da PlayerTUI a qui
     protected String name;
@@ -223,5 +223,8 @@ public class Player extends UnicastRemoteObject implements Serializable, Remote 
      * @return the private objective of the player
      */
     public PrivateObjective getPrivateObjective(){return objective;}
+
+    /*********************************************** RMI *********************************************************/
+    public void stampaTerminale(String s){System.out.println(s);}
 
 }
