@@ -100,19 +100,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     private void initializeAllClients(){
-        int temp = new Random().nextInt(numPlayers);
-        String n = names.get(0);
-        names.set(0, names.get(temp));
-        names.set(temp, n);
-
-        ObjectOutputStream outTemp = outStreams.get(0);
-        outStreams.set(0, outStreams.get(temp));
-        outStreams.set(temp, outTemp);
-
-        ObjectInputStream inTemp = inStreams.get(0);
-        inStreams.set(0, inStreams.get(temp));
-        inStreams.set(temp, inTemp);
-
+        randomizeChairman();
         Player p;
         for(int i = 0; i < names.size(); i++){
             try {
@@ -150,6 +138,32 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 throw new RuntimeException(e);
             }
         }
+    }
+    /**
+     * choose a random chairman from all the players who connected to the game
+     * @author Ettori
+     */
+    private void randomizeChairman(){
+        int temp = new Random().nextInt(numPlayers);
+        String n = names.get(0);
+        names.set(0, names.get(temp));
+        names.set(temp, n);
+
+        ObjectOutputStream outTemp = outStreams.get(0);
+        outStreams.set(0, outStreams.get(temp));
+        outStreams.set(temp, outTemp);
+
+        ObjectInputStream inTemp = inStreams.get(0);
+        inStreams.set(0, inStreams.get(temp));
+        inStreams.set(temp, inTemp);
+
+        NetMode netTemp = netModes.get(0);
+        netModes.set(0, netModes.get(temp));
+        netModes.set(temp, netTemp);
+
+        UIMode uiTemp = uiModes.get(0);
+        uiModes.set(0, uiModes.get(temp));
+        uiModes.set(temp, uiTemp);
     }
     /**
      * helper function which waits for client's connection to the server socket, when all are connected the game starts
