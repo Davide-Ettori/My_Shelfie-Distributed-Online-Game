@@ -14,7 +14,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.Socket;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ import java.util.Date;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.Color.EMPTY;
+import static app.model.NetMode.RMI;
 import static app.model.NetMode.SOCKET;
 import static app.view.Dimensions.*;
 import static java.awt.Color.*;
@@ -322,7 +325,21 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             clone(p);
             new Thread(this::initGUI).start();
         }catch(Exception e){connectionLost(e);}
-        new Thread(this::waitForEvents).start();
+        try { // ottieni la reference al server remoto
+            server = (GameI) LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
+        } catch (RemoteException | NotBoundException e) {
+            throw new RuntimeException(e);
+        }
+        if(netMode == RMI) {
+            try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
+                //server.stampa("hello world");
+                server.addClient(name, this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(netMode == SOCKET)
+            new Thread(this::waitForEvents).start();
     }
     /**
      * function used to wait for notification from the server while the player is NON active
@@ -343,7 +360,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     case CO_1 -> handleCO_1Event(msg);
                     case CO_2 -> handleCO_2Event(msg);
                     case LIB_FULL -> handleLibFullEvent(msg);
-                    case STOP -> {} // non devi fare niente
+                    //case STOP -> {} // non devi fare niente
                 }
             }catch(Exception e){connectionLost(e);}
         }
@@ -388,11 +405,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleUpdateGameEvent(Message msg){
-        try {
-            outStream.writeObject(new Message(STOP, null, null));
-        } catch (IOException e) {
-            connectionLost(e);
-        }
+        if(netMode == SOCKET)
+            sendToServer(new Message(STOP, null, null));
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board)jsonObject.get("board");
         for(int i = 0; i < numPlayers - 1; i++){
@@ -465,7 +479,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 board.pointsCO_1.remove(lastIndex);
                 pointsUntilNow += points;
                 CO_1_Done = true;
-                outStream.writeObject(new Message(CO_1, name, Integer.toString(points)));
+                sendToServer(new Message(CO_1, name, Integer.toString(points)));
                 alert("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
                 //Game.waitForSeconds(standardTimer);
                 change = true;
@@ -476,7 +490,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 board.pointsCO_2.remove(lastIndex);
                 pointsUntilNow += points;
                 CO_2_Done = true;
-                outStream.writeObject(new Message(CO_2, name, Integer.toString(points)));
+                sendToServer(new Message(CO_2, name, Integer.toString(points)));
                 alert("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
                 //Game.waitForSeconds(standardTimer);
                 change = true;
@@ -494,7 +508,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if (library.isFull() && !endGame) {
                 endGame = true;
                 pointsUntilNow++;
-                outStream.writeObject(new Message(LIB_FULL, name, null));
+                sendToServer(new Message(LIB_FULL, name, null));
                 alert("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
                 updateBoard();
                 //Game.waitForSeconds(standardTimer);
@@ -514,7 +528,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         try {
             boardStatus = new JSONObject();
             boardStatus.put("board", board);
-            outStream.writeObject(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
+            sendToServer(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
         }catch (Exception e){connectionLost(e);}
     }
     /**
@@ -529,14 +543,15 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gameStatus.put("library", new Library(library));
 
         try {
-            outStream.writeObject(new Message(UPDATE_GAME, name, gameStatus));
+            sendToServer(new Message(UPDATE_GAME, name, gameStatus));
             //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
-            Game.waitForSeconds(standardTimer / 5);
+            Game.waitForSeconds(standardTimer * 6 / 5);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(standardTimer / 2.5);
-                    playerStatus.put("player", new Player(this));
-                    outStream.writeObject(new Message(END_TURN, name, playerStatus));
+                    if(netMode == SOCKET)
+                        playerStatus.put("player", new Player(this));
+                    sendToServer(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){connectionLost(e);}
             }).start();
 
@@ -565,7 +580,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         fullChat += msg;
         tempChatHistory.setText(fullChat);
         try{
-            outStream.writeObject(new Message(CHAT, dest, msg));
+            sendToServer(new Message(CHAT, dest, msg));
         }catch(Exception e){connectionLost(e);}
     }
     /**
@@ -1327,7 +1342,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             try {
                 server.redirectToClientRMI(msg);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
         }
     }
