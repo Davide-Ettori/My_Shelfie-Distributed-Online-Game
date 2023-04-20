@@ -90,6 +90,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
 
         listenForPlayersConnections();
         initializeAllClients();
+        Game.waitForSeconds(1);
+        System.out.println(names.get(0));
         if(!rmiClients.containsKey(names.get(0)))
             waitMoveFromClient();
         else
@@ -284,6 +286,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
+        System.out.println("STARTO I CHAT THREAD, dalla funzione");
         startChatServerThread();
         while(true){
             try {
@@ -362,12 +365,18 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
             }catch (Exception e){connectionLost(e);}
         }
-        sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
+        new Thread(() -> {
+            Game.waitForSeconds(1);
+            sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
+        }).start();
         FILEHelper.writeServer(this); // salvo lo stato della partita
+        //System.out.println("PRIMA -" + names.get(activePlayer));
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
-        else
+        else {
+            //System.out.println("STARTO I CHAT THREAD");
             startChatServerThread();
+        }
     }
     /**
      * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)

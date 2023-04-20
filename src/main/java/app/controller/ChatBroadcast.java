@@ -22,6 +22,7 @@ public class ChatBroadcast extends Thread{
     @Override
     public void run(){
         try {
+            //System.out.println("SERVER ASCOLTA CHAT");
             while (true) {
                 Message msg = (Message) game.getInStreams().get(index).readObject();
                 if(msg.getType() == STOP)
