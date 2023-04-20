@@ -123,7 +123,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             p.setName(names.get(i));
             p.setIsChairMan(i == 0);
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
-            p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_13_FAKE(), 13), new CommonObjective(new Algo_CO_14_FAKE(), 14));
+            //p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_13_FAKE(), 13), new CommonObjective(new Algo_CO_14_FAKE(), 14));
             p.board.name = names.get(i);
             if(i == 0)
                 p.board.initBoard(numPlayers);
@@ -153,7 +153,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
-        temp = 1; // ELIMINA --> usata solo per il testing
+        //temp = 1; // ELIMINA --> usata solo per il testing
         //temp = 0; // ELIMINA --> usata solo per il testing
         String n = names.get(0);
         names.set(0, names.get(temp));
