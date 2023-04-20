@@ -376,6 +376,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         updateInfo();
         updateBoard();
         updateOtherLibraries();
+        eventText.setText("Your turn is now started, play your move !");
     }
     /**
      * helper function for handling the change event notification from the server
@@ -1262,7 +1263,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //FIRST LEVEL - RED
 
         generalLabel = new JLabel(new ImageIcon(new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-        generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 75));
+        generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 50));
         generalLabel.setLayout(new GridBagLayout());
 
         internalPanelHigh.setBackground(new Color(0, 0, 0, 0));
