@@ -551,8 +551,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(standardTimer / 2.5);
-                    if(netMode == SOCKET)
-                        playerStatus.put("player", new Player(this));
+                    playerStatus.put("player", new PlayerSend(this));
                     sendToServer(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){connectionLost(e);}
             }).start();

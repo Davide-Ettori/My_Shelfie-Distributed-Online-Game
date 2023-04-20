@@ -32,7 +32,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<PlayerSend> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<NetMode> netModes = new ArrayList<>();
     private ArrayList<UIMode> uiModes = new ArrayList<>();
@@ -134,11 +134,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){connectionLost(e);}
-            try {
-                players.add(new Player(p));
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
+            players.add(new PlayerSend(p));
         }
     }
     /**
@@ -327,7 +323,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 throw new RuntimeException();
             //System.out.println("ecco la fine - socket");
             JSONObject jsonObject = (JSONObject) msg.getContent();
-            players.set(activePlayer, (Player) jsonObject.get("player"));
+            players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
             if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                 endGameSituation = true;
                 for(int i = 0; i < names.size(); i++){
@@ -422,7 +418,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * find and return the chairman Player
      * @return the chairman Object (Player)
      */
-    private Player getChairman(){return players.get(0);}
+    private PlayerSend getChairman(){return players.get(0);}
 
     /**
      * check if the name is already taken by other players
@@ -461,7 +457,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private String getFinalScore(){
         ArrayList<Integer> scores = new ArrayList<>();
         StringBuilder res = new StringBuilder();
-        Player p;
+        PlayerSend p;
         for(int i = 0; i < numPlayers; i++){
             p = players.get(i);
             scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.gameLibrary));
