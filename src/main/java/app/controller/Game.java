@@ -92,6 +92,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         initializeAllClients();
         if(!rmiClients.containsKey(names.get(0)))
             waitMoveFromClient();
+        else
+            startChatServerThread();
     }
     /**
      * helper method for initializing all the clients (players) with the same board state

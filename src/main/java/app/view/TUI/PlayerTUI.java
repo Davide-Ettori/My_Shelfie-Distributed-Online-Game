@@ -168,10 +168,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             waitForMove();
         }
         else {
+            startChatSendThread();
             if(netMode == SOCKET) {
                 waitForEvents();
             }
-            startChatSendThread();
         }
     }
     /**
