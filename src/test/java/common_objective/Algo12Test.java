@@ -225,7 +225,7 @@ public class Algo12Test {
         assertTrue(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_F_rescent() {
+    public void algo12_test1_general_F_crescent() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -341,6 +341,86 @@ public class Algo12Test {
         mat[5][2] = new Card(PINK);
         mat[5][3] = new Card(PINK);
         mat[5][4] = new Card(PINK);
+
+        assertFalse(algoCo12.checkMatch(mat));
+    }
+    @Test // QUESTO TEST PUO ESSERE SBAGLIATO IN BASE ALL'INTERPRETAZIONE DELL'OBIETTIVO COMUNE-->CHIEDERE PROF
+    public void algo12_test1_general_dicrescent2(){
+        mat[0][0] = new Card();
+        mat[0][1] = new Card();
+        mat[0][2] = new Card();
+        mat[0][3] = new Card();
+        mat[0][4] = new Card();
+
+        mat[1][0] = new Card();
+        mat[1][1] = new Card();
+        mat[1][2] = new Card();
+        mat[1][3] = new Card();
+        mat[1][4] = new Card();
+
+        mat[2][0] = new Card(BLUE);
+        mat[2][1] = new Card();
+        mat[2][2] = new Card();
+        mat[2][3] = new Card();
+        mat[2][4] = new Card();
+
+        mat[3][0] = new Card(WHITE);
+        mat[3][1] = new Card(WHITE);
+        mat[3][2] = new Card();
+        mat[3][3] = new Card();
+        mat[3][4] = new Card();
+
+        mat[4][0] = new Card(BLUE);
+        mat[4][1] = new Card(PINK);
+        mat[4][2] = new Card(PINK);
+        mat[4][3] = new Card();
+        mat[4][4] = new Card();
+
+        mat[5][0] = new Card(PINK);
+        mat[5][1] = new Card(PINK);
+        mat[5][2] = new Card(PINK);
+        mat[5][3] = new Card(PINK);
+        mat[5][4] = new Card();
+
+        assertFalse(algoCo12.checkMatch(mat));
+    }
+    @Test //falso in ogni interpretazione
+    public void algo12_test1_general_dicrescent3(){
+        mat[0][0] = new Card();
+        mat[0][1] = new Card();
+        mat[0][2] = new Card();
+        mat[0][3] = new Card();
+        mat[0][4] = new Card();
+
+        mat[1][0] = new Card();
+        mat[1][1] = new Card();
+        mat[1][2] = new Card();
+        mat[1][3] = new Card();
+        mat[1][4] = new Card();
+
+        mat[2][0] = new Card();
+        mat[2][1] = new Card();
+        mat[2][2] = new Card();
+        mat[2][3] = new Card();
+        mat[2][4] = new Card();
+
+        mat[3][0] = new Card(WHITE);
+        mat[3][1] = new Card();
+        mat[3][2] = new Card();
+        mat[3][3] = new Card();
+        mat[3][4] = new Card();
+
+        mat[4][0] = new Card(BLUE);
+        mat[4][1] = new Card(PINK);
+        mat[4][2] = new Card();
+        mat[4][3] = new Card();
+        mat[4][4] = new Card();
+
+        mat[5][0] = new Card(PINK);
+        mat[5][1] = new Card(PINK);
+        mat[5][2] = new Card(PINK);
+        mat[5][3] = new Card();
+        mat[5][4] = new Card();
 
         assertFalse(algoCo12.checkMatch(mat));
     }
