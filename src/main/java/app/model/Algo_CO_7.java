@@ -70,9 +70,10 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
                 if (board[i][j].color == EMPTY)
                     continue;
                 foundSquare = checkForSquare(i, j, board[i][j].color, board);
-                dfs(i, j, board[i][j].color, board);
-                if (foundSquare)
+                if (foundSquare) {
+                    dfs(i, j, board[i][j].color, board);
                     colors.add(board[i][j].color);
+                }
             }
         }
         for(int i = 0; i < colors.size() - 1; i++){
