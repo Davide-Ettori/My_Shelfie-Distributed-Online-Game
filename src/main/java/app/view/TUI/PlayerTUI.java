@@ -155,7 +155,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         }
         if(netMode == RMI) {
             try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
-                server.stampa("hello world");
+                //server.stampa("hello world");
                 server.addClient(name, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
@@ -188,7 +188,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void waitForEvents(){ // funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
-            System.out.println(msg.getType());
+            //System.out.println(msg.getType());
             switch (msg.getType()) {
                 case YOUR_TURN -> handleYourTurnEvent();
                 case CHANGE_TURN -> handleChangeTurnEvent(msg);

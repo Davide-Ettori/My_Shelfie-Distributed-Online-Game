@@ -143,7 +143,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
-        temp = 1; // ELIMINA --> usata solo per il testing
+        //temp = 1; // ELIMINA --> usata solo per il testing
         //temp = 0; // ELIMINA --> usata solo per il testing
         String n = names.get(0);
         names.set(0, names.get(temp));
@@ -366,6 +366,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         FILEHelper.writeServer(this); // salvo lo stato della partita
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
+        else
+            startChatServerThread();
     }
     /**
      * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
@@ -534,11 +536,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void stampa(String s){System.out.println(s);}
     public void addClient(String name, PlayerI p){
         rmiClients.put(name, p);
-        try {
-            rmiClients.get(name).stampaTerminale("Client added to rmi server");
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+        //rmiClients.get(name).stampaTerminale("Client added to rmi server");
     }
     public void redirectToClientRMI(Message msg){
         switch (msg.getType()){

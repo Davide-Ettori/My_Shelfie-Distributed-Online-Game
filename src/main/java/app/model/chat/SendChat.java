@@ -23,11 +23,13 @@ public class SendChat extends Thread{
     public void run(){
         try {
             String s;
+            System.out.println("INIZIO CHAT THREAD");
             while (true) {
                 while (System.in.available() == 0) {
                     Thread.sleep(100);
                 }
                 s = br.readLine();
+                System.out.println("CHAT RILEVATA");
                 if(player.sendChatMsg(s))
                     player.drawAll();
             }
