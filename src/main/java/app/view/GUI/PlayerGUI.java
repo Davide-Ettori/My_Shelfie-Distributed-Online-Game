@@ -1263,7 +1263,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //FIRST LEVEL - RED
 
         generalLabel = new JLabel(new ImageIcon(new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-        generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 50));
+        generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
         generalLabel.setLayout(new GridBagLayout());
 
         internalPanelHigh.setBackground(new Color(0, 0, 0, 0));
