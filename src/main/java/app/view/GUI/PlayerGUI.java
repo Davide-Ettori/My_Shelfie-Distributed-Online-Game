@@ -51,7 +51,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private transient JFrame mainFrame;
     private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
     private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, generalLabel;
-    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle;
+    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle, eventText;
     private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
     private transient JScrollPane chatHistory;
     private transient JButton pickCardsBtn, sendMessageBtn;
@@ -397,7 +397,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board) jsonObject.get("board");
         updateBoard();
-        alert("\nBoard updated because it was unplayable");
+        eventText.setText("\nBoard updated because it was unplayable");
     }
     /**
      * helper function for handling the update game notification from the server
@@ -415,9 +415,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         }
         //updateBoard();
         //updateOtherLibraries();
-        //alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        eventText.setText("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         Game.waitForSeconds(standardTimer);
-        //getRootFrame().dispose();
     }
     /**
      * helper function for handling the final score calculation event notification from the server
@@ -444,7 +443,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleCO_1Event(Message msg){
-        alert(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+        eventText.setText(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         board.pointsCO_1.remove(board.pointsCO_1.size() - 1);
         updateInfo();
         //Game.waitForSeconds(standardTimer);
@@ -455,7 +454,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleCO_2Event(Message msg){
-        alert(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
+        eventText.setText(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         board.pointsCO_2.remove(board.pointsCO_2.size() - 1);
         updateInfo();
         //Game.waitForSeconds(standardTimer);
@@ -466,7 +465,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleLibFullEvent(Message msg){
-        alert(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+        eventText.setText(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         //Game.waitForSeconds(standardTimer);
         endGame = true;
         boardCards[libFullX][libFullY].setVisible(false);
@@ -482,8 +481,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow += points;
                 CO_1_Done = true;
                 sendToServer(new Message(CO_1, name, Integer.toString(points)));
-                alert("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                //Game.waitForSeconds(standardTimer);
+                eventText.setText("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
+                Game.waitForSeconds(standardTimer / 2.5);
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
@@ -493,8 +492,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow += points;
                 CO_2_Done = true;
                 sendToServer(new Message(CO_2, name, Integer.toString(points)));
-                alert("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                //Game.waitForSeconds(standardTimer);
+                eventText.setText("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
+                Game.waitForSeconds(standardTimer / 2.5);
                 change = true;
             }
         }catch(Exception e){connectionLost(e);}
@@ -511,9 +510,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 endGame = true;
                 pointsUntilNow++;
                 sendToServer(new Message(LIB_FULL, name, null));
-                alert("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
+                eventText.setText("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
                 updateBoard();
-                //Game.waitForSeconds(standardTimer);
+                Game.waitForSeconds(standardTimer / 2.5);
                 return true;
             }
         }catch (Exception e){connectionLost(e);}
@@ -526,7 +525,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void fixUnplayableBoard(){
         board.fillBoard(numPlayers);
         updateGUI();
-        alert("\nBoard updated because it was unplayble");
+        eventText.setText("\nBoard updated because it was unplayble");
         try {
             boardStatus = new JSONObject();
             boardStatus.put("board", board);
@@ -540,7 +539,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void sendDoneMove(){
         gameStatus = new JSONObject();
         playerStatus = new JSONObject();
-        alert("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
+        eventText.setText("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
 
@@ -1263,7 +1262,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //FIRST LEVEL - RED
 
         generalLabel = new JLabel(new ImageIcon(new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-        generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10));
+        generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 75));
         generalLabel.setLayout(new GridBagLayout());
 
         internalPanelHigh.setBackground(new Color(0, 0, 0, 0));
@@ -1287,7 +1286,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0.8;
-        gbc.weighty = 0.6;
+        gbc.weighty = 0.5;
         generalLabel.add(internalPanelHigh,gbc);
 
 
@@ -1296,7 +1295,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.ipadx = 0;
         gbc.ipady = 0;
         gbc.weightx = 0.8;
-        gbc.weighty = 0.4;
+        gbc.weighty = 0.3;
         generalLabel.add(internalPanelLow,gbc);
 
 
@@ -1308,6 +1307,23 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.weighty = 0.8;
         gbc.gridheight = 2;
         generalLabel.add(internalPanelSide,gbc);
+
+        eventText = new JTextField(100);
+        eventText.setText(" Last relevant event of the Game ");
+        //eventText.setMinimumSize(new Dimension(textCols * 100, textCols));
+        eventText.setEditable(false);
+        eventText.setBorder(null);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 0.2;
+        gbc.gridwidth = 1;
+        gbc.fill = HORIZONTAL;
+        gbc.insets = new Insets(0,15,15,0);
+        generalLabel.add(eventText, gbc);
 
         mainFrame.add(generalLabel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
