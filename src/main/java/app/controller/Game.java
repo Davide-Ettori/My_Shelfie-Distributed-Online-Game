@@ -569,7 +569,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
     }
-    public void sendToClient(int i, Message msg){
+    synchronized public void sendToClient(int i, Message msg){
         System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(!rmiClients.containsKey(names.get(i))){
             try {
