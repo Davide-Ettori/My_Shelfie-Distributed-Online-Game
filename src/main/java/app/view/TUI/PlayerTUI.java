@@ -9,7 +9,6 @@ import app.view.UIMode;
 import org.json.simple.JSONObject;
 
 import java.io.*;
-import java.lang.constant.DynamicCallSiteDesc;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -188,9 +187,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void waitForEvents(){ // funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
+            /*
             if(msg == null){
                 waitForEvents();
             }
+             */
 
             //System.out.println(msg.getType());
             switch (msg.getType()) {
