@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -91,7 +92,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         listenForPlayersConnections();
         initializeAllClients();
         Game.waitForSeconds(1);
-        System.out.println(names.get(0));
+        //System.out.println(names.get(0));
+        for(int i = 0; i < numPlayers; i++){
+            if(rmiClients.containsKey(names.get(i)))
+                continue;
+            try {
+                playersSocket.get(i).setSoTimeout(Player.pingTimeout);
+            } catch (SocketException e) {
+                connectionLost(e);
+            }
+        }
         if(!rmiClients.containsKey(names.get(0)))
             waitMoveFromClient();
         else
@@ -287,6 +297,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         while(true){
             try {
                 Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
+                if(msg.getType() == PING)
+                    continue;
                 if(msg.getType() == CHAT){
                     sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
                     continue;

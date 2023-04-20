@@ -25,6 +25,8 @@ public class ChatBroadcast extends Thread{
             //System.out.println("SERVER ASCOLTA CHAT");
             while (true) {
                 Message msg = (Message) game.getInStreams().get(index).readObject();
+                if(msg.getType() == PING)
+                    continue;
                 if(msg.getType() == STOP)
                     return;
                 //System.out.println("\nRICEVUTO MEX - " + msg.getContent());

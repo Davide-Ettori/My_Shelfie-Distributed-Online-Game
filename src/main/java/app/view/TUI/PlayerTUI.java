@@ -160,6 +160,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 throw new RuntimeException(e);
             }
         }
+        if(netMode == SOCKET)
+            new Thread(this::ping).start();
         if(name.equals(chairmanName)) {
             if(netMode == SOCKET) {
                 startChatReceiveThread();
@@ -708,7 +710,16 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         Game.waitForSeconds(standardTimer / 2.5);
         System.exit(0);
     }
-
+    public void ping(){
+        while(true){
+            Game.waitForSeconds(Player.pingTimeout / 2);
+            try {
+                outStream.writeObject(new Message(PING, null, null));
+            } catch (IOException e) {
+                connectionLost(e);
+            }
+        }
+    }
     /********************************************* RMI ***************************************************************/
     public void receivedEventRMI(Message msg){ // funzione principale di attesa
         switch (msg.getType()) {

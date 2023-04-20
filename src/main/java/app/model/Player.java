@@ -1,9 +1,13 @@
 package app.model;
 
+import app.controller.Game;
+import app.controller.Message;
+import app.controller.MessageType;
 import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -19,7 +23,7 @@ import java.util.ArrayList;
  */
 public class Player extends UnicastRemoteObject implements Serializable {
 
-    //Questi che seguono sono gli attributi necessari per i metodi spostati da PlayerTUI a qui
+    public static final int pingTimeout = 1000 * 30;
     protected String name;
     protected PrivateObjective objective;
     /** list of the libraries of all the players in the game */
@@ -88,7 +92,6 @@ public class Player extends UnicastRemoteObject implements Serializable {
         numPlayers = p.numPlayers;
         endGame = p.endGame;
     }
-
     /**
      * Clone the player on the client in the player on the server
      * @author Ettori

@@ -338,8 +338,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 throw new RuntimeException(e);
             }
         }
-        if(netMode == SOCKET)
+        if(netMode == SOCKET) {
             new Thread(this::waitForEvents).start();
+            new Thread(this::ping).start();
+        }
     }
     /**
      * function used to wait for notification from the server while the player is NON active
@@ -601,6 +603,16 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             alert("\nThe connection was lost and the application is disconnecting...");
         Game.waitForSeconds(standardTimer / 2.5);
         System.exit(0);
+    }
+    public void ping(){
+        while(true){
+            Game.waitForSeconds(Player.pingTimeout / 2);
+            try {
+                outStream.writeObject(new Message(PING, null, null));
+            } catch (IOException e) {
+                connectionLost(e);
+            }
+        }
     }
     /**
      * Function that initialize all the GUI
