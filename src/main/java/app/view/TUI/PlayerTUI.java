@@ -712,7 +712,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     }
     public void ping(){
         while(true){
-            Game.waitForSeconds(Player.pingTimeout / 2);
+            //System.out.println("START PINGING");
+            Game.waitForSeconds(standardTimer * 2);
+            //System.out.println("PING");
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {

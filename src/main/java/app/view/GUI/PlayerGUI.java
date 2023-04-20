@@ -606,7 +606,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     }
     public void ping(){
         while(true){
-            Game.waitForSeconds(Player.pingTimeout / 2);
+            Game.waitForSeconds(standardTimer * 2);
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {
@@ -1026,7 +1026,24 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.weightx = 0.3;
         gbc.weighty = 0.0;
         internalPanelLow.add(player3Panel,gbc);
-        gbc.weightx = 0.0;
+
+        eventText = new JTextField(120);
+        eventText.setText(" Last relevant event of the Game ");
+        eventText.setMinimumSize(new Dimension(textCols * 50, textCols));
+        eventText.setEditable(false);
+        eventText.setBorder(null);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 0.2;
+        gbc.gridwidth = 3;
+        //gbc.fill = HORIZONTAL;
+        gbc.insets = new Insets(0,15,15,0);
+        internalPanelLow.add(eventText, gbc);
+
         //blue
         internalPanelHigh = new JPanel(new GridBagLayout());
         gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
@@ -1319,23 +1336,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.weighty = 0.8;
         gbc.gridheight = 2;
         generalLabel.add(internalPanelSide,gbc);
-
-        eventText = new JTextField(100);
-        eventText.setText(" Last relevant event of the Game ");
-        //eventText.setMinimumSize(new Dimension(textCols * 100, textCols));
-        eventText.setEditable(false);
-        eventText.setBorder(null);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        gbc.weightx = 1;
-        gbc.weighty = 0.2;
-        gbc.gridwidth = 1;
-        gbc.fill = HORIZONTAL;
-        gbc.insets = new Insets(0,15,15,0);
-        generalLabel.add(eventText, gbc);
 
         mainFrame.add(generalLabel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);

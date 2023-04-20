@@ -29,7 +29,7 @@ import static app.controller.NameStatus.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
-    public static boolean showErrors = false;
+    public static boolean showErrors = true;
     private int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
