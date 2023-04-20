@@ -245,7 +245,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleUpdateGameEvent(Message msg){
         stopChatThread();
-        sendToServer(new Message(STOP, null, null)); // scrivi questo messaggio sulla tua stessa socket
+        if(netMode == SOCKET)
+            sendToServer(new Message(STOP, null, null)); // scrivi questo messaggio sulla tua stessa socket
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board)jsonObject.get("board");
         for(int i = 0; i < numPlayers - 1; i++){

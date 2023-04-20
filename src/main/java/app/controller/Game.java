@@ -143,6 +143,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
+        temp = 1; // ELIMINA --> usata solo per il testing
         String n = names.get(0);
         names.set(0, names.get(temp));
         names.set(temp, n);
@@ -280,8 +281,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
+        startChatServerThread();
         while(true){
-            startChatServerThread();
             try {
                 Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
                 if(msg.getType() == CHAT){
@@ -294,7 +295,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
                 if(msg.getType() == UPDATE_GAME) {
                     System.out.println(activePlayer + " - " + names.get(activePlayer));
-                    sendToClient(activePlayer, new Message(STOP, null, null));
+                    if(!rmiClients.containsKey(names.get(activePlayer)))
+                        sendToClient(activePlayer, new Message(STOP, null, null));
+                    //Game.waitForSeconds(1);
                     chatThreads = new ArrayList<>();
                     break;
                 }
@@ -532,7 +535,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     }
     public void redirectToClientRMI(Message msg){
         switch (msg.getType()){
-            case CHAT -> sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
+            case CHAT -> {
+                String from = (String)msg.getContent();
+                from = from.substring(0, from.indexOf(" "));
+                sendChatToClients(from, msg.getAuthor(), (String)msg.getContent());
+            }
             case END_TURN -> {
                 JSONObject jsonObject = (JSONObject) msg.getContent();
                 //players.set(activePlayer, (Player) jsonObject.get("player"));
