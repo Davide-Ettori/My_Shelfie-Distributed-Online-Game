@@ -278,7 +278,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleChatEvent(Message msg){
         fullChat += msg.getContent();
-        drawAll();
+        if(activeName.equals(name))
+            System.out.println(msg.getContent());
+        else
+            drawAll();
         if(netMode == SOCKET)
             waitForEvents();
     }
