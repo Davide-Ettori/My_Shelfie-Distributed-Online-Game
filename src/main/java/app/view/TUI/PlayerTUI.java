@@ -531,7 +531,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
             //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
-            Game.waitForSeconds(standardTimer);
+            Game.waitForSeconds(standardTimer * 6 / 5);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(standardTimer / 2.5);
@@ -543,7 +543,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
 
         }catch(Exception e){connectionLost(e);}
         if(netMode == SOCKET) {
-            System.out.println("prima di wait");
+            //System.out.println("prima di wait");
             waitForEvents();
         }
     }
@@ -553,7 +553,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void stopChatThread(){
         if(chatThread == null){
-            System.out.println("THREAD");
+            //System.out.println("THREAD");
             return;
         }
         try {

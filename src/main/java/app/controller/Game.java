@@ -143,8 +143,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
-        //temp = 1; // ELIMINA --> usata solo per il testing
-        temp = 0; // ELIMINA --> usata solo per il testing
+        temp = 1; // ELIMINA --> usata solo per il testing
+        //temp = 0; // ELIMINA --> usata solo per il testing
         String n = names.get(0);
         names.set(0, names.get(temp));
         names.set(temp, n);
@@ -295,7 +295,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         sendToClient(i,msg);
                 }
                 if(msg.getType() == UPDATE_GAME) {
-                    System.out.println(activePlayer + " - " + names.get(activePlayer));
+                    //System.out.println(activePlayer + " - " + names.get(activePlayer));
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     //Game.waitForSeconds(1);
@@ -312,13 +312,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void waitForEndTurn(){
         try {
-            System.out.println("aspetto la fine");
+            //System.out.println("aspetto la FINE");
             Message msg = (Message) inStreams.get(activePlayer).readObject();
-            if(msg.getType() == PING)
+            if(msg.getType() == PING) {
                 waitForEndTurn();
+                return;
+            }
             if(msg.getType() != END_TURN)
                 throw new RuntimeException();
-            System.out.println("ecco la fine - socket");
+            //System.out.println("ecco la fine - socket");
             JSONObject jsonObject = (JSONObject) msg.getContent();
             players.set(activePlayer, (Player) jsonObject.get("player"));
             if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
@@ -348,13 +350,17 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void notifyNewTurn(){
+        //System.out.println("notify - " + numPlayers);
         for(int i = 0; i < numPlayers; i++){
+            //System.out.println("\nnotify nome: " + names.get(i));
             try {
                 if (i == activePlayer) {
                     sendToClient(i, new Message(YOUR_TURN, "server", ""));
                 }
-                else
+                else {
+                    //System.out.println(names.get(i));
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
+                }
             }catch (Exception e){connectionLost(e);}
         }
         FILEHelper.writeServer(this); // salvo lo stato della partita
@@ -569,8 +575,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
     }
-    synchronized public void sendToClient(int i, Message msg){
-        System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
+    public void sendToClient(int i, Message msg){
+        //System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(!rmiClients.containsKey(names.get(i))){
             try {
                 outStreams.get(i).writeObject(msg);

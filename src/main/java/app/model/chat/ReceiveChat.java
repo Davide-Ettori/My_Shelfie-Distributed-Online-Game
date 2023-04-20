@@ -7,6 +7,7 @@ import app.view.TUI.PlayerTUI;
 import java.io.IOException;
 
 import static app.controller.MessageType.*;
+import static app.model.NetMode.RMI;
 
 /**
  * class which represent the thread which listen for received chat message (used by the active player)
@@ -25,11 +26,13 @@ public class ReceiveChat extends Thread{
      */
     @Override
     public void run(){
-        if(player.netMode == NetMode.RMI)
+        if(player.netMode == RMI)
             return;
         try {
             while (true) {
+                //System.out.println("ASPETTO CHAT");
                 Message msg = (Message) player.getInStream().readObject();
+                //System.out.println("\nfrom CHAT - " + msg.getType());
                 if(msg.getType() == STOP)
                     return;
                 System.out.println("\n" + msg.getContent());
