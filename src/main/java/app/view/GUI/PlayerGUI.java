@@ -31,7 +31,7 @@ import static app.model.NetMode.SOCKET;
 import static app.view.Dimensions.*;
 import static java.awt.Color.*;
 import static java.awt.GridBagConstraints.*;
-import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.*;
 
 /**
  * class which represent the player on the client side, mutable,
@@ -415,8 +415,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         }
         //updateBoard();
         //updateOtherLibraries();
-        alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        //alert("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         Game.waitForSeconds(standardTimer);
+        //getRootFrame().dispose();
     }
     /**
      * helper function for handling the final score calculation event notification from the server
