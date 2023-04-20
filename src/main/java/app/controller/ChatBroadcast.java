@@ -26,7 +26,7 @@ public class ChatBroadcast extends Thread{
                 Message msg = (Message) game.getInStreams().get(index).readObject();
                 if(msg.getType() == STOP)
                     return;
-                //System.out.println("\nRICEVUTO MEX - " + msg.getContent());
+                System.out.println("\nRICEVUTO MEX - " + msg.getContent());
                 game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());
             }
         }

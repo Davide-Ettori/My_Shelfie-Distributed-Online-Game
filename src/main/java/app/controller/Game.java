@@ -146,7 +146,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
         //temp = 1; // ELIMINA --> usata solo per il testing
-        //temp = 0; // ELIMINA --> usata solo per il testing
+        temp = 0; // ELIMINA --> usata solo per il testing
         String n = names.get(0);
         names.set(0, names.get(temp));
         names.set(temp, n);
@@ -356,15 +356,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         for(int i = 0; i < numPlayers; i++){
             //System.out.println("\nnotify nome: " + names.get(i));
             try {
-                if (i == activePlayer) {
-                    sendToClient(i, new Message(YOUR_TURN, "server", ""));
-                }
-                else {
+                if (i != activePlayer) {
                     //System.out.println(names.get(i));
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
                 }
             }catch (Exception e){connectionLost(e);}
         }
+        sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         FILEHelper.writeServer(this); // salvo lo stato della partita
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
@@ -376,8 +374,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     private void startChatServerThread(){
-        if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
-            return;
+        //if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
+        //    return;
+        chatThreads = new ArrayList<>();
         for(int i = 0; i < numPlayers; i++){
             if(i == activePlayer || rmiClients.containsKey(names.get(i)))
                 continue;
@@ -576,7 +575,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
     }
     public void sendToClient(int i, Message msg){
-        //System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
+        System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(!rmiClients.containsKey(names.get(i))){
             try {
                 outStreams.get(i).writeObject(msg);

@@ -546,7 +546,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
 
         }catch(Exception e){connectionLost(e);}
         if(netMode == SOCKET) {
-            //System.out.println("prima di wait");
+            System.out.println("prima di wait");
             waitForEvents();
         }
     }
