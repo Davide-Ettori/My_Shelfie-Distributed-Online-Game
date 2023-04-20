@@ -188,6 +188,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void waitForEvents(){ // funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
+            if(msg == null){
+                waitForEvents();
+            }
+
             //System.out.println(msg.getType());
             switch (msg.getType()) {
                 case YOUR_TURN -> handleYourTurnEvent();
