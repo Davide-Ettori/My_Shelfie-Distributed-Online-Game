@@ -286,7 +286,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-        System.out.println("STARTO I CHAT THREAD, dalla funzione");
+        //System.out.println("STARTO I CHAT THREAD, dalla funzione");
         startChatServerThread();
         while(true){
             try {
