@@ -342,6 +342,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             new Thread(this::waitForEvents).start();
             new Thread(this::ping).start();
         }
+        else
+            new Thread(this::pingRMI).start();
     }
     /**
      * function used to wait for notification from the server while the player is NON active
@@ -610,6 +612,16 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {
+                connectionLost(e);
+            }
+        }
+    }
+    public void pingRMI(){
+        while(true){
+            Game.waitForSeconds(standardTimer * 2);
+            try {
+                server.ping();
+            } catch (RemoteException e) {
                 connectionLost(e);
             }
         }

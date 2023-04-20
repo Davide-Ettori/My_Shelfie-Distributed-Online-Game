@@ -162,6 +162,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         }
         if(netMode == SOCKET)
             new Thread(this::ping).start();
+        else
+            new Thread(this::pingRMI).start();
         if(name.equals(chairmanName)) {
             if(netMode == SOCKET) {
                 startChatReceiveThread();
@@ -718,6 +720,16 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {
+                connectionLost(e);
+            }
+        }
+    }
+    public void pingRMI(){
+        while(true){
+            Game.waitForSeconds(standardTimer * 2);
+            try {
+                server.ping();
+            } catch (RemoteException e) {
                 connectionLost(e);
             }
         }
