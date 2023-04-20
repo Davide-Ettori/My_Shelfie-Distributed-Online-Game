@@ -143,7 +143,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
-        temp = 1; // ELIMINA --> usata solo per il testing
+        //temp = 1; // ELIMINA --> usata solo per il testing
+        temp = 0; // ELIMINA --> usata solo per il testing
         String n = names.get(0);
         names.set(0, names.get(temp));
         names.set(temp, n);

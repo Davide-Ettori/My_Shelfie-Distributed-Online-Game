@@ -9,6 +9,7 @@ import app.view.UIMode;
 import org.json.simple.JSONObject;
 
 import java.io.*;
+import java.lang.constant.DynamicCallSiteDesc;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -187,6 +188,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void waitForEvents(){ // funzione principale di attesa
         try {
             Message msg = (Message) inStream.readObject();
+            System.out.println(msg.getType());
             switch (msg.getType()) {
                 case YOUR_TURN -> handleYourTurnEvent();
                 case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -529,7 +531,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
             //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
-            Game.waitForSeconds(standardTimer / 5);
+            Game.waitForSeconds(standardTimer);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
                     Game.waitForSeconds(standardTimer / 2.5);
