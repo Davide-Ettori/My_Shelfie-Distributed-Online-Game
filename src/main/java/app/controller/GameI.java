@@ -5,8 +5,11 @@ import app.model.PlayerI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * skeleton of the remote server
+ * @author Ettori
+ */
 public interface GameI extends Remote {
-    void stampa(String s) throws RemoteException;
     void addClient(String name, PlayerI p) throws RemoteException;
     void redirectToClientRMI(Message msg) throws RemoteException;
     void ping() throws RemoteException;

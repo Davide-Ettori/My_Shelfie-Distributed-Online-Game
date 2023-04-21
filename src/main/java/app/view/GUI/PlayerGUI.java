@@ -606,6 +606,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         Game.waitForSeconds(standardTimer / 2.5);
         System.exit(0);
     }
+    /**
+     * method that periodically pings the server from socket client
+     * @author Ettori
+     */
     public void ping(){
         while(true){
             Game.waitForSeconds(standardTimer * 2);
@@ -616,11 +620,55 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             }
         }
     }
+    /**
+     * method that periodically pings the server from RMI client
+     * @author Ettori
+     */
     public void pingRMI(){
         while(true){
             Game.waitForSeconds(standardTimer * 2);
             try {
                 server.ping();
+            } catch (RemoteException e) {
+                connectionLost(e);
+            }
+        }
+    }
+    /******************************************** RMI ***************************************************************/
+    /**
+     * method (called from remote) that is the equivalent of wait for events of the socket version
+     * @param msg the message received from the server
+     * @author Ettori
+     */
+    public void receivedEventRMI(Message msg){ // funzione principale di attesa
+        switch (msg.getType()) {
+            case YOUR_TURN -> handleYourTurnEvent();
+            case CHANGE_TURN -> handleChangeTurnEvent(msg);
+            case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+            case UPDATE_GAME -> handleUpdateGameEvent(msg);
+            case FINAL_SCORE -> handleFinalScoreEvent(msg);
+            case CHAT -> handleChatEvent(msg);
+            case CO_1 -> handleCO_1Event(msg);
+            case CO_2 -> handleCO_2Event(msg);
+            case LIB_FULL -> handleLibFullEvent(msg);
+        }
+    }
+    /**
+     * general method to send a message to the server, it chooses the right network connection of the player
+     * @author Ettori
+     * @param msg the message that must be sent
+     */
+    public void sendToServer(Message msg){
+        if(netMode == SOCKET) {
+            try {
+                outStream.writeObject(msg);
+            } catch (IOException e) {
+                connectionLost(e);
+            }
+        }
+        else{
+            try {
+                server.redirectToClientRMI(msg);
             } catch (RemoteException e) {
                 connectionLost(e);
             }
@@ -1357,35 +1405,5 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
-    }
-    /******************************************** RMI ***************************************************************/
-    public void receivedEventRMI(Message msg){ // funzione principale di attesa
-        switch (msg.getType()) {
-            case YOUR_TURN -> handleYourTurnEvent();
-            case CHANGE_TURN -> handleChangeTurnEvent(msg);
-            case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
-            case UPDATE_GAME -> handleUpdateGameEvent(msg);
-            case FINAL_SCORE -> handleFinalScoreEvent(msg);
-            case CHAT -> handleChatEvent(msg);
-            case CO_1 -> handleCO_1Event(msg);
-            case CO_2 -> handleCO_2Event(msg);
-            case LIB_FULL -> handleLibFullEvent(msg);
-        }
-    }
-    public void sendToServer(Message msg){
-        if(netMode == SOCKET) {
-            try {
-                outStream.writeObject(msg);
-            } catch (IOException e) {
-                connectionLost(e);
-            }
-        }
-        else{
-            try {
-                server.redirectToClientRMI(msg);
-            } catch (RemoteException e) {
-                connectionLost(e);
-            }
-        }
     }
 }

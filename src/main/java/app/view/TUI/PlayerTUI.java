@@ -712,6 +712,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         Game.waitForSeconds(standardTimer / 2.5);
         System.exit(0);
     }
+
+    /**
+     * method that periodically pings the server from socket client
+     * @author Ettori
+     */
     public void ping(){
         while(true){
             //System.out.println("START PINGING");
@@ -724,6 +729,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
         }
     }
+    /**
+     * method that periodically pings the server from RMI client
+     * @author Ettori
+     */
     public void pingRMI(){
         while(true){
             Game.waitForSeconds(standardTimer * 2);
@@ -735,6 +744,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         }
     }
     /********************************************* RMI ***************************************************************/
+    /**
+     * method (called from remote) that is the equivalent of wait for events of the socket version
+     * @param msg the message received from the server
+     * @author Ettori
+     */
     public void receivedEventRMI(Message msg){ // funzione principale di attesa
         switch (msg.getType()) {
             case YOUR_TURN -> handleYourTurnEvent();
@@ -748,6 +762,12 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             case LIB_FULL -> handleLibFullEvent(msg);
         }
     }
+
+    /**
+     * general method to send a message to the server, it chooses the right network connection of the player
+     * @author Ettori
+     * @param msg the message that must be sent
+     */
     public void sendToServer(Message msg){
         if(netMode == SOCKET) {
             try {

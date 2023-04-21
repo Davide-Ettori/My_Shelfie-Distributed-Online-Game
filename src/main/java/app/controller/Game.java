@@ -497,10 +497,23 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void sendFinalScoresToAll(){
         String finalScores = getFinalScore();
+        ArrayList<Thread> ths = new ArrayList<>();
         for(int i = 0; i < numPlayers; i++) {
             try {
-                sendToClient(i, new Message(FINAL_SCORE, "server", finalScores));
+                int finalI = i;
+                ths.add(new Thread(() -> {
+                    Game.waitForSeconds(1);
+                    sendToClient(finalI, new Message(FINAL_SCORE, "server", finalScores));
+                }));
+                ths.get(i).start();
             } catch (Exception e) {connectionLost(e);}
+        }
+        for(int i = 0; i < numPlayers; i++) {
+            try {
+                ths.get(i).join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
         while (true){}
@@ -549,13 +562,23 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             while (true){}
         }
     }
-    private int getClientIndex(String s){return names.indexOf(s);}
     /******************************************** RMI ***************************************************************/
-    public void stampa(String s){System.out.println(s);}
+    /**
+     * method called from remote used to add a client to the store of all the RMI clients
+     * @author Ettori
+     * @param name the nickname of the player
+     * @param p the player object, passed as the remote interface
+     */
     public void addClient(String name, PlayerI p){
         rmiClients.put(name, p);
         //rmiClients.get(name).stampaTerminale("Client added to rmi server");
     }
+
+    /**
+     * method called from remote which is equivalent to the waitMoveFromClient() method for the socket
+     * @author Ettori
+     * @param msg the message that the client want to send to the remote server
+     */
     public void redirectToClientRMI(Message msg){
         switch (msg.getType()){
             case CHAT -> {
@@ -565,7 +588,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
             case END_TURN -> {
                 JSONObject jsonObject = (JSONObject) msg.getContent();
-                //players.set(activePlayer, (Player) jsonObject.get("player"));
+                players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
                 if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     for(int i = 0; i < names.size(); i++){
@@ -591,6 +614,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
     }
+
+    /**
+     * general method to respond to a client, it chooses the right network connection of the player
+     * @author Ettori
+     * @param i the index of the player to contact
+     * @param msg the message that must be sent
+     */
     public void sendToClient(int i, Message msg){
         //System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(!rmiClients.containsKey(names.get(i))){
@@ -608,5 +638,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
     }
+
+    /**
+     * method that allow the server to be pinged from an RMI client
+     * @author Ettori
+     */
     public void ping(){}
 }
