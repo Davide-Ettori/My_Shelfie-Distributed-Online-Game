@@ -384,6 +384,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             //System.out.println("ecco la fine - socket");
             JSONObject jsonObject = (JSONObject) msg.getContent();
             players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
+            PlayerSend p = (PlayerSend) jsonObject.get("player");
+            for(int i = 0; i < numPlayers; i++){
+                if(i == activePlayer)
+                    continue;
+                for(int j = 0; j < numPlayers - 1; j++){
+                    if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
+                        players.get(i).librariesOfOtherPlayers.set(j, p.library);
+                }
+            }
             if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                 endGameSituation = true;
                 for(int i = 0; i < names.size(); i++){
@@ -637,6 +646,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             case END_TURN -> {
                 JSONObject jsonObject = (JSONObject) msg.getContent();
                 players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
+                PlayerSend p = (PlayerSend) jsonObject.get("player");
+                for(int i = 0; i < numPlayers; i++){
+                    if(i == activePlayer)
+                        continue;
+                    for(int j = 0; j < numPlayers - 1; j++){
+                        if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
+                            players.get(i).librariesOfOtherPlayers.set(j, p.library);
+                    }
+                }
                 if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
                     endGameSituation = true;
                     for(int i = 0; i < names.size(); i++){
