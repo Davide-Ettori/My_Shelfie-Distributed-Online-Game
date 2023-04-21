@@ -153,12 +153,26 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     private void initializeOldClients(){
+        int temp = -1;
         for(int i = 0; i < numPlayers; i++){
             try {
                 outStreams.get(i).writeObject(getClientByName(names.get(i), gameTemp.players));
                 players.add(new PlayerSend(getClientByName(names.get(i), gameTemp.players)));
+                if(gameTemp.players.get(i).isChairMan)
+                    temp = i;
             }catch (Exception e){connectionLost(e);}
         }
+        String n = names.get(0);
+        names.set(0, names.get(temp));
+        names.set(temp, n);
+
+        ObjectOutputStream outTemp = outStreams.get(0);
+        outStreams.set(0, outStreams.get(temp));
+        outStreams.set(temp, outTemp);
+
+        ObjectInputStream inTemp = inStreams.get(0);
+        inStreams.set(0, inStreams.get(temp));
+        inStreams.set(temp, inTemp);
     }
     /**
      * helper method for initializing all the clients (players) with the same board state

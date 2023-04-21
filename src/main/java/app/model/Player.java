@@ -32,7 +32,8 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public Board board;
     /** the personal library of this player */
     public Library library;
-    protected boolean isChairMan;
+    /** true iff the player is the chairman of this game */
+    public boolean isChairMan;
     protected transient ObjectInputStream inStream;
     protected transient ObjectOutputStream outStream;
     protected transient Socket mySocket;
