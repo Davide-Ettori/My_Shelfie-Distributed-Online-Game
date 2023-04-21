@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Ettori Giammusso
  */
 public class PlayerSend implements Serializable {
-    protected String name;
+    public String name;
     protected PrivateObjective objective;
     /** list of the libraries of all the players in the game */
     public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();

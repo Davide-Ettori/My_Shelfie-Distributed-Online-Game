@@ -1,8 +1,6 @@
 package app.controller;
 
 import app.model.*;
-import app.model.NetMode;
-import app.view.UIMode;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -46,6 +44,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private transient ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
     private transient boolean closed = false;
     private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
+    private transient Game gameTemp = null;
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -58,14 +57,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         targetPlayers = maxP;
         if(old.equals("yes")){
             if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
-                Game gameTemp = FILEHelper.loadServer();
+                gameTemp = FILEHelper.loadServer();
                 FILEHelper.writeFail();
-                if(gameTemp.numPlayers != maxP)
+                if(gameTemp.numPlayers != maxP) {
                     System.out.println("\nThe old game is not compatible, starting a new game...");
+                    gameTemp = null;
+                }
                 else {
-                    clone(gameTemp);
+                    //clone(gameTemp);
                     System.out.println("\nLoading the old game...");
-                    System.exit(0); // continuare da qui in poi per fare la FA persistenza del server
+                    //System.exit(0); // continuare da qui in poi per fare la FA persistenza del server
                     // chiama la funzione che si occupa di riprendere la vecchia partita in corso
                 }
             }// da qui in poi fai continuare il server che hai caricato dalla cache
@@ -88,7 +89,22 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         System.out.println("\nServer listening...");
 
         listenForPlayersConnections();
-        initializeAllClients();
+
+        if(gameTemp != null){
+            if(gameTemp.names.containsAll(names)) {
+                initializeOldClients();
+                if(gameTemp.endGameSituation){
+                    Game.waitForSeconds(1);
+                    sendFinalScoresToAll();
+                }
+            }
+            else{
+                System.out.println("\nThe names of the clients do not match the old ones, starting a new game...");
+                initializeAllClients();
+            }
+        }
+        else
+            initializeAllClients();
         Game.waitForSeconds(1);
         //System.out.println(names.get(0));
         for(int i = 0; i < numPlayers; i++){
@@ -105,6 +121,37 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             waitMoveFromClient();
         else
             startChatServerThread();
+    }
+    /**
+     * method that get an old client status by his name
+     * @param n the name of the old client
+     * @param playerList the list of all the old clients
+     * @author Ettori
+     * @return the client that was playing previously and needs to be alive again
+     */
+    private Player getClientByName(String n, ArrayList<PlayerSend> playerList){
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).name.equals(n)) {
+                try {
+                    return new Player(playerList.get(i));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return null;
+    }
+    /**
+     * helper method for initializing the old clients that were playing in the previous game
+     * @author Ettori
+     */
+    private void initializeOldClients(){
+        for(int i = 0; i < numPlayers; i++){
+            try {
+                outStreams.get(i).writeObject(getClientByName(names.get(i), gameTemp.players));
+                players.add(new PlayerSend(getClientByName(names.get(i), gameTemp.players)));
+            }catch (Exception e){connectionLost(e);}
+        }
     }
     /**
      * helper method for initializing all the clients (players) with the same board state
@@ -224,34 +271,24 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     outStreams.get(outStreams.size() - 1).writeObject(TAKEN);
                     continue;
                 }
-                outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);
-                //netModes.add((NetMode) inStreams.get(inStreams.size() - 1).readObject());
-                //uiModes.add((UIMode) inStreams.get(inStreams.size() - 1).readObject());
+                if(gameTemp.names.contains(name))
+                    outStreams.get(outStreams.size() - 1).writeObject(OLD);
+                else
+                    outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);
                 names.add(name);
                 break;
             }
         }catch(Exception e){connectionLost(e);}
     }
     /**
-     * Make a clone of the server, helps for the persistence
+     * Make a clone of the server, needed for the persistence functionality
      * @param g server status
      * @author Ettori
      */
     private void clone(Game g){
-        targetPlayers = g.targetPlayers;
-        numPlayers = g.numPlayers;
-        endGameSituation = g.endGameSituation;
-        activePlayer = g.activePlayer;
+        endGameSituation = g.endGameSituation; // possibile deadlock
         players = g.players;
         names = g.names;
-        playersSocket = g.playersSocket;
-        outStreams = g.outStreams;
-        inStreams = g.inStreams;
-        bucketOfCO = g.bucketOfCO;
-        bucketOfPO = g.bucketOfPO;
-        timeExp = g.timeExp;
-        serverSocket = g.serverSocket;
-        chatThreads = g.chatThreads;
     }
     /**
      * Make a random choose of the objective (Common and Private)

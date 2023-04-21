@@ -63,6 +63,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
     /**
      * constructor used by the server to initializer a base Player object
      * @author Ettori
+     * @throws RemoteException exc
      */
     public Player() throws RemoteException {
         super();
@@ -71,8 +72,36 @@ public class Player extends UnicastRemoteObject implements Serializable {
      * copy constructor for the Player object
      * @author Ettori
      * @param p the Player object to copy
+     * @throws RemoteException exc
      */
     public Player(Player p) throws RemoteException {
+        super();
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.endGame;
+    }
+
+    /**
+     * constructor that built a Player object from an old PlayerSend Object (used for persistence)
+     * @param p the old PlayerObject that was saved on the server
+     * @author Ettori
+     * @throws RemoteException exc
+     */
+    public Player(PlayerSend p) throws RemoteException {
         super();
         netMode = p.netMode;
         uiMode = p.uiMode;
