@@ -393,6 +393,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         updateInfo();
         updateBoard();
         updateOtherLibraries();
+        eventText.setText("Now " + activeName + " is playing his turn...");
     }
     /**
      * helper function for handling the unplayble board fixing event notification from the server
