@@ -59,7 +59,7 @@ public class FILEHelper {
      * @author Ettori
      * @return the state of the old server that was saved (Game Object)
      */
-    public static Game loadServerCLI(){
+    public static Game loadServer(){
         Game server = null;
         try {
             FileInputStream fin = new FileInputStream("src/main/java/app/controller/cache/server.txt");

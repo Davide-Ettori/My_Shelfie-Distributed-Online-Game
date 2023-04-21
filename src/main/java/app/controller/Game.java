@@ -60,7 +60,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         targetPlayers = maxP;
         if(old.equals("yes")){
             if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
-                Game gameTemp = FILEHelper.loadServerCLI();
+                Game gameTemp = FILEHelper.loadServer();
                 FILEHelper.writeFail();
                 if(gameTemp.numPlayers != maxP)
                     System.out.println("\nThe old game is not compatible, starting a new game...");
