@@ -102,6 +102,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 connectionLost(e);
             }
         }
+        new Thread(() -> pingRMI()).start();
         if(!rmiClients.containsKey(names.get(0)))
             waitMoveFromClient();
         else
@@ -644,4 +645,23 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     public void ping(){}
+
+    /**
+     * method that periodically pings all the current client connected with RMI
+     * @author Ettori
+     */
+    public void pingRMI(){
+        while(true){
+            waitForSeconds(5);
+            for(String n: names){
+                if(!rmiClients.containsKey(n))
+                    continue;
+                try {
+                    rmiClients.get(n).pingClient();
+                } catch (RemoteException e) {
+                    connectionLost(e);
+                }
+            }
+        }
+    }
 }

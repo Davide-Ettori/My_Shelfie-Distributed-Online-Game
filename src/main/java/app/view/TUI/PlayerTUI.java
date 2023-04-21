@@ -784,4 +784,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
         }
     }
+    /**
+     * method that allow the server ping the RMI client
+     * @author Ettori
+     */
+    public void pingClient(){}
 }

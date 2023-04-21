@@ -675,6 +675,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         }
     }
     /**
+     * method that allow the server ping the RMI client
+     * @author Ettori
+     */
+    public void pingClient(){}
+    /**
      * Function that initialize all the GUI
      * @author Ettori Faccincani Giammusso
      */

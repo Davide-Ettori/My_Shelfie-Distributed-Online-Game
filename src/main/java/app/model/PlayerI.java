@@ -12,4 +12,5 @@ import java.rmi.RemoteException;
 public interface PlayerI extends Remote {
     void sendToServer(Message msg) throws RemoteException;
     void receivedEventRMI(Message msg) throws RemoteException;
+    void pingClient() throws RemoteException;
 }
