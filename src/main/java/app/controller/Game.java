@@ -48,6 +48,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
+     * @param old contains yes/no, used to determine if the player wants to load and older game
      */
     public Game(int maxP, String old) throws RemoteException {
         super();
@@ -56,7 +57,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
 
         targetPlayers = maxP;
         if(old.equals("yes")){
-            if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che non ci sia un server nella cache, nel caso lo carichi
+            if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che ci sia un server nella cache, nel caso lo carichi
                 gameTemp = FILEHelper.loadServer();
                 FILEHelper.writeFail();
                 if(gameTemp.numPlayers != maxP) {
