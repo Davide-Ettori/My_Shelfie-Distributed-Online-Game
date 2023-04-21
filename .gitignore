@@ -10,6 +10,8 @@
 # Ignore game assets
 assets/*
 documentation/*
+out/*
+META-INF/*
 
 # User-specific stuff
 .idea/**/workspace.xml
