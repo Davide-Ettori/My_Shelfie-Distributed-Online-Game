@@ -161,7 +161,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 players.add(new PlayerSend(getClientByName(names.get(i), gameTemp.players)));
                 if(gameTemp.players.get(i).isChairMan) {
                     temp = i;
-                    activePlayer = i; // problemi con i nuovi turni dopo la persistenza
+                    //activePlayer = i; // problemi con i nuovi turni dopo la persistenza
                 }
             }catch (Exception e){connectionLost(e);}
         }
