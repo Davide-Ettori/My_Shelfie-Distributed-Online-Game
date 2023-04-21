@@ -27,7 +27,7 @@ import static app.controller.NameStatus.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     private int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
@@ -156,6 +156,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         int temp = -1;
         for(int i = 0; i < numPlayers; i++){
             try {
+                gameTemp.players.get(i).activeName = gameTemp.names.get(0);
                 outStreams.get(i).writeObject(getClientByName(names.get(i), gameTemp.players));
                 players.add(new PlayerSend(getClientByName(names.get(i), gameTemp.players)));
                 if(gameTemp.players.get(i).isChairMan)
