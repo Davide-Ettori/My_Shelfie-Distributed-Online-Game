@@ -102,6 +102,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 System.out.println("\nThe names of the clients do not match the old ones, starting a new game...");
                 initializeAllClients();
             }
+            gameTemp = null;
         }
         else
             initializeAllClients();
@@ -139,7 +140,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
             }
         }
-        return null;
+        System.out.println("\nAncient client not found...");
+        System.exit(0);
+        try {
+            return new Player();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
     /**
      * helper method for initializing the old clients that were playing in the previous game

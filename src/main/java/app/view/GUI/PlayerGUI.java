@@ -289,6 +289,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 frame.setVisible(false);
                 return;
             }
+            if(status == OLD){
+                alert("\nName: '" + name + " was found in a previous game");
+                //System.exit(0);
+                getInitialState(); // partire a lavorare da questa funzione in poi
+                frame.setVisible(false);
+                return;
+            }
             alert("Name Taken, choose another name");
             textInput.setText("");
         });

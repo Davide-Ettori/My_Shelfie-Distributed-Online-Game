@@ -122,11 +122,16 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 status = (NameStatus) inStream.readObject();
             }catch(Exception e){connectionLost(e);};
 
-            if(status == NOT_TAKEN)
+            if(status == NOT_TAKEN) {
+                System.out.println("\nName: '" + name + "' accepted by the server!");
                 break;
+            }
+            if(status == OLD){
+                System.out.println("\nName: '" + name + " was found in a previous game");
+                break;
+            }
             System.out.println("Name Taken, choose another name");
         }
-        System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
     }
     /**
