@@ -38,8 +38,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     public PlayerTUI(Player p) throws RemoteException {
         super();
-        netMode = p.netMode;
-        uiMode = p.uiMode;
         name = p.getName();
         isChairMan = p.getIsChairMan();
         library = new Library(p.library);
@@ -83,8 +81,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     @Override
     public void clone(PlayerTUI p){ // copia la versione sul server dentro a quella del client
-        netMode = p.netMode;
-        uiMode = p.uiMode;
+        //netMode = p.netMode;
+        //uiMode = p.uiMode;
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -128,10 +126,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 break;
             System.out.println("Name Taken, choose another name");
         }
-        try {
-            outStream.writeObject(netMode);
-            outStream.writeObject(uiMode);
-        }catch(Exception e){connectionLost(e);}
         System.out.println("\nName: '" + name + "' accepted by the server!");
         getInitialState();
     }

@@ -69,8 +69,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     public PlayerGUI(Player p) throws RemoteException {
         super();
-        netMode = p.netMode;
-        uiMode = p.uiMode;
         name = p.getName();
         isChairMan = p.getIsChairMan();
         library = new Library(p.library);
@@ -113,8 +111,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param p the Player that will be cloned in the current Object
      */
     public void clone(PlayerGUI p){ // copia la versione sul server dentro a quella del client
-        netMode = p.netMode;
-        uiMode = p.uiMode;
+        //netMode = p.netMode;
+        //uiMode = p.uiMode;
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -287,10 +285,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(status == NOT_TAKEN){
                 alert("\nName: '" + name + "' accepted by the server!");
                 //System.exit(0);
-                try {
-                    outStream.writeObject(netMode);
-                    outStream.writeObject(uiMode);
-                }catch(Exception e){connectionLost(e);}
                 getInitialState(); // partire a lavorare da questa funzione in poi
                 frame.setVisible(false);
                 return;

@@ -35,8 +35,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private int activePlayer = 0;
     private ArrayList<PlayerSend> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
-    private ArrayList<NetMode> netModes = new ArrayList<>();
-    private ArrayList<UIMode> uiModes = new ArrayList<>();
     private transient ArrayList<Socket> playersSocket = new ArrayList<>();
     private transient ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
     private transient ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
@@ -140,8 +138,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     p.librariesOfOtherPlayers.add(new Library(names.get(j)));
             }
             p.numPlayers = numPlayers;
-            p.netMode = netModes.get(i);
-            p.uiMode = uiModes.get(i);
             try {
                 outStreams.get(i).writeObject(p);
             }catch (Exception e){connectionLost(e);}
@@ -167,14 +163,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         ObjectInputStream inTemp = inStreams.get(0);
         inStreams.set(0, inStreams.get(temp));
         inStreams.set(temp, inTemp);
-
-        NetMode netTemp = netModes.get(0);
-        netModes.set(0, netModes.get(temp));
-        netModes.set(temp, netTemp);
-
-        UIMode uiTemp = uiModes.get(0);
-        uiModes.set(0, uiModes.get(temp));
-        uiModes.set(temp, uiTemp);
     }
     /**
      * helper function which waits for client's connection to the server socket, when all are connected the game starts
@@ -237,8 +225,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     continue;
                 }
                 outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);
-                netModes.add((NetMode) inStreams.get(inStreams.size() - 1).readObject());
-                uiModes.add((UIMode) inStreams.get(inStreams.size() - 1).readObject());
+                //netModes.add((NetMode) inStreams.get(inStreams.size() - 1).readObject());
+                //uiModes.add((UIMode) inStreams.get(inStreams.size() - 1).readObject());
                 names.add(name);
                 break;
             }
