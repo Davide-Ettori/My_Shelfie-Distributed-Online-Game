@@ -27,8 +27,6 @@ public class PlayerSend implements Serializable {
     protected transient ObjectOutputStream outStream;
     protected transient Socket mySocket;
     protected String fullChat = "";
-
-    //Questi che seguono sono gli attributi condivisi da playerTUI e PlayerGUI
     /** the name of the chairman of the game */
     public String chairmanName;
     /** the network mode chosen by the user */
