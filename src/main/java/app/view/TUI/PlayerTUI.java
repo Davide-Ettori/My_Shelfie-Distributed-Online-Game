@@ -668,9 +668,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         //System.out.flush(); //non funziona sul terminale di intellij
         clearScreen();
         if(activeName.equals(name)){
-            System.out.println("Wake up! It's your turn!");
+            System.out.println("Your turn is now started, play your move !");
         }else{
-            System.out.println("Now " + activeName + " is playing...");
+            System.out.println("Now " + activeName + " is playing his turn...");
         }
         board.draw();
         objective.draw();
