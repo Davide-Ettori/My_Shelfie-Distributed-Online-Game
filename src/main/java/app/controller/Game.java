@@ -102,7 +102,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 connectionLost(e);
             }
         }
-        new Thread(() -> pingRMI()).start();
+        new Thread(this::pingRMI).start();
         if(!rmiClients.containsKey(names.get(0)))
             waitMoveFromClient();
         else
