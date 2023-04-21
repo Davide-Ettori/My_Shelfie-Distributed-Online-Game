@@ -311,6 +311,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Window for Choosing the name");
         frame.pack(); // preparo la finestra
+        frame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         frame.setVisible(true); // mostro il tutto a schermo, GUI
     }
     /**
@@ -1410,6 +1411,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
+        mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }
