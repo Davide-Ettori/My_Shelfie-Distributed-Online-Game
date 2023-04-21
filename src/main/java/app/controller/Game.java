@@ -306,7 +306,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     private void clone(Game g){
-        endGameSituation = g.endGameSituation; // possibile deadlock
+        endGameSituation = g.endGameSituation;
         players = g.players;
         names = g.names;
     }
