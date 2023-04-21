@@ -37,7 +37,7 @@ public class FILEHelper {
     public static boolean havaCachedServer(){
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/main/java/app/controller/cache/status.txt"));
-            return br.readLine().equals("FAIl");
+            return br.readLine().equals("FAIL");
         }catch(Exception e){System.out.println();}
         return false;
     }
