@@ -651,8 +651,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     if(i == activePlayer)
                         continue;
                     for(int j = 0; j < numPlayers - 1; j++){
-                        if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
+                        if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {
                             players.get(i).librariesOfOtherPlayers.set(j, p.library);
+                            players.get(i).fullChat = p.fullChat;
+                        }
                     }
                 }
                 if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco

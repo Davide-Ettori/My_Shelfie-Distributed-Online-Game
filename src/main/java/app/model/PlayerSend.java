@@ -27,7 +27,8 @@ public class PlayerSend implements Serializable {
     protected transient ObjectInputStream inStream;
     protected transient ObjectOutputStream outStream;
     protected transient Socket mySocket;
-    protected String fullChat = "";
+    /** the full chat between the players of the game */
+    public String fullChat = "";
     /** the name of the chairman of the game */
     public String chairmanName;
     /** the network mode chosen by the user */
