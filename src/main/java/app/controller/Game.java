@@ -29,7 +29,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
-    public static boolean showErrors = false;
+    public static boolean showErrors = true;
     private int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
@@ -734,8 +734,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         rmiClients.remove(names.get(i));
         if(disconnectedPlayers.size() == numPlayers - 1)
             new Thread(this::disconnectedTimer).start();
-        if(i == activePlayer)
+        if(i == activePlayer) {
+            // manda evento di player disconnesso
             advanceTurn();
+        }
     }
     /**
      * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
