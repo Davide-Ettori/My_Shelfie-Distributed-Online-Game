@@ -350,6 +350,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             clone(p);
             new Thread(this::initGUI).start();
         }catch(Exception e){connectionLost(e);}
+        try { // ottieni la reference al server remoto
+            server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
+        } catch (RemoteException | NotBoundException e) {
+            throw new RuntimeException(e);
+        }
         if(netMode == RMI) {
             try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
                 //server.stampa("hello world");
