@@ -836,6 +836,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     rmiClients.get(n).pingClient();
                 } catch (RemoteException e) {
+                    System.out.println("presoo");
                     playerDisconnected(names.indexOf(n));
                 }
             }
