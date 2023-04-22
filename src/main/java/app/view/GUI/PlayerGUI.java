@@ -115,7 +115,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 outStream.writeObject(false);
             }
             else{
-                mySocket.setSoTimeout((int) (standardTimer * 2));
+                //mySocket.setSoTimeout((int) (standardTimer * 2));
             }
         }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
@@ -363,11 +363,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 throw new RuntimeException(e);
             }
         }
+        /*
         try {
             mySocket.setSoTimeout(0);
         } catch (SocketException e) {
-            throw new RuntimeException(e);
+            System.out.println("errorino");
         }
+         */
         if(netMode == SOCKET) {
             new Thread(this::waitForEvents).start();
             new Thread(this::ping).start();

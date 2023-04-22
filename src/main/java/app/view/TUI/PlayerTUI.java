@@ -81,7 +81,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 outStream.writeObject(false);
             }
             else{
-                mySocket.setSoTimeout((int) (standardTimer * 2));
+                //mySocket.setSoTimeout((int) (standardTimer * 2));
             }
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); System.exit(0);}
         System.out.println("\nClient connected");
@@ -181,11 +181,13 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 throw new RuntimeException(e);
             }
         }
+        /*
         try {
             mySocket.setSoTimeout(0);
         } catch (SocketException e) {
-            throw new RuntimeException(e);
+            System.out.println("errorino");
         }
+        */
         if(netMode == SOCKET)
             new Thread(this::ping).start();
         else
