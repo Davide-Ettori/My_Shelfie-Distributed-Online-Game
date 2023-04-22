@@ -130,9 +130,42 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 System.out.println("\nName: '" + name + " was found in a previous game");
                 break;
             }
+            if(status == NOT_FOUND){
+                System.out.println("\nAnother game is running and your name was not found...");
+                System.exit(0);
+            }
+            if(status == FOUND){
+                getPreviousState();
+                return;
+            }
             System.out.println("Name Taken, choose another name");
         }
         getInitialState();
+    }
+    private void getPreviousState(){
+        PlayerTUI p;
+        try {
+            System.out.println("\nBe patient, the game will start soon...");
+            p = new PlayerTUI((Player)inStream.readObject());
+            clone(p);
+            drawAll();
+        }catch(Exception e){connectionLost(e);}
+        if(netMode == RMI) {
+            try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
+                //server.stampa("hello world");
+                server.addClient(name, this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(netMode == SOCKET)
+            new Thread(this::ping).start();
+        else
+            new Thread(this::pingRMI).start();
+        startChatSendThread();
+        if(netMode == SOCKET) {
+            waitForEvents();
+        }
     }
     /**
      * Receive the status of the player from the server and attend the start of the game

@@ -27,7 +27,7 @@ import static app.controller.NameStatus.*;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
-    public static boolean showErrors = false;
+    public static boolean showErrors = true;
     private int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
@@ -45,6 +45,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private transient boolean closed = false;
     private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
     private transient Game gameTemp = null;
+    private transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -118,6 +119,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
         new Thread(this::pingRMI).start();
+        new Thread(this::listenForReconnection).start();
         if(!rmiClients.containsKey(names.get(0)))
             waitMoveFromClient();
         else
@@ -274,7 +276,52 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         System.out.println("\nThe game started");
     }
-
+    synchronized private void tryToReconnectClient(Socket s){
+        ObjectOutputStream out = null;
+        ObjectInputStream in = null;
+        try {
+            out = new ObjectOutputStream(s.getOutputStream());
+            in = new ObjectInputStream(s.getInputStream());
+        }catch (Exception e){return;}
+        try {
+            String name = (String) in.readObject();
+            if(disconnectedPlayers.contains(name)){
+                rmiClients.remove(name);
+                out.writeObject(FOUND);
+                PlayerSend p = new PlayerSend(players.get(names.indexOf(name)));
+                p.activeName = names.get(activePlayer);
+                out.writeObject(new Player(p));
+                inStreams.set(names.indexOf(name), in);
+                outStreams.set(names.indexOf(name), out);
+                disconnectedPlayers.remove(name);
+                new Thread(() ->{
+                    Game.waitForSeconds(1);
+                    if(rmiClients.containsKey(name))
+                        return;
+                    try {
+                        s.setSoTimeout(Player.pingTimeout);
+                    } catch (SocketException e) {
+                        connectionLost(e);
+                    }
+                    new ChatBroadcast(this, names.indexOf(name)).start();
+                }).start();
+            }
+            else
+                out.writeObject(NOT_FOUND);
+        }catch (Exception e){return;}
+    }
+    private void listenForReconnection(){
+        Socket s = null;
+        while(true){
+            try {
+                s = serverSocket.accept();
+            } catch (IOException e) {
+                connectionLost(e);
+            }
+            Socket finalS = s;
+            new Thread(() -> tryToReconnectClient(finalS)).start();
+        }
+    }
     /**
      * Check if the name that the client choose is already TAKEN
      * @param in the input stream of the socket
@@ -341,8 +388,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         //System.out.println("STARTO I CHAT THREAD, dalla funzione");
         startChatServerThread();
         while(true){
+            Message msg = null;
             try {
-                Message msg = (Message) inStreams.get(activePlayer).readObject(); // riceve UPDATE_GAME, UPDATE_BOARD, CHAT, CO_1, CO_2 e LIB_FULL
+                msg = (Message) inStreams.get(activePlayer).readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                playerDisconnected(activePlayer);
+                return;
+            }
+            try {
                 if(msg.getType() == PING)
                     continue;
                 if(msg.getType() == CHAT){
@@ -370,9 +423,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void waitForEndTurn(){
+        Message msg = null;
+        try {
+            msg = (Message) inStreams.get(activePlayer).readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            playerDisconnected(activePlayer);
+            return;
+        }
         try {
             //System.out.println("aspetto la FINE");
-            Message msg = (Message) inStreams.get(activePlayer).readObject();
             if(msg.getType() == PING) {
                 waitForEndTurn();
                 return;
@@ -409,7 +468,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
-        activePlayer = (activePlayer + 1) % numPlayers;
+        do{
+            activePlayer = (activePlayer + 1) % numPlayers;
+        }
+        while(disconnectedPlayers.contains(names.get(activePlayer)));
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
             sendFinalScoresToAll();
@@ -453,7 +515,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         //    return;
         chatThreads = new ArrayList<>();
         for(int i = 0; i < numPlayers; i++){
-            if(i == activePlayer || rmiClients.containsKey(names.get(i)))
+            if(i == activePlayer || rmiClients.containsKey(names.get(i)) || disconnectedPlayers.contains(names.get(i)))
                 continue;
             chatThreads.add(new ChatBroadcast(this, i));
             chatThreads.get(chatThreads.size() - 1).start();
@@ -620,6 +682,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             while (true){}
         }
     }
+    public void playerDisconnected(int i){
+        if(disconnectedPlayers.contains(names.get(i)))
+            return;
+        System.out.println("\n" + names.get(i) + " disconnected from the game");
+        disconnectedPlayers.add(names.get(i));
+        if(disconnectedPlayers.size() == numPlayers - 1){/* starta il thread che tiene il timer */}
+        if(i == activePlayer)
+            advanceTurn();
+    }
     /******************************************** RMI ***************************************************************/
     /**
      * method called from remote used to add a client to the store of all the RMI clients
@@ -693,18 +764,20 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void sendToClient(int i, Message msg){
         //System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
+        if(disconnectedPlayers.contains(names.get(i)))
+            return;
         if(!rmiClients.containsKey(names.get(i))){
             try {
                 outStreams.get(i).writeObject(msg);
             } catch (IOException e) {
-                connectionLost(e);
+                playerDisconnected(i);
             }
         }
         else{
             try {
                 rmiClients.get(names.get(i)).receivedEventRMI(msg);
             } catch (RemoteException e) {
-                connectionLost(e);
+                playerDisconnected(i);
             }
         }
     }
@@ -723,12 +796,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         while(true){
             waitForSeconds(5);
             for(String n: names){
-                if(!rmiClients.containsKey(n))
+                if(!rmiClients.containsKey(n) || disconnectedPlayers.contains(n))
                     continue;
                 try {
                     rmiClients.get(n).pingClient();
                 } catch (RemoteException e) {
-                    connectionLost(e);
+                    playerDisconnected(names.indexOf(n));
                 }
             }
         }

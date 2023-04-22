@@ -1,5 +1,7 @@
 package app.controller;
 
+import java.io.IOException;
+
 import static app.controller.MessageType.*;
 
 /**
@@ -21,18 +23,21 @@ public class ChatBroadcast extends Thread{
      */
     @Override
     public void run(){
-        try {
-            //System.out.println("SERVER ASCOLTA CHAT");
-            while (true) {
-                Message msg = (Message) game.getInStreams().get(index).readObject();
-                if(msg.getType() == PING)
-                    continue;
-                if(msg.getType() == STOP)
-                    return;
-                //System.out.println("\nRICEVUTO MEX - " + msg.getContent());
-                game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());
+        //System.out.println("SERVER ASCOLTA CHAT");
+        while (true) {
+            Message msg = null;
+            try {
+                msg = (Message) game.getInStreams().get(index).readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                game.playerDisconnected(index);
+                return;
             }
+            if(msg.getType() == PING)
+                continue;
+            if(msg.getType() == STOP)
+                return;
+            //System.out.println("\nRICEVUTO MEX - " + msg.getContent());
+            game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());
         }
-        catch(Exception e){game.connectionLost(e);}
     }
 }

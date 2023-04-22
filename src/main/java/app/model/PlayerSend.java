@@ -71,6 +71,30 @@ public class PlayerSend implements Serializable {
         endGame = p.endGame;
     }
     /**
+     * copy constructor for the PlayerSend object
+     * @author Ettori
+     * @param p the Player object to copy
+     */
+    public PlayerSend(PlayerSend p){
+        netMode = p.netMode;
+        uiMode = p.uiMode;
+        name = p.name;
+        isChairMan = p.isChairMan;
+        library = new Library(p.library);
+        objective = p.objective;
+        pointsUntilNow = p.pointsUntilNow;
+        board = new Board(p.board);
+        librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
+        mySocket = p.mySocket;
+        CO_1_Done = p.CO_1_Done;
+        CO_2_Done = p.CO_2_Done;
+        fullChat = p.fullChat;
+        chairmanName = p.chairmanName;
+        activeName = p.activeName;
+        numPlayers = p.numPlayers;
+        endGame = p.endGame;
+    }
+    /**
      * Getter for the private objective
      * @author Ettori
      * @return the private objective of the player
