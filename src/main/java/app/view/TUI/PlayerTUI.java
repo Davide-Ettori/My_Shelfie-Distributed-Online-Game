@@ -257,7 +257,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 waitForEvents();
             }
              */
-
             //System.out.println(msg.getType());
             switch (msg.getType()) {
                 case YOUR_TURN -> handleYourTurnEvent();
@@ -269,6 +268,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 case CO_1 -> handleCO_1Event(msg);
                 case CO_2 -> handleCO_2Event(msg);
                 case LIB_FULL -> handleLibFullEvent(msg);
+                case DISCONNECTED -> handleDisconnectedEvent(msg);
                 //case STOP -> waitForEvents();
             }
         }catch(Exception e){connectionLost(e);}
@@ -388,6 +388,16 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         endGame = true;
         if(netMode == SOCKET)
             waitForEvents();
+    }
+    /**
+     * helper function for handling the disconnection event notification from the server (of the active client)
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleDisconnectedEvent(Message msg){
+        System.out.println((String)msg.getContent() + " disconnected from the game");
+        if(netMode == SOCKET)
+            sendToServer(new Message(STOP, null, null));
     }
     /**
      * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
@@ -821,6 +831,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             case CO_1 -> handleCO_1Event(msg);
             case CO_2 -> handleCO_2Event(msg);
             case LIB_FULL -> handleLibFullEvent(msg);
+            case DISCONNECTED -> handleDisconnectedEvent(msg);
         }
     }
 

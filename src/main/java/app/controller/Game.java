@@ -721,8 +721,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param i the index of the lost client
      * @author Ettori
      */
-    public void playerDisconnected(int i){
-        if(disconnectedPlayers.contains(names.get(i)))
+    public void playerDisconnected(int i) {
+        if (disconnectedPlayers.contains(names.get(i)))
             return;
         //System.out.println("\n" + names.get(i) + " disconnected from the game\n");
         try {
@@ -732,10 +732,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         disconnectedPlayers.add(names.get(i));
         rmiClients.remove(names.get(i));
-        if(disconnectedPlayers.size() == numPlayers - 1)
+        if (disconnectedPlayers.size() == numPlayers - 1)
             new Thread(this::disconnectedTimer).start();
-        if(i == activePlayer) {
+        if (i == activePlayer) {
             // manda evento di player disconnesso
+            for (int j = 0; j < numPlayers; j++)
+                sendToClient(j, new Message(DISCONNECTED, names.get(activePlayer), null));
             advanceTurn();
         }
     }

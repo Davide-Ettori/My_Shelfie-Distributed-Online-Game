@@ -428,6 +428,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     case CO_1 -> handleCO_1Event(msg);
                     case CO_2 -> handleCO_2Event(msg);
                     case LIB_FULL -> handleLibFullEvent(msg);
+                    case DISCONNECTED -> handleDisconnectedEvent(msg);
                     //case STOP -> {} // non devi fare niente
                 }
             }catch(Exception e){connectionLost(e);}
@@ -540,6 +541,21 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         endGame = true;
         boardCards[libFullX][libFullY].setVisible(false);
     }
+    /**
+     * helper function for handling the disconnection event notification from the server (of the active client)
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleDisconnectedEvent(Message msg){
+        eventText.setText((String)msg.getContent() + " disconnected from the game");
+        if(netMode == SOCKET)
+            sendToServer(new Message(STOP, null, null));
+    }
+    /**
+     * method that checks if the current player completed a common objective, and in that case notify all the other players (and add the points)
+     * @author Ettori
+     * @return true iff one of the objectives was completed
+     */
     private boolean checkCO(){
         int points, lastIndex;
         boolean change = false;
@@ -716,6 +732,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             case CO_1 -> handleCO_1Event(msg);
             case CO_2 -> handleCO_2Event(msg);
             case LIB_FULL -> handleLibFullEvent(msg);
+            case DISCONNECTED -> handleDisconnectedEvent(msg);
         }
     }
     /**
