@@ -312,9 +312,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
             else
                 out.writeObject(NOT_FOUND);
-        }catch (Exception e){return;}
+        }catch (Exception e){
+            try {
+                s.close();
+                out.close();
+                in.close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
-
     /**
      * method that wait permanently for a new client to connect to the existing game
      * @author Ettori
@@ -364,7 +371,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 names.add(name);
                 break;
             }
-        }catch(Exception e){connectionLost(e);}
+        }catch(Exception e){
+            try {
+                playersSocket.get(playersSocket.size() - 1).close();
+                outStreams.get(outStreams.size() - 1).close();
+                inStreams.get(inStreams.size() - 1).close();
+            } catch (IOException ignored) {}
+            outStreams.remove(outStreams.size() - 1);
+            inStreams.remove(inStreams.size() - 1);
+            playersSocket.remove(playersSocket.size() - 1);
+        }
     }
     /**
      * Make a clone of the server, needed for the persistence functionality

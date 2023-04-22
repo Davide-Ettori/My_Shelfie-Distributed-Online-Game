@@ -296,7 +296,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             try {
                 outStream.writeObject(name);
                 status = (NameStatus) inStream.readObject();
-            }catch(Exception e){connectionLost(e);};
+            }catch(Exception e){connectionLost(e);}
 
             if(status == NOT_TAKEN){
                 alert("\nName: '" + name + "' accepted by the server!");
