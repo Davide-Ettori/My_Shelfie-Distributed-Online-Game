@@ -791,6 +791,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param p the player object, passed as the remote interface
      */
     public void addClient(String name, PlayerI p){
+        System.out.println("Aggiungo: " + name);
         rmiClients.put(name, p);
     }
 
