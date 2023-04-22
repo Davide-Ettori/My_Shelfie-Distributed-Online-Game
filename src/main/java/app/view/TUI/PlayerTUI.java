@@ -73,7 +73,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             try {
                 s = br.readLine();
             } catch (IOException e) {
-                System.out.println("errore");
+                //System.out.println("errore");
                 connectionLost(e);
             }
             if(!s.equals("yes")){
