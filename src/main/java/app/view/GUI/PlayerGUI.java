@@ -4,6 +4,7 @@ import app.view.IP;
 import app.controller.*;
 import app.model.*;
 
+import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
@@ -47,6 +48,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private final transient int libFullX = 6; // y sulla board
     private final transient int libFullY = 7; // x sulla board
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
+    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private transient JFrame mainFrame;
     private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
@@ -100,6 +102,18 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             mySocket = new Socket(IP.activeIP, Initializer.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
+            System.out.print("\nDo you want to connect to a running game with your old name (yes or no)?: ");
+            String s = "";
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+                System.out.println("errore");
+                connectionLost(e);
+            }
+            if(s.equals("yes")){
+                showChooseNameWindow();
+                return;
+            }
             outStream.writeObject(false);
         }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
@@ -296,6 +310,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 frame.setVisible(false);
                 return;
             }
+            if(status == NOT_FOUND){
+                alert("\nAnother game is running and your name was not found...");
+                System.exit(0);
+            }
+            if(status == FOUND){
+                getPreviousState();
+                return;
+            }
             alert("Name Taken, choose another name");
             textInput.setText("");
         });
@@ -313,6 +335,29 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         frame.pack(); // preparo la finestra
         frame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         frame.setVisible(true); // mostro il tutto a schermo, GUI
+    }
+    private void getPreviousState(){
+        PlayerTUI p;
+        try {
+            System.out.println("\nBe patient, the game will start soon...");
+            p = new PlayerTUI((Player)inStream.readObject());
+            clone(p);
+            new Thread(this::initGUI).start();
+        }catch(Exception e){connectionLost(e);}
+        if(netMode == RMI) {
+            try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
+                //server.stampa("hello world");
+                server.addClient(name, this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(netMode == SOCKET) {
+            new Thread(this::waitForEvents).start();
+            new Thread(this::ping).start();
+        }
+        else
+            new Thread(this::pingRMI).start();
     }
     /**
      * Receive the status of the player from the server and attend the start of the game
