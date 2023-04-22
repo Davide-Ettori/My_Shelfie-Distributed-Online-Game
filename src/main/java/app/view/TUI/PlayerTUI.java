@@ -68,8 +68,20 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             mySocket = new Socket(IP.activeIP, Initializer.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
+            System.out.print("\nDo you want to connect to a running game with your old name (yes or no)?: ");
+            String s = "";
+            try {
+                s = br.readLine();
+            } catch (IOException e) {
+                System.out.println("errore");
+                connectionLost(e);
+            }
+            if(s.equals("yes")){
+                chooseUserName();
+                return;
+            }
             outStream.writeObject(false);
-        }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); return;}
+        }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); System.exit(0);}
         System.out.println("\nClient connected");
         chooseUserName();
     }
@@ -119,7 +131,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
             try {
                 outStream.writeObject(name);
+                System.out.println("nome mandato");
                 status = (NameStatus) inStream.readObject();
+                System.out.println("status preso");
             }catch(Exception e){connectionLost(e);};
 
             if(status == NOT_TAKEN) {

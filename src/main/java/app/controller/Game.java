@@ -220,7 +220,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
-        //temp = 1; // ELIMINA --> usata solo per il testing
+        temp = 1; // ELIMINA --> usata solo per il testing
         //temp = 0; // ELIMINA --> usata solo per il testing
         String n = names.get(0);
         names.set(0, names.get(temp));
@@ -277,13 +277,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         System.out.println("\nThe game started");
     }
-    synchronized private void tryToReconnectClient(Socket s){
-        ObjectOutputStream out = null;
-        ObjectInputStream in = null;
-        try {
-            out = new ObjectOutputStream(s.getOutputStream());
-            in = new ObjectInputStream(s.getInputStream());
-        }catch (Exception e){return;}
+    synchronized private void tryToReconnectClient(Socket s, ObjectOutputStream out, ObjectInputStream in){
+        System.out.println("provo");
         try {
             String name = (String) in.readObject();
             if(disconnectedPlayers.contains(name)){
@@ -294,6 +289,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 out.writeObject(new Player(p));
                 inStreams.set(names.indexOf(name), in);
                 outStreams.set(names.indexOf(name), out);
+                playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
                 new Thread(() ->{
                     Game.waitForSeconds(1);
@@ -320,7 +316,17 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 connectionLost(e);
             }
             Socket finalS = s;
-            new Thread(() -> tryToReconnectClient(finalS)).start();
+            new Thread(() -> {
+                ObjectOutputStream out = null;
+                ObjectInputStream in = null;
+                try {
+                    out = new ObjectOutputStream(finalS.getOutputStream());
+                    in = new ObjectInputStream(finalS.getInputStream());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                tryToReconnectClient(finalS, out, in);
+            }).start();
         }
     }
     /**
