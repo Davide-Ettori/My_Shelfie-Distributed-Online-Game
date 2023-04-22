@@ -32,7 +32,7 @@ public class ChatBroadcast extends Thread{
                 game.playerDisconnected(index);
                 return;
             }
-            if(msg == null || msg.getType() == PING)
+            if(msg.getType() == PING)
                 continue;
             if(msg.getType() == STOP)
                 return;
