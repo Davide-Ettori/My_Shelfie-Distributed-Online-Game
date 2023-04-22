@@ -20,6 +20,7 @@ import java.util.Random;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
+import static app.view.UIMode.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -745,7 +746,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private void disconnectedTimer(){
         Game.waitForSeconds(60);
         if(disconnectedPlayers.size() == numPlayers - 1 && false){
-            showMessageDialog(null, "You have won because all the other players have disconnected");
+            if(Client.uiModeCur == GUI)
+                showMessageDialog(null, "You have won because all the other players have disconnected");
+            else
+                System.out.println("\nYou have won because all the other players have disconnected");
             System.exit(0);
         }
     }

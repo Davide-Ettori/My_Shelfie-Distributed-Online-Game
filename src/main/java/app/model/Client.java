@@ -6,6 +6,7 @@ import app.controller.Initializer;
 import app.view.GUI.PlayerGUI;
 import app.view.IP;
 import app.view.TUI.PlayerTUI;
+import app.view.UIMode;
 import playground.socket.Server;
 
 import java.io.*;
@@ -19,11 +20,16 @@ import static app.view.UIMode.TUI;
 
 /**
  * class which represent the entry point for the client
+ * @author Ettori
  */
 public class Client {
     /**
      * main method which is used by the user to choose the UI and the Network
+      @author Ettori
      */
+
+    /** variable used to keep track of the UI mode that the player is currently using */
+    public static UIMode uiModeCur;
     public Client() {
         String numPlayers;
         int numP;
@@ -106,6 +112,7 @@ public class Client {
             if (ui.equals("TUI")) {
                 if (net.equals("Socket")) {
                     try {
+                        Client.uiModeCur = TUI;
                         new PlayerTUI(SOCKET, TUI);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
@@ -113,6 +120,7 @@ public class Client {
                     break;
                 } else if (net.equals("RMI")) {
                     try {
+                        Client.uiModeCur = TUI;
                         new PlayerTUI(RMI, TUI);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
@@ -123,6 +131,7 @@ public class Client {
             if (ui.equals("GUI")) {
                 if (net.equals("Socket")) {
                     try {
+                        Client.uiModeCur = GUI;
                         new PlayerGUI(SOCKET, GUI);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
@@ -130,6 +139,7 @@ public class Client {
                     break;
                 } else if (net.equals("RMI")) {
                     try {
+                        Client.uiModeCur = GUI;
                         new PlayerGUI(RMI, GUI);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
