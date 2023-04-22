@@ -319,7 +319,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 out.close();
                 in.close();
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                return;
             }
         }
     }
@@ -342,9 +342,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     out = new ObjectOutputStream(finalS.getOutputStream());
                     in = new ObjectInputStream(finalS.getInputStream());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                } catch (IOException ignored) {}
                 tryToReconnectClient(finalS, out, in);
             }).start();
         }
@@ -726,7 +724,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void playerDisconnected(int i){
         if(disconnectedPlayers.contains(names.get(i)))
             return;
-        System.out.println("\n" + names.get(i) + " disconnected from the game\n");
+        //System.out.println("\n" + names.get(i) + " disconnected from the game\n");
         try {
             playersSocket.get(i).setSoTimeout(0);
         } catch (SocketException e) {
@@ -745,7 +743,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void disconnectedTimer(){
         Game.waitForSeconds(60);
-        if(disconnectedPlayers.size() == numPlayers - 1 && false){
+        if(disconnectedPlayers.size() == numPlayers - 1){
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "You have won because all the other players have disconnected");
             else
@@ -862,7 +860,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     rmiClients.get(n).pingClient();
                 } catch (RemoteException e) {
-                    System.out.println("presoo");
+                    //System.out.println("presoo");
                     playerDisconnected(names.indexOf(n));
                 }
             }
