@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -110,11 +111,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 System.out.println("errore");
                 connectionLost(e);
             }
-            if(s.equals("yes")){
-                showChooseNameWindow();
-                return;
+            if(!s.equals("yes")){
+                outStream.writeObject(false);
             }
-            outStream.writeObject(false);
+            else{
+                mySocket.setSoTimeout((int) (standardTimer * 2));
+            }
         }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
         showChooseNameWindow();
@@ -355,6 +357,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
+        }
+        try {
+            mySocket.setSoTimeout(0);
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
         }
         if(netMode == SOCKET) {
             new Thread(this::waitForEvents).start();

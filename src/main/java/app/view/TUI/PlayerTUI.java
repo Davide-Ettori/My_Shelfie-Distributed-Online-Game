@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -76,11 +77,12 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 System.out.println("errore");
                 connectionLost(e);
             }
-            if(s.equals("yes")){
-                chooseUserName();
-                return;
+            if(!s.equals("yes")){
+                outStream.writeObject(false);
             }
-            outStream.writeObject(false);
+            else{
+                mySocket.setSoTimeout((int) (standardTimer * 2));
+            }
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); System.exit(0);}
         System.out.println("\nClient connected");
         chooseUserName();
@@ -166,6 +168,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             clone(p);
             drawAll();
         }catch(Exception e){connectionLost(e);}
+        try { // ottieni la reference al server remoto
+            server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
+        } catch (RemoteException | NotBoundException e) {
+            throw new RuntimeException(e);
+        }
         if(netMode == RMI) {
             try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
                 //server.stampa("hello world");
@@ -173,6 +180,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
+        }
+        try {
+            mySocket.setSoTimeout(0);
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
         }
         if(netMode == SOCKET)
             new Thread(this::ping).start();

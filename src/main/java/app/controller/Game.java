@@ -722,7 +722,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void disconnectedTimer(){
         Game.waitForSeconds(60);
-        if(disconnectedPlayers.size() == numPlayers - 1){
+        if(disconnectedPlayers.size() == numPlayers - 1 && false){
             showMessageDialog(null, "You have won because all the other players have disconnected");
             System.exit(0);
         }
