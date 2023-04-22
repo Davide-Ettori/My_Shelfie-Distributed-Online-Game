@@ -482,8 +482,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 for(int j = 0; j < numPlayers - 1; j++){
                     if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {
                         players.get(i).librariesOfOtherPlayers.set(j, p.library);
-                        players.get(i).fullChat = p.fullChat;
                         players.get(i).board = p.board;
+                        //players.get(i).fullChat = p.fullChat;
                     }
                 }
             }
@@ -811,8 +811,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     for(int j = 0; j < numPlayers - 1; j++){
                         if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {
                             players.get(i).librariesOfOtherPlayers.set(j, p.library);
-                            players.get(i).fullChat = p.fullChat;
                             players.get(i).board = p.board;
+                            //players.get(i).fullChat = p.fullChat;
                         }
                     }
                 }
