@@ -726,6 +726,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         if(disconnectedPlayers.contains(names.get(i)))
             return;
         System.out.println("\n" + names.get(i) + " disconnected from the game\n");
+        try {
+            playersSocket.get(i).setSoTimeout(0);
+        } catch (SocketException e) {
+            System.out.println("Errore della socket");
+        }
         disconnectedPlayers.add(names.get(i));
         rmiClients.remove(names.get(i));
         if(disconnectedPlayers.size() == numPlayers - 1)
