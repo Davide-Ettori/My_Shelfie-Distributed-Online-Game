@@ -20,6 +20,7 @@ import java.util.Random;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * class which represent the instance of the current game
@@ -691,11 +692,19 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void playerDisconnected(int i){
         if(disconnectedPlayers.contains(names.get(i)))
             return;
-        System.out.println("\n" + names.get(i) + " disconnected from the game");
+        System.out.println("\n" + names.get(i) + " disconnected from the game\n");
         disconnectedPlayers.add(names.get(i));
-        if(disconnectedPlayers.size() == numPlayers - 1){/* starta il thread che tiene il timer */}
+        if(disconnectedPlayers.size() == numPlayers - 1)
+            new Thread(this::disconnectedTimer).start();
         if(i == activePlayer)
             advanceTurn();
+    }
+    private void disconnectedTimer(){
+        Game.waitForSeconds(60);
+        if(disconnectedPlayers.size() == numPlayers - 1){
+            showMessageDialog(null, "You have won because all the other players have disconnected");
+            System.exit(0);
+        }
     }
     /******************************************** RMI ***************************************************************/
     /**
