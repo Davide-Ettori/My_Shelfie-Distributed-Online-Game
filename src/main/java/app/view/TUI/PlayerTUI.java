@@ -398,6 +398,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         System.out.println("\nThe active player (" + (String)msg.getAuthor() + ") disconnected from the game");
         if(netMode == SOCKET)
             sendToServer(new Message(STOP, null, null));
+        if(netMode == SOCKET)
+            waitForEvents();
     }
     /**
      * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
