@@ -502,6 +502,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
+        /*
+        System.out.print("Player disconnessi: ");
+        for (String n: disconnectedPlayers)
+            System.out.println(n);
+         */
         do{
             activePlayer = (activePlayer + 1) % numPlayers;
         }
@@ -791,7 +796,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param p the player object, passed as the remote interface
      */
     public void addClient(String name, PlayerI p){
-        System.out.println("Aggiungo: " + name);
+        //System.out.println("Aggiungo: " + name);
         rmiClients.put(name, p);
     }
 
