@@ -341,10 +341,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @author Ettori Faccincani
      */
     private void getPreviousState(){
-        PlayerTUI p;
+        PlayerGUI p;
         try {
             alert("Be patient, the game will start soon...");
-            p = new PlayerTUI((Player)inStream.readObject());
+            p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             new Thread(this::initGUI).start();
         }catch(Exception e){connectionLost(e);}
