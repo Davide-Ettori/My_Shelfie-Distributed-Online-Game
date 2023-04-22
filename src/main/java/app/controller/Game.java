@@ -709,7 +709,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void playerDisconnected(int i){
         if(disconnectedPlayers.contains(names.get(i)))
             return;
-        //System.out.println("\n" + names.get(i) + " disconnected from the game\n");
+        System.out.println("\n" + names.get(i) + " disconnected from the game\n");
         disconnectedPlayers.add(names.get(i));
         if(disconnectedPlayers.size() == numPlayers - 1)
             new Thread(this::disconnectedTimer).start();
@@ -736,7 +736,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void addClient(String name, PlayerI p){
         rmiClients.put(name, p);
-        //rmiClients.get(name).stampaTerminale("Client added to rmi server");
     }
 
     /**
