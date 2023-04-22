@@ -278,6 +278,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         System.out.println("\nThe game started");
     }
+    /**
+     * method that listen for an old client to restart his previous game, in tha same old state
+     * @param s the socket of the player
+     * @param out the output stream of the player
+     * @param in the input stream of the player
+     * @author Ettori
+     */
     synchronized private void tryToReconnectClient(Socket s, ObjectOutputStream out, ObjectInputStream in){
         try {
             String name = (String) in.readObject();
@@ -307,6 +314,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 out.writeObject(NOT_FOUND);
         }catch (Exception e){return;}
     }
+
+    /**
+     * method that wait permanently for a new client to connect to the existing game
+     * @author Ettori
+     */
     private void listenForReconnection(){
         Socket s = null;
         while(true){
@@ -689,16 +701,25 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             while (true){}
         }
     }
+    /**
+     * method which acknowledge that one of the client disconnected and set the game to continue without the lost client
+     * @param i the index of the lost client
+     * @author Ettori
+     */
     public void playerDisconnected(int i){
         if(disconnectedPlayers.contains(names.get(i)))
             return;
-        System.out.println("\n" + names.get(i) + " disconnected from the game\n");
+        //System.out.println("\n" + names.get(i) + " disconnected from the game\n");
         disconnectedPlayers.add(names.get(i));
         if(disconnectedPlayers.size() == numPlayers - 1)
             new Thread(this::disconnectedTimer).start();
         if(i == activePlayer)
             advanceTurn();
     }
+    /**
+     * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
+     * @author Ettori
+     */
     private void disconnectedTimer(){
         Game.waitForSeconds(60);
         if(disconnectedPlayers.size() == numPlayers - 1){

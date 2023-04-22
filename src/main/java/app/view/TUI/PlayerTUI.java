@@ -154,6 +154,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         }
         getInitialState();
     }
+    /**
+     * Receive the status of the player (previously disconnected) from the server and restart the game
+     * @author Ettori Faccincani
+     */
     private void getPreviousState(){
         PlayerTUI p;
         try {

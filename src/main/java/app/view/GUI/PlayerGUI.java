@@ -336,10 +336,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         frame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         frame.setVisible(true); // mostro il tutto a schermo, GUI
     }
+    /**
+     * Receive the status of the player (previously disconnected) from the server and restart the game
+     * @author Ettori Faccincani
+     */
     private void getPreviousState(){
         PlayerTUI p;
         try {
-            System.out.println("\nBe patient, the game will start soon...");
+            alert("Be patient, the game will start soon...");
             p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
             new Thread(this::initGUI).start();
