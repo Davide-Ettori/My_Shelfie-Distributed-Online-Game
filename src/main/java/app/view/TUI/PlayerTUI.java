@@ -395,7 +395,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleDisconnectedEvent(Message msg){
-        System.out.println((String)msg.getContent() + " disconnected from the game");
+        System.out.println("\nThe active player (" + (String)msg.getAuthor() + ") disconnected from the game");
         if(netMode == SOCKET)
             sendToServer(new Message(STOP, null, null));
     }
