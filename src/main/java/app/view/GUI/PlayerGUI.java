@@ -317,6 +317,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 System.exit(0);
             }
             if(status == FOUND){
+                frame.setVisible(false);
                 getPreviousState();
                 return;
             }
