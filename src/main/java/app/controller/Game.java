@@ -278,7 +278,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         System.out.println("\nThe game started");
     }
     synchronized private void tryToReconnectClient(Socket s, ObjectOutputStream out, ObjectInputStream in){
-        System.out.println("provo");
         try {
             String name = (String) in.readObject();
             if(disconnectedPlayers.contains(name)){

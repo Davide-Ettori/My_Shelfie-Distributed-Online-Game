@@ -131,9 +131,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
             try {
                 outStream.writeObject(name);
-                System.out.println("nome mandato");
                 status = (NameStatus) inStream.readObject();
-                System.out.println("status preso");
             }catch(Exception e){connectionLost(e);};
 
             if(status == NOT_TAKEN) {
