@@ -4,7 +4,6 @@ import app.view.IP;
 import app.controller.*;
 import app.model.*;
 
-import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
@@ -15,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

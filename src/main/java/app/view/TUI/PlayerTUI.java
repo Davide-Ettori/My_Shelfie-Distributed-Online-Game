@@ -10,7 +10,6 @@ import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
