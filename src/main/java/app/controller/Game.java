@@ -753,6 +753,33 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.exit(0);
         }
     }
+    /**
+     * general method to respond to a client, it chooses the right network connection of the player
+     * @author Ettori
+     * @param i the index of the player to contact
+     * @param msg the message that must be sent
+     */
+    public void sendToClient(int i, Message msg){
+        //System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
+        if(disconnectedPlayers.contains(names.get(i)))
+            return;
+        if(!rmiClients.containsKey(names.get(i))){
+            try {
+                outStreams.get(i).writeObject(msg);
+            } catch (IOException e) {
+                //playerDisconnected(i);
+                return;
+            }
+        }
+        else{
+            try {
+                rmiClients.get(names.get(i)).receivedEventRMI(msg);
+            } catch (RemoteException e) {
+                //playerDisconnected(i);
+                return;
+            }
+        }
+    }
     /******************************************** RMI ***************************************************************/
     /**
      * method called from remote used to add a client to the store of all the RMI clients
@@ -816,35 +843,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
     }
-
-    /**
-     * general method to respond to a client, it chooses the right network connection of the player
-     * @author Ettori
-     * @param i the index of the player to contact
-     * @param msg the message that must be sent
-     */
-    public void sendToClient(int i, Message msg){
-        //System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
-        if(disconnectedPlayers.contains(names.get(i)))
-            return;
-        if(!rmiClients.containsKey(names.get(i))){
-            try {
-                outStreams.get(i).writeObject(msg);
-            } catch (IOException e) {
-                //playerDisconnected(i);
-                return;
-            }
-        }
-        else{
-            try {
-                rmiClients.get(names.get(i)).receivedEventRMI(msg);
-            } catch (RemoteException e) {
-                //playerDisconnected(i);
-                return;
-            }
-        }
-    }
-
     /**
      * method that allow the server to be pinged from an RMI client
      * @author Ettori
