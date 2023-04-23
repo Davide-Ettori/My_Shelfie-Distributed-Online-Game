@@ -537,7 +537,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.out.println("\nThe game is ending...");
             sendFinalScoresToAll();
         }
-        System.out.println(names.get(activePlayer));
+        //System.out.println(names.get(activePlayer));
         notifyNewTurn();
     }
     /**
