@@ -310,13 +310,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     }
                     if(getActivePlayersNumber() >= 3)
                         new ChatBroadcast(this, names.indexOf(name)).start();
-                    if(getActivePlayersNumber() == 2){
-                        if(Client.uiModeCur == GUI)
-                            showMessageDialog(null, "The game is now resuming and the next turn is starting...");
-                        else
-                            System.out.println("\nThe game is now resuming and the next turn is starting...");
-                    }
                 }).start();
+                if(getActivePlayersNumber() == 2){
+                    if(Client.uiModeCur == GUI)
+                        showMessageDialog(null, "The game is now resuming and the next turn is starting...");
+                    else
+                        System.out.println("\nThe game is now resuming and the next turn is starting...");
+                }
             }
             else
                 out.writeObject(NOT_FOUND);
