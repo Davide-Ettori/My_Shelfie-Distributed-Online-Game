@@ -437,7 +437,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         updateInfo();
         updateBoard();
         updateOtherLibraries();
-        eventText.setText("Your turn is now started, play your move !");
+        eventText.setText(" Your turn is now started, play your move !");
     }
     /**
      * helper function for handling the change event notification from the server
@@ -449,7 +449,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         updateInfo();
         updateBoard();
         updateOtherLibraries();
-        eventText.setText("Now " + activeName + " is playing his turn...");
+        eventText.setText(" Now " + activeName + " is playing his turn...");
     }
     /**
      * helper function for handling the unplayble board fixing event notification from the server
@@ -460,7 +460,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         JSONObject jsonObject = (JSONObject) msg.getContent();
         board = (Board) jsonObject.get("board");
         updateBoard();
-        eventText.setText("\nBoard updated because it was unplayable");
+        eventText.setText(" Board updated because it was unplayable");
     }
     /**
      * helper function for handling the update game notification from the server
@@ -478,7 +478,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         }
         //updateBoard();
         //updateOtherLibraries();
-        eventText.setText("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        eventText.setText(" Player: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         Game.waitForSeconds(standardTimer);
     }
     /**
@@ -506,7 +506,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleCO_1Event(Message msg){
-        eventText.setText(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
+        eventText.setText(" " + msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         board.pointsCO_1.remove(board.pointsCO_1.size() - 1);
         updateInfo();
         //Game.waitForSeconds(standardTimer);
@@ -517,7 +517,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleCO_2Event(Message msg){
-        eventText.setText(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
+        eventText.setText(" " + msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         board.pointsCO_2.remove(board.pointsCO_2.size() - 1);
         updateInfo();
         //Game.waitForSeconds(standardTimer);
@@ -528,7 +528,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleLibFullEvent(Message msg){
-        eventText.setText(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+        eventText.setText(" " + msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         //Game.waitForSeconds(standardTimer);
         endGame = true;
         boardCards[libFullX][libFullY].setVisible(false);
@@ -539,7 +539,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleDisconnectedEvent(Message msg){
-        eventText.setText("The active player (" + (String)msg.getAuthor() + ") disconnected from the game");
+        eventText.setText(" The active player (" + (String)msg.getAuthor() + ") disconnected from the game");
         if(netMode == SOCKET)
             sendToServer(new Message(STOP, null, null));
     }
@@ -559,7 +559,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow += points;
                 CO_1_Done = true;
                 sendToServer(new Message(CO_1, name, Integer.toString(points)));
-                eventText.setText("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
+                eventText.setText(" Well done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
                 Game.waitForSeconds(standardTimer / 2.5);
                 change = true;
             }
@@ -570,7 +570,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow += points;
                 CO_2_Done = true;
                 sendToServer(new Message(CO_2, name, Integer.toString(points)));
-                eventText.setText("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
+                eventText.setText(" Well done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
                 Game.waitForSeconds(standardTimer / 2.5);
                 change = true;
             }
@@ -588,7 +588,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 endGame = true;
                 pointsUntilNow++;
                 sendToServer(new Message(LIB_FULL, name, null));
-                eventText.setText("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
+                eventText.setText(" Well done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
                 updateBoard();
                 Game.waitForSeconds(standardTimer / 2.5);
                 return true;
@@ -603,7 +603,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void fixUnplayableBoard(){
         board.fillBoard(numPlayers);
         updateGUI();
-        eventText.setText("\nBoard updated because it was unplayble");
+        eventText.setText(" Board updated because it was unplayble");
         try {
             boardStatus = new JSONObject();
             boardStatus.put("board", board);
@@ -617,7 +617,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void sendDoneMove(){
         gameStatus = new JSONObject();
         playerStatus = new JSONObject();
-        eventText.setText("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
+        eventText.setText(" You made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
 
@@ -1168,7 +1168,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         eventText = new JTextField(120);
         eventText.setText(" Last relevant event of the Game ");
-        eventText.setMinimumSize(new Dimension(textCols * 50, textCols));
+        eventText.setMinimumSize(new Dimension(textCols * 45, textCols));
         eventText.setEditable(false);
         eventText.setBorder(null);
 
