@@ -452,7 +452,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     //Game.waitForSeconds(1);
-                    chatThreads = new ArrayList<>();
+                    //chatThreads = new ArrayList<>();
                     break;
                 }
             }catch(Exception e){connectionLost(e);}
@@ -863,7 +863,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         sendToClient(i,msg);
                 }
                 sendToClient(activePlayer, new Message(STOP, null, null));
-                chatThreads = new ArrayList<>();
+                //chatThreads = new ArrayList<>();
             }
             default -> {
                 for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
