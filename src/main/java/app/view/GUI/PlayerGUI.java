@@ -818,19 +818,19 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         chairmanInfo = new JTextField();
         chairmanInfo.setText(" The chairman is " + chairmanName + " ");
         chairmanInfo.setBorder(null);
-        chairmanInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 4), textCols));
+        chairmanInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
         chairmanInfo.setEditable(false);
         activeTurnInfo = new JTextField();
         activeTurnInfo.setBorder(null);
-        activeTurnInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 4), textCols));
+        activeTurnInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
         activeTurnInfo.setEditable(false);
         curPointsInfo = new JTextField();
         curPointsInfo.setBorder(null);
-        curPointsInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 4), textCols));
+        curPointsInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
         curPointsInfo.setEditable(false);
         titleInfo = new JTextField(" INFORMATIONS ABOUT THE GAME ");
         titleInfo.setBorder(null);
-        titleInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 4), textCols));
+        titleInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
         titleInfo.setEditable(false);
 
         gbc.gridx = 0;
