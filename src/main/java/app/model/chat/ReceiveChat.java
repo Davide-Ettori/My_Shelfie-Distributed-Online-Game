@@ -33,7 +33,7 @@ public class ReceiveChat extends Thread{
                 //System.out.println("ASPETTO CHAT");
                 Message msg = (Message) player.getInStream().readObject();
                 //System.out.println("\nfrom CHAT - " + msg.getType());
-                if(msg.getType() == STOP)
+                if(msg == null || msg.getType() == STOP)
                     return;
                 System.out.println("\n" + msg.getContent());
                 player.addToFullChat((String)msg.getContent());
