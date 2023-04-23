@@ -30,16 +30,16 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public static boolean showErrors = false;
-    private int targetPlayers;
+    private final int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
     private ArrayList<PlayerSend> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
-    private transient ArrayList<Socket> playersSocket = new ArrayList<>();
-    private transient ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
-    private transient ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
-    private ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
-    private ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
+    private final transient ArrayList<Socket> playersSocket = new ArrayList<>();
+    private final transient ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
+    private final transient ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
+    private final ArrayList<CommonObjective> bucketOfCO = Initializer.setBucketOfCO();
+    private final ArrayList<PrivateObjective> bucketOfPO = Initializer.setBucketOfPO();
     private boolean endGameSituation = false;
     private boolean timeExp = true;
     private transient ArrayList<Thread> chatThreads = new ArrayList<>();
@@ -47,7 +47,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private transient boolean closed = false;
     private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
     private transient Game gameTemp = null;
-    private transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
+    private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
