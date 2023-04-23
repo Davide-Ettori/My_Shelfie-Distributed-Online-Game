@@ -514,7 +514,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         for (String n: disconnectedPlayers)
             System.out.println(n);
          */
-        if(getActivePlayersNumber() == 1){
+        if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
