@@ -8,7 +8,6 @@ import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -29,7 +28,7 @@ public class Client {
 
     /** variable used to keep track of the UI mode that the player is currently using */
     public static UIMode uiModeCur;
-    public static int threadWeigth = 8;
+    public static int threadWeight = 8;
     public Client() {
         String numPlayers;
         int numP;
@@ -83,7 +82,7 @@ public class Client {
                         throw new RuntimeException(ex);
                     }
                 });
-                serverTh.setPriority(10);
+                serverTh.setPriority(threadWeight);
                 serverTh.start();
                 Game.waitForSeconds(1);
                 break;
