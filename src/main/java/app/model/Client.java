@@ -147,7 +147,7 @@ public class Client {
                     Client.uiModeCur = GUI;
                     new Thread(() -> {
                         try {
-                            new PlayerTUI(SOCKET, GUI, opt);
+                            new PlayerGUI(SOCKET, GUI, opt);
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }
@@ -157,7 +157,7 @@ public class Client {
                     Client.uiModeCur = GUI;
                     new Thread(() -> {
                         try {
-                            new PlayerTUI(RMI, GUI, opt);
+                            new PlayerGUI(RMI, GUI, opt);
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }
