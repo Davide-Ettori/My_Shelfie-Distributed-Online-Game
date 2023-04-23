@@ -272,6 +272,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleYourTurnEvent(){
         activeName = name;
         drawAll();
+        stopChatThread();
         if(netMode == SOCKET) {
             startChatReceiveThread();
         }
