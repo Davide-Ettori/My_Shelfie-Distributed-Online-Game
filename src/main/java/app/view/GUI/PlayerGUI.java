@@ -278,7 +278,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         sendBtn.addActionListener((event) ->{ // funzione di event listener
             NameStatus status = null;
             name = textInput.getText();
-            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names")){
+            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names") || name.equals("...")){
                 alert("Name invalid, choose another name"); // vedi JavaDoc di alert
                 textInput.setText("");
                 return;
