@@ -8,6 +8,7 @@ import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -120,39 +121,47 @@ public class Client {
             }
             if (ui.equals("TUI")) {
                 if (net.equals("Socket")) {
-                    try {
-                        Client.uiModeCur = TUI;
-                        new PlayerTUI(SOCKET, TUI, opt);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Client.uiModeCur = TUI;
+                    new Thread(() -> {
+                        try {
+                            new PlayerTUI(SOCKET, TUI, opt);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                     break;
                 } else if (net.equals("RMI")) {
-                    try {
-                        Client.uiModeCur = TUI;
-                        new PlayerTUI(RMI, TUI, opt);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Client.uiModeCur = TUI;
+                    new Thread(() -> {
+                        try {
+                            new PlayerTUI(RMI, TUI, opt);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                     break;
                 }
             }
             if (ui.equals("GUI")) {
                 if (net.equals("Socket")) {
-                    try {
-                        Client.uiModeCur = GUI;
-                        new PlayerGUI(SOCKET, GUI, opt);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Client.uiModeCur = GUI;
+                    new Thread(() -> {
+                        try {
+                            new PlayerTUI(SOCKET, GUI, opt);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                     break;
                 } else if (net.equals("RMI")) {
-                    try {
-                        Client.uiModeCur = GUI;
-                        new PlayerGUI(RMI, GUI, opt);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Client.uiModeCur = GUI;
+                    new Thread(() -> {
+                        try {
+                            new PlayerTUI(RMI, GUI, opt);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
                     break;
                 }
             }

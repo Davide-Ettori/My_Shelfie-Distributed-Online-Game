@@ -528,7 +528,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             //System.out.println(getActivePlayersNumber());
         }
         if(wait)
-            Game.waitForSeconds(standardTimer);
+            Game.waitForSeconds(standardTimer * 2);
         do{
             activePlayer = (activePlayer + 1) % numPlayers;
         }
@@ -537,6 +537,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.out.println("\nThe game is ending...");
             sendFinalScoresToAll();
         }
+        System.out.println(names.get(activePlayer));
         notifyNewTurn();
     }
     /**
