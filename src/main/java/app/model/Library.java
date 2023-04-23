@@ -187,7 +187,7 @@ public class Library implements Serializable {
      * @author Gumus
      */
     public void draw(){
-        System.out.println("\nYour own library");
+        System.out.println("\nYour own library (" + name +")");
         System.out.print("  ");
         for (int i = 0; i < COLS; i++)
             System.out.print(i + " ");
