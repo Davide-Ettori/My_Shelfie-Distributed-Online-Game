@@ -110,7 +110,7 @@ public class Client {
             }
             if(net.length() == 0)
                 net = "Socket";
-            System.out.print("\nDo you want to connect to a running game with your old name (yes or no for resilience)?: ");
+            System.out.print("\nDo you want to connect to a running game with your old name ? (yes or no for resilience): ");
             String opt;
             try {
                 opt = br.readLine();
