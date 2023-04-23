@@ -1,0 +1,1675 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlayerGUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.view.GUI</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayerGUI (app.view.GUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/925)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PlayerGUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlayerGUI$1 2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlayerGUI$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlayerGUI$2 2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/949)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.view.GUI;
+&nbsp;
+&nbsp;import app.view.IP;
+&nbsp;import app.controller.*;
+&nbsp;import app.model.*;
+&nbsp;
+&nbsp;import app.view.UIMode;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.Color;
+&nbsp;import java.awt.event.MouseAdapter;
+&nbsp;import java.awt.event.MouseEvent;
+&nbsp;import java.io.*;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Date;
+&nbsp;
+&nbsp;import static app.controller.MessageType.*;
+&nbsp;import static app.controller.NameStatus.*;
+&nbsp;import static app.model.Color.EMPTY;
+&nbsp;import static app.model.NetMode.RMI;
+&nbsp;import static app.model.NetMode.SOCKET;
+&nbsp;import static app.view.Dimensions.*;
+&nbsp;import static java.awt.Color.*;
+&nbsp;import static java.awt.GridBagConstraints.*;
+&nbsp;import static javax.swing.JOptionPane.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * class which represent the player on the client side, mutable,
+&nbsp; * implements Serializable because it will be sent in the socket network
+&nbsp; * @author Ettori Faccincani
+&nbsp; */
+<b class="nc">&nbsp;public class PlayerGUI extends Player implements Serializable, PlayerI{</b>
+<b class="nc">&nbsp;    private final transient int DIM = 9;</b>
+<b class="nc">&nbsp;    private final transient int ROWS = 6;</b>
+<b class="nc">&nbsp;    private final transient int COLS = 5;</b>
+<b class="nc">&nbsp;    private final transient int cardBorderSize = 2;</b>
+<b class="nc">&nbsp;    private final transient java.awt.Color borderColor = BLACK;</b>
+<b class="nc">&nbsp;    private final transient int libFullX = 6; // y sulla board</b>
+<b class="nc">&nbsp;    private final transient int libFullY = 7; // x sulla board</b>
+<b class="nc">&nbsp;    private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen</b>
+<b class="nc">&nbsp;    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="nc">&nbsp;    private final transient GridBagConstraints gbc = new GridBagConstraints();</b>
+&nbsp;    private transient JFrame mainFrame;
+&nbsp;    private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
+&nbsp;    private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, generalLabel;
+&nbsp;    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle, eventText;
+&nbsp;    private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
+&nbsp;    private transient JScrollPane chatHistory;
+&nbsp;    private transient JButton pickCardsBtn, sendMessageBtn;
+&nbsp;
+<b class="nc">&nbsp;    private final transient JLabel[][] boardCards = new JLabel[DIM][DIM];</b>
+<b class="nc">&nbsp;    private final transient JLabel[][] myLibraryCards = new JLabel[ROWS][COLS];</b>
+<b class="nc">&nbsp;    private final transient ArrayList&lt;JLabel[][]&gt; otherLibrariesCards = new ArrayList&lt;&gt;(Arrays.asList(new JLabel[ROWS][COLS], new JLabel[ROWS][COLS], new JLabel[ROWS][COLS]));</b>
+&nbsp;
+<b class="nc">&nbsp;    private transient ArrayList&lt;Integer&gt; cardsPicked = new ArrayList&lt;&gt;();</b>
+&nbsp;    private transient GameI server;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor that copies a generic Player object inside a new PlayerTUI object
+&nbsp;     * @param p the Player object to copy, received by the server
+&nbsp;     */
+&nbsp;    public PlayerGUI(Player p) throws RemoteException {
+<b class="nc">&nbsp;        super();</b>
+<b class="nc">&nbsp;        name = p.getName();</b>
+<b class="nc">&nbsp;        isChairMan = p.getIsChairMan();</b>
+<b class="nc">&nbsp;        library = new Library(p.library);</b>
+<b class="nc">&nbsp;        objective = p.getPrivateObjective();</b>
+<b class="nc">&nbsp;        pointsUntilNow = p.pointsUntilNow;</b>
+<b class="nc">&nbsp;        board = new Board(p.board);</b>
+<b class="nc">&nbsp;        librariesOfOtherPlayers = new ArrayList&lt;&gt;(p.librariesOfOtherPlayers);</b>
+<b class="nc">&nbsp;        CO_1_Done = p.getCO_1_Done();</b>
+<b class="nc">&nbsp;        CO_2_Done = p.getCO_2_Done();</b>
+<b class="nc">&nbsp;        fullChat = p.getFullChat();</b>
+<b class="nc">&nbsp;        chairmanName = p.chairmanName;</b>
+<b class="nc">&nbsp;        activeName = p.activeName;</b>
+<b class="nc">&nbsp;        numPlayers = p.numPlayers;</b>
+<b class="nc">&nbsp;        endGame = p.getEndGame();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * standard constructor, starts the main game process on the client side
+&nbsp;     * @param mode type of the network chosen by the user
+&nbsp;     * @param ui type of ui chosen by the user
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public PlayerGUI(NetMode mode, UIMode ui, String opt) throws RemoteException {
+<b class="nc">&nbsp;        super(); // Costruttore iniziale</b>
+<b class="nc">&nbsp;        uiMode = ui;</b>
+<b class="nc">&nbsp;        netMode = mode;</b>
+<b class="nc">&nbsp;        System.out.println(&quot;\nSoon you will need to enter your nickname for the game&quot;);</b>
+&nbsp;        //showMessageDialog(new JFrame(), &quot;Soon you will need to enter your nickname for the game&quot;);
+&nbsp;        try {
+<b class="nc">&nbsp;            mySocket = new Socket(IP.activeIP, Initializer.PORT);</b>
+<b class="nc">&nbsp;            outStream = new ObjectOutputStream(mySocket.getOutputStream());</b>
+<b class="nc">&nbsp;            inStream = new ObjectInputStream(mySocket.getInputStream());</b>
+<b class="nc">&nbsp;            if(!opt.equals(&quot;yes&quot;)){</b>
+<b class="nc">&nbsp;                outStream.writeObject(false);</b>
+&nbsp;            }
+&nbsp;            else{
+&nbsp;                //mySocket.setSoTimeout((int) (standardTimer * 2));
+&nbsp;            }
+<b class="nc">&nbsp;        }catch (Exception e){alert(&quot;\nServer is either full or inactive, try later&quot;); return;}</b>
+<b class="nc">&nbsp;        System.out.println(&quot;\nClient connected&quot;);</b>
+<b class="nc">&nbsp;        showChooseNameWindow();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Clone the player on the client in the player on the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param p the Player that will be cloned in the current Object
+&nbsp;     */
+&nbsp;    public void clone(PlayerGUI p){ // copia la versione sul server dentro a quella del client
+&nbsp;        //netMode = p.netMode;
+&nbsp;        //uiMode = p.uiMode;
+<b class="nc">&nbsp;        name = p.name;</b>
+<b class="nc">&nbsp;        isChairMan = p.isChairMan;</b>
+<b class="nc">&nbsp;        library = new Library(p.library);</b>
+<b class="nc">&nbsp;        objective = p.objective;</b>
+<b class="nc">&nbsp;        pointsUntilNow = p.pointsUntilNow;</b>
+<b class="nc">&nbsp;        board = new Board(p.board);</b>
+<b class="nc">&nbsp;        librariesOfOtherPlayers = new ArrayList&lt;&gt;(p.librariesOfOtherPlayers);</b>
+<b class="nc">&nbsp;        mySocket = p.mySocket;</b>
+<b class="nc">&nbsp;        CO_1_Done = p.CO_1_Done;</b>
+<b class="nc">&nbsp;        CO_2_Done = p.CO_2_Done;</b>
+<b class="nc">&nbsp;        fullChat = p.fullChat;</b>
+<b class="nc">&nbsp;        chairmanName = p.chairmanName;</b>
+<b class="nc">&nbsp;        activeName = p.activeName;</b>
+<b class="nc">&nbsp;        numPlayers = p.numPlayers;</b>
+<b class="nc">&nbsp;        endGame = p.endGame;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that update the information about the game
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void updateInfo(){
+<b class="nc">&nbsp;        pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon(&quot;assets/scoring tokens/scoring_back_EMPTY.jpg&quot;).getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + &quot;_&quot; + board.pointsCO_1.peekLast() + &quot;.jpg&quot;).getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon(&quot;assets/scoring tokens/scoring_back_EMPTY.jpg&quot;).getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + &quot;_&quot; + board.pointsCO_2.peekLast() + &quot;.jpg&quot;).getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        activeTurnInfo.setText(&quot; The active player is &quot; + activeName + &quot; &quot;);</b>
+<b class="nc">&nbsp;        curPointsInfo.setText(&quot; &quot; + pointsUntilNow + &quot; points achieved until now &quot;);</b>
+<b class="nc">&nbsp;        tempChatHistory.setText(fullChat);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that update the board of the game
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void updateBoard(){
+<b class="nc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; DIM; j++){</b>
+<b class="nc">&nbsp;                if(i == libFullX &amp;&amp; j == libFullY)</b>
+<b class="nc">&nbsp;                    continue;</b>
+<b class="nc">&nbsp;                boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;                boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        boardCards[libFullX][libFullY].setVisible(!endGame);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that update the library of the active player
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void updateMyLibrary(){
+<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="nc">&nbsp;                myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;                myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != EMPTY);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that update the libraries of all the player except the one which is active
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void updateOtherLibraries(){
+<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="nc">&nbsp;                otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;                otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        if(numPlayers &gt;= 3){</b>
+<b class="nc">&nbsp;            for(int i = 0; i &lt; ROWS; i++) {</b>
+<b class="nc">&nbsp;                for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="nc">&nbsp;                    otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;                    otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != EMPTY);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        if(numPlayers &gt;= 4){</b>
+<b class="nc">&nbsp;            for(int i = 0; i &lt; ROWS; i++) {</b>
+<b class="nc">&nbsp;                for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="nc">&nbsp;                    otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;                    otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != EMPTY);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Function that update the GUI with the new information
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     */
+&nbsp;    private void updateGUI(){
+<b class="nc">&nbsp;        updateInfo();</b>
+<b class="nc">&nbsp;        updateBoard();</b>
+<b class="nc">&nbsp;        updateMyLibrary();</b>
+<b class="nc">&nbsp;        updateOtherLibraries();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if the card was already picked before
+&nbsp;     * @author Ettori
+&nbsp;     * @param x the x coord
+&nbsp;     * @param y the y coord
+&nbsp;     * @return -1 if it was not picked before, the current index if it was picked before
+&nbsp;     */
+&nbsp;    private int getCardIndex(int x, int y){
+<b class="nc">&nbsp;        for(int i = 0; i &lt; cardsPicked.size(); i += 2){</b>
+<b class="nc">&nbsp;            if(cardsPicked.get(i) == x &amp;&amp; cardsPicked.get(i + 1) == y)</b>
+<b class="nc">&nbsp;                return i;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that reads the cards chosen and the column chosen, then it tries to pick the cards (if possible)
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void tryToPickCards(){
+<b class="nc">&nbsp;        ArrayList&lt;Integer&gt; cards = new ArrayList&lt;&gt;(cardsPicked);</b>
+<b class="nc">&nbsp;        cardsPicked = new ArrayList&lt;&gt;();</b>
+&nbsp;        int col;
+<b class="nc">&nbsp;        try{col = Integer.parseInt(chooseColText.getText());}</b>
+<b class="nc">&nbsp;        catch (Exception e){</b>
+<b class="nc">&nbsp;            alert(&quot;Invalid Selection&quot;);</b>
+<b class="nc">&nbsp;            chooseColText.setText(&quot;&quot;);</b>
+<b class="nc">&nbsp;            for(int i = 0; i &lt; cards.size(); i += 2)</b>
+<b class="nc">&nbsp;                boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        chooseColText.setText(&quot;&quot;);</b>
+<b class="nc">&nbsp;        if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))</b>
+<b class="nc">&nbsp;            alert(&quot;Invalid Selection&quot;);</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            activeName = &quot;...&quot;; // non voglio poter più prendere carte</b>
+<b class="nc">&nbsp;            pickCards(cards, col);</b>
+<b class="nc">&nbsp;            updateGUI();</b>
+<b class="nc">&nbsp;            boolean change_1 = checkCO();</b>
+<b class="nc">&nbsp;            boolean change_2 = checkLibFull();</b>
+<b class="nc">&nbsp;            if(change_1 || change_2)</b>
+<b class="nc">&nbsp;                updateInfo();</b>
+&nbsp;
+<b class="nc">&nbsp;            sendDoneMove(); // mando la mossa al server</b>
+&nbsp;            }
+<b class="nc">&nbsp;        for(int i = 0; i &lt; cards.size(); i += 2)</b>
+<b class="nc">&nbsp;            boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void showChooseNameWindow(){
+&nbsp;        JFrame frame;
+&nbsp;        JPanel panel;
+&nbsp;        JButton sendBtn;
+&nbsp;        JTextField textInput;
+<b class="nc">&nbsp;        frame = new JFrame(); // creo la finestra</b>
+&nbsp;
+<b class="nc">&nbsp;        sendBtn = new JButton(&quot;Choose Name&quot;); // bottone per mandare il nome</b>
+<b class="nc">&nbsp;        textInput = new JTextField(20); // textbox input dall&#39;utente</b>
+&nbsp;
+<b class="nc">&nbsp;        textInput.setBounds(100, 20, 165, 25);</b>
+<b class="nc">&nbsp;        textInput.addActionListener(event -&gt; sendBtn.doClick()); // se l&#39;utente preme invio, chiama automaticamente il bottone sendBtn</b>
+&nbsp;
+<b class="nc">&nbsp;        sendBtn.addActionListener((event) -&gt;{ // funzione di event listener</b>
+<b class="nc">&nbsp;            NameStatus status = null;</b>
+<b class="nc">&nbsp;            name = textInput.getText();</b>
+<b class="nc">&nbsp;            if(name.length() == 0 || name.charAt(0) == &#39;@&#39; || name.equals(&quot;all&quot;) || name.equals(&quot;names&quot;) || name.equals(&quot;...&quot;)){</b>
+<b class="nc">&nbsp;                alert(&quot;Name invalid, choose another name&quot;); // vedi JavaDoc di alert</b>
+<b class="nc">&nbsp;                textInput.setText(&quot;&quot;);</b>
+&nbsp;                return;
+&nbsp;            }
+&nbsp;            try {
+<b class="nc">&nbsp;                outStream.writeObject(name);</b>
+<b class="nc">&nbsp;                status = (NameStatus) inStream.readObject();</b>
+<b class="nc">&nbsp;            }catch(Exception e){connectionLost(e);}</b>
+&nbsp;
+<b class="nc">&nbsp;            if(status == NOT_TAKEN){</b>
+<b class="nc">&nbsp;                alert(&quot;\nName: &#39;&quot; + name + &quot;&#39; accepted by the server!&quot;);</b>
+&nbsp;                //System.exit(0);
+<b class="nc">&nbsp;                getInitialState(); // partire a lavorare da questa funzione in poi</b>
+<b class="nc">&nbsp;                frame.setVisible(false);</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            if(status == OLD){</b>
+<b class="nc">&nbsp;                alert(&quot;\nName: &#39;&quot; + name + &quot; was found in a previous game&quot;);</b>
+&nbsp;                //System.exit(0);
+<b class="nc">&nbsp;                getInitialState(); // partire a lavorare da questa funzione in poi</b>
+<b class="nc">&nbsp;                frame.setVisible(false);</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            if(status == NOT_FOUND){</b>
+<b class="nc">&nbsp;                alert(&quot;\nAnother game is running and your name was not found...&quot;);</b>
+<b class="nc">&nbsp;                System.exit(0);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if(status == FOUND){</b>
+<b class="nc">&nbsp;                frame.setVisible(false);</b>
+<b class="nc">&nbsp;                getPreviousState();</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            alert(&quot;Name Taken, choose another name&quot;);</b>
+<b class="nc">&nbsp;            textInput.setText(&quot;&quot;);</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali</b>
+<b class="nc">&nbsp;        panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));</b>
+<b class="nc">&nbsp;        panel.setLayout(new GridLayout(2,1)); // griglia con 1 riga e 2 colonne</b>
+&nbsp;
+<b class="nc">&nbsp;        panel.add(textInput); // Aggiunge i componenti in ordine di griglia: tutta la prima riga, tutta la seconda, ecc. (sx -&gt; dx)</b>
+<b class="nc">&nbsp;        panel.add(sendBtn);</b>
+&nbsp;
+<b class="nc">&nbsp;        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra</b>
+<b class="nc">&nbsp;        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+<b class="nc">&nbsp;        frame.setTitle(&quot;Window for Choosing the name&quot;);</b>
+<b class="nc">&nbsp;        frame.pack(); // preparo la finestra</b>
+<b class="nc">&nbsp;        frame.setLocationRelativeTo(null); //the frame is centered when printed on the screen</b>
+<b class="nc">&nbsp;        frame.setVisible(true); // mostro il tutto a schermo, GUI</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Receive the status of the player (previously disconnected) from the server and restart the game
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     */
+&nbsp;    private void getPreviousState(){
+&nbsp;        PlayerGUI p;
+&nbsp;        try {
+<b class="nc">&nbsp;            alert(&quot;Be patient, the game will start soon...&quot;);</b>
+<b class="nc">&nbsp;            p = new PlayerGUI((Player)inStream.readObject());</b>
+<b class="nc">&nbsp;            clone(p);</b>
+<b class="nc">&nbsp;            new Thread(this::initGUI).start();</b>
+<b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
+&nbsp;        try { // ottieni la reference al server remoto
+<b class="nc">&nbsp;            server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup(&quot;Server&quot;);</b>
+<b class="nc">&nbsp;        } catch (RemoteException | NotBoundException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if(netMode == RMI) {</b>
+&nbsp;            try { // provo a chiamare un metodo remoto --&gt; devi sempre farlo in un try catch, può fallire
+&nbsp;                //server.stampa(&quot;hello world&quot;);
+<b class="nc">&nbsp;                server.addClient(name, this);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        /*
+&nbsp;        try {
+&nbsp;            mySocket.setSoTimeout(0);
+&nbsp;        } catch (SocketException e) {
+&nbsp;            System.out.println(&quot;errorino&quot;);
+&nbsp;        }
+&nbsp;         */
+<b class="nc">&nbsp;        if(netMode == SOCKET) {</b>
+<b class="nc">&nbsp;            new Thread(this::waitForEvents).start();</b>
+<b class="nc">&nbsp;            new Thread(this::ping).start();</b>
+&nbsp;        }
+&nbsp;        else
+<b class="nc">&nbsp;            new Thread(this::pingRMI).start();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Receive the status of the player from the server and attend the start of the game
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     */
+&nbsp;    private void getInitialState(){
+&nbsp;        // da qui in poi bisogna lavorarci
+&nbsp;        PlayerGUI p;
+&nbsp;        try {
+<b class="nc">&nbsp;            alert(&quot;Be patient, the game will start soon...&quot;);</b>
+<b class="nc">&nbsp;            p = new PlayerGUI((Player)inStream.readObject());</b>
+<b class="nc">&nbsp;            clone(p);</b>
+<b class="nc">&nbsp;            new Thread(this::initGUI).start();</b>
+<b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
+&nbsp;        try { // ottieni la reference al server remoto
+<b class="nc">&nbsp;            server = (GameI) LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup(&quot;Server&quot;);</b>
+<b class="nc">&nbsp;        } catch (RemoteException | NotBoundException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if(netMode == RMI) {</b>
+&nbsp;            try { // provo a chiamare un metodo remoto --&gt; devi sempre farlo in un try catch, può fallire
+&nbsp;                //server.stampa(&quot;hello world&quot;);
+<b class="nc">&nbsp;                server.addClient(name, this);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(netMode == SOCKET) {</b>
+<b class="nc">&nbsp;            new Thread(this::waitForEvents).start();</b>
+<b class="nc">&nbsp;            new Thread(this::ping).start();</b>
+&nbsp;        }
+&nbsp;        else
+<b class="nc">&nbsp;            new Thread(this::pingRMI).start();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * function used to wait for notification from the server while the player is NON active
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     */
+&nbsp;    private void waitForEvents(){ // funzione principale di attesa
+&nbsp;        while(true){
+&nbsp;            try {
+<b class="nc">&nbsp;                Message msg = (Message) inStream.readObject();</b>
+&nbsp;                //System.out.println(msg.getType());
+<b class="nc">&nbsp;                switch (msg.getType()) {</b>
+<b class="nc">&nbsp;                    case YOUR_TURN -&gt; handleYourTurnEvent();</b>
+<b class="nc">&nbsp;                    case CHANGE_TURN -&gt; handleChangeTurnEvent(msg);</b>
+<b class="nc">&nbsp;                    case UPDATE_UNPLAYBLE -&gt; handleUpdateUnplayableEvent(msg);</b>
+<b class="nc">&nbsp;                    case UPDATE_GAME -&gt; handleUpdateGameEvent(msg);</b>
+<b class="nc">&nbsp;                    case FINAL_SCORE -&gt; handleFinalScoreEvent(msg);</b>
+<b class="nc">&nbsp;                    case CHAT -&gt; handleChatEvent(msg);</b>
+<b class="nc">&nbsp;                    case CO_1 -&gt; handleCO_1Event(msg);</b>
+<b class="nc">&nbsp;                    case CO_2 -&gt; handleCO_2Event(msg);</b>
+<b class="nc">&nbsp;                    case LIB_FULL -&gt; handleLibFullEvent(msg);</b>
+<b class="nc">&nbsp;                    case DISCONNECTED -&gt; handleDisconnectedEvent(msg);</b>
+&nbsp;                    //case STOP -&gt; {} // non devi fare niente
+&nbsp;                }
+<b class="nc">&nbsp;            }catch(Exception e){connectionLost(e);}</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the turn event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void handleYourTurnEvent(){
+<b class="nc">&nbsp;        activeName = name;</b>
+<b class="nc">&nbsp;        if(board.isBoardUnplayable())</b>
+<b class="nc">&nbsp;            fixUnplayableBoard();</b>
+<b class="nc">&nbsp;        updateInfo();</b>
+<b class="nc">&nbsp;        updateBoard();</b>
+<b class="nc">&nbsp;        updateOtherLibraries();</b>
+<b class="nc">&nbsp;        eventText.setText(&quot;Your turn is now started, play your move !&quot;);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the change event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleChangeTurnEvent(Message msg){
+<b class="nc">&nbsp;        activeName = (String) msg.getContent();</b>
+<b class="nc">&nbsp;        updateInfo();</b>
+<b class="nc">&nbsp;        updateBoard();</b>
+<b class="nc">&nbsp;        updateOtherLibraries();</b>
+<b class="nc">&nbsp;        eventText.setText(&quot;Now &quot; + activeName + &quot; is playing his turn...&quot;);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the unplayble board fixing event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleUpdateUnplayableEvent(Message msg){
+<b class="nc">&nbsp;        JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;        board = (Board) jsonObject.get(&quot;board&quot;);</b>
+<b class="nc">&nbsp;        updateBoard();</b>
+<b class="nc">&nbsp;        eventText.setText(&quot;\nBoard updated because it was unplayable&quot;);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the update game notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleUpdateGameEvent(Message msg){
+<b class="nc">&nbsp;        if(netMode == SOCKET)</b>
+<b class="nc">&nbsp;            sendToServer(new Message(STOP, null, null));</b>
+<b class="nc">&nbsp;        JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;        board = (Board)jsonObject.get(&quot;board&quot;);</b>
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers - 1; i++){</b>
+<b class="nc">&nbsp;            if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))</b>
+<b class="nc">&nbsp;                librariesOfOtherPlayers.set(i, (Library)jsonObject.get(&quot;library&quot;));</b>
+&nbsp;        }
+&nbsp;        //updateBoard();
+&nbsp;        //updateOtherLibraries();
+<b class="nc">&nbsp;        eventText.setText(&quot;\nPlayer: &quot; + msg.getAuthor() + &quot; made his move, now wait for the turn to change (chat disabled)...&quot;);</b>
+<b class="nc">&nbsp;        Game.waitForSeconds(standardTimer);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the final score calculation event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleFinalScoreEvent(Message msg){
+<b class="nc">&nbsp;        alert(&quot;\nThe game is finished, this is the final scoreboard:\n\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;        Game.waitForSeconds(standardTimer * 2);</b>
+<b class="nc">&nbsp;        System.exit(0); // il gioco finisce e tutto si chiude forzatamente</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the chat message event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleChatEvent(Message msg){
+<b class="nc">&nbsp;        fullChat += msg.getContent();</b>
+<b class="nc">&nbsp;        updateInfo();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the achievement of the first common objective event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleCO_1Event(Message msg){
+<b class="nc">&nbsp;        eventText.setText(msg.getAuthor() + &quot; completed the first common objective getting &quot; + msg.getContent() + &quot; points&quot;);</b>
+<b class="nc">&nbsp;        board.pointsCO_1.remove(board.pointsCO_1.size() - 1);</b>
+<b class="nc">&nbsp;        updateInfo();</b>
+&nbsp;        //Game.waitForSeconds(standardTimer);
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the achievement of the second common objective event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleCO_2Event(Message msg){
+<b class="nc">&nbsp;        eventText.setText(msg.getAuthor() + &quot; completed the second common objective getting &quot; + msg.getContent() + &quot; points&quot;);</b>
+<b class="nc">&nbsp;        board.pointsCO_2.remove(board.pointsCO_2.size() - 1);</b>
+<b class="nc">&nbsp;        updateInfo();</b>
+&nbsp;        //Game.waitForSeconds(standardTimer);
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the completion of the library event notification from the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleLibFullEvent(Message msg){
+<b class="nc">&nbsp;        eventText.setText(msg.getAuthor() + &quot; completed the library, the game will continue until the next turn of &quot; + chairmanName);</b>
+&nbsp;        //Game.waitForSeconds(standardTimer);
+<b class="nc">&nbsp;        endGame = true;</b>
+<b class="nc">&nbsp;        boardCards[libFullX][libFullY].setVisible(false);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for handling the disconnection event notification from the server (of the active client)
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message containing the necessary information for reacting to the event
+&nbsp;     */
+&nbsp;    private void handleDisconnectedEvent(Message msg){
+<b class="nc">&nbsp;        eventText.setText(&quot;The active player (&quot; + (String)msg.getAuthor() + &quot; disconnected from the game&quot;);</b>
+<b class="nc">&nbsp;        if(netMode == SOCKET)</b>
+<b class="nc">&nbsp;            sendToServer(new Message(STOP, null, null));</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that checks if the current player completed a common objective, and in that case notify all the other players (and add the points)
+&nbsp;     * @author Ettori
+&nbsp;     * @return true iff one of the objectives was completed
+&nbsp;     */
+&nbsp;    private boolean checkCO(){
+&nbsp;        int points, lastIndex;
+<b class="nc">&nbsp;        boolean change = false;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) &amp;&amp; !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta</b>
+<b class="nc">&nbsp;                lastIndex = board.pointsCO_1.size() - 1;</b>
+<b class="nc">&nbsp;                points = board.pointsCO_1.get(lastIndex);</b>
+<b class="nc">&nbsp;                board.pointsCO_1.remove(lastIndex);</b>
+<b class="nc">&nbsp;                pointsUntilNow += points;</b>
+<b class="nc">&nbsp;                CO_1_Done = true;</b>
+<b class="nc">&nbsp;                sendToServer(new Message(CO_1, name, Integer.toString(points)));</b>
+<b class="nc">&nbsp;                eventText.setText(&quot;\nWell done, you completed the first common objective and you gain &quot; + points + &quot; points (chat disabled)...&quot;);</b>
+<b class="nc">&nbsp;                Game.waitForSeconds(standardTimer / 2.5);</b>
+<b class="nc">&nbsp;                change = true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) &amp;&amp; !CO_2_Done) {</b>
+<b class="nc">&nbsp;                lastIndex = board.pointsCO_2.size() - 1;</b>
+<b class="nc">&nbsp;                points = board.pointsCO_2.get(lastIndex);</b>
+<b class="nc">&nbsp;                board.pointsCO_2.remove(lastIndex);</b>
+<b class="nc">&nbsp;                pointsUntilNow += points;</b>
+<b class="nc">&nbsp;                CO_2_Done = true;</b>
+<b class="nc">&nbsp;                sendToServer(new Message(CO_2, name, Integer.toString(points)));</b>
+<b class="nc">&nbsp;                eventText.setText(&quot;\nWell done, you completed the second common objective and you gain &quot; + points + &quot; points (chat disabled)...&quot;);</b>
+<b class="nc">&nbsp;                Game.waitForSeconds(standardTimer / 2.5);</b>
+<b class="nc">&nbsp;                change = true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;        return change;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that checks if the current player completed his library, and in that case notify all the other players (and add 1 point)
+&nbsp;     * @author Ettori
+&nbsp;     * @return true iff the library was completed
+&nbsp;     */
+&nbsp;    private boolean checkLibFull(){
+&nbsp;        try {
+<b class="nc">&nbsp;            if (library.isFull() &amp;&amp; !endGame) {</b>
+<b class="nc">&nbsp;                endGame = true;</b>
+<b class="nc">&nbsp;                pointsUntilNow++;</b>
+<b class="nc">&nbsp;                sendToServer(new Message(LIB_FULL, name, null));</b>
+<b class="nc">&nbsp;                eventText.setText(&quot;\nWell done, you are the first player to complete the library, the game will continue until the next turn of &quot; + chairmanName + &quot; (chat disabled)...&quot;);</b>
+<b class="nc">&nbsp;                updateBoard();</b>
+<b class="nc">&nbsp;                Game.waitForSeconds(standardTimer / 2.5);</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }catch (Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper method which update the board when it becomes unplayable (also notify other players)
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void fixUnplayableBoard(){
+<b class="nc">&nbsp;        board.fillBoard(numPlayers);</b>
+<b class="nc">&nbsp;        updateGUI();</b>
+<b class="nc">&nbsp;        eventText.setText(&quot;\nBoard updated because it was unplayble&quot;);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            boardStatus = new JSONObject();</b>
+<b class="nc">&nbsp;            boardStatus.put(&quot;board&quot;, board);</b>
+<b class="nc">&nbsp;            sendToServer(new Message(UPDATE_UNPLAYBLE, name, boardStatus));</b>
+<b class="nc">&nbsp;        }catch (Exception e){connectionLost(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that sends the last move done by the current player to all other clients (after the move is done on this player)
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void sendDoneMove(){
+<b class="nc">&nbsp;        gameStatus = new JSONObject();</b>
+<b class="nc">&nbsp;        playerStatus = new JSONObject();</b>
+<b class="nc">&nbsp;        eventText.setText(&quot;\nYou made your move, now wait for other players to acknowledge it (chat disabled)...&quot;);</b>
+<b class="nc">&nbsp;        gameStatus.put(&quot;board&quot;, new Board(board));</b>
+<b class="nc">&nbsp;        gameStatus.put(&quot;library&quot;, new Library(library));</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            sendToServer(new Message(UPDATE_GAME, name, gameStatus));</b>
+&nbsp;            //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+<b class="nc">&nbsp;            Game.waitForSeconds(standardTimer * 6 / 5);</b>
+<b class="nc">&nbsp;            new Thread(() -&gt; { // aspetto un secondo e poi mando la notifica di fine turno</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    Game.waitForSeconds(standardTimer / 2.5);</b>
+<b class="nc">&nbsp;                    playerStatus.put(&quot;player&quot;, new PlayerSend(this));</b>
+<b class="nc">&nbsp;                    sendToServer(new Message(END_TURN, name, playerStatus));</b>
+<b class="nc">&nbsp;                }catch (Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;            }).start();</b>
+&nbsp;
+<b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Send with socket network the message of the chat to the right players
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void sendChatMsg(){
+<b class="nc">&nbsp;        String dest = insertPlayer.getText();</b>
+<b class="nc">&nbsp;        String msg = insertMessage.getText();</b>
+<b class="nc">&nbsp;        insertPlayer.setText(&quot;&quot;);</b>
+<b class="nc">&nbsp;        insertMessage.setText(&quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        msg = name + &quot; says: &quot; + msg + &quot; (to &quot; + dest + &quot;) at &quot; + new SimpleDateFormat(&quot;dd-MM-yyyy HH:mm:ss&quot;).format(new Date()) + &quot;\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if(!doesPlayerExists(dest) &amp;&amp; !dest.equals(&quot;all&quot;)) {</b>
+<b class="nc">&nbsp;            alert(&quot;\nThe name chosen does not exists&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if(dest.equals(name)){</b>
+<b class="nc">&nbsp;            alert(&quot;\nYou can&#39;t send chat messages to yourself&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        fullChat += msg;</b>
+<b class="nc">&nbsp;        tempChatHistory.setText(fullChat);</b>
+&nbsp;        try{
+<b class="nc">&nbsp;            sendToServer(new Message(CHAT, dest, msg));</b>
+<b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function for alerting a message to the user (pop-up)
+&nbsp;     * @param s the string og the message to show
+&nbsp;     */
+<b class="nc">&nbsp;    private void alert(String s){showMessageDialog(null, s);}</b>
+&nbsp;    /**
+&nbsp;     * function that handle the eventual disconnection
+&nbsp;     * @param e the exception to throw
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void connectionLost(Exception e){
+<b class="nc">&nbsp;        if(Game.showErrors)</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        else
+<b class="nc">&nbsp;            alert(&quot;\nThe connection was lost and the application is disconnecting...&quot;);</b>
+<b class="nc">&nbsp;        Game.waitForSeconds(standardTimer / 2.5);</b>
+<b class="nc">&nbsp;        System.exit(0);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that periodically pings the server from socket client
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void ping(){
+&nbsp;        while(true){
+<b class="nc">&nbsp;            Game.waitForSeconds(standardTimer * 2);</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                outStream.writeObject(new Message(PING, null, null));</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that periodically pings the server from RMI client
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void pingRMI(){
+&nbsp;        while(true){
+<b class="nc">&nbsp;            Game.waitForSeconds(standardTimer * 2);</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                server.ping();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /******************************************** RMI ***************************************************************/
+&nbsp;    /**
+&nbsp;     * method (called from remote) that is the equivalent of wait for events of the socket version
+&nbsp;     * @param msg the message received from the server
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void receivedEventRMI(Message msg){ // funzione principale di attesa
+<b class="nc">&nbsp;        switch (msg.getType()) {</b>
+<b class="nc">&nbsp;            case YOUR_TURN -&gt; handleYourTurnEvent();</b>
+<b class="nc">&nbsp;            case CHANGE_TURN -&gt; handleChangeTurnEvent(msg);</b>
+<b class="nc">&nbsp;            case UPDATE_UNPLAYBLE -&gt; handleUpdateUnplayableEvent(msg);</b>
+<b class="nc">&nbsp;            case UPDATE_GAME -&gt; handleUpdateGameEvent(msg);</b>
+<b class="nc">&nbsp;            case FINAL_SCORE -&gt; handleFinalScoreEvent(msg);</b>
+<b class="nc">&nbsp;            case CHAT -&gt; handleChatEvent(msg);</b>
+<b class="nc">&nbsp;            case CO_1 -&gt; handleCO_1Event(msg);</b>
+<b class="nc">&nbsp;            case CO_2 -&gt; handleCO_2Event(msg);</b>
+<b class="nc">&nbsp;            case LIB_FULL -&gt; handleLibFullEvent(msg);</b>
+<b class="nc">&nbsp;            case DISCONNECTED -&gt; handleDisconnectedEvent(msg);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * general method to send a message to the server, it chooses the right network connection of the player
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message that must be sent
+&nbsp;     */
+&nbsp;    public void sendToServer(Message msg){
+<b class="nc">&nbsp;        if(netMode == SOCKET) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                outStream.writeObject(msg);</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        else{
+&nbsp;            try {
+<b class="nc">&nbsp;                server.redirectToClientRMI(msg);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that allow the server ping the RMI client
+&nbsp;     * @author Ettori
+&nbsp;     */
+<b class="nc">&nbsp;    public void pingClient(){}</b>
+&nbsp;    /**
+&nbsp;     * Function that initialize all the GUI
+&nbsp;     * @author Ettori Faccincani Giammusso
+&nbsp;     */
+&nbsp;    public void initGUI(){
+&nbsp;        //Creation:
+&nbsp;        //External
+&nbsp;        //Internals: first level of abstraction
+<b class="nc">&nbsp;        mainFrame =  new JFrame(&quot;My Shelfie&quot;);</b>
+&nbsp;
+&nbsp;        //Internals: second level of abstraction
+<b class="nc">&nbsp;        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);</b>
+&nbsp;
+&nbsp;        //CYAN
+&nbsp;
+<b class="nc">&nbsp;        POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(PO_w, PO_h, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        POLabel.setPreferredSize(new Dimension(PO_w, PO_h));</b>
+&nbsp;
+<b class="nc">&nbsp;        POPanel = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        POTitle = new JTextField(&quot; Your private objective &quot;);</b>
+<b class="nc">&nbsp;        POTitle.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));</b>
+<b class="nc">&nbsp;        POTitle.setEditable(false);</b>
+<b class="nc">&nbsp;        POTitle.setBorder(null);</b>
+&nbsp;
+<b class="nc">&nbsp;        CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        CO1Label.setLayout(null);</b>
+<b class="nc">&nbsp;        CO1Label.setPreferredSize(new Dimension(CO_w, CO_h));</b>
+&nbsp;
+<b class="nc">&nbsp;        CO1Panel = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        CO1Title = new JTextField(&quot; The first common objective &quot;);</b>
+<b class="nc">&nbsp;        CO1Title.setBorder(null);</b>
+<b class="nc">&nbsp;        CO1Title.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));</b>
+<b class="nc">&nbsp;        CO1Title.setEditable(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        CO2Label.setLayout(null);</b>
+<b class="nc">&nbsp;        CO2Label.setPreferredSize(new Dimension(CO_w, CO_h));</b>
+&nbsp;
+<b class="nc">&nbsp;        CO2Panel = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        CO2Title = new JTextField(&quot; The second common objective &quot;);</b>
+<b class="nc">&nbsp;        CO2Title.setBorder(null);</b>
+<b class="nc">&nbsp;        CO2Title.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));</b>
+<b class="nc">&nbsp;        CO2Title.setEditable(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon(&quot;assets/scoring tokens/scoring.jpg&quot;).getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        pointsCO1Label.setPreferredSize(new Dimension(pointsDim, pointsDim));</b>
+&nbsp;
+<b class="nc">&nbsp;        pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon(&quot;assets/scoring tokens/scoring.jpg&quot;).getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        pointsCO2Label.setPreferredSize(new Dimension(pointsDim, pointsDim));</b>
+&nbsp;
+<b class="nc">&nbsp;        chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon(&quot;assets/misc/firstplayertoken.png&quot;).getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(&quot;assets/misc/sfondo parquet.jpg&quot;).getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));</b>
+&nbsp;
+<b class="nc">&nbsp;        chairmanPanel = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        chairmanTitle = new JTextField(&quot; Chairman Icon &quot;);</b>
+<b class="nc">&nbsp;        chairmanTitle.setBorder(null);</b>
+<b class="nc">&nbsp;        chairmanTitle.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));</b>
+<b class="nc">&nbsp;        chairmanTitle.setEditable(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        chairmanPanel.setVisible(isChairMan);</b>
+&nbsp;
+<b class="nc">&nbsp;        infoBox = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        chairmanInfo = new JTextField();</b>
+<b class="nc">&nbsp;        chairmanInfo.setText(&quot; The chairman is &quot; + chairmanName + &quot; &quot;);</b>
+<b class="nc">&nbsp;        chairmanInfo.setBorder(null);</b>
+<b class="nc">&nbsp;        chairmanInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));</b>
+<b class="nc">&nbsp;        chairmanInfo.setEditable(false);</b>
+<b class="nc">&nbsp;        activeTurnInfo = new JTextField();</b>
+<b class="nc">&nbsp;        activeTurnInfo.setBorder(null);</b>
+<b class="nc">&nbsp;        activeTurnInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));</b>
+<b class="nc">&nbsp;        activeTurnInfo.setEditable(false);</b>
+<b class="nc">&nbsp;        curPointsInfo = new JTextField();</b>
+<b class="nc">&nbsp;        curPointsInfo.setBorder(null);</b>
+<b class="nc">&nbsp;        curPointsInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));</b>
+<b class="nc">&nbsp;        curPointsInfo.setEditable(false);</b>
+<b class="nc">&nbsp;        titleInfo = new JTextField(&quot; INFORMATIONS ABOUT THE GAME &quot;);</b>
+<b class="nc">&nbsp;        titleInfo.setBorder(null);</b>
+<b class="nc">&nbsp;        titleInfo.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols));</b>
+<b class="nc">&nbsp;        titleInfo.setEditable(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.25;</b>
+<b class="nc">&nbsp;        infoBox.add(titleInfo,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.25;</b>
+<b class="nc">&nbsp;        infoBox.add(chairmanInfo,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 2;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.25;</b>
+<b class="nc">&nbsp;        gbc.fill = HORIZONTAL;</b>
+<b class="nc">&nbsp;        infoBox.add(activeTurnInfo,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 3;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.25;</b>
+<b class="nc">&nbsp;        gbc.fill = NONE;</b>
+<b class="nc">&nbsp;        infoBox.add(curPointsInfo,gbc);</b>
+&nbsp;
+&nbsp;        //
+&nbsp;
+&nbsp;        //Internals: third level of abstraction
+&nbsp;        //...in development
+&nbsp;
+&nbsp;        //Addition: (Hierarchy of panels inside panels)
+&nbsp;        //SECOND LEVEL
+&nbsp;        //CYAN
+<b class="nc">&nbsp;        internalPanelSide = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        Insets insets = CO1Label.getInsets();</b>
+&nbsp;
+<b class="nc">&nbsp;        CO1Label.add(pointsCO1Label);</b>
+<b class="nc">&nbsp;        pointsCO1Label.setBounds(insets.left + 85, insets.top + 27, pointsDim, pointsDim);</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.anchor = CENTER;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+<b class="nc">&nbsp;        CO1Panel.add(CO1Title, gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.9;</b>
+<b class="nc">&nbsp;        CO1Panel.add(CO1Label,gbc);</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        gbc.anchor = CENTER;</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 100;</b>
+<b class="nc">&nbsp;        gbc.insets = new Insets(25,0,0,0);</b>
+<b class="nc">&nbsp;        internalPanelSide.add(CO1Panel,gbc);</b>
+<b class="nc">&nbsp;        gbc.insets = new Insets(generalBorder, generalBorder, generalBorder, generalBorder);</b>
+&nbsp;
+<b class="nc">&nbsp;        insets = CO2Label.getInsets();</b>
+&nbsp;
+<b class="nc">&nbsp;        CO2Label.add(pointsCO2Label);</b>
+<b class="nc">&nbsp;        pointsCO2Label.setBounds(insets.left + 85, insets.top + 27, pointsDim, pointsDim);</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.anchor = CENTER;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+<b class="nc">&nbsp;        CO2Panel.add(CO2Title, gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.9;</b>
+<b class="nc">&nbsp;        CO2Panel.add(CO2Label,gbc);</b>
+<b class="nc">&nbsp;        gbc.anchor = CENTER;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 100;</b>
+<b class="nc">&nbsp;        internalPanelSide.add(CO2Panel,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.anchor = CENTER;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+<b class="nc">&nbsp;        POPanel.add(POTitle, gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.9;</b>
+<b class="nc">&nbsp;        POPanel.add(POLabel,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 2;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 100;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        internalPanelSide.add(POPanel, gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.anchor = CENTER;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+<b class="nc">&nbsp;        chairmanPanel.add(chairmanTitle, gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.9;</b>
+<b class="nc">&nbsp;        chairmanPanel.add(chairmanLabel,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 3;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 100;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        internalPanelSide.add(chairmanPanel, gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 4;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 100;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.insets = new Insets(0,0,25,0);</b>
+<b class="nc">&nbsp;        internalPanelSide.add(infoBox, gbc);</b>
+<b class="nc">&nbsp;        gbc.insets = new Insets(generalBorder, generalBorder, generalBorder, generalBorder);</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+&nbsp;
+&nbsp;        //GREEN
+<b class="nc">&nbsp;        internalPanelLow = new JPanel(new GridBagLayout());</b>
+&nbsp;
+<b class="nc">&nbsp;        player1Panel = new JPanel(new GridBagLayout());</b>
+&nbsp;        //Text
+<b class="nc">&nbsp;        library1Text = new JTextArea(1, textCols * 2 / 3);</b>
+<b class="nc">&nbsp;        library1Text.setEditable(false);</b>
+&nbsp;        //Library of the player 1
+<b class="nc">&nbsp;        library1Label = new JLabel(new ImageIcon(new ImageIcon(&quot;assets/boards/bookshelf_orth.png&quot;).getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        library1Label.setLayout(null);</b>
+<b class="nc">&nbsp;        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));</b>
+&nbsp;
+<b class="nc">&nbsp;        player2Panel = new JPanel(new GridBagLayout());</b>
+&nbsp;
+&nbsp;        //Text
+<b class="nc">&nbsp;        library2Text = new JTextArea(1, textCols * 2 / 3);</b>
+<b class="nc">&nbsp;        library2Text.setEditable(false);</b>
+&nbsp;
+&nbsp;        //Library of the player 2
+<b class="nc">&nbsp;        library2Label = new JLabel(new ImageIcon(new ImageIcon(&quot;assets/boards/bookshelf_orth.png&quot;).getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        library2Label.setLayout(null);</b>
+<b class="nc">&nbsp;        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));</b>
+&nbsp;
+<b class="nc">&nbsp;        player3Panel = new JPanel(new GridBagLayout());</b>
+&nbsp;
+&nbsp;        //Text
+<b class="nc">&nbsp;        library3Text = new JTextArea(1, textCols * 2 / 3);</b>
+<b class="nc">&nbsp;        library3Text.setEditable(false);</b>
+&nbsp;
+&nbsp;        //Library of the player 3
+<b class="nc">&nbsp;        library3Label = new JLabel(new ImageIcon(new ImageIcon(&quot;assets/boards/bookshelf_orth.png&quot;).getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        library3Label.setLayout(null);</b>
+<b class="nc">&nbsp;        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));</b>
+&nbsp;
+<b class="nc">&nbsp;        library1Text.setText(&quot; Library of &quot; + librariesOfOtherPlayers.get(0).name + &quot; &quot;);</b>
+<b class="nc">&nbsp;        if(numPlayers &gt;= 3)</b>
+<b class="nc">&nbsp;            library2Text.setText(&quot; Library of &quot; + librariesOfOtherPlayers.get(1).name + &quot; &quot;);</b>
+<b class="nc">&nbsp;        if(numPlayers &gt;= 4)</b>
+<b class="nc">&nbsp;            library3Text.setText(&quot; Library of &quot; + librariesOfOtherPlayers.get(2).name + &quot; &quot;);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        if(numPlayers &lt; 4)</b>
+<b class="nc">&nbsp;            player3Panel.setVisible(false);</b>
+<b class="nc">&nbsp;        if(numPlayers &lt; 3)</b>
+<b class="nc">&nbsp;            player2Panel.setVisible(false);</b>
+&nbsp;
+&nbsp;
+&nbsp;        JLabel tempLabel;
+&nbsp;        JPanel tempPanel;
+<b class="nc">&nbsp;        insets = library1Label.getInsets();</b>
+&nbsp;        // fill library
+<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; COLS; j++){</b>
+<b class="nc">&nbsp;                tempLabel = new JLabel();</b>
+<b class="nc">&nbsp;                tempPanel = new JPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempLabel.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.add(tempLabel);</b>
+<b class="nc">&nbsp;                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;                tempPanel.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);</b>
+&nbsp;
+<b class="nc">&nbsp;                library1Label.add(tempPanel,gbc);</b>
+<b class="nc">&nbsp;                otherLibrariesCards.get(0)[i][j] = tempLabel;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        insets = library2Label.getInsets();</b>
+&nbsp;        // fill library
+<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; COLS; j++){</b>
+<b class="nc">&nbsp;                tempLabel = new JLabel();</b>
+<b class="nc">&nbsp;                tempPanel = new JPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempLabel.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.add(tempLabel);</b>
+<b class="nc">&nbsp;                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;                tempPanel.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);</b>
+&nbsp;
+<b class="nc">&nbsp;                library2Label.add(tempPanel,gbc);</b>
+<b class="nc">&nbsp;                otherLibrariesCards.get(1)[i][j] = tempLabel;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        insets = library3Label.getInsets();</b>
+&nbsp;        // fill library
+<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; COLS; j++){</b>
+<b class="nc">&nbsp;                tempLabel = new JLabel();</b>
+<b class="nc">&nbsp;                tempPanel = new JPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempLabel.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.add(tempLabel);</b>
+<b class="nc">&nbsp;                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;                tempPanel.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);</b>
+&nbsp;
+<b class="nc">&nbsp;                library3Label.add(tempPanel,gbc);</b>
+<b class="nc">&nbsp;                otherLibrariesCards.get(2)[i][j] = tempLabel;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        //player 1
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        player1Panel.add(library1Text,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.8;</b>
+<b class="nc">&nbsp;        player1Panel.add(library1Label,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 100;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.3;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.0;</b>
+<b class="nc">&nbsp;        internalPanelLow.add(player1Panel,gbc);</b>
+&nbsp;        //player 2
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        player2Panel.add(library2Text,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.8;</b>
+<b class="nc">&nbsp;        player2Panel.add(library2Label,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 1;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 100;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.3;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.0;</b>
+<b class="nc">&nbsp;        internalPanelLow.add(player2Panel,gbc);</b>
+&nbsp;        //player 3
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        player3Panel.add(library3Text,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.8;</b>
+<b class="nc">&nbsp;        player3Panel.add(library3Label,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 2;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 100;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.3;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.0;</b>
+<b class="nc">&nbsp;        internalPanelLow.add(player3Panel,gbc);</b>
+&nbsp;
+<b class="nc">&nbsp;        eventText = new JTextField(120);</b>
+<b class="nc">&nbsp;        eventText.setText(&quot; Last relevant event of the Game &quot;);</b>
+<b class="nc">&nbsp;        eventText.setMinimumSize(new Dimension(textCols * 50, textCols));</b>
+<b class="nc">&nbsp;        eventText.setEditable(false);</b>
+<b class="nc">&nbsp;        eventText.setBorder(null);</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
+<b class="nc">&nbsp;        gbc.gridwidth = 3;</b>
+&nbsp;        //gbc.fill = HORIZONTAL;
+<b class="nc">&nbsp;        gbc.insets = new Insets(0,15,15,0);</b>
+<b class="nc">&nbsp;        internalPanelLow.add(eventText, gbc);</b>
+&nbsp;
+&nbsp;        //blue
+<b class="nc">&nbsp;        internalPanelHigh = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix</b>
+&nbsp;        //Text on top of the board
+<b class="nc">&nbsp;        boardText = new JTextArea(&quot; Board of the Game &quot;);</b>
+<b class="nc">&nbsp;        boardText.setEditable(false);</b>
+<b class="nc">&nbsp;        boardLabel = new JLabel(new ImageIcon(new ImageIcon(&quot;assets/boards/livingroom.png&quot;).getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));</b>
+<b class="nc">&nbsp;        boardLabel.setLayout(new GridBagLayout());</b>
+&nbsp;        // fill the board
+<b class="nc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; DIM; j++){</b>
+<b class="nc">&nbsp;                tempLabel = new JLabel();</b>
+<b class="nc">&nbsp;                tempPanel = new JPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;                tempLabel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));</b>
+<b class="nc">&nbsp;                tempLabel.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                gbc.insets = new Insets(0,0,0,0);</b>
+&nbsp;
+<b class="nc">&nbsp;                gbc.gridx = j;</b>
+<b class="nc">&nbsp;                gbc.gridy = i;</b>
+<b class="nc">&nbsp;                gbc.ipadx = 2;</b>
+<b class="nc">&nbsp;                gbc.ipady = 2;</b>
+<b class="nc">&nbsp;                gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;                gbc.weighty = 0.0;</b>
+<b class="nc">&nbsp;                gbc.gridwidth = 1;</b>
+<b class="nc">&nbsp;                gbc.gridheight = 1;</b>
+&nbsp;
+<b class="nc">&nbsp;                if(i == libFullX &amp;&amp; j == libFullY) {</b>
+<b class="nc">&nbsp;                    tempPanel.setLayout(null);</b>
+<b class="nc">&nbsp;                    gbc.gridwidth = 2;</b>
+<b class="nc">&nbsp;                    gbc.gridheight = 2;</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.add(tempLabel);</b>
+<b class="nc">&nbsp;                tempPanel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));</b>
+<b class="nc">&nbsp;                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;                tempPanel.setOpaque(false);</b>
+<b class="nc">&nbsp;                boardLabel.add(tempPanel,gbc);</b>
+&nbsp;
+<b class="nc">&nbsp;                if(i == libFullX &amp;&amp; j == libFullY){</b>
+<b class="nc">&nbsp;                    insets = tempPanel.getInsets();</b>
+<b class="nc">&nbsp;                    tempLabel.setBounds(insets.left + 4, insets.top, cardDimBoard, cardDimBoard);</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                boardCards[i][j] = tempLabel;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; DIM; j++){</b>
+<b class="nc">&nbsp;                int finalI = i;</b>
+<b class="nc">&nbsp;                int finalJ = j;</b>
+<b class="nc">&nbsp;                boardCards[i][j].addMouseListener(new MouseAdapter() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;                        if(board.getGameBoard()[finalI][finalJ].color == EMPTY || !name.equals(activeName) || board.isBoardUnplayable())</b>
+&nbsp;                            return;
+<b class="nc">&nbsp;                        int index = getCardIndex(finalI, finalJ);</b>
+<b class="nc">&nbsp;                        if(index == -1){</b>
+<b class="nc">&nbsp;                            if(cardsPicked.size() == 6)</b>
+&nbsp;                                return;
+<b class="nc">&nbsp;                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, cardBorderSize));</b>
+<b class="nc">&nbsp;                            cardsPicked.add(finalI);</b>
+<b class="nc">&nbsp;                            cardsPicked.add(finalJ);</b>
+&nbsp;                        }
+&nbsp;                        else{
+<b class="nc">&nbsp;                            boardCards[finalI][finalJ].setBorder(BorderFactory.createLineBorder(borderColor, 0));</b>
+<b class="nc">&nbsp;                            cardsPicked.remove(index);</b>
+<b class="nc">&nbsp;                            cardsPicked.remove(index);</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                });
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon(&quot;assets/scoring tokens/end game.jpg&quot;).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);</b>
+<b class="nc">&nbsp;        myLibraryPanel = new JPanel(new GridBagLayout());</b>
+&nbsp;        //Text on top of my library
+<b class="nc">&nbsp;        myLibraryText = new JTextArea(&quot; Your personal Library (&quot; + name + &quot;) &quot;);</b>
+<b class="nc">&nbsp;        myLibraryText.setEditable(false);</b>
+<b class="nc">&nbsp;        chooseColText = new JTextField();</b>
+<b class="nc">&nbsp;        chooseColText.setText(&quot;Insert col: &quot;);</b>
+<b class="nc">&nbsp;        chooseColText.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));</b>
+<b class="nc">&nbsp;        chooseColText.setBorder(null);</b>
+<b class="nc">&nbsp;        chooseColText.addActionListener(event -&gt; pickCardsBtn.doClick());</b>
+<b class="nc">&nbsp;        pickCardsBtn = new JButton(&quot;Pick Cards&quot;);</b>
+<b class="nc">&nbsp;        pickCardsBtn.setFocusPainted(false);</b>
+<b class="nc">&nbsp;        pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));</b>
+<b class="nc">&nbsp;        pickCardsBtn.addActionListener(e -&gt; new Thread(this::tryToPickCards).start());</b>
+<b class="nc">&nbsp;        libraryLabel = new JLabel(new ImageIcon(new ImageIcon(&quot;assets/boards/bookshelf_orth.png&quot;).getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        libraryLabel.setPreferredSize(new Dimension(lib_w, lib_h));</b>
+<b class="nc">&nbsp;        libraryLabel.setLayout(null);</b>
+<b class="nc">&nbsp;        insets = libraryLabel.getInsets();</b>
+&nbsp;        // fill library
+<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; COLS; j++){</b>
+<b class="nc">&nbsp;                tempLabel = new JLabel();</b>
+<b class="nc">&nbsp;                tempPanel = new JPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempLabel.setVisible(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.add(tempLabel);</b>
+<b class="nc">&nbsp;                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));</b>
+<b class="nc">&nbsp;                tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;                tempPanel.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);</b>
+&nbsp;
+<b class="nc">&nbsp;                libraryLabel.add(tempPanel,gbc);</b>
+<b class="nc">&nbsp;                myLibraryCards[i][j] = tempLabel;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);</b>
+<b class="nc">&nbsp;        chatPanel = new JPanel(new GridBagLayout());</b>
+<b class="nc">&nbsp;        chatTitle = new JTextArea(&quot; Chat history of the Game &quot;);</b>
+<b class="nc">&nbsp;        chatTitle.setEditable(false);</b>
+<b class="nc">&nbsp;        tempChatHistory = new JTextArea(textCols, textCols - 8);</b>
+<b class="nc">&nbsp;        tempChatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));</b>
+<b class="nc">&nbsp;        tempChatHistory.setEditable(false);</b>
+<b class="nc">&nbsp;        chatHistory = new JScrollPane(tempChatHistory);</b>
+<b class="nc">&nbsp;        chatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));</b>
+<b class="nc">&nbsp;        insertMessage = new JTextField(textCols);</b>
+<b class="nc">&nbsp;        insertMessage.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));</b>
+<b class="nc">&nbsp;        insertMessage.setText(&quot;Insert the message: &quot;);</b>
+<b class="nc">&nbsp;        insertMessage.setBorder(null);</b>
+<b class="nc">&nbsp;        insertMessage.addActionListener(event -&gt; sendMessageBtn.doClick());</b>
+<b class="nc">&nbsp;        insertPlayer = new JTextField(textCols);</b>
+<b class="nc">&nbsp;        insertPlayer.setBorder(null);</b>
+<b class="nc">&nbsp;        insertPlayer.setText(&quot;Insert the player: &quot;);</b>
+<b class="nc">&nbsp;        insertPlayer.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));</b>
+<b class="nc">&nbsp;        sendMessageBtn = new JButton(&quot;Send Message&quot;);</b>
+<b class="nc">&nbsp;        sendMessageBtn.setFocusPainted(false);</b>
+<b class="nc">&nbsp;        sendMessageBtn.setPreferredSize(new Dimension());</b>
+<b class="nc">&nbsp;        sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));</b>
+<b class="nc">&nbsp;        sendMessageBtn.addActionListener(e -&gt; new Thread(this::sendChatMsg).start());</b>
+&nbsp;        //BOARD
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+<b class="nc">&nbsp;        gameBoardPanel.add(boardText,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.9;</b>
+<b class="nc">&nbsp;        gameBoardPanel.add(boardLabel,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.5;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.0;</b>
+<b class="nc">&nbsp;        internalPanelHigh.add(gameBoardPanel,gbc);</b>
+&nbsp;        //LIBRARY
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+<b class="nc">&nbsp;        myLibraryPanel.add(myLibraryText,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.6;</b>
+<b class="nc">&nbsp;        myLibraryPanel.add(libraryLabel,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 2;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.15;</b>
+<b class="nc">&nbsp;        myLibraryPanel.add(chooseColText,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 3;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.15;</b>
+<b class="nc">&nbsp;        myLibraryPanel.add(pickCardsBtn,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 1;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.25;</b>
+<b class="nc">&nbsp;        internalPanelHigh.add(myLibraryPanel,gbc);</b>
+&nbsp;        //CHAT
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.0;</b>
+<b class="nc">&nbsp;        chatPanel.add(chatTitle,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.5;</b>
+&nbsp;        //gbc.fill = GridBagConstraints.BOTH;
+<b class="nc">&nbsp;        chatPanel.add(chatHistory,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 2;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+&nbsp;        //gbc.fill = NONE;
+<b class="nc">&nbsp;        chatPanel.add(insertPlayer,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 3;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.1;</b>
+<b class="nc">&nbsp;        chatPanel.add(insertMessage,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 4;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.2;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.0;</b>
+<b class="nc">&nbsp;        chatPanel.add(sendMessageBtn,gbc);</b>
+<b class="nc">&nbsp;        gbc.gridx = 2;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.25;</b>
+<b class="nc">&nbsp;        internalPanelHigh.add(chatPanel,gbc);</b>
+&nbsp;
+&nbsp;
+&nbsp;        //FIRST LEVEL - RED
+&nbsp;
+<b class="nc">&nbsp;        generalLabel = new JLabel(new ImageIcon(new ImageIcon(&quot;assets/misc/sfondo parquet.jpg&quot;).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));</b>
+<b class="nc">&nbsp;        generalLabel.setLayout(new GridBagLayout());</b>
+&nbsp;
+<b class="nc">&nbsp;        internalPanelHigh.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;        internalPanelSide.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;        internalPanelLow.setBackground(new Color(0, 0, 0, 0));</b>
+&nbsp;        //infoBox.setBackground(new Color(0, 0, 0, 0));
+<b class="nc">&nbsp;        player1Panel.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;        player2Panel.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;        player3Panel.setBackground(new Color(0, 0, 0, 0));</b>
+&nbsp;        //gameBoardPanel.setBackground(new Color(0, 0, 0, 0));
+&nbsp;        //myLibraryPanel.setBackground(new Color(0, 0, 0, 0));
+&nbsp;        //chatPanel.setBackground(new Color(0, 0, 0, 0));
+<b class="nc">&nbsp;        CO1Panel.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;        CO2Panel.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;        POPanel.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;        chairmanPanel.setBackground(new Color(0, 0, 0, 0));</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.8;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.5;</b>
+<b class="nc">&nbsp;        generalLabel.add(internalPanelHigh,gbc);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.8;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.3;</b>
+<b class="nc">&nbsp;        generalLabel.add(internalPanelLow,gbc);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 1;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.ipadx = 0;</b>
+<b class="nc">&nbsp;        gbc.ipady = 0;</b>
+<b class="nc">&nbsp;        gbc.weightx = 0.2;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.8;</b>
+<b class="nc">&nbsp;        gbc.gridheight = 2;</b>
+<b class="nc">&nbsp;        generalLabel.add(internalPanelSide,gbc);</b>
+&nbsp;
+<b class="nc">&nbsp;        mainFrame.add(generalLabel, BorderLayout.CENTER);</b>
+<b class="nc">&nbsp;        mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);</b>
+<b class="nc">&nbsp;        mainFrame.setResizable(false);</b>
+<b class="nc">&nbsp;        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+&nbsp;        //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+<b class="nc">&nbsp;        mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona</b>
+<b class="nc">&nbsp;        mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen</b>
+<b class="nc">&nbsp;        mainFrame.setVisible(true);</b>
+<b class="nc">&nbsp;        new Thread(this::updateGUI).start();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

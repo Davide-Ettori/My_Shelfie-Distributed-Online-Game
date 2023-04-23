@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SwingSamuFGui</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">playground.GUI.swing</a>
+</div>
+
+<h1>Coverage Summary for Class: SwingSamuFGui (playground.GUI.swing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SwingSamuFGui</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package playground.GUI.swing;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;
+<b class="nc">&nbsp;public class SwingSamuFGui {</b>
+&nbsp;    public static void main(String[] args) {
+&nbsp;        //PrimoJframe();
+<b class="nc">&nbsp;        BorderLayoutExample();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;private static void PrimoJframe() {
+&nbsp;
+&nbsp;    //set the lookAndFeel (optional)
+&nbsp;    try {
+<b class="nc">&nbsp;        UIManager.setLookAndFeel(</b>
+<b class="nc">&nbsp;                UIManager.getCrossPlatformLookAndFeelClassName());//metal -&gt; cross platform, looks the same in all platforms</b>
+<b class="nc">&nbsp;        UIManager.getSystemLookAndFeelClassName();// set the default of the platform -&gt; this by default</b>
+<b class="nc">&nbsp;    } catch (ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;        e.printStackTrace();</b>
+<b class="nc">&nbsp;    } catch (InstantiationException e) {</b>
+<b class="nc">&nbsp;        e.printStackTrace();</b>
+<b class="nc">&nbsp;    } catch (IllegalAccessException e) {</b>
+<b class="nc">&nbsp;        e.printStackTrace();</b>
+<b class="nc">&nbsp;    } catch (UnsupportedLookAndFeelException e) {</b>
+<b class="nc">&nbsp;        e.printStackTrace();</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    JFrame window = new JFrame();</b>
+&nbsp;
+&nbsp;    //set the size of the window
+<b class="nc">&nbsp;    window.setSize(500, 600);</b>
+&nbsp;
+&nbsp;    //set the window visibility to true
+<b class="nc">&nbsp;    window.setVisible(true);</b>
+&nbsp;
+&nbsp;    //set the behaviour when the window is closed
+<b class="nc">&nbsp;    window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</b>
+&nbsp;
+&nbsp;    //set the window in the middle of the screen, if not specified, the window placed on the high sx corner
+<b class="nc">&nbsp;    window.setLocationRelativeTo(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /*
+&nbsp;     * A Java swing FlowLayout example
+&nbsp;     */
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates a swing window with the Border layout
+&nbsp;     */
+&nbsp;    private static void BorderLayoutExample() {
+&nbsp;
+&nbsp;            //set the frame look and feel: in windows it will not cover the task bar, in mac noting will change
+<b class="nc">&nbsp;            JFrame.setDefaultLookAndFeelDecorated(true);</b>
+&nbsp;
+&nbsp;            //set title
+<b class="nc">&nbsp;            JFrame frame = new JFrame(&quot;Title&quot;);</b>
+&nbsp;
+&nbsp;            //set behaviour on close
+<b class="nc">&nbsp;            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+<b class="nc">&nbsp;            frame.setSize(500, 600);</b>
+&nbsp;
+&nbsp;            // Define new buttons with different regions
+<b class="nc">&nbsp;            JButton jb1 = new JButton(&quot;NORTH&quot;);</b>
+<b class="nc">&nbsp;            JButton jb2 = new JButton(&quot;SOUTH&quot;);</b>
+<b class="nc">&nbsp;            JButton jb3 = new JButton(&quot;WEST&quot;);</b>
+<b class="nc">&nbsp;            JButton jb4 = new JButton(&quot;EAST&quot;);</b>
+<b class="nc">&nbsp;            JButton jb5 = new JButton(&quot;CENTER&quot;);</b>
+&nbsp;
+&nbsp;            // Define the panel to hold the buttons
+<b class="nc">&nbsp;            JPanel panel = new JPanel();</b>
+&nbsp;
+&nbsp;            //set orientation ( this is the default and won&#39;t change anything with NORD, SOUTH, WEST AND EST.
+<b class="nc">&nbsp;            panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);</b>
+&nbsp;
+&nbsp;            //set the layout
+<b class="nc">&nbsp;            panel.setLayout(new BorderLayout());</b>
+&nbsp;
+&nbsp;            //set the layout with gaps between elements
+&nbsp;            //panel.setLayout(new BorderLayout(10,20));
+&nbsp;
+&nbsp;            //add the buttons
+<b class="nc">&nbsp;            panel.add(jb1, BorderLayout.NORTH);</b>
+<b class="nc">&nbsp;            panel.add(jb2, BorderLayout.SOUTH);</b>
+<b class="nc">&nbsp;            panel.add(jb3, BorderLayout.WEST);</b>
+<b class="nc">&nbsp;            panel.add(jb4, BorderLayout.EAST);</b>
+<b class="nc">&nbsp;            panel.add(jb5, BorderLayout.CENTER);</b>
+&nbsp;
+&nbsp;            //add panel to the frame
+<b class="nc">&nbsp;            frame.add(panel);</b>
+&nbsp;
+&nbsp;            //frame.setLocationRelativeTo(null); centre the window
+&nbsp;
+&nbsp;            //Sizes the frame so that all its contents are at or above their preferred sizes.
+<b class="nc">&nbsp;            frame.pack();</b>
+&nbsp;
+&nbsp;            // Set the window to be visible as the default to be false
+<b class="nc">&nbsp;            frame.setVisible(true);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

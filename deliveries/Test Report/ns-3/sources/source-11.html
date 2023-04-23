@@ -1,0 +1,265 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Client</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Client (app.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/95)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.model;
+&nbsp;
+&nbsp;import app.controller.Game;
+&nbsp;import app.controller.Initializer;
+&nbsp;import app.view.GUI.PlayerGUI;
+&nbsp;import app.view.IP;
+&nbsp;import app.view.TUI.PlayerTUI;
+&nbsp;import app.view.UIMode;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;import static app.model.NetMode.RMI;
+&nbsp;import static app.model.NetMode.SOCKET;
+&nbsp;import static app.view.UIMode.GUI;
+&nbsp;import static app.view.UIMode.TUI;
+&nbsp;
+&nbsp;/**
+&nbsp; * class which represent the entry point for the client
+&nbsp; * @author Ettori
+&nbsp; */
+&nbsp;public class Client {
+&nbsp;    /**
+&nbsp;     * main method which is used by the user to choose the UI and the Network
+&nbsp;      @author Ettori
+&nbsp;     */
+&nbsp;
+&nbsp;    /** variable used to keep track of the UI mode that the player is currently using */
+&nbsp;    public static UIMode uiModeCur;
+<b class="nc">&nbsp;    public static int threadWeigth = 8;</b>
+<b class="nc">&nbsp;    public Client() {</b>
+&nbsp;        String numPlayers;
+&nbsp;        int numP;
+<b class="nc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="nc">&nbsp;        System.out.print(&quot;\nInsert the IP address of the server: &quot;);</b>
+&nbsp;        String ip;
+&nbsp;        try {
+<b class="nc">&nbsp;            ip = br.readLine();</b>
+<b class="nc">&nbsp;        } catch (IOException exc) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;errore&quot;);</b>
+<b class="nc">&nbsp;            throw new RuntimeException(exc);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if(!ip.equals(&quot;&quot;))</b>
+<b class="nc">&nbsp;            IP.activeIP = ip;</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);</b>
+<b class="nc">&nbsp;            ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());</b>
+<b class="nc">&nbsp;            out.writeObject(true);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nThere is already an active game...&quot;);</b>
+&nbsp;            //FILEHelper.writeSucc();
+<b class="nc">&nbsp;        }catch (Exception e){</b>
+&nbsp;            while(true) {
+<b class="nc">&nbsp;                System.out.print(&quot;\nYou are the first player to connect, insert the number of players: &quot;);</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    numPlayers = br.readLine();</b>
+<b class="nc">&nbsp;                } catch (IOException exc) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;errore&quot;);</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(exc);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                if(numPlayers.length() == 0)</b>
+<b class="nc">&nbsp;                    numPlayers = &quot;2&quot;;</b>
+<b class="nc">&nbsp;                numP = Integer.parseInt(numPlayers);</b>
+<b class="nc">&nbsp;                if(numP &lt; 2 || numP &gt; 4){</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;\nInvalid choice, try again&quot;);</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+&nbsp;                String old;
+<b class="nc">&nbsp;                System.out.print(&quot;\nDo you want to load an old game ? (yes or no for persistence): &quot;);</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    old = br.readLine();</b>
+<b class="nc">&nbsp;                } catch (IOException exc) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;errore&quot;);</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(exc);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                int finalNumP = numP;</b>
+<b class="nc">&nbsp;                Thread serverTh = new Thread(() -&gt; {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        new Game(finalNumP, old);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                });
+<b class="nc">&nbsp;                serverTh.setPriority(threadWeigth);</b>
+<b class="nc">&nbsp;                serverTh.start();</b>
+<b class="nc">&nbsp;                Game.waitForSeconds(1);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        while(true) {
+<b class="nc">&nbsp;            System.out.print(&quot;\nChoose game mode (TUI or GUI): &quot;);</b>
+&nbsp;            String ui;
+&nbsp;            try {
+<b class="nc">&nbsp;                ui = br.readLine();</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;errore&quot;);</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(ui.length() == 0)</b>
+<b class="nc">&nbsp;                ui = &quot;TUI&quot;;</b>
+<b class="nc">&nbsp;            System.out.print(&quot;\nChoose game mode (Socket or RMI): &quot;);</b>
+&nbsp;            String net;
+&nbsp;            try {
+<b class="nc">&nbsp;                net = br.readLine();</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;errore&quot;);</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(net.length() == 0)</b>
+<b class="nc">&nbsp;                net = &quot;Socket&quot;;</b>
+<b class="nc">&nbsp;            System.out.print(&quot;\nDo you want to connect to a running game with your old name ? (yes or no for resilience): &quot;);</b>
+&nbsp;            String opt;
+&nbsp;            try {
+<b class="nc">&nbsp;                opt = br.readLine();</b>
+<b class="nc">&nbsp;            } catch (IOException exc) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;errore&quot;);</b>
+<b class="nc">&nbsp;                throw new RuntimeException(exc);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if (ui.equals(&quot;TUI&quot;)) {</b>
+<b class="nc">&nbsp;                if (net.equals(&quot;Socket&quot;)) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Client.uiModeCur = TUI;</b>
+<b class="nc">&nbsp;                        new PlayerTUI(SOCKET, TUI, opt);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    break;
+<b class="nc">&nbsp;                } else if (net.equals(&quot;RMI&quot;)) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Client.uiModeCur = TUI;</b>
+<b class="nc">&nbsp;                        new PlayerTUI(RMI, TUI, opt);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    break;
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            if (ui.equals(&quot;GUI&quot;)) {</b>
+<b class="nc">&nbsp;                if (net.equals(&quot;Socket&quot;)) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Client.uiModeCur = GUI;</b>
+<b class="nc">&nbsp;                        new PlayerGUI(SOCKET, GUI, opt);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    break;
+<b class="nc">&nbsp;                } else if (net.equals(&quot;RMI&quot;)) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Client.uiModeCur = GUI;</b>
+<b class="nc">&nbsp;                        new PlayerGUI(RMI, GUI, opt);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    break;
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println(&quot;\nInvalid choice, try again&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlayerSend</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.model</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayerSend (app.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerSend</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.model;
+&nbsp;
+&nbsp;import app.view.UIMode;
+&nbsp;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.net.Socket;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * class which represent the Player object sent with the network
+&nbsp; * @author Ettori Giammusso
+&nbsp; */
+&nbsp;public class PlayerSend implements Serializable {
+&nbsp;    public String name;
+&nbsp;    protected PrivateObjective objective;
+&nbsp;    /** list of the libraries of all the players in the game */
+<b class="nc">&nbsp;    public ArrayList&lt;Library&gt; librariesOfOtherPlayers = new ArrayList&lt;&gt;();</b>
+&nbsp;    /** the board seen and used by this player */
+&nbsp;    public Board board;
+&nbsp;    /** the personal library of this player */
+&nbsp;    public Library library;
+&nbsp;    /** true iff the player is the chairman of this game */
+&nbsp;    public boolean isChairMan;
+&nbsp;    protected transient ObjectInputStream inStream;
+&nbsp;    protected transient ObjectOutputStream outStream;
+&nbsp;    protected transient Socket mySocket;
+&nbsp;    /** the full chat between the players of the game */
+<b class="nc">&nbsp;    public String fullChat = &quot;&quot;;</b>
+&nbsp;    /** the name of the chairman of the game */
+&nbsp;    public String chairmanName;
+&nbsp;    /** the network mode chosen by the user */
+&nbsp;    public NetMode netMode;
+&nbsp;    /** the UI mode chosen by the user - not sure if necessary */
+&nbsp;    public UIMode uiMode;
+&nbsp;    /** number of players in this current game */
+&nbsp;    public int numPlayers;
+<b class="nc">&nbsp;    protected boolean CO_1_Done = false;</b>
+<b class="nc">&nbsp;    protected boolean CO_2_Done = false;</b>
+&nbsp;    /** the name of the player currently having his turn */
+<b class="nc">&nbsp;    public String activeName = &quot;&quot;;</b>
+&nbsp;
+&nbsp;    /** points achieved until now with the common objectives */
+&nbsp;    public int pointsUntilNow;
+<b class="nc">&nbsp;    protected boolean endGame = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * copy constructor for the Player object
+&nbsp;     * @author Ettori
+&nbsp;     * @param p the Player object to copy
+&nbsp;     */
+<b class="nc">&nbsp;    public PlayerSend(Player p){</b>
+<b class="nc">&nbsp;        netMode = p.netMode;</b>
+<b class="nc">&nbsp;        uiMode = p.uiMode;</b>
+<b class="nc">&nbsp;        name = p.name;</b>
+<b class="nc">&nbsp;        isChairMan = p.isChairMan;</b>
+<b class="nc">&nbsp;        library = new Library(p.library);</b>
+<b class="nc">&nbsp;        objective = p.objective;</b>
+<b class="nc">&nbsp;        pointsUntilNow = p.pointsUntilNow;</b>
+<b class="nc">&nbsp;        board = new Board(p.board);</b>
+<b class="nc">&nbsp;        librariesOfOtherPlayers = new ArrayList&lt;&gt;(p.librariesOfOtherPlayers);</b>
+<b class="nc">&nbsp;        mySocket = p.mySocket;</b>
+<b class="nc">&nbsp;        CO_1_Done = p.CO_1_Done;</b>
+<b class="nc">&nbsp;        CO_2_Done = p.CO_2_Done;</b>
+<b class="nc">&nbsp;        fullChat = p.fullChat;</b>
+<b class="nc">&nbsp;        chairmanName = p.chairmanName;</b>
+<b class="nc">&nbsp;        activeName = p.activeName;</b>
+<b class="nc">&nbsp;        numPlayers = p.numPlayers;</b>
+<b class="nc">&nbsp;        endGame = p.endGame;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * copy constructor for the PlayerSend object
+&nbsp;     * @author Ettori
+&nbsp;     * @param p the Player object to copy
+&nbsp;     */
+<b class="nc">&nbsp;    public PlayerSend(PlayerSend p){</b>
+<b class="nc">&nbsp;        netMode = p.netMode;</b>
+<b class="nc">&nbsp;        uiMode = p.uiMode;</b>
+<b class="nc">&nbsp;        name = p.name;</b>
+<b class="nc">&nbsp;        isChairMan = p.isChairMan;</b>
+<b class="nc">&nbsp;        library = new Library(p.library);</b>
+<b class="nc">&nbsp;        objective = p.objective;</b>
+<b class="nc">&nbsp;        pointsUntilNow = p.pointsUntilNow;</b>
+<b class="nc">&nbsp;        board = new Board(p.board);</b>
+<b class="nc">&nbsp;        librariesOfOtherPlayers = new ArrayList&lt;&gt;(p.librariesOfOtherPlayers);</b>
+<b class="nc">&nbsp;        mySocket = p.mySocket;</b>
+<b class="nc">&nbsp;        CO_1_Done = p.CO_1_Done;</b>
+<b class="nc">&nbsp;        CO_2_Done = p.CO_2_Done;</b>
+<b class="nc">&nbsp;        fullChat = p.fullChat;</b>
+<b class="nc">&nbsp;        chairmanName = p.chairmanName;</b>
+<b class="nc">&nbsp;        activeName = p.activeName;</b>
+<b class="nc">&nbsp;        numPlayers = p.numPlayers;</b>
+<b class="nc">&nbsp;        endGame = p.endGame;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Getter for the private objective
+&nbsp;     * @author Ettori
+&nbsp;     * @return the private objective of the player
+&nbsp;     */
+<b class="nc">&nbsp;    public PrivateObjective getPrivateObjective(){return objective;}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

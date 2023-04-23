@@ -1,0 +1,316 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Initializer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: Initializer (app.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Initializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14%
+  </span>
+  <span class="absValue">
+    (15/107)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.controller;
+&nbsp;
+&nbsp;import app.model.Card;
+&nbsp;
+&nbsp;import app.model.CommonObjective;
+&nbsp;import app.model.PrivateObjective;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;import app.model.Algo_CO_1;
+&nbsp;import app.model.Algo_CO_2;
+&nbsp;import app.model.Algo_CO_3;
+&nbsp;import app.model.Algo_CO_4;
+&nbsp;import app.model.Algo_CO_5;
+&nbsp;import app.model.Algo_CO_6;
+&nbsp;import app.model.Algo_CO_7;
+&nbsp;import app.model.Algo_CO_8;
+&nbsp;import app.model.Algo_CO_9;
+&nbsp;import app.model.Algo_CO_10;
+&nbsp;import app.model.Algo_CO_11;
+&nbsp;import app.model.Algo_CO_12;
+&nbsp;
+&nbsp;import static app.model.Color.*;
+&nbsp;/**
+&nbsp; * helper class to initialize all the bucket of cards and objective that are needed for the start of the game.
+&nbsp; * Immutable
+&nbsp; * @author Ettori Faccincani
+&nbsp; *
+&nbsp; */
+<b class="nc">&nbsp;public class Initializer {</b>
+&nbsp;    private static final int ROWS = 6;
+&nbsp;    private static final int COLS = 5;
+&nbsp;    private static final int cardNum = 22;
+&nbsp;    public static final int PORT = 3333;
+&nbsp;    public static final int PORT_RMI = 5555;
+&nbsp;    /**
+&nbsp;     * return a new full matrix of empty cards - STATIC
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     * @return the new matrix
+&nbsp;     */
+&nbsp;    private static Card[][] setEmpty() {
+<b class="nc">&nbsp;        Card[][] res = new Card[ROWS][COLS];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; COLS; j++)</b>
+<b class="nc">&nbsp;                res[i][j] = new Card();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return res;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * return the list of initialized private objective - STATIC
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     * @return the list of all the possible private objective
+&nbsp;     */
+&nbsp;    public static ArrayList&lt;PrivateObjective&gt; setBucketOfPO() {
+<b class="nc">&nbsp;        Card[][] mat_1 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_2 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_3 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_4 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_5 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_6 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_7 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_8 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_9 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_10 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_11 = setEmpty();</b>
+<b class="nc">&nbsp;        Card[][] mat_12 = setEmpty();</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_1[0][0] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_1[0][2] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_1[1][4] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_1[2][3] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_1[3][1] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_1[5][2] = new Card(CYAN);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_2[1][1] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_2[2][0] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_2[2][2] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_2[3][4] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_2[4][3] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_2[5][4] = new Card(BLUE);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_3[1][0] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_3[1][3] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_3[2][2] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_3[3][1] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_3[3][4] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_3[5][0] = new Card(WHITE);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_4[0][4] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_4[2][0] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_4[2][2] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_4[3][3] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_4[4][1] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_4[4][2] = new Card(GREEN);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_5[1][1] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_5[3][1] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_5[3][2] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_5[4][4] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_5[5][0] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_5[5][3] = new Card(GREEN);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_6[0][2] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_6[0][4] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_6[2][3] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_6[4][1] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_6[4][3] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_6[5][0] = new Card(PINK);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_7[0][0] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_7[1][3] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_7[2][1] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_7[3][0] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_7[4][4] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_7[5][2] = new Card(WHITE);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_8[0][4] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_8[1][1] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_8[2][2] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_8[3][0] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_8[4][3] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_8[5][3] = new Card(YELLOW);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_9[0][2] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_9[2][2] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_9[3][4] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_9[4][1] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_9[4][4] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_9[5][0] = new Card(BLUE);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_10[0][4] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_10[1][1] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_10[2][0] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_10[3][3] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_10[4][1] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_10[5][3] = new Card(PINK);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_11[0][2] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_11[1][1] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_11[2][0] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_11[3][2] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_11[4][4] = new Card(GREEN);</b>
+<b class="nc">&nbsp;        mat_11[5][3] = new Card(CYAN);</b>
+&nbsp;
+<b class="nc">&nbsp;        mat_12[0][2] = new Card(WHITE);</b>
+<b class="nc">&nbsp;        mat_12[1][1] = new Card(PINK);</b>
+<b class="nc">&nbsp;        mat_12[2][2] = new Card(BLUE);</b>
+<b class="nc">&nbsp;        mat_12[3][3] = new Card(CYAN);</b>
+<b class="nc">&nbsp;        mat_12[4][4] = new Card(YELLOW);</b>
+<b class="nc">&nbsp;        mat_12[5][0] = new Card(GREEN);</b>
+&nbsp;
+<b class="nc">&nbsp;        return new ArrayList&lt;&gt;(Arrays.asList(</b>
+&nbsp;                new PrivateObjective(mat_1, 1),
+&nbsp;                new PrivateObjective(mat_2, 2),
+&nbsp;                new PrivateObjective(mat_3, 3),
+&nbsp;                new PrivateObjective(mat_4, 4),
+&nbsp;                new PrivateObjective(mat_5, 5),
+&nbsp;                new PrivateObjective(mat_6, 6),
+&nbsp;                new PrivateObjective(mat_7, 7),
+&nbsp;                new PrivateObjective(mat_8, 8),
+&nbsp;                new PrivateObjective(mat_9, 9),
+&nbsp;                new PrivateObjective(mat_10, 10),
+&nbsp;                new PrivateObjective(mat_11, 11),
+&nbsp;                new PrivateObjective(mat_12, 12)
+&nbsp;        ));
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * return the list of initialized common objective - STATIC
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     * @return the list of all the possible common objective
+&nbsp;     */
+&nbsp;    public static ArrayList&lt;CommonObjective&gt; setBucketOfCO() {
+<b class="nc">&nbsp;        return new ArrayList&lt;&gt;(Arrays.asList(</b>
+&nbsp;                new CommonObjective(new Algo_CO_1(), 1),
+&nbsp;                new CommonObjective(new Algo_CO_2(), 2),
+&nbsp;                new CommonObjective(new Algo_CO_3(), 3),
+&nbsp;                new CommonObjective(new Algo_CO_4(), 4),
+&nbsp;                new CommonObjective(new Algo_CO_5(), 5),
+&nbsp;                new CommonObjective(new Algo_CO_6(), 6),
+&nbsp;                new CommonObjective(new Algo_CO_7(), 7),
+&nbsp;                new CommonObjective(new Algo_CO_8(), 8),
+&nbsp;                new CommonObjective(new Algo_CO_9(), 9),
+&nbsp;                new CommonObjective(new Algo_CO_10(), 10),
+&nbsp;                new CommonObjective(new Algo_CO_11(), 11),
+&nbsp;                new CommonObjective(new Algo_CO_12(), 12)
+&nbsp;        ));
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * return the list of initialized cards - STATIC
+&nbsp;     * @author Ettori
+&nbsp;     * @return the list of all the possible cards present in the game (132)
+&nbsp;     */
+&nbsp;    public static ArrayList&lt;Card&gt; setBucketOfCards(){
+<b class="fc">&nbsp;        String cornici = &quot;assets/item tiles/Cornici1.&quot;;</b>
+<b class="fc">&nbsp;        String gatti = &quot;assets/item tiles/Gatti1.&quot;;</b>
+<b class="fc">&nbsp;        String giochi = &quot;assets/item tiles/Giochi1.&quot;;</b>
+<b class="fc">&nbsp;        String libri = &quot;assets/item tiles/Libri1.&quot;;</b>
+<b class="fc">&nbsp;        String piante = &quot;assets/item tiles/Piante1.&quot;;</b>
+<b class="fc">&nbsp;        String trofei = &quot;assets/item tiles/Trofei1.&quot;;</b>
+<b class="fc">&nbsp;        ArrayList&lt;Card&gt; res = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; cardNum; i++) {</b>
+<b class="fc">&nbsp;            res.add(new Card(BLUE, cornici + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(GREEN, gatti + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(YELLOW, giochi + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(WHITE, libri + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(PINK, piante + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(CYAN, trofei + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return res;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

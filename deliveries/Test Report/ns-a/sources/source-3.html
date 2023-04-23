@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">playground.GUI.swing</a>
+</div>
+
+<h1>Coverage Summary for Class: GUI (playground.GUI.swing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/56)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package playground.GUI.swing;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import static javax.swing.JOptionPane.showMessageDialog;
+&nbsp;
+&nbsp;public class GUI{
+<b class="nc">&nbsp;    private int count = 0;</b>
+&nbsp;    private JFrame frame;
+&nbsp;    private JLabel label;
+&nbsp;    private JPanel externalPanel;
+&nbsp;    private JPanel panel;
+&nbsp;    private JTextField text;
+<b class="nc">&nbsp;    private final int maxPoints = 8;</b>
+<b class="nc">&nbsp;    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</b>
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        new GUI();</b>
+&nbsp;    } // inizializzo la GUI
+<b class="nc">&nbsp;    public GUI(){</b>
+<b class="nc">&nbsp;        draw();</b>
+&nbsp;    }
+&nbsp;    private void draw(){
+<b class="nc">&nbsp;        frame = new JFrame(); // creo la finestra</b>
+&nbsp;
+<b class="nc">&nbsp;        JButton buttonUp = new JButton(&quot;Aggiungi&quot;); // bottone per aggiungere punti, con relativa callback</b>
+<b class="nc">&nbsp;        buttonUp.addActionListener((e) -&gt;{</b>
+<b class="nc">&nbsp;            if(count == maxPoints){</b>
+<b class="nc">&nbsp;                showMessageDialog(null, &quot;Punti massimi raggiunti (&quot; + maxPoints + &quot;)&quot;);</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            label.setText(&quot;Numero di punti: &quot; + ++count);</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        JButton buttonDown = new JButton(&quot;Togli&quot;); // bottone per togliere punti, con relativa callback</b>
+<b class="nc">&nbsp;        buttonDown.addActionListener((e) -&gt;{</b>
+<b class="nc">&nbsp;            if(count == 0)</b>
+&nbsp;                return;
+<b class="nc">&nbsp;            label.setText(&quot;Numero di punti: &quot; + --count);</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        JButton buttonReset = new JButton(&quot;Resetta&quot;); // bottone per resettare punti, con relativa callback</b>
+<b class="nc">&nbsp;        buttonReset.addActionListener((e) -&gt;{</b>
+<b class="nc">&nbsp;            count = -1;</b>
+<b class="nc">&nbsp;            label.setText(&quot;Numero di punti: &quot; + ++count);</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        JButton buttonPrint = new JButton(&quot;Stampa&quot;); // bottone per stampare punti, con relativa callback</b>
+<b class="nc">&nbsp;        buttonPrint.addActionListener((e) -&gt;{</b>
+<b class="nc">&nbsp;            showMessageDialog(null, &quot;\nBravo &quot; + text.getText() + &quot;, hai fatto &quot; + count + &quot; punti!&quot;);</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        JButton buttonDoge = new JButton(new ImageIcon(&quot;src/main/java/playground/GUI/swing/doge.png&quot;));</b>
+<b class="nc">&nbsp;        buttonDoge.addActionListener(e -&gt; showMessageDialog(null, &quot;Bau Bau!&quot;)); // onClick event</b>
+<b class="nc">&nbsp;        buttonDoge.setPreferredSize(new Dimension(50, 200));</b>
+<b class="nc">&nbsp;        buttonDoge.setBorderPainted(false); // ecco come aggiungere un&#39;immagine cliccabile</b>
+&nbsp;
+<b class="nc">&nbsp;        label = new JLabel(&quot;Numero di punti: &quot; + count); // casella di testo</b>
+&nbsp;
+<b class="nc">&nbsp;        text = new JTextField(20); // textbox input dall&#39;utente</b>
+<b class="nc">&nbsp;        text .setBounds(100, 20, 165, 25);</b>
+<b class="nc">&nbsp;        text.setText(&quot;Inserisci il tuo nome&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        externalPanel = new JPanel();</b>
+<b class="nc">&nbsp;        externalPanel.setLayout(new GridLayout(1,2));</b>
+&nbsp;
+<b class="nc">&nbsp;        JPanel panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali</b>
+<b class="nc">&nbsp;        panel.setPreferredSize(new Dimension(screenSize.width / 2, screenSize.height / 2));</b>
+<b class="nc">&nbsp;        panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));</b>
+<b class="nc">&nbsp;        panel.setLayout(new GridLayout(0,3)); // griglia con o righe e 3 colonne</b>
+&nbsp;        // da qui in poi aggiungo tutti gli elementi che ho creato al pannello
+&nbsp;        // inizio
+<b class="nc">&nbsp;        panel.add(text);</b>
+<b class="nc">&nbsp;        panel.add(new JPanel()); // elemento placeholder per impaginare bene</b>
+<b class="nc">&nbsp;        panel.add(buttonPrint);</b>
+<b class="nc">&nbsp;        panel.add(buttonUp);</b>
+<b class="nc">&nbsp;        panel.add(new JPanel());</b>
+<b class="nc">&nbsp;        panel.add(buttonDown);</b>
+<b class="nc">&nbsp;        panel.add(new JPanel());</b>
+<b class="nc">&nbsp;        panel.add(buttonReset);</b>
+<b class="nc">&nbsp;        panel.add(new JPanel());</b>
+<b class="nc">&nbsp;        panel.add(new JPanel());</b>
+<b class="nc">&nbsp;        panel.add(label);</b>
+<b class="nc">&nbsp;        panel.add(buttonDoge);</b>
+&nbsp;        // fine
+&nbsp;
+<b class="nc">&nbsp;        externalPanel.add(panel);</b>
+&nbsp;
+<b class="nc">&nbsp;        frame.add(externalPanel, BorderLayout.CENTER); // aggiungo il pannello alla finestra</b>
+<b class="nc">&nbsp;        frame.setSize(screenSize.width, screenSize.height);</b>
+<b class="nc">&nbsp;        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+<b class="nc">&nbsp;        frame.setTitle(&quot;GUI di Prova&quot;);</b>
+<b class="nc">&nbsp;        frame.pack(); // preparo la finestra</b>
+<b class="nc">&nbsp;        frame.setVisible(true); // mostro il tutto a schermo, GUI</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

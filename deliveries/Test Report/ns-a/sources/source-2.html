@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Example_GridBagLayout</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">playground.GUI.swing</a>
+</div>
+
+<h1>Coverage Summary for Class: Example_GridBagLayout (playground.GUI.swing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Example_GridBagLayout</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/51)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package playground.GUI.swing;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.image.*;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import javax.imageio.*;
+&nbsp;public class Example_GridBagLayout {
+&nbsp;
+<b class="nc">&nbsp;    public static void main(String[] args){new Example_GridBagLayout();}</b>
+&nbsp;
+<b class="nc">&nbsp;    public Example_GridBagLayout(){</b>
+&nbsp;
+<b class="nc">&nbsp;        JFrame mainFrame = new JFrame(&quot;PROVA&quot;);</b>
+<b class="nc">&nbsp;        JPanel externalPanel = new JPanel(new GridBagLayout());</b>
+&nbsp;
+<b class="nc">&nbsp;        Toolkit tk = Toolkit.getDefaultToolkit();</b>
+<b class="nc">&nbsp;        Dimension screenSize = tk.getScreenSize();</b>
+&nbsp;
+&nbsp;        //IMPOSTA L&#39;IMMAGINE DI SFONDO: la board
+<b class="nc">&nbsp;        final ImageIcon boardImage = new ImageIcon(new ImageIcon(&quot;assets/boards/livingroom.png&quot;).getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));</b>
+<b class="nc">&nbsp;        JLabel boardLabel = new JLabel(boardImage);</b>
+<b class="nc">&nbsp;        boardLabel.setLayout(new GridBagLayout());</b>
+&nbsp;        //IMPOSTA L&#39;IMMAGINE DI SFONDO: la library
+<b class="nc">&nbsp;        final ImageIcon libraryImage = new ImageIcon(new ImageIcon(&quot;assets/boards/bookshelf_orth.png&quot;).getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH));</b>
+<b class="nc">&nbsp;        JLabel libraryLabel = new JLabel(libraryImage);</b>
+<b class="nc">&nbsp;        libraryLabel.setLayout(new GridBagLayout());</b>
+&nbsp;
+&nbsp;        //Tutorial di youtube:
+&nbsp;        //Componenti:
+<b class="nc">&nbsp;        JLabel NameLabel = new JLabel(&quot;Nome: &quot;);</b>
+<b class="nc">&nbsp;        JTextField NameText = new JTextField(20);</b>
+<b class="nc">&nbsp;        JButton NameButton = new JButton(&quot;Inserimento&quot;);</b>
+&nbsp;
+&nbsp;        //Layout:
+<b class="nc">&nbsp;        GridBagConstraints gbc = new GridBagConstraints();</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0; //posizione x nella grid</b>
+<b class="nc">&nbsp;        gbc.gridy = 0; //posizione y nella grid</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.weightx = 0.01;//valore compreso tra 0 e 1, imposta il &quot;peso&quot;, quindi quanto spazio occupano i componenti (1 = componente spazioso, ma non di per sè grosso)</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.01;</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.insets = new Insets(0,0,0,5); //sono i margini di spazio intorno al componente</b>
+&nbsp;
+<b class="nc">&nbsp;        boardLabel.add(NameLabel, gbc); //aggiungo la Label al Panel di tipo GridBagLayout, e le passo i constraint</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 1; //NB: ricorda che ogni volta che riusi il gbc, devi dargli nuovi valori, altrimenti lui usa i vecchi</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.weightx = 0.01;</b>
+<b class="nc">&nbsp;        gbc.weighty = 0.01;</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.insets = new Insets(0,0,0,0);</b>
+&nbsp;
+<b class="nc">&nbsp;        boardLabel.add(NameText, gbc);</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 1;</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.weightx = 1;</b>
+<b class="nc">&nbsp;        gbc.weighty = 1;</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.gridwidth = 2; //imposto quante righe della tabella occupa il componente</b>
+<b class="nc">&nbsp;        gbc.gridheight = 1; //uguale ma per le colonne</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.anchor = GridBagConstraints.PAGE_START; //dice dove posizionare il componente (di default è CENTER) all&#39;interno del suo spazio che occupa mediante il suo weight</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.fill = GridBagConstraints.VERTICAL; //riempie tutto lo spazio verticale disponibile grazie al suo peso</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc.ipadx = 50; //aggiunge del padding dentro al componente</b>
+<b class="nc">&nbsp;        gbc.ipady = 50;</b>
+&nbsp;
+<b class="nc">&nbsp;        libraryLabel.add(NameButton, gbc);</b>
+&nbsp;        /*FINE TUTORIAL YOUTUBE*/
+&nbsp;
+&nbsp;        //Aggiungo la library e la board al Pannello gridBagLayout che li contiene
+<b class="nc">&nbsp;        GridBagConstraints gbc2 = new GridBagConstraints();</b>
+<b class="nc">&nbsp;        gbc2.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc2.gridy = 0;</b>
+<b class="nc">&nbsp;        externalPanel.add(boardLabel, gbc2);</b>
+&nbsp;
+<b class="nc">&nbsp;        gbc2.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc2.gridy = 1;</b>
+<b class="nc">&nbsp;        externalPanel.add(libraryLabel, gbc2);</b>
+&nbsp;
+&nbsp;        //sistemo il frame esterno che contiene il panel
+<b class="nc">&nbsp;        mainFrame.add(externalPanel);</b>
+<b class="nc">&nbsp;        mainFrame.setSize(screenSize.width, screenSize.height);</b>
+<b class="nc">&nbsp;        mainFrame.setResizable(false);</b>
+<b class="nc">&nbsp;        mainFrame.pack();</b>
+<b class="nc">&nbsp;        mainFrame.setVisible(true);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

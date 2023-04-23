@@ -1,0 +1,168 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Server</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">playground.rmi</a>
+</div>
+
+<h1>Coverage Summary for Class: Server (playground.rmi)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package playground.rmi;
+&nbsp;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.registry.Registry;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;
+&nbsp;public class Server {
+&nbsp;    public static int PORT; // la porta di default RMI è 1099
+&nbsp;    public static void main(String args[]) {
+<b class="nc">&nbsp;        new Server(5555).run(); // scelgo la porta 3000</b>
+&nbsp;    }
+<b class="nc">&nbsp;    public Server(int port){</b>
+<b class="nc">&nbsp;        Server.PORT = port;</b>
+&nbsp;    }
+&nbsp;    public void run(){
+&nbsp;        try {
+<b class="nc">&nbsp;            GreetRemoteServer server = new GreetRemoteServer(this); // inizializzo l&#39;oggetto remore che userò dal client</b>
+<b class="nc">&nbsp;            Registry registry = LocateRegistry.createRegistry(Server.PORT); // setto il RMI sulla porta 3000</b>
+<b class="nc">&nbsp;            registry.rebind(&quot;RMI_Greet&quot;, server); // chiamo l&#39;oggetto con un nome riconoscibile</b>
+&nbsp;
+<b class="nc">&nbsp;            System.out.println(&quot;\nRMI pronto sulla porta &quot; + Server.PORT);</b>
+<b class="nc">&nbsp;        } catch(Exception e) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nErrore sul server: &quot; + e.toString());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;class GreetRemoteServer extends UnicastRemoteObject implements GreetInterfaceServer{ // oggetto remoto lato server
+&nbsp;    private GreetInterfaceClient client; // nel caso di più client basterebbe mettere una lista o una mappa al posto di una variabile
+&nbsp;    private Server serverInstance; // questo è un puntatore all&#39;oggetto server originale, può essere utile
+&nbsp;    // in questo caso non lo uso perché è un esempio semplice. La stessa cose si può fare sul client
+&nbsp;    GreetRemoteServer(Server server) throws Exception{ // costruttore classico con eventuale logica aggiuntiva e la chiamata al costruttore della superclasse
+&nbsp;        super();
+&nbsp;        this.client = null;
+&nbsp;        this.serverInstance = server;
+&nbsp;        // tutta la logica del server va inserita in questa classe qui, queste funzioni saranno quindi chiamate dai vari client
+&nbsp;        // simulando una sorta d&#39;interazione peer-to-peer --&gt; tipico uso di RMI, molto diverso dalle socket
+&nbsp;    }
+&nbsp;    public String getResponse(String name) throws Exception {
+&nbsp;        new Thread(() -&gt; { // lancio il thread che tra 2.5 secondi chiuderà la connessione
+&nbsp;            try{
+&nbsp;                this.closeConnection();
+&nbsp;            } catch (Exception e) {System.out.println(&quot;\nErrore nel lanciare il thread di chiusura: &quot; + e.toString());}
+&nbsp;        }).start();
+&nbsp;
+&nbsp;        System.out.println(&quot;\nMessaggio dal client ricevuto correttamente&quot;);
+&nbsp;        return &quot;Ciao &quot; + name + &quot;!&quot;; // risultato della computazione che verrà utilizzato dal client
+&nbsp;    }
+&nbsp;    public void closeConnection() throws Exception {
+&nbsp;        try {
+&nbsp;            if(this.client != null) { // controllo di avere un client connesso
+&nbsp;                this.getClient().printExitMessage(&quot;La connessione si chiuderà a breve...&quot;);
+&nbsp;            }
+&nbsp;        }catch(Exception e){} // Altrimenti, mi dà errore quando faccio exit sul client. Comunque funziona in ogni caso
+&nbsp;
+&nbsp;        Thread.sleep(2500); // Dopo 2.5 secondi chiudo la connessione remota
+&nbsp;        System.out.println(&quot;\nChiudo il server...&quot;);
+&nbsp;        System.exit(0); // chiudo il server
+&nbsp;    }
+&nbsp;    public void setClient(GreetInterfaceClient client){
+&nbsp;        this.client = client;
+&nbsp;    }
+&nbsp;    public GreetInterfaceClient getClient(){
+&nbsp;        return this.client;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

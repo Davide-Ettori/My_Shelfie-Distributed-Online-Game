@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Card</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Card (app.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Card</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,2%
+  </span>
+  <span class="absValue">
+    (23/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;import static app.model.Color.*;
+&nbsp;/**
+&nbsp; * class that represent the cards, both in the library and in the board. Mutable
+&nbsp; * @author Ettori Giammusso
+&nbsp; */
+&nbsp;public class Card implements Serializable {
+&nbsp;    /** the color of the card, 6 types + EMPTY */
+&nbsp;    public Color color;
+<b class="fc">&nbsp;    public String imagePath = &quot;&quot;;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor that initialize both the color and the image
+&nbsp;     * @param col the color of the card
+&nbsp;     * @param image the path of the image file
+&nbsp;     * @author Ettori
+&nbsp;     */
+<b class="fc">&nbsp;    public Card(Color col, String image){</b>
+<b class="fc">&nbsp;        color = col;</b>
+<b class="fc">&nbsp;        imagePath = image;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * standard constructor to initialize card with the right color
+&nbsp;     * @param col the color to set
+&nbsp;     */
+<b class="fc">&nbsp;    public Card(Color col){</b>
+<b class="fc">&nbsp;        color = col;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the most simple constructor, used to initialize the empty cards
+&nbsp;     */
+<b class="fc">&nbsp;    public Card(){</b>
+<b class="fc">&nbsp;        color = EMPTY;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * copy constructor for this class, used for deep copying objects
+&nbsp;     * @param c the object to copy
+&nbsp;     */
+<b class="fc">&nbsp;    public Card(Card c){ // copy constructor</b>
+<b class="fc">&nbsp;        color = c.color;</b>
+<b class="fc">&nbsp;        imagePath = c.imagePath;</b>
+&nbsp;    }
+&nbsp;    private char mapColor(Color c) {
+<b class="fc">&nbsp;        if (c == PINK)</b>
+<b class="fc">&nbsp;            return &#39;P&#39;;</b>
+<b class="fc">&nbsp;        if (c == CYAN)</b>
+<b class="nc">&nbsp;            return &#39;C&#39;;</b>
+<b class="fc">&nbsp;        if (c == BLUE)</b>
+<b class="fc">&nbsp;            return &#39;B&#39;;</b>
+<b class="fc">&nbsp;        if (c == GREEN)</b>
+<b class="fc">&nbsp;            return &#39;G&#39;;</b>
+<b class="fc">&nbsp;        if (c == YELLOW)</b>
+<b class="nc">&nbsp;            return &#39;Y&#39;;</b>
+<b class="fc">&nbsp;        if (c == WHITE)</b>
+<b class="nc">&nbsp;            return &#39;W&#39;;</b>
+<b class="fc">&nbsp;        if (c == EMPTY)</b>
+<b class="fc">&nbsp;            return &#39;#&#39;;</b>
+<b class="nc">&nbsp;        return &#39;?&#39;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method used to draw the card itself (TUI)
+&nbsp;     */
+<b class="fc">&nbsp;    public void draw(){System.out.print(mapColor(color));}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

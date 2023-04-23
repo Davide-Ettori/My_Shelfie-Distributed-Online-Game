@@ -1,0 +1,1036 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Game</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: Game (app.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/454)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Game$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/455)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.controller;
+&nbsp;
+&nbsp;import app.model.*;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.net.Socket;
+&nbsp;import java.net.SocketException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;import static app.controller.MessageType.*;
+&nbsp;import static app.controller.NameStatus.*;
+&nbsp;import static app.view.UIMode.*;
+&nbsp;import static javax.swing.JOptionPane.showMessageDialog;
+&nbsp;
+&nbsp;/**
+&nbsp; * class which represent the instance of the current game
+&nbsp; * @author Ettori Faccincani
+&nbsp; * in theory it is mutable, but it is only instanced one time, at the start of the server
+&nbsp; */
+&nbsp;public class Game extends UnicastRemoteObject implements Serializable, GameI {
+<b class="nc">&nbsp;    public static boolean showErrors = false;</b>
+&nbsp;    private final int targetPlayers;
+&nbsp;    private int numPlayers;
+<b class="nc">&nbsp;    private int activePlayer = 0;</b>
+<b class="nc">&nbsp;    private ArrayList&lt;PlayerSend&gt; players = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    private ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    private final transient ArrayList&lt;Socket&gt; playersSocket = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    private final transient ArrayList&lt;ObjectOutputStream&gt; outStreams = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    private final transient ArrayList&lt;ObjectInputStream&gt; inStreams = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    private final ArrayList&lt;CommonObjective&gt; bucketOfCO = Initializer.setBucketOfCO();</b>
+<b class="nc">&nbsp;    private final ArrayList&lt;PrivateObjective&gt; bucketOfPO = Initializer.setBucketOfPO();</b>
+<b class="nc">&nbsp;    private boolean endGameSituation = false;</b>
+<b class="nc">&nbsp;    private boolean timeExp = true;</b>
+<b class="nc">&nbsp;    private transient ArrayList&lt;Thread&gt; chatThreads = new ArrayList&lt;&gt;();</b>
+&nbsp;    private transient ServerSocket serverSocket; // Questa è l&#39;unica socket del server. Potresti aver bisogno di passarla come argomento a Board
+<b class="nc">&nbsp;    private transient boolean closed = false;</b>
+<b class="nc">&nbsp;    private final transient HashMap&lt;String, PlayerI&gt; rmiClients = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    private transient Game gameTemp = null;</b>
+<b class="nc">&nbsp;    private final transient ArrayList&lt;String&gt; disconnectedPlayers = new ArrayList&lt;&gt;();</b>
+&nbsp;    /**
+&nbsp;     * normal constructor for this type of object, this class is also the main process on the server
+&nbsp;     * @param maxP the number of players for this game, chosen before by the user
+&nbsp;     * @param old contains yes/no, used to determine if the player wants to load and older game
+&nbsp;     */
+&nbsp;    public Game(int maxP, String old) throws RemoteException {
+<b class="nc">&nbsp;        super();</b>
+&nbsp;
+<b class="nc">&nbsp;        LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind(&quot;Server&quot;, this); // hosto il server sulla rete</b>
+&nbsp;
+<b class="nc">&nbsp;        targetPlayers = maxP;</b>
+<b class="nc">&nbsp;        if(old.equals(&quot;yes&quot;)){</b>
+<b class="nc">&nbsp;            if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che ci sia un server nella cache, nel caso lo carichi</b>
+<b class="nc">&nbsp;                gameTemp = FILEHelper.loadServer();</b>
+<b class="nc">&nbsp;                FILEHelper.writeFail();</b>
+<b class="nc">&nbsp;                if(gameTemp.numPlayers != maxP) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;\nThe old game is not compatible, starting a new game...&quot;);</b>
+<b class="nc">&nbsp;                    gameTemp = null;</b>
+&nbsp;                }
+&nbsp;                else {
+&nbsp;                    //clone(gameTemp);
+<b class="nc">&nbsp;                    System.out.println(&quot;\nLoading the old game...&quot;);</b>
+&nbsp;                    //System.exit(0); // continuare da qui in poi per fare la FA persistenza del server
+&nbsp;                    // chiama la funzione che si occupa di riprendere la vecchia partita in corso
+&nbsp;                }
+&nbsp;            }// da qui in poi fai continuare il server che hai caricato dalla cache
+&nbsp;            else
+<b class="nc">&nbsp;                System.out.println(&quot;\nThere is no game to load, starting a new game...&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        FILEHelper.writeFail();</b>
+<b class="nc">&nbsp;        shuffleObjBucket();</b>
+<b class="nc">&nbsp;        numPlayers = 0;</b>
+<b class="nc">&nbsp;        new Thread(() -&gt; { // imposto un timer di un minuto per aspettare le connessioni dei client</b>
+<b class="nc">&nbsp;            Game.waitForSeconds(60);</b>
+<b class="nc">&nbsp;            if(!timeExp)</b>
+&nbsp;                return;
+<b class="nc">&nbsp;            System.out.println(&quot;\nTime limit exceeded, not enough players connected&quot;);</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
+<b class="nc">&nbsp;        }).start();</b>
+&nbsp;
+<b class="nc">&nbsp;        try{serverSocket = new ServerSocket(Initializer.PORT);}</b>
+<b class="nc">&nbsp;        catch(Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;        System.out.println(&quot;\nServer listening...&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        listenForPlayersConnections();</b>
+&nbsp;
+<b class="nc">&nbsp;        if(gameTemp != null){</b>
+<b class="nc">&nbsp;            if(gameTemp.names.containsAll(names)) {</b>
+<b class="nc">&nbsp;                initializeOldClients();</b>
+<b class="nc">&nbsp;                if(gameTemp.endGameSituation){</b>
+<b class="nc">&nbsp;                    Game.waitForSeconds(1);</b>
+<b class="nc">&nbsp;                    sendFinalScoresToAll();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            else{
+<b class="nc">&nbsp;                System.out.println(&quot;\nThe names of the clients do not match the old ones, starting a new game...&quot;);</b>
+<b class="nc">&nbsp;                initializeAllClients();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            gameTemp = null;</b>
+&nbsp;        }
+&nbsp;        else
+<b class="nc">&nbsp;            initializeAllClients();</b>
+<b class="nc">&nbsp;        Game.waitForSeconds(1);</b>
+&nbsp;        //System.out.println(names.get(0));
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
+<b class="nc">&nbsp;            if(rmiClients.containsKey(names.get(i)))</b>
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                playersSocket.get(i).setSoTimeout(Player.pingTimeout);</b>
+<b class="nc">&nbsp;            } catch (SocketException e) {</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        new Thread(this::pingRMI).start();</b>
+<b class="nc">&nbsp;        new Thread(this::listenForReconnection).start();</b>
+<b class="nc">&nbsp;        if(!rmiClients.containsKey(names.get(0)))</b>
+<b class="nc">&nbsp;            waitMoveFromClient();</b>
+&nbsp;        else
+<b class="nc">&nbsp;            startChatServerThread();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that get an old client status by his name
+&nbsp;     * @param n the name of the old client
+&nbsp;     * @param playerList the list of all the old clients
+&nbsp;     * @author Ettori
+&nbsp;     * @return the client that was playing previously and needs to be alive again
+&nbsp;     */
+&nbsp;    private Player getClientByName(String n, ArrayList&lt;PlayerSend&gt; playerList){
+<b class="nc">&nbsp;        for(int i = 0; i &lt; playerList.size(); i++){</b>
+<b class="nc">&nbsp;            if(playerList.get(i).name.equals(n)) {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    return new Player(playerList.get(i));</b>
+<b class="nc">&nbsp;                } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;\nAncient client not found...&quot;);</b>
+<b class="nc">&nbsp;        System.exit(0);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            return new Player();</b>
+<b class="nc">&nbsp;        } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper method for initializing the old clients that were playing in the previous game
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void initializeOldClients(){
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                gameTemp.players.get(i).activeName = gameTemp.names.get(0);</b>
+<b class="nc">&nbsp;                outStreams.get(i).writeObject(getClientByName(names.get(i), gameTemp.players));</b>
+<b class="nc">&nbsp;                players.add(new PlayerSend(getClientByName(names.get(i), gameTemp.players)));</b>
+<b class="nc">&nbsp;            }catch (Exception e){connectionLost(e);}</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int temp = names.indexOf(gameTemp.names.get(0));</b>
+<b class="nc">&nbsp;        String n = names.get(0);</b>
+<b class="nc">&nbsp;        names.set(0, names.get(temp));</b>
+<b class="nc">&nbsp;        names.set(temp, n);</b>
+&nbsp;
+<b class="nc">&nbsp;        ObjectOutputStream outTemp = outStreams.get(0);</b>
+<b class="nc">&nbsp;        outStreams.set(0, outStreams.get(temp));</b>
+<b class="nc">&nbsp;        outStreams.set(temp, outTemp);</b>
+&nbsp;
+<b class="nc">&nbsp;        ObjectInputStream inTemp = inStreams.get(0);</b>
+<b class="nc">&nbsp;        inStreams.set(0, inStreams.get(temp));</b>
+<b class="nc">&nbsp;        inStreams.set(temp, inTemp);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper method for initializing all the clients (players) with the same board state
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void initializeAllClients(){
+<b class="nc">&nbsp;        randomizeChairman();</b>
+&nbsp;        Player p;
+<b class="nc">&nbsp;        for(int i = 0; i &lt; names.size(); i++){</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                p = new Player();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            p.setName(names.get(i));</b>
+<b class="nc">&nbsp;            p.setIsChairMan(i == 0);</b>
+<b class="nc">&nbsp;            p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));</b>
+&nbsp;            //p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_13_FAKE(), 13), new CommonObjective(new Algo_CO_14_FAKE(), 14));
+<b class="nc">&nbsp;            p.board.name = names.get(i);</b>
+<b class="nc">&nbsp;            if(i == 0)</b>
+<b class="nc">&nbsp;                p.board.initBoard(numPlayers);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                p.board = new Board(getChairman().board);</b>
+<b class="nc">&nbsp;            p.library = new Library(names.get(i));</b>
+<b class="nc">&nbsp;            p.setPrivateObjective(getPrivateObjective());</b>
+<b class="nc">&nbsp;            p.pointsUntilNow = 0;</b>
+<b class="nc">&nbsp;            p.activeName = getChairmanName();</b>
+<b class="nc">&nbsp;            p.chairmanName = getChairmanName();</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; numPlayers; j++) {</b>
+<b class="nc">&nbsp;                if(!names.get(j).equals(names.get(i)))</b>
+<b class="nc">&nbsp;                    p.librariesOfOtherPlayers.add(new Library(names.get(j)));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            p.numPlayers = numPlayers;</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                outStreams.get(i).writeObject(p);</b>
+<b class="nc">&nbsp;            }catch (Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;            players.add(new PlayerSend(p));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * choose a random chairman from all the players who connected to the game
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void randomizeChairman(){
+<b class="nc">&nbsp;        int temp = new Random().nextInt(numPlayers);</b>
+&nbsp;        //temp = 1; // ELIMINA --&gt; usata solo per il testing
+&nbsp;        //temp = 0; // ELIMINA --&gt; usata solo per il testing
+<b class="nc">&nbsp;        String n = names.get(0);</b>
+<b class="nc">&nbsp;        names.set(0, names.get(temp));</b>
+<b class="nc">&nbsp;        names.set(temp, n);</b>
+&nbsp;
+<b class="nc">&nbsp;        ObjectOutputStream outTemp = outStreams.get(0);</b>
+<b class="nc">&nbsp;        outStreams.set(0, outStreams.get(temp));</b>
+<b class="nc">&nbsp;        outStreams.set(temp, outTemp);</b>
+&nbsp;
+<b class="nc">&nbsp;        ObjectInputStream inTemp = inStreams.get(0);</b>
+<b class="nc">&nbsp;        inStreams.set(0, inStreams.get(temp));</b>
+<b class="nc">&nbsp;        inStreams.set(temp, inTemp);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * helper function which waits for client&#39;s connection to the server socket, when all are connected the game starts
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void listenForPlayersConnections(){
+<b class="nc">&nbsp;        ArrayList&lt;Thread&gt; ths = new ArrayList&lt;&gt;();</b>
+&nbsp;        ObjectInputStream clientIn;
+&nbsp;        ObjectOutputStream clientOut;
+&nbsp;        Thread th;
+&nbsp;
+<b class="nc">&nbsp;        while(numPlayers &lt; targetPlayers){</b>
+&nbsp;            try{
+<b class="nc">&nbsp;                playersSocket.add(serverSocket.accept());</b>
+<b class="nc">&nbsp;                clientOut = new ObjectOutputStream(playersSocket.get(playersSocket.size() - 1).getOutputStream());</b>
+<b class="nc">&nbsp;                clientIn = new ObjectInputStream(playersSocket.get(playersSocket.size() - 1).getInputStream());</b>
+<b class="nc">&nbsp;                boolean isFake = (boolean) clientIn.readObject();</b>
+<b class="nc">&nbsp;                if(isFake) {</b>
+<b class="nc">&nbsp;                    playersSocket.remove(playersSocket.size() - 1);</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                ObjectInputStream finalClientIn = clientIn;</b>
+<b class="nc">&nbsp;                ObjectOutputStream finalClientOut = clientOut;</b>
+<b class="nc">&nbsp;                th = new Thread(() -&gt;{</b>
+<b class="nc">&nbsp;                    try{getUserName(finalClientIn, finalClientOut);}</b>
+<b class="nc">&nbsp;                    catch(Exception e){System.out.println(e);}</b>
+&nbsp;                });
+<b class="nc">&nbsp;                th.start();</b>
+<b class="nc">&nbsp;                ths.add(th);</b>
+<b class="nc">&nbsp;                numPlayers++;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch(Exception e){connectionLost(e);}</b>
+&nbsp;        }
+<b class="nc">&nbsp;        timeExp = false;</b>
+<b class="nc">&nbsp;        for(Thread t: ths){</b>
+<b class="nc">&nbsp;            try{t.join();}</b>
+<b class="nc">&nbsp;            catch(Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if(numPlayers &lt; targetPlayers){</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nPlayer number not sufficient&quot;);</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;\nThe game started&quot;);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that listen for an old client to restart his previous game, in tha same old state
+&nbsp;     * @param s the socket of the player
+&nbsp;     * @param out the output stream of the player
+&nbsp;     * @param in the input stream of the player
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    synchronized private void tryToReconnectClient(Socket s, ObjectOutputStream out, ObjectInputStream in){
+&nbsp;        try {
+<b class="nc">&nbsp;            String name = (String) in.readObject();</b>
+<b class="nc">&nbsp;            if(disconnectedPlayers.contains(name)){</b>
+<b class="nc">&nbsp;                rmiClients.remove(name);</b>
+<b class="nc">&nbsp;                out.writeObject(FOUND);</b>
+<b class="nc">&nbsp;                PlayerSend p = new PlayerSend(players.get(names.indexOf(name)));</b>
+<b class="nc">&nbsp;                p.activeName = names.get(activePlayer);</b>
+<b class="nc">&nbsp;                out.writeObject(new Player(p));</b>
+<b class="nc">&nbsp;                inStreams.set(names.indexOf(name), in);</b>
+<b class="nc">&nbsp;                outStreams.set(names.indexOf(name), out);</b>
+<b class="nc">&nbsp;                playersSocket.set(names.indexOf(name), s);</b>
+<b class="nc">&nbsp;                disconnectedPlayers.remove(name);</b>
+<b class="nc">&nbsp;                new Thread(() -&gt;{</b>
+<b class="nc">&nbsp;                    Game.waitForSeconds(1);</b>
+<b class="nc">&nbsp;                    if(rmiClients.containsKey(name))</b>
+&nbsp;                        return;
+&nbsp;                    try {
+<b class="nc">&nbsp;                        s.setSoTimeout(Player.pingTimeout);</b>
+<b class="nc">&nbsp;                    } catch (SocketException e) {</b>
+<b class="nc">&nbsp;                        connectionLost(e);</b>
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                    if(getActivePlayersNumber() &gt;= 3)</b>
+<b class="nc">&nbsp;                        new ChatBroadcast(this, names.indexOf(name)).start();</b>
+<b class="nc">&nbsp;                }).start();</b>
+<b class="nc">&nbsp;                if(getActivePlayersNumber() == 2){</b>
+<b class="nc">&nbsp;                    if(Client.uiModeCur == GUI)</b>
+<b class="nc">&nbsp;                        showMessageDialog(null, &quot;The game is now resuming and the next turn is starting...&quot;);</b>
+&nbsp;                    else
+<b class="nc">&nbsp;                        System.out.println(&quot;\nThe game is now resuming and the next turn is starting...&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+<b class="nc">&nbsp;                out.writeObject(NOT_FOUND);</b>
+<b class="nc">&nbsp;        }catch (Exception e){</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                s.close();</b>
+<b class="nc">&nbsp;                out.close();</b>
+<b class="nc">&nbsp;                in.close();</b>
+<b class="nc">&nbsp;            } catch (IOException ex) {</b>
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that wait permanently for a new client to connect to the existing game
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void listenForReconnection(){
+<b class="nc">&nbsp;        Socket s = null;</b>
+&nbsp;        while(true){
+&nbsp;            try {
+<b class="nc">&nbsp;                s = serverSocket.accept();</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            Socket finalS = s;</b>
+<b class="nc">&nbsp;            new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;                ObjectOutputStream out = null;</b>
+<b class="nc">&nbsp;                ObjectInputStream in = null;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    out = new ObjectOutputStream(finalS.getOutputStream());</b>
+<b class="nc">&nbsp;                    in = new ObjectInputStream(finalS.getInputStream());</b>
+<b class="nc">&nbsp;                } catch (IOException ignored) {}</b>
+<b class="nc">&nbsp;                tryToReconnectClient(finalS, out, in);</b>
+<b class="nc">&nbsp;            }).start();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Check if the name that the client choose is already TAKEN
+&nbsp;     * @param in the input stream of the socket
+&nbsp;     * @param out the output stream of the socket
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    synchronized private void getUserName(ObjectInputStream in, ObjectOutputStream out){
+&nbsp;        try {
+<b class="nc">&nbsp;            outStreams.add(out);</b>
+<b class="nc">&nbsp;            inStreams.add(in);</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                String name = (String) inStreams.get(inStreams.size() - 1).readObject();</b>
+<b class="nc">&nbsp;                if (isNameTaken(name)) {</b>
+<b class="nc">&nbsp;                    outStreams.get(outStreams.size() - 1).writeObject(TAKEN);</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if(gameTemp != null &amp;&amp; gameTemp.names.contains(name))</b>
+<b class="nc">&nbsp;                    outStreams.get(outStreams.size() - 1).writeObject(OLD);</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    outStreams.get(outStreams.size() - 1).writeObject(NOT_TAKEN);</b>
+<b class="nc">&nbsp;                names.add(name);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }catch(Exception e){</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                playersSocket.get(playersSocket.size() - 1).close();</b>
+<b class="nc">&nbsp;                outStreams.get(outStreams.size() - 1).close();</b>
+<b class="nc">&nbsp;                inStreams.get(inStreams.size() - 1).close();</b>
+<b class="nc">&nbsp;            } catch (IOException ignored) {}</b>
+<b class="nc">&nbsp;            outStreams.remove(outStreams.size() - 1);</b>
+<b class="nc">&nbsp;            inStreams.remove(inStreams.size() - 1);</b>
+<b class="nc">&nbsp;            playersSocket.remove(playersSocket.size() - 1);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Make a clone of the server, needed for the persistence functionality
+&nbsp;     * @param g server status
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void clone(Game g){
+<b class="nc">&nbsp;        endGameSituation = g.endGameSituation;</b>
+<b class="nc">&nbsp;        players = g.players;</b>
+<b class="nc">&nbsp;        names = g.names;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Make a random choose of the objective (Common and Private)
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void shuffleObjBucket(){
+<b class="nc">&nbsp;        Random rand = new Random();</b>
+&nbsp;        CommonObjective temp_1;
+&nbsp;        PrivateObjective temp_2;
+&nbsp;        int j;
+<b class="nc">&nbsp;        for(int i = 0; i &lt; bucketOfCO.size(); i++){</b>
+<b class="nc">&nbsp;            j = rand.nextInt(bucketOfCO.size());</b>
+<b class="nc">&nbsp;            temp_1 = bucketOfCO.get(i);</b>
+<b class="nc">&nbsp;            bucketOfCO.set(i, bucketOfCO.get(j));</b>
+<b class="nc">&nbsp;            bucketOfCO.set(j, temp_1);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for(int i = 0; i &lt; bucketOfPO.size(); i++){</b>
+<b class="nc">&nbsp;            j = rand.nextInt(bucketOfPO.size());</b>
+<b class="nc">&nbsp;            temp_2 = bucketOfPO.get(i);</b>
+<b class="nc">&nbsp;            bucketOfPO.set(i, bucketOfPO.get(j));</b>
+<b class="nc">&nbsp;            bucketOfPO.set(j, temp_2);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Wait the move of the client that are playing and set the chat,
+&nbsp;     * when the client made the move and send it to server update Board and Library
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     */
+&nbsp;    private void waitMoveFromClient(){
+&nbsp;        //System.out.println(&quot;STARTO I CHAT THREAD, dalla funzione&quot;);
+<b class="nc">&nbsp;        startChatServerThread();</b>
+&nbsp;        while(true){
+<b class="nc">&nbsp;            Message msg = null;</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                msg = (Message) inStreams.get(activePlayer).readObject();</b>
+<b class="nc">&nbsp;            } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;                playerDisconnected(activePlayer);</b>
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                if(msg.getType() == PING)</b>
+<b class="nc">&nbsp;                    continue;</b>
+<b class="nc">&nbsp;                if(msg.getType() == CHAT){</b>
+<b class="nc">&nbsp;                    sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                for (int i = 0; i &lt; numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio</b>
+<b class="nc">&nbsp;                    if (i != activePlayer)</b>
+<b class="nc">&nbsp;                        sendToClient(i,msg);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if(msg.getType() == UPDATE_GAME) {</b>
+&nbsp;                    //System.out.println(activePlayer + &quot; - &quot; + names.get(activePlayer));
+<b class="nc">&nbsp;                    if(!rmiClients.containsKey(names.get(activePlayer)))</b>
+<b class="nc">&nbsp;                        sendToClient(activePlayer, new Message(STOP, null, null));</b>
+&nbsp;                    //Game.waitForSeconds(1);
+&nbsp;                    //chatThreads = new ArrayList&lt;&gt;();
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }catch(Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        waitForEndTurn();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Wait the end of the turn of the client and check if the library is full
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     */
+&nbsp;    private void waitForEndTurn(){
+<b class="nc">&nbsp;        Message msg = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            msg = (Message) inStreams.get(activePlayer).readObject();</b>
+<b class="nc">&nbsp;        } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;            playerDisconnected(activePlayer);</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        }</b>
+&nbsp;        try {
+&nbsp;            //System.out.println(&quot;aspetto la FINE&quot;);
+<b class="nc">&nbsp;            if(msg.getType() == PING) {</b>
+<b class="nc">&nbsp;                waitForEndTurn();</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            if(msg.getType() != END_TURN)</b>
+<b class="nc">&nbsp;                throw new RuntimeException();</b>
+&nbsp;            //System.out.println(&quot;ecco la fine - socket&quot;);
+<b class="nc">&nbsp;            JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;            players.set(activePlayer, (PlayerSend) jsonObject.get(&quot;player&quot;));</b>
+<b class="nc">&nbsp;            PlayerSend p = (PlayerSend) jsonObject.get(&quot;player&quot;);</b>
+<b class="nc">&nbsp;            for(int i = 0; i &lt; numPlayers; i++){</b>
+<b class="nc">&nbsp;                if(i == activePlayer)</b>
+<b class="nc">&nbsp;                    continue;</b>
+<b class="nc">&nbsp;                for(int j = 0; j &lt; numPlayers - 1; j++){</b>
+<b class="nc">&nbsp;                    if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {</b>
+<b class="nc">&nbsp;                        players.get(i).librariesOfOtherPlayers.set(j, p.library);</b>
+<b class="nc">&nbsp;                        players.get(i).board = p.board;</b>
+&nbsp;                        //players.get(i).fullChat = p.fullChat;
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            if(players.get(activePlayer).library.isFull() &amp;&amp; !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco</b>
+<b class="nc">&nbsp;                endGameSituation = true;</b>
+<b class="nc">&nbsp;                for(int i = 0; i &lt; names.size(); i++){</b>
+<b class="nc">&nbsp;                    if(i != activePlayer)</b>
+<b class="nc">&nbsp;                        sendToClient(i, new Message(LIB_FULL, names.get(activePlayer), null));</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            advanceTurn();</b>
+<b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Set the status of the players for the next turn and assign activePlayer to who will play this turn
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     */
+&nbsp;    public void advanceTurn(){
+&nbsp;        /*
+&nbsp;        System.out.print(&quot;Player disconnessi: &quot;);
+&nbsp;        for (String n: disconnectedPlayers)
+&nbsp;            System.out.println(n);
+&nbsp;         */
+<b class="nc">&nbsp;        if(getActivePlayersNumber() == 1 &amp;&amp; disconnectedPlayers.size() &gt; 0){</b>
+<b class="nc">&nbsp;            if(Client.uiModeCur == GUI)</b>
+<b class="nc">&nbsp;                showMessageDialog(null, &quot;The game is temporarily paused because you are the only connected player&quot;);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                System.out.println(&quot;\nThe game is temporarily paused because you are the only connected player&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        boolean wait = false;</b>
+<b class="nc">&nbsp;        while(getActivePlayersNumber() == 1){</b>
+<b class="nc">&nbsp;            wait = true;</b>
+&nbsp;            //System.out.println(getActivePlayersNumber());
+&nbsp;        }
+<b class="nc">&nbsp;        if(wait)</b>
+<b class="nc">&nbsp;            Game.waitForSeconds(2.5);</b>
+&nbsp;        do{
+<b class="nc">&nbsp;            activePlayer = (activePlayer + 1) % numPlayers;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        while(disconnectedPlayers.contains(names.get(activePlayer)));</b>
+<b class="nc">&nbsp;        if(activePlayer == 0 &amp;&amp; endGameSituation) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nThe game is ending...&quot;);</b>
+<b class="nc">&nbsp;            sendFinalScoresToAll();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        notifyNewTurn();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Send the message to the client that a new turn start (two cases, if is the turn of the client or is the turn of another client)
+&nbsp;     * @author Ettori Faccincani
+&nbsp;     */
+&nbsp;    private void notifyNewTurn(){
+&nbsp;        //System.out.println(&quot;notify - &quot; + numPlayers);
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
+&nbsp;            //System.out.println(&quot;\nnotify nome: &quot; + names.get(i));
+&nbsp;            try {
+<b class="nc">&nbsp;                if (i != activePlayer) {</b>
+&nbsp;                    //System.out.println(names.get(i));
+<b class="nc">&nbsp;                    sendToClient(i, new Message(CHANGE_TURN, &quot;server&quot;, names.get(activePlayer)));</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }catch (Exception e){connectionLost(e);}</b>
+&nbsp;        }
+<b class="nc">&nbsp;        new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;            Game.waitForSeconds(1);</b>
+<b class="nc">&nbsp;            sendToClient(activePlayer, new Message(YOUR_TURN, &quot;server&quot;, &quot;&quot;));</b>
+<b class="nc">&nbsp;        }).start();</b>
+<b class="nc">&nbsp;        FILEHelper.writeServer(this); // salvo lo stato della partita</b>
+&nbsp;        //System.out.println(&quot;PRIMA -&quot; + names.get(activePlayer));
+<b class="nc">&nbsp;        if(!rmiClients.containsKey(names.get(activePlayer)))</b>
+<b class="nc">&nbsp;            waitMoveFromClient();</b>
+&nbsp;        else {
+&nbsp;            //System.out.println(&quot;STARTO I CHAT THREAD&quot;);
+<b class="nc">&nbsp;            startChatServerThread();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void startChatServerThread(){
+&nbsp;        //if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
+&nbsp;        //    return;
+<b class="nc">&nbsp;        chatThreads = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
+<b class="nc">&nbsp;            if(i == activePlayer || rmiClients.containsKey(names.get(i)) || disconnectedPlayers.contains(names.get(i)))</b>
+<b class="nc">&nbsp;                continue;</b>
+<b class="nc">&nbsp;            chatThreads.add(new ChatBroadcast(this, i));</b>
+<b class="nc">&nbsp;            chatThreads.get(chatThreads.size() - 1).start();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Send message in the chat to other client
+&nbsp;     * @param from who send the message
+&nbsp;     * @param to who receive the message
+&nbsp;     * @param msg text inside the message
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void sendChatToClients(String from, String to, String msg){
+&nbsp;        try {
+<b class="nc">&nbsp;            if (to.equals(&quot;all&quot;)) {</b>
+<b class="nc">&nbsp;                for (int i = 0; i &lt; numPlayers; i++) {</b>
+<b class="nc">&nbsp;                    if (!names.get(i).equals(from))</b>
+<b class="nc">&nbsp;                        sendToClient(i, new Message(CHAT, &quot;&quot;, msg));</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            else if(getNameIndex(to) != -1){</b>
+<b class="nc">&nbsp;                sendToClient(getNameIndex(to) ,new Message(CHAT, &quot;&quot;, msg));</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }catch (Exception e){connectionLost(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * find and return the name of the chairman of this game
+&nbsp;     * @return the name of the chairman (String)
+&nbsp;     */
+<b class="nc">&nbsp;    private String getChairmanName(){return names.get(0);}</b>
+&nbsp;    /**
+&nbsp;     * find and return the chairman Player
+&nbsp;     * @return the chairman Object (Player)
+&nbsp;     */
+<b class="nc">&nbsp;    private PlayerSend getChairman(){return players.get(0);}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * check if the name is already taken by other players
+&nbsp;     * @param name the name to check
+&nbsp;     * @return true iff the name is already taken
+&nbsp;     */
+<b class="nc">&nbsp;    private boolean isNameTaken(String name){return names.contains(name);}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * get the index of a certain player, by the name
+&nbsp;     * @param name the name of the player
+&nbsp;     * @return the index of the player having that name, -1 if not found
+&nbsp;     */
+&nbsp;    private int getNameIndex(String name){
+<b class="nc">&nbsp;        for(int i = 0; i &lt; names.size(); i++){</b>
+<b class="nc">&nbsp;            if(names.get(i).equals(name))</b>
+<b class="nc">&nbsp;                return i;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * choose the private objective, one for every player
+&nbsp;     * @return the chosen private objective
+&nbsp;     */
+&nbsp;    private PrivateObjective getPrivateObjective(){
+<b class="nc">&nbsp;        PrivateObjective res = bucketOfPO.get(0);</b>
+<b class="nc">&nbsp;        bucketOfPO.remove(0);</b>
+<b class="nc">&nbsp;        return res;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Count the points at the end of the game (not private or common objective)
+&nbsp;     * and sum to the points made until now
+&nbsp;     * @return the order of the player each one with his score
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private String getFinalScore(){
+<b class="nc">&nbsp;        ArrayList&lt;Integer&gt; scores = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        StringBuilder res = new StringBuilder();</b>
+&nbsp;        PlayerSend p;
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
+<b class="nc">&nbsp;            p = players.get(i);</b>
+<b class="nc">&nbsp;            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.gameLibrary));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        names.sort((a, b) -&gt; {</b>
+&nbsp;            int n, m;
+<b class="nc">&nbsp;            n = scores.get(names.indexOf(a));</b>
+<b class="nc">&nbsp;            m = scores.get(names.indexOf(b));</b>
+<b class="nc">&nbsp;            if (n == m)</b>
+<b class="nc">&nbsp;                return 0;</b>
+<b class="nc">&nbsp;            if (n &gt; m)</b>
+<b class="nc">&nbsp;                return 1;</b>
+<b class="nc">&nbsp;            return -1;</b>
+&nbsp;        });
+<b class="nc">&nbsp;        scores.sort(null);</b>
+<b class="nc">&nbsp;        Collections.reverse(names);</b>
+<b class="nc">&nbsp;        Collections.reverse(scores);</b>
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++)</b>
+<b class="nc">&nbsp;            res.append(&quot;Place number &quot;).append(i + 1).append(&quot;: &quot;).append(names.get(i)).append(&quot; with &quot;).append(scores.get(i)).append(&quot; points\n&quot;);</b>
+<b class="nc">&nbsp;        return res.toString();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Send the final score to all the clients
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void sendFinalScoresToAll(){
+<b class="nc">&nbsp;        String finalScores = getFinalScore();</b>
+<b class="nc">&nbsp;        ArrayList&lt;Thread&gt; ths = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                int finalI = i;</b>
+<b class="nc">&nbsp;                ths.add(new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;                    Game.waitForSeconds(1);</b>
+<b class="nc">&nbsp;                    sendToClient(finalI, new Message(FINAL_SCORE, &quot;server&quot;, finalScores));</b>
+&nbsp;                }));
+<b class="nc">&nbsp;                ths.get(i).start();</b>
+<b class="nc">&nbsp;            } catch (Exception e) {connectionLost(e);}</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                ths.get(i).join();</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache</b>
+<b class="nc">&nbsp;        while (true){}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the input streams from the server to all the clients
+&nbsp;     * @return the ArrayList containing all the input streams
+&nbsp;     */
+<b class="nc">&nbsp;    public ArrayList&lt;ObjectInputStream&gt; getInStreams(){return inStreams;}</b>
+&nbsp;    /**
+&nbsp;     * getter for the list of names of the players active in this game
+&nbsp;     * @return the ArrayList containing all the names of the connected players
+&nbsp;     */
+<b class="nc">&nbsp;    public ArrayList&lt;String&gt; getNames(){return names;}</b>
+&nbsp;    /**
+&nbsp;     * shortcut for the Thread.sleep(int) function, it accepts SECONDS, NOT MILLISECONDS
+&nbsp;     * @param n the (decimal) number of seconds to wait
+&nbsp;     */
+&nbsp;    public static void waitForSeconds(double n){
+&nbsp;        try {
+<b class="nc">&nbsp;            Thread.sleep((long) (n * 1000));</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * function that handle the eventual disconnection
+&nbsp;     * @param e the exception to throw
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void connectionLost(Exception e){
+<b class="nc">&nbsp;        if(closed)</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        if(Game.showErrors)</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            closed = true;</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nConnection lost, the server is closing...&quot;);</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                serverSocket.close();</b>
+<b class="nc">&nbsp;                for(Socket s: playersSocket)</b>
+<b class="nc">&nbsp;                    s.close();</b>
+<b class="nc">&nbsp;            } catch (IOException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            while (true){}</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method which acknowledge that one of the client disconnected and set the game to continue without the lost client
+&nbsp;     * @param i the index of the lost client
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void playerDisconnected(int i) {
+<b class="nc">&nbsp;        if (disconnectedPlayers.contains(names.get(i)))</b>
+&nbsp;            return;
+&nbsp;        //System.out.println(&quot;\n&quot; + names.get(i) + &quot; disconnected from the game\n&quot;);
+&nbsp;        try {
+<b class="nc">&nbsp;            playersSocket.get(i).setSoTimeout(0);</b>
+<b class="nc">&nbsp;        } catch (SocketException e) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Errore della socket&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        disconnectedPlayers.add(names.get(i));</b>
+<b class="nc">&nbsp;        rmiClients.remove(names.get(i));</b>
+<b class="nc">&nbsp;        if (getActivePlayersNumber() == 1)</b>
+<b class="nc">&nbsp;            new Thread(this::disconnectedTimer).start();</b>
+<b class="nc">&nbsp;        if (i == activePlayer) {</b>
+&nbsp;            // manda evento di player disconnesso
+<b class="nc">&nbsp;            for (int j = 0; j &lt; numPlayers; j++)</b>
+<b class="nc">&nbsp;                sendToClient(j, new Message(DISCONNECTED, names.get(activePlayer), null));</b>
+<b class="nc">&nbsp;            advanceTurn();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    private void disconnectedTimer(){
+<b class="nc">&nbsp;        double minutes = 1.5;</b>
+<b class="nc">&nbsp;        Game.waitForSeconds(60 * minutes);</b>
+<b class="nc">&nbsp;        if(getActivePlayersNumber() == 1){</b>
+<b class="nc">&nbsp;            if(Client.uiModeCur == GUI)</b>
+<b class="nc">&nbsp;                showMessageDialog(null, &quot;You have won because all the other players have disconnected&quot;);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                System.out.println(&quot;\nYou have won because all the other players have disconnected&quot;);</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method that find the number of players which are currently connected to the game
+&nbsp;     * @author Ettori
+&nbsp;     * @return the number of connected players
+&nbsp;     */
+<b class="nc">&nbsp;    private int getActivePlayersNumber(){return numPlayers - disconnectedPlayers.size();}</b>
+&nbsp;    /**
+&nbsp;     * general method to respond to a client, it chooses the right network connection of the player
+&nbsp;     * @author Ettori
+&nbsp;     * @param i the index of the player to contact
+&nbsp;     * @param msg the message that must be sent
+&nbsp;     */
+&nbsp;    public void sendToClient(int i, Message msg){
+&nbsp;        //System.out.println(names.get(i) + &quot; - &quot; + msg.getType() + &quot; - &quot; + msg.getAuthor());
+<b class="nc">&nbsp;        if(disconnectedPlayers.contains(names.get(i)))</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        if(!rmiClients.containsKey(names.get(i))){</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                outStreams.get(i).writeObject(msg);</b>
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+&nbsp;                //playerDisconnected(i);
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        else{
+&nbsp;            try {
+<b class="nc">&nbsp;                rmiClients.get(names.get(i)).receivedEventRMI(msg);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+&nbsp;                //playerDisconnected(i);
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /******************************************** RMI ***************************************************************/
+&nbsp;    /**
+&nbsp;     * method called from remote used to add a client to the store of all the RMI clients
+&nbsp;     * @author Ettori
+&nbsp;     * @param name the nickname of the player
+&nbsp;     * @param p the player object, passed as the remote interface
+&nbsp;     */
+&nbsp;    public void addClient(String name, PlayerI p){
+&nbsp;        //System.out.println(&quot;Aggiungo: &quot; + name);
+<b class="nc">&nbsp;        rmiClients.put(name, p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method called from remote which is equivalent to the waitMoveFromClient() method for the socket
+&nbsp;     * @author Ettori
+&nbsp;     * @param msg the message that the client want to send to the remote server
+&nbsp;     */
+&nbsp;    public void redirectToClientRMI(Message msg){
+<b class="nc">&nbsp;        switch (msg.getType()){</b>
+&nbsp;            case CHAT -&gt; {
+<b class="nc">&nbsp;                String from = (String)msg.getContent();</b>
+<b class="nc">&nbsp;                from = from.substring(0, from.indexOf(&quot; &quot;));</b>
+<b class="nc">&nbsp;                sendChatToClients(from, msg.getAuthor(), (String)msg.getContent());</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case END_TURN -&gt; {
+<b class="nc">&nbsp;                JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;                players.set(activePlayer, (PlayerSend) jsonObject.get(&quot;player&quot;));</b>
+<b class="nc">&nbsp;                PlayerSend p = (PlayerSend) jsonObject.get(&quot;player&quot;);</b>
+<b class="nc">&nbsp;                for(int i = 0; i &lt; numPlayers; i++){</b>
+<b class="nc">&nbsp;                    if(i == activePlayer)</b>
+<b class="nc">&nbsp;                        continue;</b>
+<b class="nc">&nbsp;                    for(int j = 0; j &lt; numPlayers - 1; j++){</b>
+<b class="nc">&nbsp;                        if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {</b>
+<b class="nc">&nbsp;                            players.get(i).librariesOfOtherPlayers.set(j, p.library);</b>
+<b class="nc">&nbsp;                            players.get(i).board = p.board;</b>
+&nbsp;                            //players.get(i).fullChat = p.fullChat;
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                if(players.get(activePlayer).library.isFull() &amp;&amp; !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco</b>
+<b class="nc">&nbsp;                    endGameSituation = true;</b>
+<b class="nc">&nbsp;                    for(int i = 0; i &lt; names.size(); i++){</b>
+<b class="nc">&nbsp;                        if(i != activePlayer)</b>
+<b class="nc">&nbsp;                            sendToClient(i, new Message(LIB_FULL, names.get(activePlayer), null));</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                advanceTurn();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case UPDATE_GAME -&gt; {
+<b class="nc">&nbsp;                for (int i = 0; i &lt; numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio</b>
+<b class="nc">&nbsp;                    if (i != activePlayer)</b>
+<b class="nc">&nbsp;                        sendToClient(i,msg);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                sendToClient(activePlayer, new Message(STOP, null, null));</b>
+&nbsp;                //chatThreads = new ArrayList&lt;&gt;();
+<b class="nc">&nbsp;            }</b>
+&nbsp;            default -&gt; {
+<b class="nc">&nbsp;                for (int i = 0; i &lt; numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio</b>
+<b class="nc">&nbsp;                    if (i != activePlayer)</b>
+<b class="nc">&nbsp;                        sendToClient(i,msg);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that allow the server to be pinged from an RMI client
+&nbsp;     * @author Ettori
+&nbsp;     */
+<b class="nc">&nbsp;    public void ping(){}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method that periodically pings all the current client connected with RMI
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public void pingRMI(){
+&nbsp;        while(true){
+<b class="nc">&nbsp;            waitForSeconds(5);</b>
+<b class="nc">&nbsp;            for(String n: names){</b>
+<b class="nc">&nbsp;                if(!rmiClients.containsKey(n) || disconnectedPlayers.contains(n))</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    rmiClients.get(n).pingClient();</b>
+<b class="nc">&nbsp;                } catch (RemoteException e) {</b>
+&nbsp;                    //System.out.println(&quot;presoo&quot;);
+<b class="nc">&nbsp;                    playerDisconnected(names.indexOf(n));</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

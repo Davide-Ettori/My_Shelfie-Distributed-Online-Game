@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Algo_CO_7</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Algo_CO_7 (app.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Algo_CO_7</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (31/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.model;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;import static app.model.Color.EMPTY;
+&nbsp;/*
+&nbsp;Due gruppi separati di 4 tessere dello
+&nbsp;stesso tipo che formano un quadrato 2x2.
+&nbsp;Le tessere dei due gruppi devono essere
+&nbsp;dello stesso tipo.
+&nbsp; */
+&nbsp;/**
+&nbsp; * class which represent the number seven objective (common). Immutable
+&nbsp; * @author Ettori Faccincani
+&nbsp; */
+<b class="fc">&nbsp;public class Algo_CO_7 extends Strategy { // quarto prima colonna</b>
+<b class="fc">&nbsp;    private final int[][] visitedMatrix = new int[ROWS][COLS];</b>
+&nbsp;    /**
+&nbsp;     * classic dfs
+&nbsp;     * @author Ettori
+&nbsp;     * @param i pos x
+&nbsp;     * @param j pos y
+&nbsp;     * @param color color
+&nbsp;     * @param board matrix of the board
+&nbsp;     */
+&nbsp;    private void dfs(int i, int j, Color color, Card[][] board) {
+<b class="fc">&nbsp;        if (!DFSHelper.isIndexValid(i, j) || board[i][j].color != color || DFSHelper.isVisited(i, j, visitedMatrix))</b>
+&nbsp;            return;
+<b class="fc">&nbsp;        dfs(i + 1, j, color, board);</b>
+<b class="fc">&nbsp;        dfs(i - 1, j, color, board);</b>
+<b class="fc">&nbsp;        dfs(i, j + 1, color, board);</b>
+<b class="fc">&nbsp;        dfs(i, j - 1, color, board);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if it starts a 2x2 square of the same color from the chose cell (high sx)
+&nbsp;     * @author Ettori
+&nbsp;     * @param x pos x
+&nbsp;     * @param y pos y
+&nbsp;     * @param color color
+&nbsp;     * @param board matrix
+&nbsp;     * @return true iff it find a square of the same color
+&nbsp;     */
+&nbsp;    private boolean checkForSquare(int x, int y, Color color, Card[][] board) {
+<b class="fc">&nbsp;        ArrayList&lt;Integer&gt; cells = new ArrayList&lt;&gt;(Arrays.asList(x, y, x + 1, y, x, y + 1, x + 1, y + 1));</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; cells.size(); i += 2) {</b>
+<b class="fc">&nbsp;            if (!DFSHelper.isIndexValid(cells.get(i), cells.get(i + 1)))</b>
+<b class="fc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;            if (visitedMatrix[cells.get(i)][cells.get(i + 1)] == 1)</b>
+<b class="fc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;            if (board[cells.get(i)][cells.get(i + 1)].color != color)</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if the matrix match with the objective
+&nbsp;     * @author Ettori
+&nbsp;     * @param board the matrix of the board
+&nbsp;     * @return true iff it found a match
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean checkMatch(Card[][] board) {
+<b class="fc">&nbsp;        int count = 0;</b>
+&nbsp;        boolean foundSquare;
+<b class="fc">&nbsp;        ArrayList&lt;Color&gt; colors = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        DFSHelper.resetVisitedMatrix(visitedMatrix);</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="fc">&nbsp;                if (board[i][j].color == EMPTY)</b>
+<b class="fc">&nbsp;                    continue;</b>
+<b class="fc">&nbsp;                foundSquare = checkForSquare(i, j, board[i][j].color, board);</b>
+<b class="fc">&nbsp;                if (foundSquare) {</b>
+<b class="fc">&nbsp;                    dfs(i, j, board[i][j].color, board);</b>
+<b class="fc">&nbsp;                    colors.add(board[i][j].color);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        for(int i = 0; i &lt; colors.size() - 1; i++){</b>
+<b class="fc">&nbsp;            if(colors.subList(i + 1, colors.size()).contains(colors.get(i)))</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

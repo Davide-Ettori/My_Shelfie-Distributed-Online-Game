@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DFSHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.model</a>
+</div>
+
+<h1>Coverage Summary for Class: DFSHelper (app.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DFSHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.model;
+&nbsp;
+&nbsp;/**
+&nbsp; * helper class for the Depth First Search algorithm. Immutable
+&nbsp; * @author Ettori Faccincani
+&nbsp; *
+&nbsp; */
+<b class="nc">&nbsp;public class DFSHelper {</b>
+&nbsp;    private static final int ROWS = 6;
+&nbsp;    private static final int COLS = 5;
+&nbsp;    /**
+&nbsp;     * reset the matrix of the nodes visited in the DFS
+&nbsp;     *
+&nbsp;     * @param mat  the matrix
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     */
+&nbsp;    public static void resetVisitedMatrix(int[][] mat) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="fc">&nbsp;                mat[i][j] = 0;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if the index is in the matrix
+&nbsp;     *
+&nbsp;     * @param x    position x
+&nbsp;     * @param y    posizione y
+&nbsp;     * @return true iff the index is in the matrix
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     */
+&nbsp;    public static boolean isIndexValid(int x, int y) {
+<b class="fc">&nbsp;        return x &gt;= 0 &amp;&amp; x &lt; ROWS &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; COLS;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if the node was already visited, otherwise visit the node
+&nbsp;     *
+&nbsp;     * @param x   position x
+&nbsp;     * @param y   position y
+&nbsp;     * @param mat matrix of visited nodes
+&nbsp;     * @return true iff the node was visited
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     */
+&nbsp;    public static boolean isVisited(int x, int y, int[][] mat) {
+<b class="fc">&nbsp;        int temp = mat[x][y];</b>
+<b class="fc">&nbsp;        mat[x][y] = 1;</b>
+<b class="fc">&nbsp;        return temp == 1;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

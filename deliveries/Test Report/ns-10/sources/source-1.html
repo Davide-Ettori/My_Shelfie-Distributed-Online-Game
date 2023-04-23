@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Main</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">playground.thread</a>
+</div>
+
+<h1>Coverage Summary for Class: Main (playground.thread)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Main</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package playground.thread;
+&nbsp;
+&nbsp;import java.util.Scanner;
+&nbsp;
+<b class="nc">&nbsp;public class Main {</b>
+&nbsp;    public static void main(String[] args) throws Exception{
+<b class="nc">&nbsp;        Thread t = new ProvaThread(&quot;davide&quot;);</b>
+<b class="nc">&nbsp;        t.start();</b>
+<b class="nc">&nbsp;        Thread.sleep(5000);</b>
+<b class="nc">&nbsp;        t.interrupt();</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;class ProvaThread extends Thread{
+&nbsp;    String name;
+&nbsp;    public ProvaThread(String n){
+&nbsp;        name = n;
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public void run(){
+&nbsp;        try {
+&nbsp;            Scanner in = new Scanner(System.in);
+&nbsp;            String s;
+&nbsp;            while (true) {
+&nbsp;                System.out.println(&quot;Inserisci input (&quot; + name + &quot;): &quot;);
+&nbsp;                //System.out.println(in.has);
+&nbsp;                while (!in.hasNext()) { // stessa cosa con inStream.available() == 0
+&nbsp;                    System.out.println(&quot;aspetto&quot;);
+&nbsp;                    Thread.sleep(100);
+&nbsp;                }
+&nbsp;                System.out.println(&quot;fine ciclo&quot;);
+&nbsp;                s = in.nextLine();
+&nbsp;                System.out.println(s);
+&nbsp;            }
+&nbsp;        }
+&nbsp;        catch (InterruptedException e){System.out.println(&quot;exit with success&quot;);}
+&nbsp;        catch(Exception e){System.out.println(e);}
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

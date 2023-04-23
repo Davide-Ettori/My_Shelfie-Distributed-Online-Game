@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > FILEHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: FILEHelper (app.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FILEHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.controller;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * helper class for reading and writing txt file, useful for persistence
+&nbsp; * @author Ettori
+&nbsp; */
+<b class="nc">&nbsp;public class FILEHelper {</b>
+&nbsp;    /**
+&nbsp;     * write &#39;SUCC&#39; on status.txt indicating tha the server closed in a normal way
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public static void writeSucc(){
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;src/main/java/app/controller/cache/status.txt&quot;));</b>
+<b class="nc">&nbsp;            bw.write(&quot;SUCC&quot;);</b>
+<b class="nc">&nbsp;            bw.close();</b>
+<b class="nc">&nbsp;        }catch(Exception e){throw new RuntimeException(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * write &#39;FAIL&#39; on status.txt indicating tha the server closed in a NOT normal way
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public static void writeFail(){
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;src/main/java/app/controller/cache/status.txt&quot;));</b>
+<b class="nc">&nbsp;            bw.write(&quot;FAIL&quot;);</b>
+<b class="nc">&nbsp;            bw.close();</b>
+<b class="nc">&nbsp;        }catch(Exception e){throw new RuntimeException(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if there is a cache server from a previous game
+&nbsp;     * @author Ettori
+&nbsp;     * @return true iff there is a cached server
+&nbsp;     */
+&nbsp;    public static boolean havaCachedServer(){
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedReader br = new BufferedReader(new FileReader(&quot;src/main/java/app/controller/cache/status.txt&quot;));</b>
+<b class="nc">&nbsp;            return br.readLine().equals(&quot;FAIL&quot;);</b>
+<b class="nc">&nbsp;        }catch(Exception e){System.out.println();}</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * save the current state of the server in the file server.txt
+&nbsp;     * @author Ettori
+&nbsp;     * @param server the current server that will be saved
+&nbsp;     */
+&nbsp;    public static void writeServer(Game server){
+&nbsp;        try {
+<b class="nc">&nbsp;            FileOutputStream fos = new FileOutputStream(&quot;src/main/java/app/controller/cache/server.txt&quot;);</b>
+<b class="nc">&nbsp;            ObjectOutputStream oos = new ObjectOutputStream(fos);</b>
+<b class="nc">&nbsp;            oos.writeObject(server);</b>
+<b class="nc">&nbsp;            oos.close();</b>
+<b class="nc">&nbsp;        }catch(Exception e){throw new RuntimeException(e);}</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * load the current state of the server from the file server.txt
+&nbsp;     * @author Ettori
+&nbsp;     * @return the state of the old server that was saved (Game Object)
+&nbsp;     */
+&nbsp;    public static Game loadServer(){
+<b class="nc">&nbsp;        Game server = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            FileInputStream fin = new FileInputStream(&quot;src/main/java/app/controller/cache/server.txt&quot;);</b>
+<b class="nc">&nbsp;            ObjectInputStream ois = new ObjectInputStream(fin);</b>
+<b class="nc">&nbsp;            server = (Game) ois.readObject();</b>
+<b class="nc">&nbsp;            ois.close();</b>
+<b class="nc">&nbsp;        }catch(Exception e){throw new RuntimeException(e);}</b>
+<b class="nc">&nbsp;        return server;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * write helper for testing
+&nbsp;     * @author Ettori
+&nbsp;     */
+&nbsp;    public static void writeString(String s){
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;src/main/java/app/controller/cache/test.txt&quot;));</b>
+<b class="nc">&nbsp;            bw.write(s);</b>
+<b class="nc">&nbsp;            bw.close();</b>
+<b class="nc">&nbsp;        }catch(Exception e){throw new RuntimeException(e);}</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>

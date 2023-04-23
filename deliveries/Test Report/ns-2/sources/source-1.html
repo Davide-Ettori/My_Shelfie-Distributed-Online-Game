@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ChatBroadcast</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatBroadcast (app.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChatBroadcast</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.controller;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;import static app.controller.MessageType.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * class which represents the threads for listening to the eventual chat messages for ALL the NON active players
+&nbsp; */
+&nbsp;public class ChatBroadcast extends Thread{
+&nbsp;    private final Game game;
+&nbsp;    private final int index;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * normal constructor for this type of objects
+&nbsp;     * @param g the server object that is handling the game
+&nbsp;     * @param i the index of the client that this thread is listening to
+&nbsp;     */
+<b class="nc">&nbsp;    public ChatBroadcast(Game g, int i){game = g; index = i;}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * main function of the thread, it listens for chat messages and send them back to the interested clients
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void run(){
+&nbsp;        //System.out.println(&quot;SERVER ASCOLTA CHAT&quot;);
+&nbsp;        while (true) {
+<b class="nc">&nbsp;            Message msg = null;</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                msg = (Message) game.getInStreams().get(index).readObject();</b>
+<b class="nc">&nbsp;            } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;                game.playerDisconnected(index);</b>
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(msg.getType() == PING)</b>
+<b class="nc">&nbsp;                continue;</b>
+<b class="nc">&nbsp;            if(msg.getType() == STOP)</b>
+&nbsp;                return;
+&nbsp;            //System.out.println(&quot;\nRICEVUTO MEX - &quot; + msg.getContent());
+<b class="nc">&nbsp;            game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-23 10:24</div>
+</div>
+</body>
+</html>
