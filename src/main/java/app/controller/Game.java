@@ -520,7 +520,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             else
                 System.out.println("\nThe game is temporarily paused because you are the only connected player");
         }
-        while(getActivePlayersNumber() == 1){}
+        boolean wait = false;
+        while(getActivePlayersNumber() == 1){
+            wait = true;
+            //System.out.println(getActivePlayersNumber());
+        }
+        if(wait)
+            Game.waitForSeconds(2.5);
         do{
             activePlayer = (activePlayer + 1) % numPlayers;
         }
