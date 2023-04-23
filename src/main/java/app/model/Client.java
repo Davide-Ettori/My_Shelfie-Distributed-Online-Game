@@ -1,13 +1,11 @@
 package app.model;
 
-import app.controller.FILEHelper;
 import app.controller.Game;
 import app.controller.Initializer;
 import app.view.GUI.PlayerGUI;
 import app.view.IP;
 import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
-import playground.socket.Server;
 
 import java.io.*;
 import java.net.Socket;
@@ -30,6 +28,7 @@ public class Client {
 
     /** variable used to keep track of the UI mode that the player is currently using */
     public static UIMode uiModeCur;
+    public static int threadWeigth = 8;
     public Client() {
         String numPlayers;
         int numP;
@@ -68,7 +67,7 @@ public class Client {
                     continue;
                 }
                 String old;
-                System.out.print("\nDo you want to load an old game ? (yes or no): ");
+                System.out.print("\nDo you want to load an old game ? (yes or no for persistence): ");
                 try {
                     old = br.readLine();
                 } catch (IOException exc) {
@@ -76,13 +75,15 @@ public class Client {
                     throw new RuntimeException(exc);
                 }
                 int finalNumP = numP;
-                new Thread(() -> {
+                Thread serverTh = new Thread(() -> {
                     try {
                         new Game(finalNumP, old);
                     } catch (RemoteException ex) {
                         throw new RuntimeException(ex);
                     }
-                }).start();
+                });
+                serverTh.setPriority(threadWeigth);
+                serverTh.start();
                 Game.waitForSeconds(1);
                 break;
             }
@@ -109,11 +110,19 @@ public class Client {
             }
             if(net.length() == 0)
                 net = "Socket";
+            System.out.print("\nDo you want to connect to a running game with your old name (yes or no for resilience)?: ");
+            String opt;
+            try {
+                opt = br.readLine();
+            } catch (IOException exc) {
+                System.out.println("errore");
+                throw new RuntimeException(exc);
+            }
             if (ui.equals("TUI")) {
                 if (net.equals("Socket")) {
                     try {
                         Client.uiModeCur = TUI;
-                        new PlayerTUI(SOCKET, TUI);
+                        new PlayerTUI(SOCKET, TUI, opt);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -121,7 +130,7 @@ public class Client {
                 } else if (net.equals("RMI")) {
                     try {
                         Client.uiModeCur = TUI;
-                        new PlayerTUI(RMI, TUI);
+                        new PlayerTUI(RMI, TUI, opt);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -132,7 +141,7 @@ public class Client {
                 if (net.equals("Socket")) {
                     try {
                         Client.uiModeCur = GUI;
-                        new PlayerGUI(SOCKET, GUI);
+                        new PlayerGUI(SOCKET, GUI, opt);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -140,7 +149,7 @@ public class Client {
                 } else if (net.equals("RMI")) {
                     try {
                         Client.uiModeCur = GUI;
-                        new PlayerGUI(RMI, GUI);
+                        new PlayerGUI(RMI, GUI, opt);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }

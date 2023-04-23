@@ -59,7 +59,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public PlayerTUI(NetMode mode, UIMode ui) throws RemoteException {
+    public PlayerTUI(NetMode mode, UIMode ui, String opt) throws RemoteException {
         super(); // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
@@ -68,15 +68,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             mySocket = new Socket(IP.activeIP, Initializer.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
-            System.out.print("\nDo you want to connect to a running game with your old name (yes or no)?: ");
-            String s = "";
-            try {
-                s = br.readLine();
-            } catch (IOException e) {
-                //System.out.println("errore");
-                connectionLost(e);
-            }
-            if(!s.equals("yes")){
+            if(!opt.equals("yes")){
                 outStream.writeObject(false);
             }
             else{
