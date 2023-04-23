@@ -539,7 +539,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleDisconnectedEvent(Message msg){
-        eventText.setText("The active player (" + (String)msg.getAuthor() + " disconnected from the game");
+        eventText.setText("The active player (" + (String)msg.getAuthor() + ") disconnected from the game");
         if(netMode == SOCKET)
             sendToServer(new Message(STOP, null, null));
     }

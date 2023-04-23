@@ -774,8 +774,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     private void disconnectedTimer(){
-        double minutes = 1.5;
-        Game.waitForSeconds(60 * minutes);
+        Game.waitForSeconds(30);
+        if(getActivePlayersNumber() != 1)
+            return;
+        Game.waitForSeconds(30);
+        if(getActivePlayersNumber() != 1)
+            return;
+        Game.waitForSeconds(30);
         if(getActivePlayersNumber() == 1){
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "You have won because all the other players have disconnected");
