@@ -49,6 +49,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
     private transient Game gameTemp = null;
     private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
+    private boolean advance = false;
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -318,6 +319,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         showMessageDialog(null, "The game is now resuming and the next turn is starting...");
                     else
                         System.out.println("\nThe game is now resuming and the next turn is starting...");
+                    if(advance){
+                        advance = false;
+                        advanceTurn();
+                    }
                 }
             }
             else
@@ -521,14 +526,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
                 System.out.println("\nThe game is temporarily paused because you are the only connected player");
+            advance = true;
+            return;
         }
-        boolean wait = false;
-        while(getActivePlayersNumber() == 1){
-            wait = true;
-            //System.out.println(getActivePlayersNumber());
-        }
-        if(wait)
-            Game.waitForSeconds(standardTimer * 2);
         do{
             activePlayer = (activePlayer + 1) % numPlayers;
         }

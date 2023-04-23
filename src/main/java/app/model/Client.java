@@ -83,7 +83,7 @@ public class Client {
                         throw new RuntimeException(ex);
                     }
                 });
-                serverTh.setPriority(threadWeigth);
+                serverTh.setPriority(10);
                 serverTh.start();
                 Game.waitForSeconds(1);
                 break;
