@@ -751,7 +751,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     private void disconnectedTimer(){
-        int minutes = 2;
+        double minutes = 1.5;
         Game.waitForSeconds(60 * minutes);
         if(disconnectedPlayers.size() == numPlayers - 1){
             if(Client.uiModeCur == GUI)
