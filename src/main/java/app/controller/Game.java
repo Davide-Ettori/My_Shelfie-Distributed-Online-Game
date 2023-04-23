@@ -311,7 +311,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     } catch (SocketException e) {
                         connectionLost(e);
                     }
-                    if(getActivePlayersNumber() >= 3)
+                    if(getActivePlayersNumber() >= 3) // se ci sono solo 2 player il turno cambierà quindi non devo ascoltare la chat
                         new ChatBroadcast(this, names.indexOf(name)).start();
                 }).start();
                 if(getActivePlayersNumber() == 2){
