@@ -308,7 +308,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     } catch (SocketException e) {
                         connectionLost(e);
                     }
-                    new ChatBroadcast(this, names.indexOf(name)).start();
+                    if(getActivePlayersNumber() >= 3)
+                        new ChatBroadcast(this, names.indexOf(name)).start();
                 }).start();
             }
             else
@@ -507,6 +508,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         for (String n: disconnectedPlayers)
             System.out.println(n);
          */
+        if(getActivePlayersNumber() == 1){
+            if(Client.uiModeCur == GUI)
+                showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
+            else
+                System.out.println("\nThe game is temporarily paused because you are the only connected player");
+        }
+        while(getActivePlayersNumber() == 1){}
         do{
             activePlayer = (activePlayer + 1) % numPlayers;
         }
@@ -737,7 +745,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         disconnectedPlayers.add(names.get(i));
         rmiClients.remove(names.get(i));
-        if (disconnectedPlayers.size() == numPlayers - 1)
+        if (getActivePlayersNumber() == 1)
             new Thread(this::disconnectedTimer).start();
         if (i == activePlayer) {
             // manda evento di player disconnesso
@@ -753,7 +761,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private void disconnectedTimer(){
         double minutes = 1.5;
         Game.waitForSeconds(60 * minutes);
-        if(disconnectedPlayers.size() == numPlayers - 1){
+        if(getActivePlayersNumber() == 1){
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "You have won because all the other players have disconnected");
             else
@@ -761,6 +769,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.exit(0);
         }
     }
+
+    /**
+     * method that find the number of players which are currently connected to the game
+     * @author Ettori
+     * @return the number of connected players
+     */
+    private int getActivePlayersNumber(){return numPlayers - disconnectedPlayers.size();}
     /**
      * general method to respond to a client, it chooses the right network connection of the player
      * @author Ettori
