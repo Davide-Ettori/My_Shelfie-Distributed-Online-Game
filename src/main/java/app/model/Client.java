@@ -100,7 +100,7 @@ public class Client {
             }
             if(ui.length() == 0)
                 ui = "TUI";
-            System.out.print("\nChoose game mode (Socket or RMI): ");
+            System.out.print("\nChoose connection mode (Socket or RMI): ");
             String net;
             try {
                 net = br.readLine();
