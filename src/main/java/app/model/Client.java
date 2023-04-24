@@ -118,8 +118,8 @@ public class Client {
                 System.out.println("errore");
                 throw new RuntimeException(exc);
             }
-            if (ui.equals("TUI")) {
-                if (net.equals("Socket")) {
+            if (ui.equalsIgnoreCase("TUI")) {
+                if (net.equalsIgnoreCase("Socket")) {
                     Client.uiModeCur = TUI;
                     new Thread(() -> {
                         try {
@@ -129,7 +129,7 @@ public class Client {
                         }
                     }).start();
                     break;
-                } else if (net.equals("RMI")) {
+                } else if (net.equalsIgnoreCase("RMI")) {
                     Client.uiModeCur = TUI;
                     new Thread(() -> {
                         try {
@@ -141,8 +141,8 @@ public class Client {
                     break;
                 }
             }
-            if (ui.equals("GUI")) {
-                if (net.equals("Socket")) {
+            if (ui.equalsIgnoreCase("GUI")) {
+                if (net.equalsIgnoreCase("Socket")) {
                     Client.uiModeCur = GUI;
                     new Thread(() -> {
                         try {
@@ -152,7 +152,7 @@ public class Client {
                         }
                     }).start();
                     break;
-                } else if (net.equals("RMI")) {
+                } else if (net.equalsIgnoreCase("RMI")) {
                     Client.uiModeCur = GUI;
                     new Thread(() -> {
                         try {
