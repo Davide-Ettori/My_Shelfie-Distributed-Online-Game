@@ -596,10 +596,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 for (int i = 0; i < numPlayers; i++) {
                     if (!names.get(i).equals(from))
                         sendToClient(i, new Message(CHAT, "", msg));
+                    players.get(i).fullChat += msg;
                 }
             }
             else if(getNameIndex(to) != -1){
                 sendToClient(getNameIndex(to) ,new Message(CHAT, "", msg));
+                players.get(getNameIndex(to)).fullChat += msg;
+                players.get(getNameIndex(from)).fullChat += msg;
             }
         }catch (Exception e){connectionLost(e);}
     }
