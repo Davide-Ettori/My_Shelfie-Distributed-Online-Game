@@ -1168,7 +1168,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         eventText = new JTextField(120);
         eventText.setText(" Last relevant event of the Game ");
-        eventText.setMinimumSize(new Dimension(textCols * 45, textCols));
+        eventText.setMinimumSize(new Dimension(textCols * 45, textCols + 10));
         eventText.setEditable(false);
         eventText.setBorder(null);
 
@@ -1180,7 +1180,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.weighty = 0.2;
         gbc.gridwidth = 3;
         //gbc.fill = HORIZONTAL;
-        gbc.insets = new Insets(0,15,15,0);
+        gbc.insets = new Insets(0,15,10,0);
         internalPanelLow.add(eventText, gbc);
 
         //blue
