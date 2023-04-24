@@ -38,7 +38,7 @@ public class Client {
         try {
             ip = br.readLine();
         } catch (IOException exc) {
-            System.out.println("errore");
+            System.out.println("error");
             throw new RuntimeException(exc);
         }
         if(!ip.equals(""))
