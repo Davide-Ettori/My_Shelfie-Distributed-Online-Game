@@ -56,7 +56,7 @@ public class Client {
                 try {
                     numPlayers = br.readLine();
                 } catch (IOException exc) {
-                    System.out.println("errore");
+                    System.out.println("error");
                     throw new RuntimeException(exc);
                 }
                 if(numPlayers.length() == 0)
@@ -71,7 +71,7 @@ public class Client {
                 try {
                     old = br.readLine();
                 } catch (IOException exc) {
-                    System.out.println("errore");
+                    System.out.println("error");
                     throw new RuntimeException(exc);
                 }
                 int finalNumP = numP;
@@ -95,17 +95,17 @@ public class Client {
             try {
                 ui = br.readLine();
             } catch (IOException e) {
-                System.out.println("errore");
+                System.out.println("error");
                 throw new RuntimeException(e);
             }
             if(ui.length() == 0)
                 ui = "TUI";
-            System.out.print("\nChoose game mode (Socket or RMI): ");
+            System.out.print("\nChoose connection mode (Socket or RMI): ");
             String net;
             try {
                 net = br.readLine();
             } catch (IOException e) {
-                System.out.println("errore");
+                System.out.println("error");
                 throw new RuntimeException(e);
             }
             if(net.length() == 0)
@@ -115,7 +115,7 @@ public class Client {
             try {
                 opt = br.readLine();
             } catch (IOException exc) {
-                System.out.println("errore");
+                System.out.println("error");
                 throw new RuntimeException(exc);
             }
             if (ui.equalsIgnoreCase("TUI")) {
