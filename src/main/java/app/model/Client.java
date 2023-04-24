@@ -21,14 +21,14 @@ import static app.view.UIMode.TUI;
  * @author Ettori
  */
 public class Client {
-    /**
-     * main method which is used by the user to choose the UI and the Network
-      @author Ettori
-     */
 
     /** variable used to keep track of the UI mode that the player is currently using */
     public static UIMode uiModeCur;
     public static int threadWeight = 8;
+    /**
+     * main method which is used by the user to choose the UI and the Network
+     @author Ettori
+     */
     public Client() {
         String numPlayers;
         int numP;
