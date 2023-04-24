@@ -458,7 +458,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     JSONObject jsonObject = (JSONObject) msg.getContent();
                     Board b = (Board) jsonObject.get("board");
                     for(int i = 0; i < numPlayers; i++)
-                        players.get(i).board = b;
+                        players.get(i).board = new Board(b);
                 }
                 if(msg.getType() == UPDATE_GAME) {
                     //System.out.println(activePlayer + " - " + names.get(activePlayer));

@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class Player extends UnicastRemoteObject implements Serializable {
 
-    public static final int pingTimeout = 1000 * 20;
+    public static final int pingTimeout = 1000 * 10;
     protected String name;
     protected PrivateObjective objective;
     /** list of the libraries of all the players in the game */
