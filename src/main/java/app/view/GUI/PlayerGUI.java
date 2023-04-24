@@ -1168,7 +1168,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         eventText = new JTextField(120);
         eventText.setText(" Last relevant event of the Game ");
-        eventText.setMinimumSize(new Dimension(textCols * 45, textCols + 10));
+        eventText.setMinimumSize(new Dimension(textCols * 45, textCols + 8));
         eventText.setEditable(false);
         eventText.setBorder(null);
 
