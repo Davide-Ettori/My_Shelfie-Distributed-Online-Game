@@ -63,6 +63,7 @@ For this project we documented:
 ---
 ## Test Report 
 - [Here](https://htmlpreview.github.io/?https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/Test%Reports/index.html) you will see our test report.
+- !!! a quanto pare per aprire un file html da github bisogna abilitare le GitHub Pages e farlo da lì
 ---
 ## Development
 The software has been written using **Java 19**.
