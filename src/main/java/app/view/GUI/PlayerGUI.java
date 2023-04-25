@@ -49,13 +49,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final transient GridBagConstraints gbc = new GridBagConstraints();
+    private final transient GridBagConstraints gbc2 = new GridBagConstraints();
     private transient JFrame mainFrame;
-    private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel;
+    private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel, mainPanel;
     private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, generalLabel;
-    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle, eventText;
+    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle, eventText, textInput;
     private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
     private transient JScrollPane chatHistory;
-    private transient JButton pickCardsBtn, sendMessageBtn;
+    private transient JButton pickCardsBtn, sendMessageBtn, sendBtn;
 
     private final transient JLabel[][] boardCards = new JLabel[DIM][DIM];
     private final transient JLabel[][] myLibraryCards = new JLabel[ROWS][COLS];
@@ -260,14 +261,20 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     }
     /**
      * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
-     * @author Ettori
+     * @author Ettori Giammusso
      */
     private void showChooseNameWindow(){
-        JFrame frame;
-        JPanel panel;
-        JButton sendBtn;
-        JTextField textInput;
-        frame = new JFrame(); // creo la finestra
+
+        mainFrame =  new JFrame("My Shelfie");
+        mainPanel = new JPanel(new GridBagLayout());
+
+        //SFONDO:
+        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_5.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        generalLabelChooseName.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
+        generalLabelChooseName.setLayout(new GridBagLayout());
+
+        //titolo my shelfie
+        JLabel myShelfieTitleLabel = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Title 2000x618px.png").getImage().getScaledInstance(screenSize.width * 4 / 6, screenSize.height * 4 / 10, Image.SCALE_SMOOTH)));
 
         sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
         textInput = new JTextField(20); // textbox input dall'utente
@@ -292,14 +299,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 alert("\nName: '" + name + "' accepted by the server!");
                 //System.exit(0);
                 getInitialState(); // partire a lavorare da questa funzione in poi
-                frame.setVisible(false);
                 return;
             }
             if(status == OLD){
                 alert("\nName: '" + name + " was found in a previous game");
                 //System.exit(0);
                 getInitialState(); // partire a lavorare da questa funzione in poi
-                frame.setVisible(false);
                 return;
             }
             if(status == NOT_FOUND){
@@ -307,7 +312,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 System.exit(0);
             }
             if(status == FOUND){
-                frame.setVisible(false);
                 getPreviousState();
                 return;
             }
@@ -315,19 +319,28 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             textInput.setText("");
         });
 
-        panel = new JPanel(); // creo un pannello, dandogli i parametri dimensionali
-        panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
-        panel.setLayout(new GridLayout(2,1)); // griglia con 1 riga e 2 colonne
+        gbc2.gridx=0;
+        gbc2.gridy=0;
+        generalLabelChooseName.add(myShelfieTitleLabel,gbc2);
+        gbc2.gridx=0;
+        gbc2.gridy=1;
+        generalLabelChooseName.add(textInput,gbc2);
+        gbc2.gridx=0;
+        gbc2.gridy=2;
+        generalLabelChooseName.add(sendBtn,gbc2);
+        gbc2.gridx=0;
+        gbc2.gridy=0;
+        mainPanel.add(generalLabelChooseName,gbc2);
 
-        panel.add(textInput); // Aggiunge i componenti in ordine di griglia: tutta la prima riga, tutta la seconda, ecc. (sx -> dx)
-        panel.add(sendBtn);
+        mainFrame.add(mainPanel, BorderLayout.CENTER);
+        mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
+        mainFrame.setResizable(false);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setTitle("Window for Choosing the name");
+        mainFrame.pack(); // preparo la finestra
+        mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
+        mainFrame.setVisible(true); // mostro il tutto a schermo, GUI
 
-        frame.add(panel, BorderLayout.CENTER); // aggiungo il pannello alla finestra
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Window for Choosing the name");
-        frame.pack(); // preparo la finestra
-        frame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
-        frame.setVisible(true); // mostro il tutto a schermo, GUI
     }
     /**
      * Receive the status of the player (previously disconnected) from the server and restart the game
@@ -761,7 +774,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //Creation:
         //External
         //Internals: first level of abstraction
-        mainFrame =  new JFrame("My Shelfie");
+
 
         //Internals: second level of abstraction
         gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
@@ -1476,13 +1489,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.gridheight = 2;
         generalLabel.add(internalPanelSide,gbc);
 
-        mainFrame.add(generalLabel, BorderLayout.CENTER);
-        mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
-        mainFrame.setResizable(false);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainFrame.pack(); // serve? nel frame che chiede il nome era stato messo e funziona
-        mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
+        mainPanel.removeAll();//RIMUOVE TUTTA LA PRECEDENTE GUI USATA PER SCEGLIERE IL NOME UTENTE
+        //ORA AGGIUNGO LA NUOVA GUI DI GIOCO:
+        gbc2.gridx=0;
+        gbc2.gridy=0;
+        mainPanel.add(generalLabel,gbc2);
+
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }
