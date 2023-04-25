@@ -12,8 +12,8 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 
 ---
 ## Project Specifications
-- You can find the project specifications [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/Project%Specifications/Requirements.pdf).
-- And [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/Project%Specifications/Rulebook.png) you can find the Rulebook of the game.
+- You can find the project specifications [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Requirements.pdf).
+- And [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Rulebook.png) you can find the Rulebook of the game.
 
 ---
 ## Project Functionalities
@@ -58,11 +58,11 @@ For this project we documented:
 - [Class Diagram]() made with Draw.io that represent the Model-View-Controller architectural pattern that we used for this project
 - [Class Diagram]() generated with Intellij
 - [Sequence Diagram]() that represent how the messages are exchanged between the Client and the Server
-- [State Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/UML%Diagrams/PNG/State%Diagram.drawio.png) that describe the behaviour of the system
+- [State Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/State%20Diagram.drawio.png) that describe the behaviour of the system
 - !!! aggiungere i link alle foto dei uml
 ---
 ## Test Report 
-- [Here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/Test%Reports/index.html) you will see our test report.
+- [Here](https://htmlpreview.github.io/?https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/Test%Reports/index.html) you will see our test report.
 ---
 ## Development
 The software has been written using **Java 19**.
