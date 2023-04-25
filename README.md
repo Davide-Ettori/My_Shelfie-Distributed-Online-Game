@@ -1,5 +1,7 @@
 # ing-sw-2023-ettori-giammusso-faccincani-gumus
 
+![](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Title%202000x618px.png)
+
 ## Software Engineering Project (PoliMi, 2023) - My Shelfie 
 
 
