@@ -2,7 +2,7 @@
 
 ## Software Engineering Project (PoliMi, 2023) - My Shelfie 
 
----
+
 ### Authors
 Polytechnic of Milan - Prof. San Pietro section - Group number 3
 - <b> Davide Ettori </b>
@@ -10,12 +10,12 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 - <b> Faccincani Samuele </b>
 - <b> Furkan Gumus </b>
 
----
+
 ## Project Specifications
 - You can find the project specifications [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Requirements.pdf).
 - And [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Rulebook.png) you can find the Rulebook of the game.
 
----
+
 ## Project Functionalities
 In this table you can see which functionalities we implemented
 
@@ -44,12 +44,12 @@ In this table you can see how the project is evaluated
 | Complete Rules + CLI + GUI + Socket + RMI + 2 AF   | 30    |
 | Complete Rules + CLI + GUI + Socket + RMI + 3 AF   | 30L   |
 
----
+
 ## How to Play
 DA FINIRE
 - AGGIUNGERE QUI SCREENSHOT O VIDEO DEL GAMEPLAY
 
----
+
 ## Documentation
 For this project we documented:
 ### 1. JavaDoc
@@ -60,11 +60,11 @@ For this project we documented:
 - [Sequence Diagram]() that represent how the messages are exchanged between the Client and the Server
 - [State Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/State%20Diagram.drawio.png) that describe the behaviour of the system
 - !!! aggiungere i link alle foto dei uml
----
+
 ## Test Report 
 - [Here](https://htmlpreview.github.io/?https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/Test%Reports/index.html) you will see our test report.
 - !!! a quanto pare per aprire un file html da github bisogna abilitare le GitHub Pages e farlo da lì
----
+
 ## Development
 The software has been written using **Java 19**.
 
@@ -72,6 +72,6 @@ The IDE used for the development was **IntelliJ Idea Ultimate**.
 
 To create the UML diagrams we used **Draw.io**.
 
----
+
 ## License
 All rights to My Shelfie game are owned by Cranio Games, which provided the graphical resources to be used for educational purposes only.
