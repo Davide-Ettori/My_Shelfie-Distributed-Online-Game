@@ -74,6 +74,10 @@ The IDE used for the development was **IntelliJ Idea Ultimate**.
 
 To create the UML diagrams we used **Draw.io**.
 
+The dependency management was administrated with **Maven** 
+
+The version control was operated with **Git and GitHub**
+
 
 ## License
 All rights to My Shelfie game are owned by Cranio Games, which provided the graphical resources to be used for educational purposes only.
