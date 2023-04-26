@@ -56,12 +56,11 @@ DA FINIRE
 For this project we documented:
 ### 1. JavaDoc
 - [Here]() you can find the JavaDoc documentation
+- !!! a quanto pare per aprire un file html da github bisogna abilitare le GitHub Pages e farlo da lì (oppure lo hostiamo su javadoc.io dopo la consegna del progetto)
 ### 2. UML
-- [Class Diagram]() made with Draw.io that represent the Model-View-Controller architectural pattern that we used for this project
-- [Class Diagram]() generated with Intellij
-- [Sequence Diagram]() that represent how the messages are exchanged between the Client and the Server
+- [Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/54cfcebd3fc741955e5c213090cbb66ec0a11f60/deliveries/UML%20Diagrams/PNG/Class%20Diagram.drawio.png) made with Draw.io that represent the Model-View-Controller architectural pattern that we used for this project
+- [Sequence Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/54cfcebd3fc741955e5c213090cbb66ec0a11f60/deliveries/UML%20Diagrams/PNG/Sequence%20Diagram.drawio.png) that represent how the messages are exchanged between the Client and the Server
 - [State Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/State%20Diagram.drawio.png) that describe the behaviour of the system
-- !!! aggiungere i link alle foto dei uml
 
 ## Test Report 
 - [Here](https://htmlpreview.github.io/?https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/deliveries/Test%Reports/index.html) you will see our test report.
