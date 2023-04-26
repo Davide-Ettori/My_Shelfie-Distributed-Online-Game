@@ -298,12 +298,16 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(status == NOT_TAKEN){
                 alert("\nName: '" + name + "' accepted by the server!");
                 //System.exit(0);
+                textInput.setVisible(false);
+                sendBtn.setVisible(false);
                 getInitialState(); // partire a lavorare da questa funzione in poi
                 return;
             }
             if(status == OLD){
                 alert("\nName: '" + name + " was found in a previous game");
                 //System.exit(0);
+                textInput.setVisible(false);
+                sendBtn.setVisible(false);
                 getInitialState(); // partire a lavorare da questa funzione in poi
                 return;
             }
@@ -312,6 +316,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 System.exit(0);
             }
             if(status == FOUND){
+                textInput.setVisible(false);
+                sendBtn.setVisible(false);
                 getPreviousState();
                 return;
             }
