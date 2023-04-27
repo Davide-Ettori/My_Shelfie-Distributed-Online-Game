@@ -40,10 +40,10 @@ public class Algo_CO_6 extends Strategy { // terzo seconda colonna
         for (int j = 0; j < COLS; j++) {
             colors = new ArrayList<>();
             for (int i = 0; i < ROWS; i++) {
-                if (!colors.contains(board[i][j].color))
+                if (!colors.contains(board[i][j].color) && board[i][j].color != EMPTY)
                     colors.add(board[i][j].color);
             }
-            if (colors.size() == 6 && notEmptyOnCol(board, j))
+            if (colors.size() == 6)
                 count++;
         }
         return count >= 2;
