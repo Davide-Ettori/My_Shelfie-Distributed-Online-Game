@@ -83,6 +83,7 @@ public class Client {
                     }
                 });
                 //serverTh.setPriority(threadWeight);
+                serverTh.setPriority(Thread.MAX_PRIORITY);
                 serverTh.start();
                 Game.waitForSeconds(1);
                 break;
