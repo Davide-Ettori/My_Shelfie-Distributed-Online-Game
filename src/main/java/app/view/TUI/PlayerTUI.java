@@ -118,7 +118,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 System.out.println("errore");
                 connectionLost(e);
             }
-            if(name.length() == 0 || name.charAt(0) == '@'){
+            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("exit")){
                 System.out.println("Name invalid, choose another name");
                 continue;
             }
