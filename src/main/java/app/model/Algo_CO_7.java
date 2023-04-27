@@ -77,11 +77,9 @@ public class Algo_CO_7 extends Strategy { // quarto prima colonna
             }
         }
         for(int i = 0; i < colors.size() - 1; i++){
-            System.out.print(colors.get(i) + " ");
             if(colors.subList(i + 1, colors.size()).contains(colors.get(i)))
                 return true;
         }
-        System.out.println();
         return false;
     }
 }

@@ -43,7 +43,6 @@ public class Algo_CO_6 extends Strategy { // terzo seconda colonna
                 if (!colors.contains(board[i][j].color) && board[i][j].color != EMPTY)
                     colors.add(board[i][j].color);
             }
-            System.out.println(colors.size());
             if (colors.size() == 6)
                 count++;
         }
