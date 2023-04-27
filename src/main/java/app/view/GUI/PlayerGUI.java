@@ -1334,7 +1334,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         insertMessage.addActionListener(event -> sendMessageBtn.doClick());
         insertPlayer = new JTextField(textCols);
         insertPlayer.setBorder(null);
-        insertPlayer.setText("Insert the player: ");
+        insertPlayer.setText("Insert the player (all for everyone) : ");
         insertPlayer.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         sendMessageBtn = new JButton("Send Message");
         sendMessageBtn.setFocusPainted(false);
