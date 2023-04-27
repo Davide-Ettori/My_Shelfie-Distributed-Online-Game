@@ -1,12 +1,14 @@
 package app.controller;
 
 import app.model.*;
+import app.view.IP;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -91,7 +93,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.exit(0);
         }).start();
 
-        try{serverSocket = new ServerSocket(Initializer.PORT);}
+        try{serverSocket = new ServerSocket(Initializer.PORT, 10, InetAddress.getByName(IP.activeIP));}
         catch(Exception e){connectionLost(e);}
         System.out.println("\nServer listening...");
 
