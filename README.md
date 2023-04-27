@@ -55,11 +55,11 @@ DA FINIRE
 ## Documentation
 For this project we documented:
 ### 1. JavaDoc
-- [Here]() you can find the JavaDoc documentation
+- [Here](https://htmlpreview.github.io/?https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/documentation/index.html) you can find the JavaDoc documentation
 ### 2. UML
-- [Class Diagram]() made with Draw.io that represent the Model-View-Controller architectural pattern that we used for this project
-- [Class Diagram]() generated with Intellij
-- [Sequence Diagram]() that represent how the messages are exchanged between the Client and the Server
+- [Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Class%20Diagram.drawio.png) made with Draw.io that represent the Model-View-Controller architectural pattern that we used for this project
+- [Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Full%20Class%20Diagram.drawio.png) generated with Intellij
+- [Sequence Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Sequence%20Diagram.drawio.png) that represent how the messages are exchanged between the Client and the Server
 - [State Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/State%20Diagram.drawio.png) that describe the behaviour of the system
 - !!! aggiungere i link alle foto dei uml
 
