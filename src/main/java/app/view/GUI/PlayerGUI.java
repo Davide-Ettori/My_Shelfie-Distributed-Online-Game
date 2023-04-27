@@ -345,7 +345,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setTitle("Window for Choosing the name");
+        mainFrame.setTitle("My Shelfie");
         mainFrame.pack(); // preparo la finestra
         mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         mainFrame.setVisible(true); // mostro il tutto a schermo, GUI
