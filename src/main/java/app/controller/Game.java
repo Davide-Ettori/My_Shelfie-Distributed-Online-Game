@@ -208,10 +208,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             p.pointsUntilNow = 0;
             p.activeName = getChairmanName();
             p.chairmanName = getChairmanName();
-            for(int j = 0; j < numPlayers; j++) {
-                if(!names.get(j).equals(names.get(i)))
-                    p.librariesOfOtherPlayers.add(new Library(names.get(j)));
-            }
+            try {
+                for (int j = 0; j < numPlayers; j++) {
+                    if (!names.get(j).equals(names.get(i)))
+                        p.librariesOfOtherPlayers.add(new Library(names.get(j)));
+                }
+            }catch (Exception e){connectionLost(e);}
             p.numPlayers = numPlayers;
             try {
                 outStreams.get(i).writeObject(p);
