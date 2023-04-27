@@ -200,6 +200,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
             drawAll();
+            System.out.println("List of the commands of the chat\n@all for message to everyone\n@\"name\" for private message\n@names to see the nicknames of all the players\n@exit to close the game");
         }catch(Exception e){connectionLost(e);}
         try { // ottieni la reference al server remoto
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
