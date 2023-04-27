@@ -142,66 +142,74 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      */
     private void updateInfo(){
-        pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-        pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-        activeTurnInfo.setText(" The active player is " + activeName + " ");
-        curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
-        tempChatHistory.setText(fullChat);
+        SwingUtilities.invokeLater(() -> {
+            pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+            pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+            activeTurnInfo.setText(" The active player is " + activeName + " ");
+            curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
+            tempChatHistory.setText(fullChat);
+        });
     }
     /**
      * method that update the board of the game
      * @author Ettori
      */
     private void updateBoard(){
-        for(int i = 0; i < DIM; i++){
-            for(int j = 0; j < DIM; j++){
-                if(i == libFullX && j == libFullY)
-                    continue;
-                boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
+        SwingUtilities.invokeLater(() ->{
+            for(int i = 0; i < DIM; i++){
+                for(int j = 0; j < DIM; j++){
+                    if(i == libFullX && j == libFullY)
+                        continue;
+                    boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                    boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
+                }
             }
-        }
-        boardCards[libFullX][libFullY].setVisible(!endGame);
+            boardCards[libFullX][libFullY].setVisible(!endGame);
+        });
     }
     /**
      * method that update the library of the active player
      * @author Ettori
      */
     private void updateMyLibrary(){
-        for(int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != EMPTY);
+        SwingUtilities.invokeLater(() ->{
+            for(int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLS; j++) {
+                    myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                    myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != EMPTY);
+                }
             }
-        }
+        });
     }
     /**
      * method that update the libraries of all the player except the one which is active
      * @author Ettori
      */
     private void updateOtherLibraries(){
-        for(int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);
-            }
-        }
-        if(numPlayers >= 3){
+        SwingUtilities.invokeLater(() ->{
             for(int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLS; j++) {
-                    otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                    otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != EMPTY);
+                    otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                    otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);
                 }
             }
-        }
-        if(numPlayers >= 4){
-            for(int i = 0; i < ROWS; i++) {
-                for (int j = 0; j < COLS; j++) {
-                    otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                    otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != EMPTY);
+            if(numPlayers >= 3){
+                for(int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                        otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != EMPTY);
+                    }
                 }
             }
-        }
+            if(numPlayers >= 4){
+                for(int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                        otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != EMPTY);
+                    }
+                }
+            }
+        });
     }
     /**
      * Function that update the GUI with the new information
