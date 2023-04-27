@@ -584,6 +584,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 eventText.setText(" Well done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
                 Game.waitForSeconds(standardTimer / 2.5);
                 change = true;
+                System.out.println("primo");
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
                 lastIndex = board.pointsCO_2.size() - 1;
@@ -595,6 +596,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 eventText.setText(" Well done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
                 Game.waitForSeconds(standardTimer / 2.5);
                 change = true;
+                System.out.println("secondo");
             }
         }catch(Exception e){connectionLost(e);}
         return change;
