@@ -21,18 +21,18 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 ## Project Functionalities
 In this table you can see which functionalities we implemented
 
-| Functionalities          | Base | Advanced |
-|--------------------------|------|----------|
-| Simplified Rules         | ✅    |          |
-| Complete Rules           | ✅    |          |
-| Socket                   | ✅    |          |
-| RMI                      | ✅    |          |
-| CLI                      | ✅    |          |
-| GUI                      | ✅    |          |
-| Multiple Games           |      | ❌        |
-| Server Persistence       |      | ✅        |
-| Disconnection Resilience |      | ✅        |
-| Chat                     |      | ✅        |
+| Functionalities    | Base | Advanced |
+|--------------------|------|----------|
+| Simplified Rules   | ✅    |          |
+| Complete Rules     | ✅    |          |
+| Socket             | ✅    |          |
+| RMI                | ✅    |          |
+| CLI                | ✅    |          |
+| GUI                | ✅    |          |
+| Multiple Games     |      | ❌        |
+| Server Persistence |      | ✅        |
+| Client Resilience  |      | ✅        |
+| Chat               |      | ✅        |
 
 In this table you can see how the project is evaluated
 
