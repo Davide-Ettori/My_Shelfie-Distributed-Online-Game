@@ -59,7 +59,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public Game(int maxP, String old) throws RemoteException {
         super();
-
+        System.setProperty("java.rmi.server.hostname", IP.activeIP);
         LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind("Server", this); // hosto il server sulla rete
 
         targetPlayers = maxP;
