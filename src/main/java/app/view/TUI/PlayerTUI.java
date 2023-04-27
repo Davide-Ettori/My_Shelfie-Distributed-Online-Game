@@ -688,6 +688,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     public boolean sendChatMsg(String msg){
         if(msg.length() == 0)
             return false;
+        if(msg.equals("@exit")){
+            System.out.println("The game is exiting...");
+            Game.waitForSeconds(standardTimer);
+            System.exit(0);
+        }
         if(msg.charAt(0) != '@')
             return false;
         if(!msg.contains(" ")){
