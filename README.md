@@ -64,7 +64,7 @@ For this project we documented:
 - [Full Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Full%20Class%20Diagram.drawio.png) the complete Class Diagram of the project, generated with IntelliJ
 
 ## Test Report 
-- [Here](test-report-web.netlify.app) you will see our test report.
+- [Here](https://test-report-web.netlify.app) you will see our test report.
 
 ## Development
 The software has been written using **Java 19**.
