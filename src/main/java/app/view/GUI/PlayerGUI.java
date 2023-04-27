@@ -331,9 +331,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         generalLabelChooseName.add(myShelfieTitleLabel,gbc2);
         gbc2.gridx=0;
         gbc2.gridy=1;
+        gbc2.insets = new Insets(0,0,15,0);
         generalLabelChooseName.add(textInput,gbc2);
         gbc2.gridx=0;
         gbc2.gridy=2;
+        gbc2.insets = new Insets(0,0,0,0);
         generalLabelChooseName.add(sendBtn,gbc2);
         gbc2.gridx=0;
         gbc2.gridy=0;
