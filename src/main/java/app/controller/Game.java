@@ -716,10 +716,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        waitForSeconds(standardTimer / 2.5);
-        sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         for(int i = 0; i < numPlayers; i++)
             new ChatBroadcast(this, i).start();
+        waitForSeconds(standardTimer / 2.5);
+        sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         while (true){}
     }
     /**
