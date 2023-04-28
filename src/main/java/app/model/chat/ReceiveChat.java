@@ -34,6 +34,7 @@ public class ReceiveChat extends Thread{
             while (true) {
                 System.out.println("ASPETTO CHAT");
                 Message msg = (Message) player.getInStream().readObject();
+                System.out.println(msg.getType());
                 //System.out.println("\nfrom CHAT - " + msg.getType());
                 if(msg == null || msg.getType() == STOP)
                     return;

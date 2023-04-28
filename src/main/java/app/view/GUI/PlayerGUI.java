@@ -523,7 +523,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         while(true){
             try {
                 Message msg = (Message) inStream.readObject();
-                //System.out.println(msg.getType());
+                System.out.println(msg.getType());
                 switch (msg.getType()) {
                     case YOUR_TURN -> handleYourTurnEvent();
                     case CHANGE_TURN -> handleChangeTurnEvent(msg);
