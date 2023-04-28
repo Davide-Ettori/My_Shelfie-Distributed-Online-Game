@@ -340,7 +340,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleFinalScoreEvent(Message msg){
         System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        Game.waitForSeconds(standardTimer * 2);
+        Game.waitForSeconds(standardTimer * 5);
         System.exit(0); // il gioco finisce e tutto si chiude forzatamente
     }
     /**
@@ -804,10 +804,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             //System.out.println("START PINGING");
             Game.waitForSeconds(standardTimer * 2);
             //System.out.println("PING");
-            if(endGame){
-                new Thread(this::pingRMI).start();
-                return;
-            }
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {
