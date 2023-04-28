@@ -1,7 +1,9 @@
 package app.model.chat;
 
+import app.controller.Game;
 import app.controller.Message;
 import app.model.NetMode;
+import app.model.Player;
 import app.view.TUI.PlayerTUI;
 
 import java.io.IOException;
@@ -35,6 +37,11 @@ public class ReceiveChat extends Thread{
                 //System.out.println("\nfrom CHAT - " + msg.getType());
                 if(msg == null || msg.getType() == STOP)
                     return;
+                if(msg.getType() == FINAL_SCORE){
+                    System.out.println(msg.getContent());
+                    Game.waitForSeconds(1);
+                    System.exit(0);
+                }
                 System.out.println("\n" + msg.getContent());
                 player.addToFullChat((String)msg.getContent());
             }

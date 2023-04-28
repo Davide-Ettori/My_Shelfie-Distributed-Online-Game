@@ -695,14 +695,24 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void sendFinalScoresToAll(){
         String finalScores = getFinalScore();
-        ArrayList<Thread> ths = new ArrayList<>();
         FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache
         System.out.println(Game.serverPlayer);
-        for(int i = 0; i < numPlayers; i++) {
-            if(names.get(i).equals(Game.serverPlayer))
-                continue;
-            sendToClient(i, new Message(FINAL_SCORE, "server", finalScores));
+        System.out.println("game finish");
+        Thread finalTh = new Thread(() ->{
+            for(int i = 0; i < numPlayers; i++) {
+                if(names.get(i).equals(Game.serverPlayer))
+                    continue;
+                System.out.println(names.get(i));
+                sendToClient(i, new Message(FINAL_SCORE, "server", finalScores));
+            }
+        });
+        finalTh.start();
+        try {
+            finalTh.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        waitForSeconds(standardTimer / 2.5);
         sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         while (true){}
     }
