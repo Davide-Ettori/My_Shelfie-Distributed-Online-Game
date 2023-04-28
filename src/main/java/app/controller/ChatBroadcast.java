@@ -28,7 +28,7 @@ public class ChatBroadcast extends Thread{
             Message msg = null;
             try {
                 msg = (Message) game.getInStreams().get(index).readObject();
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (Exception e) {
                 game.playerDisconnected(index);
                 return;
             }
