@@ -32,7 +32,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final double standardTimer = 2.5;
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     public static String serverPlayer = "";
     private final int targetPlayers;
     private int numPlayers;
@@ -698,13 +698,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private void sendFinalScoresToAll(){
         String finalScores = getFinalScore();
         FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache
-        System.out.println(Game.serverPlayer);
-        System.out.println("game finish");
+        //System.out.println(Game.serverPlayer);
+        //System.out.println("Game finished");
         Thread finalTh = new Thread(() ->{
             for(int i = 0; i < numPlayers; i++) {
                 if(names.get(i).equals(Game.serverPlayer))
                     continue;
-                System.out.println(names.get(i));
+                //System.out.println(names.get(i));
                 sendToClient(i, new Message(FINAL_SCORE, "server", finalScores));
             }
         });
@@ -822,15 +822,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        if(msg.getType() == FINAL_SCORE)
-            System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
+        //if(msg.getType() == FINAL_SCORE)
+        //    System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(disconnectedPlayers.contains(names.get(i)))
             return;
         if(!rmiClients.containsKey(names.get(i))){
             try {
                 outStreams.get(i).writeObject(msg);
             } catch (IOException e) {
-                System.out.println("ERRORACCIO");
+                //System.out.println("ERRORACCIO");
                 //playerDisconnected(i);
                 return;
             }
