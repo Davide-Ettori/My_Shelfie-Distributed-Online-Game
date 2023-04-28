@@ -708,7 +708,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 ths.get(i).start();
             } catch (Exception e) {connectionLost(e);}
         }
-        for(int i = 0; i < numPlayers; i++) {
+        for(int i = 0; i < numPlayers - 1; i++) {
             try {
                 ths.get(i).join();
             } catch (InterruptedException e) {
