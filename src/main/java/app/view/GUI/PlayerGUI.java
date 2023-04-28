@@ -231,9 +231,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             SwingUtilities.invokeAndWait(() ->{
                 eventText.setText(s);
             });
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
+        } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
