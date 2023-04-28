@@ -234,6 +234,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         int temp = new Random().nextInt(numPlayers);
         //temp = 1; // ELIMINA --> usata solo per il testing
         //temp = 0; // ELIMINA --> usata solo per il testing
+        temp = 2;
         String n = names.get(0);
         names.set(0, names.get(temp));
         names.set(temp, n);
@@ -546,12 +547,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             activePlayer = (activePlayer + 1) % numPlayers;
         }
         while(disconnectedPlayers.contains(names.get(activePlayer)));
-        if(activePlayer == 0 && endGameSituation) {
-            System.out.println("\nThe game is ending...");
-            notifyNewTurn();
-            waitForSeconds(standardTimer / 5 * 4);
-            sendFinalScoresToAll();
-        }
         //System.out.println(names.get(activePlayer));
         notifyNewTurn();
     }
@@ -575,8 +570,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
         FILEHelper.writeServer(this); // salvo lo stato della partita
-        if(activePlayer == 0 && endGameSituation)
-            return;
+        if(activePlayer == 0 && endGameSituation) {
+            System.out.println("\nThe game is ending...");
+            waitForSeconds(standardTimer / 5 * 4);
+            sendFinalScoresToAll();
+        }
         //System.out.println("PRIMA -" + names.get(activePlayer));
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
