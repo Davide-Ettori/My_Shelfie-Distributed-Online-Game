@@ -584,7 +584,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //updateBoard();
         //updateOtherLibraries();
         eventText.setText(" Player: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        Game.waitForSeconds(standardTimer);
+        //Game.waitForSeconds(standardTimer);
     }
     /**
      * helper function for handling the final score calculation event notification from the server
