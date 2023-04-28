@@ -328,7 +328,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         }
         //drawAll();
         System.out.println("\nPlayer: " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        Game.waitForSeconds(standardTimer);
+        //Game.waitForSeconds(standardTimer);
         if(netMode == SOCKET)
             waitForEvents();
     }
