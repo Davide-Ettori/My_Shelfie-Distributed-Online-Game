@@ -33,7 +33,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final double standardTimer = 2.5;
     public static boolean showErrors = false;
-    public static String serverPlayer;
+    public static String serverPlayer = "hello";
     private final int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
@@ -116,6 +116,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else
             initializeAllClients();
+        System.out.println(Game.serverPlayer);
         Game.waitForSeconds(standardTimer / 2.5);
         //System.out.println(names.get(0));
         for(int i = 0; i < numPlayers; i++){
@@ -696,24 +697,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         String finalScores = getFinalScore();
         ArrayList<Thread> ths = new ArrayList<>();
         FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache
+        System.out.println(Game.serverPlayer);
         for(int i = 0; i < numPlayers; i++) {
             if(names.get(i).equals(Game.serverPlayer))
                 continue;
-            try {
-                int finalI = i;
-                ths.add(new Thread(() -> {
-                    Game.waitForSeconds(standardTimer / 2.5);
-                    sendToClient(finalI, new Message(FINAL_SCORE, "server", finalScores));
-                }));
-                ths.get(ths.size() - 1).start();
-            } catch (Exception e) {connectionLost(e);}
-        }
-        for(int i = 0; i < numPlayers - 1; i++) {
-            try {
-                ths.get(i).join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            sendToClient(i, new Message(FINAL_SCORE, "server", finalScores));
         }
         sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         while (true){}
