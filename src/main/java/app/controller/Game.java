@@ -694,6 +694,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private void sendFinalScoresToAll(){
         String finalScores = getFinalScore();
         ArrayList<Thread> ths = new ArrayList<>();
+        FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache
         for(int i = 0; i < numPlayers; i++) {
             try {
                 int finalI = i;
@@ -711,7 +712,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 throw new RuntimeException(e);
             }
         }
-        FILEHelper.writeSucc(); // server uscito con successo, non hai messo niente nella cache
         while (true){}
     }
     /**
