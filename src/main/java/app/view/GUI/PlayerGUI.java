@@ -522,8 +522,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void waitForEvents(){ // funzione principale di attesa
         while(true){
             try {
+                System.out.println("...");
                 Message msg = (Message) inStream.readObject();
-                System.out.println(msg.getType());
+                //System.out.println(msg.getType());
                 switch (msg.getType()) {
                     case YOUR_TURN -> handleYourTurnEvent();
                     case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -538,9 +539,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     //case STOP -> {} // non devi fare niente
                 }
             }catch(Exception e){
-                return;
+                //return;
                 //commento per il sommo muletto
-                //connectionLost(e);
+                connectionLost(e);
                 }
         }
     }

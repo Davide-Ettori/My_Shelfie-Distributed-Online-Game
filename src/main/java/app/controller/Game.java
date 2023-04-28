@@ -32,8 +32,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final double standardTimer = 2.5;
-    public static boolean showErrors = false;
-    public static String serverPlayer = "hello";
+    public static boolean showErrors = true;
+    public static String serverPlayer = "";
     private final int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
@@ -822,13 +822,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        //System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
+        if(msg.getType() == FINAL_SCORE)
+            System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(disconnectedPlayers.contains(names.get(i)))
             return;
         if(!rmiClients.containsKey(names.get(i))){
             try {
                 outStreams.get(i).writeObject(msg);
             } catch (IOException e) {
+                System.out.println("ERRORACCIO");
                 //playerDisconnected(i);
                 return;
             }

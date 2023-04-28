@@ -50,9 +50,9 @@ public class ReceiveChat extends Thread{
         }
         catch (IOException ignored){}
         catch(Exception e){
-            return ;
+            //return ;
             //per il muletto
-            //player.connectionLost(e);
+            player.connectionLost(e);
             }
     }
 }
