@@ -255,6 +255,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
              */
             //System.out.println(msg.getType());
+            "".equals("");
             switch (msg.getType()) {
                 case YOUR_TURN -> handleYourTurnEvent();
                 case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -269,8 +270,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 //case STOP -> waitForEvents();
             }
         }catch(Exception e){
-            return;//per il muletto
-            //connectionLost(e);
+            //return;//per il muletto
+            connectionLost(e);
             }
     }
     /**
