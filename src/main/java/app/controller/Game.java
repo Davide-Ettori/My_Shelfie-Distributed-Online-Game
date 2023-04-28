@@ -32,7 +32,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final double standardTimer = 2.5;
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     private final int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
