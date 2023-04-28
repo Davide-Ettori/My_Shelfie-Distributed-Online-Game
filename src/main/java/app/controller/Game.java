@@ -32,7 +32,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final double standardTimer = 2.5;
-    public static boolean showErrors = false;
+    public static boolean showErrors = true;
     public static String serverPlayer = "";
     private final int targetPlayers;
     private int numPlayers;
@@ -567,12 +567,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         new Thread(() -> {
             Game.waitForSeconds(standardTimer / 2.5);
+            System.out.println("prima");
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
         FILEHelper.writeServer(this); // salvo lo stato della partita
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
-            waitForSeconds(standardTimer / 5 * 4);
+            waitForSeconds(standardTimer);
+            System.out.println("dopo");
             sendFinalScoresToAll();
         }
         //System.out.println("PRIMA -" + names.get(activePlayer));

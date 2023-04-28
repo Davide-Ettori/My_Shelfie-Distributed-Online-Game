@@ -255,7 +255,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
              */
             //System.out.println(msg.getType());
-            "".equals("");
+            //"".equals("");
             switch (msg.getType()) {
                 case YOUR_TURN -> handleYourTurnEvent();
                 case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -804,6 +804,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             //System.out.println("START PINGING");
             Game.waitForSeconds(standardTimer * 2);
             //System.out.println("PING");
+            if(endGame){
+                new Thread(this::pingRMI).start();
+                return;
+            }
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {

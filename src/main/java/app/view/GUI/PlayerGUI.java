@@ -805,6 +805,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     public void ping(){
         while(true){
             Game.waitForSeconds(standardTimer * 2);
+            if(endGame){
+                new Thread(this::pingRMI).start();
+                return;
+            }
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {
