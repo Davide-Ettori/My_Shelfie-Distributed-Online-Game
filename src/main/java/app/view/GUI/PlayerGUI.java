@@ -94,7 +94,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public PlayerGUI(NetMode mode, UIMode ui, String opt) throws RemoteException {
+    public PlayerGUI(NetMode mode, UIMode ui, String opt, boolean flag) throws RemoteException {
         super(); // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
@@ -112,7 +112,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             }
         }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
-        showChooseNameWindow();
+        showChooseNameWindow(flag);
     }
     /**
      * Clone the player on the client in the player on the server
@@ -341,7 +341,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
      * @author Ettori Giammusso
      */
-    private void showChooseNameWindow(){
+    private void showChooseNameWindow(boolean flag){
 
         mainFrame =  new JFrame("My Shelfie");
         mainPanel = new JPanel(new GridBagLayout());
@@ -378,6 +378,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 //System.exit(0);
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
+                if(flag)
+                    Game.serverPlayer = name;
                 getInitialState(); // partire a lavorare da questa funzione in poi
                 return;
             }

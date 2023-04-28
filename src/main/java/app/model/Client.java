@@ -32,6 +32,7 @@ public class Client {
     public Client() {
         String numPlayers;
         int numP;
+        boolean flag = false;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("\nInsert the IP address of the server: ");
         String ip;
@@ -51,6 +52,7 @@ public class Client {
             System.out.println("\nThere is already an active game...");
             //FILEHelper.writeSucc();
         }catch (Exception e){
+            flag = true;
             while(true) {
                 System.out.print("\nYou are the first player to connect, insert the number of players: ");
                 try {
@@ -122,9 +124,10 @@ public class Client {
             if (ui.equalsIgnoreCase("TUI")) {
                 if (net.equalsIgnoreCase("Socket")) {
                     Client.uiModeCur = TUI;
+                    boolean finalFlag = flag;
                     new Thread(() -> {
                         try {
-                            new PlayerTUI(SOCKET, TUI, opt);
+                            new PlayerTUI(SOCKET, TUI, opt, finalFlag);
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }
@@ -132,9 +135,10 @@ public class Client {
                     break;
                 } else if (net.equalsIgnoreCase("RMI")) {
                     Client.uiModeCur = TUI;
+                    boolean finalFlag1 = flag;
                     new Thread(() -> {
                         try {
-                            new PlayerTUI(RMI, TUI, opt);
+                            new PlayerTUI(RMI, TUI, opt, finalFlag1);
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }
@@ -145,9 +149,10 @@ public class Client {
             if (ui.equalsIgnoreCase("GUI")) {
                 if (net.equalsIgnoreCase("Socket")) {
                     Client.uiModeCur = GUI;
+                    boolean finalFlag2 = flag;
                     new Thread(() -> {
                         try {
-                            new PlayerGUI(SOCKET, GUI, opt);
+                            new PlayerGUI(SOCKET, GUI, opt, finalFlag2);
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }
@@ -155,9 +160,10 @@ public class Client {
                     break;
                 } else if (net.equalsIgnoreCase("RMI")) {
                     Client.uiModeCur = GUI;
+                    boolean finalFlag3 = flag;
                     new Thread(() -> {
                         try {
-                            new PlayerGUI(RMI, GUI, opt);
+                            new PlayerGUI(RMI, GUI, opt, finalFlag3);
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }

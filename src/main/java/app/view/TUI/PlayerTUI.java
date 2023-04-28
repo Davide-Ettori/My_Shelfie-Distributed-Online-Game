@@ -7,6 +7,7 @@ import app.model.chat.ReceiveChat;
 import app.model.chat.SendChat;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
+import playground.rmi.Server;
 
 import java.io.*;
 import java.net.Socket;
@@ -59,7 +60,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public PlayerTUI(NetMode mode, UIMode ui, String opt) throws RemoteException {
+    public PlayerTUI(NetMode mode, UIMode ui, String opt, boolean flag) throws RemoteException {
         super(); // Costruttore iniziale
         uiMode = ui;
         netMode = mode;
@@ -76,7 +77,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); System.exit(0);}
         System.out.println("\nClient connected");
-        chooseUserName();
+        chooseUserName(flag);
     }
 
     /**
@@ -108,7 +109,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * method for choosing the nickname of the player for the future game
      * @author Ettori
      */
-    private void chooseUserName(){
+    private void chooseUserName(boolean flag){
         NameStatus status = null;
         while(true){
             System.out.print("\nInsert your name: ");
@@ -145,6 +146,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
             System.out.println("Name Taken, choose another name");
         }
+        if(flag)
+            Game.serverPlayer = name;
         getInitialState();
     }
     /**

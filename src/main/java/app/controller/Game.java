@@ -33,6 +33,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final double standardTimer = 2.5;
     public static boolean showErrors = false;
+    public static String serverPlayer;
     private final int targetPlayers;
     private int numPlayers;
     private int activePlayer = 0;
@@ -696,6 +697,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         ArrayList<Thread> ths = new ArrayList<>();
         FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache
         for(int i = 0; i < numPlayers; i++) {
+            if(names.get(i).equals(Game.serverPlayer))
+                continue;
             try {
                 int finalI = i;
                 ths.add(new Thread(() -> {
@@ -712,6 +715,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 throw new RuntimeException(e);
             }
         }
+        sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         while (true){}
     }
     /**
