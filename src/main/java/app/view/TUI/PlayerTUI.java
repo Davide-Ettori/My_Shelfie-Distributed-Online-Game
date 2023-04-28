@@ -384,9 +384,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleLibFullEvent(Message msg){
-        System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
-        Game.waitForSeconds(standardTimer);
-        endGame = true;
+        if(!endGame) {
+            System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
+            Game.waitForSeconds(standardTimer);
+            endGame = true;
+        }
         if(netMode == SOCKET)
             waitForEvents();
     }
