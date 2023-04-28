@@ -548,6 +548,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         while(disconnectedPlayers.contains(names.get(activePlayer)));
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
+            notifyNewTurn();
+            waitForSeconds(standardTimer / 5 * 3);
             sendFinalScoresToAll();
         }
         //System.out.println(names.get(activePlayer));
