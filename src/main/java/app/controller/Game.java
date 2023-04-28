@@ -549,7 +549,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
             notifyNewTurn();
-            waitForSeconds(standardTimer / 5 * 3);
+            waitForSeconds(standardTimer / 5 * 4);
             sendFinalScoresToAll();
         }
         //System.out.println(names.get(activePlayer));
@@ -575,6 +575,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
         FILEHelper.writeServer(this); // salvo lo stato della partita
+        if(activePlayer == 0 && endGameSituation)
+            return;
         //System.out.println("PRIMA -" + names.get(activePlayer));
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
