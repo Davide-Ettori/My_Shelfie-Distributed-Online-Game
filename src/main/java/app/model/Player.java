@@ -135,13 +135,17 @@ public class Player extends UnicastRemoteObject implements Serializable {
      * @author Faccincani
      */
     protected boolean checkRawCoords(String[] s) {
-        if (s.length % 2 == 1)
-            return false;
-        else {
-            for (int i = 0; i < s.length; i++) {
-                if (Integer.parseInt(s[i]) < 0 || Integer.parseInt(s[i]) > 9)
-                    return false;
+        try {
+            if (s.length % 2 == 1)
+                return false;
+            else {
+                for (int i = 0; i < s.length; i++) {
+                    if (Integer.parseInt(s[i]) < 0 || Integer.parseInt(s[i]) > 9)
+                        return false;
+                }
             }
+        }catch (Exception e){
+            return false;
         }
         return true;
     }
