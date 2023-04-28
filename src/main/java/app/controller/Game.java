@@ -705,7 +705,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     Game.waitForSeconds(standardTimer / 2.5);
                     sendToClient(finalI, new Message(FINAL_SCORE, "server", finalScores));
                 }));
-                ths.get(i).start();
+                ths.get(ths.size() - 1).start();
             } catch (Exception e) {connectionLost(e);}
         }
         for(int i = 0; i < numPlayers - 1; i++) {
@@ -800,6 +800,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             return;
         Game.waitForSeconds(30);
         if(getActivePlayersNumber() == 1){
+            FILEHelper.writeSucc();
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "You have won because all the other players have disconnected");
             else
