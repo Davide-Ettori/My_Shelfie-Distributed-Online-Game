@@ -265,7 +265,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 case DISCONNECTED -> handleDisconnectedEvent(msg);
                 //case STOP -> waitForEvents();
             }
-        }catch(Exception e){connectionLost(e);}
+        }catch(Exception e){
+            return;//per il muletto
+            //connectionLost(e);
+            }
     }
     /**
      * helper function for handling the turn event notification from the server

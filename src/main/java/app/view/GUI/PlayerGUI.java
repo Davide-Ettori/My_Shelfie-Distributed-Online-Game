@@ -522,7 +522,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     case DISCONNECTED -> handleDisconnectedEvent(msg);
                     //case STOP -> {} // non devi fare niente
                 }
-            }catch(Exception e){connectionLost(e);}
+            }catch(Exception e){
+                return;
+                //commento per il sommo muletto
+                //connectionLost(e);
+                }
         }
     }
     /**
