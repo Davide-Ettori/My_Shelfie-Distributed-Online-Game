@@ -378,6 +378,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("My Shelfie");
+        mainFrame.setIconImage(new ImageIcon("assets/Publisher material/Icon 50x50px.png").getImage());
         mainFrame.pack(); // preparo la finestra
         mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         mainFrame.setVisible(true); // mostro il tutto a schermo, GUI
@@ -1538,7 +1539,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc2.gridy=0;
         mainPanel.add(generalLabel,gbc2);
 
-        mainFrame.setIconImage(new ImageIcon("assets/Publisher material/Icon 50x50px.png").getImage());
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }
