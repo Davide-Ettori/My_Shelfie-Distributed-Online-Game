@@ -567,14 +567,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         new Thread(() -> {
             Game.waitForSeconds(standardTimer / 2.5);
-            System.out.println("prima");
+            //System.out.println("prima");
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
         FILEHelper.writeServer(this); // salvo lo stato della partita
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
             waitForSeconds(standardTimer);
-            System.out.println("dopo");
+            //System.out.println("dopo");
             sendFinalScoresToAll();
             return;
         }
@@ -830,28 +830,28 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        if(msg.getType() == FINAL_SCORE)
-            System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
+        //if(msg.getType() == FINAL_SCORE)
+        //   System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(disconnectedPlayers.contains(names.get(i)))
             return;
         if(!rmiClients.containsKey(names.get(i))){
             try {
                 outStreams.get(i).writeObject(msg);
             } catch (IOException e) {
-                System.out.println("ERRORACCIO 1");
-                //playerDisconnected(i);
-                return;
+                //System.out.println("ERRORACCIO 1");
+                playerDisconnected(i);
+                //return;
             }
         }
         else{
             try {
                 rmiClients.get(names.get(i)).receivedEventRMI(msg);
             } catch (RemoteException e) {
-                System.out.println("ERRORACCIO 2 - " + names.get(i));
+                //System.out.println("ERRORACCIO 2 - " + names.get(i));
                 if(msg.getType() == FINAL_SCORE)
                     return;
                 //throw new RuntimeException(e);
-                //playerDisconnected(i);
+                playerDisconnected(i);
                 //return;
             }
         }
