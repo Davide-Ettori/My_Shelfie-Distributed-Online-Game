@@ -7,7 +7,6 @@ import app.model.chat.ReceiveChat;
 import app.model.chat.SendChat;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
-import playground.rmi.Server;
 
 import java.io.*;
 import java.net.Socket;
@@ -29,8 +28,7 @@ import static app.model.NetMode.*;
  * @author Ettori Faccincani
  */
 public class PlayerTUI extends Player implements Serializable, PlayerI{
-    private transient Thread chatThread = null; // sintassi dei messaggi sulla chat --> @nome_destinatario contenuto_messaggio --> sintassi obbligatoria
-    //private transient InputStreamReader terminalIn = new InputStreamReader(System.in);
+    private transient Thread chatThread = null;
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private transient GameI server;
     /**
@@ -61,7 +59,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      */
     public PlayerTUI(NetMode mode, UIMode ui, String opt, boolean flag) throws RemoteException {
-        super(); // Costruttore iniziale
+        super();
         uiMode = ui;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
@@ -71,9 +69,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             inStream = new ObjectInputStream(mySocket.getInputStream());
             if(!opt.equals("yes")){
                 outStream.writeObject(false);
-            }
-            else{
-                //mySocket.setSoTimeout((int) (Game.standardTimer * 2));
             }
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); System.exit(0);}
         System.out.println("\nClient connected");
@@ -86,9 +81,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param p the Player that will be cloned in the current Object
      */
     @Override
-    public void clone(PlayerTUI p){ // copia la versione sul server dentro a quella del client
-        //netMode = p.netMode;
-        //uiMode = p.uiMode;
+    public void clone(PlayerTUI p){
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -165,26 +158,18 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 new Thread(this::listenForEndGame).start();
             System.out.println("List of the commands of the chat\n@all for message to everyone\n@\"name\" for private message\n@names to see the nicknames of all the players\n@exit to close the game");
         }catch(Exception e){connectionLost(e);}
-        try { // ottieni la reference al server remoto
+        try {
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
         if(netMode == RMI) {
-            try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
-                //server.stampa("hello world");
+            try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
-        /*
-        try {
-            mySocket.setSoTimeout(0);
-        } catch (SocketException e) {
-            System.out.println("errorino");
-        }
-        */
         if(netMode == SOCKET)
             new Thread(this::ping).start();
         else
@@ -209,14 +194,13 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 new Thread(this::listenForEndGame).start();
             System.out.println("List of the commands of the chat\n@all for message to everyone\n@\"name\" for private message\n@names to see the nicknames of all the players\n@exit to close the game");
         }catch(Exception e){connectionLost(e);}
-        try { // ottieni la reference al server remoto
+        try {
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
         if(netMode == RMI) {
-            try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
-                //server.stampa("hello world");
+            try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
@@ -250,16 +234,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      * @author Ettori Faccincani
      */
-    private void waitForEvents(){ // funzione principale di attesa
+    private void waitForEvents(){
         try {
             Message msg = (Message) inStream.readObject();
-            /*
-            if(msg == null){
-                waitForEvents();
-            }
-             */
-            //System.out.println(msg.getType());
-            //"".equals("");
             switch (msg.getType()) {
                 case YOUR_TURN -> handleYourTurnEvent();
                 case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -271,12 +248,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 case CO_2 -> handleCO_2Event(msg);
                 case LIB_FULL -> handleLibFullEvent(msg);
                 case DISCONNECTED -> handleDisconnectedEvent(msg);
-                //case STOP -> waitForEvents();
             }
         }catch(Exception e){
-            //return;//per il muletto
             connectionLost(e);
-            }
+        }
     }
     /**
      * helper function for handling the turn event notification from the server
@@ -335,9 +310,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
-        //drawAll();
         System.out.println("\nPlayer " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        //Game.waitForSeconds(Game.standardTimer);
         if(netMode == SOCKET)
             waitForEvents();
     }
@@ -349,7 +322,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleFinalScoreEvent(Message msg){
         System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
         Game.waitForSeconds(Game.standardTimer);
-        System.exit(0); // il gioco finisce e tutto si chiude forzatamente
+        System.exit(0);
     }
     /**
      * helper function for handling the chat message event notification from the server
@@ -430,7 +403,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         if(change_1 || change_2)
             drawAll();
 
-        stopChatThread(); // devo fermare il mio thread che ascolta le chat dei player inattivi
+        stopChatThread();
         sendDoneMove();
     }
     /**
@@ -625,9 +598,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
 
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            //Game.waitForSeconds(Game.standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             Game.waitForSeconds(Game.standardTimer * 6 / 5);
-            new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
+            new Thread(() -> {
                 try {
                     Game.waitForSeconds(Game.standardTimer / 2.5);
                     playerStatus.put("player", new PlayerSend(this));
@@ -637,7 +609,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
 
         }catch(Exception e){connectionLost(e);}
         if(netMode == SOCKET) {
-            //System.out.println("prima di wait");
             waitForEvents();
         }
     }
@@ -647,7 +618,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void stopChatThread(){
         if(chatThread == null){
-            //System.out.println("THREAD");
             return;
         }
         try {
@@ -754,7 +724,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Gumus
      */
     public void drawAll(){
-        //System.out.flush(); //non funziona sul terminale di intellij
         clearScreen();
         if(activeName.equals(name)){
             System.out.println("Your turn is now started, play your move !");
@@ -807,9 +776,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     public void ping(){
         while(true){
-            //System.out.println("START PINGING");
             Game.waitForSeconds(Game.standardTimer * 2);
-            //System.out.println("PING");
             if(pingFlag)
                 return;
             try {
@@ -856,7 +823,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param msg the message received from the server
      * @author Ettori
      */
-    public void receivedEventRMI(Message msg){ // funzione principale di attesa
+    public void receivedEventRMI(Message msg){
         switch (msg.getType()) {
             case YOUR_TURN -> handleYourTurnEvent();
             case CHANGE_TURN -> handleChangeTurnEvent(msg);

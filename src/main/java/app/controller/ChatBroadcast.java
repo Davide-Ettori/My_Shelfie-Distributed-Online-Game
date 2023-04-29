@@ -23,7 +23,6 @@ public class ChatBroadcast extends Thread{
      */
     @Override
     public void run(){
-        //System.out.println("SERVER ASCOLTA CHAT");
         while (true) {
             Message msg = null;
             try {
@@ -38,7 +37,6 @@ public class ChatBroadcast extends Thread{
                 continue;
             if(msg.getType() == STOP)
                 return;
-            //System.out.println("\nRICEVUTO MEX - " + msg.getContent());
             game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());
         }
     }

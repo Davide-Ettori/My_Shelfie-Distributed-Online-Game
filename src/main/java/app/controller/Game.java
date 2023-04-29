@@ -32,7 +32,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public static final double standardTimer = 2.5;
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     public static String serverPlayer = "";
     private final int targetPlayers;
     private int numPlayers;
@@ -47,7 +47,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private boolean endGameSituation = false;
     private boolean timeExp = true;
     private transient ArrayList<Thread> chatThreads = new ArrayList<>();
-    private transient ServerSocket serverSocket; // Questa è l'unica socket del server. Potresti aver bisogno di passarla come argomento a Board
+    private transient ServerSocket serverSocket;
     private transient boolean closed = false;
     private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
     private transient Game gameTemp = null;
@@ -73,12 +73,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     gameTemp = null;
                 }
                 else {
-                    //clone(gameTemp);
                     System.out.println("\nLoading the old game...");
-                    //System.exit(0); // continuare da qui in poi per fare la FA persistenza del server
-                    // chiama la funzione che si occupa di riprendere la vecchia partita in corso
                 }
-            }// da qui in poi fai continuare il server che hai caricato dalla cache
+            }
             else
                 System.out.println("\nThere is no game to load, starting a new game...");
         }
@@ -116,9 +113,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else
             initializeAllClients();
-        //System.out.println(Game.serverPlayer);
         Game.waitForSeconds(Game.standardTimer / 2.5);
-        //System.out.println(names.get(0));
         for(int i = 0; i < numPlayers; i++){
             if(rmiClients.containsKey(names.get(i)))
                 continue;
@@ -201,8 +196,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             p.setName(names.get(i));
             p.setIsChairMan(i == 0);
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
-            //p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_6(), 6), new CommonObjective(new Algo_CO_7(), 7));
-            //p.board = new Board(numPlayers, new CommonObjective(new Algo_CO_13_FAKE(), 13), new CommonObjective(new Algo_CO_14_FAKE(), 14));
             p.board.name = names.get(i);
             if(i == 0)
                 p.board.initBoard(numPlayers);
@@ -232,9 +225,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
-        //temp = 1; // ELIMINA --> usata solo per il testing
-        //temp = 0; // ELIMINA --> usata solo per il testing
-        temp = 2;
         String n = names.get(0);
         names.set(0, names.get(temp));
         names.set(temp, n);
@@ -356,7 +346,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 s = serverSocket.accept();
             } catch (IOException e) {
                 continue;
-                //connectionLost(e);
             }
             Socket finalS = s;
             new Thread(() -> {
@@ -432,7 +421,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-        //System.out.println("STARTO I CHAT THREAD, dalla funzione");
         startChatServerThread();
         while(true){
             Message msg = null;
@@ -449,7 +437,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());
                     continue;
                 }
-                for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                for (int i = 0; i < numPlayers; i++) {
                     if (i != activePlayer)
                         sendToClient(i,msg);
                 }
@@ -464,11 +452,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         players.get(i).board = new Board(b);
                 }
                 if(msg.getType() == UPDATE_GAME) {
-                    //System.out.println(activePlayer + " - " + names.get(activePlayer));
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
-                    //Game.waitForSeconds(1);
-                    //chatThreads = new ArrayList<>();
                     break;
                 }
             }catch(Exception e){connectionLost(e);}
@@ -488,14 +473,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             return;
         }
         try {
-            //System.out.println("aspetto la FINE");
             if(msg.getType() == PING) {
                 waitForEndTurn();
                 return;
             }
             if(msg.getType() != END_TURN)
                 throw new RuntimeException();
-            //System.out.println("ecco la fine - socket");
             JSONObject jsonObject = (JSONObject) msg.getContent();
             players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
             PlayerSend p = (PlayerSend) jsonObject.get("player");
@@ -506,12 +489,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {
                         players.get(i).librariesOfOtherPlayers.set(j, p.library);
                         players.get(i).board = p.board;
-                        //players.get(i).fullChat = p.fullChat;
                     }
                 }
             }
-            //if(players.get(activePlayer).library.isFull() && !endGameSituation) // se la library ricevuta è piena entro nella fase finale del gioco
-            //    endGameSituation = true;
             advanceTurn();
         }catch(Exception e){connectionLost(e);}
     }
@@ -520,11 +500,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
-        /*
-        System.out.print("Player disconnessi: ");
-        for (String n: disconnectedPlayers)
-            System.out.println(n);
-         */
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
             if(endGameSituation && activePlayer == 0)
                 return;
@@ -539,11 +514,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             activePlayer = (activePlayer + 1) % numPlayers;
         }
         while(disconnectedPlayers.contains(names.get(activePlayer)));
-        //System.out.println(names.get(activePlayer));
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
             waitForSeconds(Game.standardTimer / 2.5);
-            //System.out.println("dopo");
             sendFinalScoresToAll();
             return;
         }
@@ -554,27 +527,21 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void notifyNewTurn(){
-        //System.out.println("notify - " + numPlayers);
         for(int i = 0; i < numPlayers; i++){
-            //System.out.println("\nnotify nome: " + names.get(i));
             try {
                 if (i != activePlayer) {
-                    //System.out.println(names.get(i));
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
                 }
             }catch (Exception e){connectionLost(e);}
         }
         new Thread(() -> {
             Game.waitForSeconds(Game.standardTimer / 2.5);
-            //System.out.println("prima");
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
-        FILEHelper.writeServer(this); // salvo lo stato della partita
-        //System.out.println("PRIMA -" + names.get(activePlayer));
+        FILEHelper.writeServer(this);
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
         else {
-            //System.out.println("STARTO I CHAT THREAD");
             startChatServerThread();
         }
     }
@@ -583,8 +550,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     private void startChatServerThread(){
-        //if(chatThreads.size() != 0) // se non ci sono, inizializzo i thread che leggono un eventuale chat message dai client NON_ACTIVE (quello active non ne ha bisogno)
-        //    return;
         chatThreads = new ArrayList<>();
         for(int i = 0; i < numPlayers; i++){
             if(i == activePlayer || rmiClients.containsKey(names.get(i)) || disconnectedPlayers.contains(names.get(i)))
@@ -693,13 +658,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private void sendFinalScoresToAll(){
         String finalScores = getFinalScore();
         FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache
-        //System.out.println(Game.serverPlayer);
-        //System.out.println("Game finished");
         Thread finalTh = new Thread(() ->{
             for(int i = 0; i < numPlayers; i++) {
                 if(names.get(i).equals(Game.serverPlayer))
                     continue;
-                //System.out.println(names.get(i));
                 sendToClient(i, new Message(FINAL_SCORE, "server", finalScores));
             }
         });
@@ -709,16 +671,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        /*
-        for(int i = 0; i < numPlayers; i++) {
-            if(rmiClients.containsKey(names.get(i)))
-                continue;
-            new ChatBroadcast(this, i).start();
-        }
-         */
         waitForSeconds(Game.standardTimer / 2.5);
         sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
-        //while (true){}
     }
     /**
      * getter for the input streams from the server to all the clients
@@ -772,7 +726,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void playerDisconnected(int i) {
         if (disconnectedPlayers.contains(names.get(i)))
             return;
-        //System.out.println("\n" + names.get(i) + " disconnected from the game\n");
         try {
             playersSocket.get(i).setSoTimeout(0);
         } catch (SocketException e) {
@@ -783,7 +736,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         if (getActivePlayersNumber() == 1)
             new Thread(this::disconnectedTimer).start();
         if (i == activePlayer) {
-            // manda evento di player disconnesso
             for (int j = 0; j < numPlayers; j++)
                 sendToClient(j, new Message(DISCONNECTED, names.get(activePlayer), null));
             advanceTurn();
@@ -824,8 +776,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        //if(msg.getType() == FINAL_SCORE)
-        //   System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(disconnectedPlayers.contains(names.get(i)))
             return;
         if(!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE){
@@ -834,21 +784,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             } catch (IOException e) {
                 if(msg.getType() == FINAL_SCORE)
                     return;
-                //System.out.println("ERRORACCIO 1");
                 playerDisconnected(i);
-                //return;
             }
         }
         else{
             try {
                 rmiClients.get(names.get(i)).receivedEventRMI(msg);
             } catch (RemoteException e) {
-                //System.out.println("ERRORACCIO 2 - " + names.get(i));
                 if(msg.getType() == FINAL_SCORE)
                     return;
-                //throw new RuntimeException(e);
                 playerDisconnected(i);
-                //return;
             }
         }
     }
@@ -860,7 +805,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param p the player object, passed as the remote interface
      */
     public void addClient(String name, PlayerI p){
-        //System.out.println("Aggiungo: " + name);
         rmiClients.put(name, p);
     }
 
@@ -887,11 +831,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {
                             players.get(i).librariesOfOtherPlayers.set(j, p.library);
                             players.get(i).board = p.board;
-                            //players.get(i).fullChat = p.fullChat;
                         }
                     }
                 }
-                if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
+                if(players.get(activePlayer).library.isFull() && !endGameSituation) {
                     endGameSituation = true;
                     for(int i = 0; i < names.size(); i++){
                         if(i != activePlayer)
@@ -901,17 +844,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 advanceTurn();
             }
             case UPDATE_GAME -> {
-                for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                for (int i = 0; i < numPlayers; i++) {
                     if (i != activePlayer)
                         sendToClient(i,msg);
                 }
                 sendToClient(activePlayer, new Message(STOP, null, null));
-                //chatThreads = new ArrayList<>();
             }
             default -> {
                 if(msg.getType() == LIB_FULL && !endGameSituation)
                     endGameSituation = true;
-                for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
+                for (int i = 0; i < numPlayers; i++) {
                     if (i != activePlayer)
                         sendToClient(i,msg);
                 }
@@ -937,7 +879,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     rmiClients.get(n).pingClient();
                 } catch (RemoteException e) {
-                    //System.out.println("presoo");
                     playerDisconnected(names.indexOf(n));
                 }
             }

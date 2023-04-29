@@ -32,13 +32,9 @@ public class ReceiveChat extends Thread{
             return;
         try {
             while (true) {
-                //System.out.println("ASPETTO CHAT");
                 Message msg = (Message) player.getInStream().readObject();
-                //System.out.println(msg.getType());
-                //System.out.println("\nfrom CHAT - " + msg.getType());
                 if(msg == null || msg.getType() == STOP)
                     return;
-                //System.out.println(msg.getType());
                 if(msg.getType() == FINAL_SCORE){
                     System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
                     Game.waitForSeconds(5);
@@ -50,8 +46,6 @@ public class ReceiveChat extends Thread{
         }
         catch (IOException ignored){}
         catch(Exception e){
-            //return ;
-            //per il muletto
             player.connectionLost(e);
         }
     }

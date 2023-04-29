@@ -46,9 +46,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private final transient int COLS = 5;
     private final transient int cardBorderSize = 2;
     private final transient java.awt.Color borderColor = BLACK;
-    private final transient int libFullX = 6; // y sulla board
-    private final transient int libFullY = 7; // x sulla board
-    private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //get the dimension of the screen
+    private final transient int libFullX = 6;
+    private final transient int libFullY = 7;
+    private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private final transient GridBagConstraints gbc2 = new GridBagConstraints();
@@ -95,20 +95,16 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      */
     public PlayerGUI(NetMode mode, UIMode ui, String opt, boolean flag) throws RemoteException {
-        super(); // Costruttore iniziale
+        super();
         uiMode = ui;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
-        //showMessageDialog(new JFrame(), "Soon you will need to enter your nickname for the game");
         try {
             mySocket = new Socket(IP.activeIP, Initializer.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
             if(!opt.equals("yes")){
                 outStream.writeObject(false);
-            }
-            else{
-                //mySocket.setSoTimeout((int) (Game.standardTimer * 2));
             }
         }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
@@ -119,9 +115,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      * @param p the Player that will be cloned in the current Object
      */
-    public void clone(PlayerGUI p){ // copia la versione sul server dentro a quella del client
-        //netMode = p.netMode;
-        //uiMode = p.uiMode;
+    public void clone(PlayerGUI p){
         name = p.name;
         isChairMan = p.isChairMan;
         library = new Library(p.library);
@@ -154,14 +148,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-        /*
-        pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-        pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-        activeTurnInfo.setText(" The active player is " + activeName + " ");
-        curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
-        tempChatHistory.setText(fullChat);
-
-         */
     }
     /**
      * method that update the board of the game
@@ -183,18 +169,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-        /*
-        for(int i = 0; i < DIM; i++){
-            for(int j = 0; j < DIM; j++){
-                if(i == libFullX && j == libFullY)
-                    continue;
-                boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
-            }
-        }
-        boardCards[libFullX][libFullY].setVisible(!endGame);
-
-         */
     }
     /**
      * method that update the library of the active player
@@ -213,14 +187,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-        /*
-        for(int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != EMPTY);
-            }
-        }
-         */
     }
     /**
      * method that update the event text of the game, notifying the most recent event
@@ -268,30 +234,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-        /*
-        for(int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);
-            }
-        }
-        if(numPlayers >= 3){
-            for(int i = 0; i < ROWS; i++) {
-                for (int j = 0; j < COLS; j++) {
-                    otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                    otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != EMPTY);
-                }
-            }
-        }
-        if(numPlayers >= 4){
-            for(int i = 0; i < ROWS; i++) {
-                for (int j = 0; j < COLS; j++) {
-                    otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-                    otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != EMPTY);
-                }
-            }
-        }
-         */
     }
     /**
      * Function that update the GUI with the new information
@@ -337,7 +279,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
             alert("Invalid Selection");
         else{
-            activeName = "..."; // non voglio poter più prendere carte
+            activeName = "...";
             pickCards(cards, col);
             updateGUI();
             boolean change_1 = checkCO();
@@ -388,20 +330,18 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
             if(status == NOT_TAKEN){
                 alert("\nName: '" + name + "' accepted by the server!");
-                //System.exit(0);
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
                 if(flag)
                     Game.serverPlayer = name;
-                getInitialState(); // partire a lavorare da questa funzione in poi
+                getInitialState();
                 return;
             }
             if(status == OLD){
                 alert("\nName: '" + name + " was found in a previous game");
-                //System.exit(0);
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
-                getInitialState(); // partire a lavorare da questa funzione in poi
+                getInitialState();
                 return;
             }
             if(status == NOT_FOUND){
@@ -457,26 +397,18 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();
         }catch(Exception e){connectionLost(e);}
-        try { // ottieni la reference al server remoto
+        try {
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
         if(netMode == RMI) {
-            try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
-                //server.stampa("hello world");
+            try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }
-        /*
-        try {
-            mySocket.setSoTimeout(0);
-        } catch (SocketException e) {
-            System.out.println("errorino");
-        }
-         */
         if(netMode == SOCKET) {
             new Thread(this::waitForEvents).start();
             new Thread(this::ping).start();
@@ -489,7 +421,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @author Ettori Faccincani
      */
     private void getInitialState(){
-        // da qui in poi bisogna lavorarci
         PlayerGUI p;
         try {
             alert("Be patient, the game will start soon...");
@@ -499,14 +430,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();
         }catch(Exception e){connectionLost(e);}
-        try { // ottieni la reference al server remoto
+        try {
             server = (GameI) LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
         if(netMode == RMI) {
-            try { // provo a chiamare un metodo remoto --> devi sempre farlo in un try catch, può fallire
-                //server.stampa("hello world");
+            try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
@@ -523,12 +453,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * function used to wait for notification from the server while the player is NON active
      * @author Ettori Faccincani
      */
-    private void waitForEvents(){ // funzione principale di attesa
+    private void waitForEvents(){
         while(true){
             try {
-                System.out.println("...");
                 Message msg = (Message) inStream.readObject();
-                //System.out.println(msg.getType());
                 switch (msg.getType()) {
                     case YOUR_TURN -> handleYourTurnEvent();
                     case CHANGE_TURN -> handleChangeTurnEvent(msg);
@@ -540,13 +468,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     case CO_2 -> handleCO_2Event(msg);
                     case LIB_FULL -> handleLibFullEvent(msg);
                     case DISCONNECTED -> handleDisconnectedEvent(msg);
-                    //case STOP -> {} // non devi fare niente
                 }
             }catch(Exception e){
-                //return;
-                //commento per il sommo muletto
                 connectionLost(e);
-                }
+            }
         }
     }
     /**
@@ -603,10 +528,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
-        //updateBoard();
-        //updateOtherLibraries();
         updateEventText(" Player " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        //Game.waitForSeconds(Game.standardTimer);
     }
     /**
      * helper function for handling the final score calculation event notification from the server
@@ -616,7 +538,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void handleFinalScoreEvent(Message msg){
         alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
         Game.waitForSeconds(Game.standardTimer);
-        System.exit(0); // il gioco finisce e tutto si chiude forzatamente
+        System.exit(0);
     }
     /**
      * helper function for handling the chat message event notification from the server
@@ -636,7 +558,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         updateEventText(" " + msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         board.pointsCO_1.remove(board.pointsCO_1.size() - 1);
         updateInfo();
-        //Game.waitForSeconds(Game.standardTimer);
     }
     /**
      * helper function for handling the achievement of the second common objective event notification from the server
@@ -647,7 +568,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         updateEventText(" " + msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         board.pointsCO_2.remove(board.pointsCO_2.size() - 1);
         updateInfo();
-        //Game.waitForSeconds(Game.standardTimer);
     }
     /**
      * helper function for handling the completion of the library event notification from the server
@@ -656,7 +576,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     private void handleLibFullEvent(Message msg){
         updateEventText(" " + msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
-        //Game.waitForSeconds(Game.standardTimer);
         endGame = true;
         boardCards[libFullX][libFullY].setVisible(false);
     }
@@ -750,9 +669,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            //Game.waitForSeconds(Game.standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
             Game.waitForSeconds(Game.standardTimer * 6 / 5);
-            new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
+            new Thread(() -> {
                 try {
                     Game.waitForSeconds(Game.standardTimer / 2.5);
                     playerStatus.put("player", new PlayerSend(this));
@@ -844,7 +762,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message received from the server
      * @author Ettori
      */
-    public void receivedEventRMI(Message msg){ // funzione principale di attesa
+    public void receivedEventRMI(Message msg){
         switch (msg.getType()) {
             case YOUR_TURN -> handleYourTurnEvent();
             case CHANGE_TURN -> handleChangeTurnEvent(msg);
