@@ -355,7 +355,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             try {
                 s = serverSocket.accept();
             } catch (IOException e) {
-                connectionLost(e);
+                continue;
+                //connectionLost(e);
             }
             Socket finalS = s;
             new Thread(() -> {

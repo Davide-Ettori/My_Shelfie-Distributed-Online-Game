@@ -454,6 +454,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             new Thread(this::initGUI).start();
+            if(netMode == RMI)
+                new Thread(this::listenForEndGame).start();
         }catch(Exception e){connectionLost(e);}
         try { // ottieni la reference al server remoto
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
@@ -494,6 +496,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             new Thread(this::initGUI).start();
+            if(netMode == RMI)
+                new Thread(this::listenForEndGame).start();
         }catch(Exception e){connectionLost(e);}
         try { // ottieni la reference al server remoto
             server = (GameI) LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
@@ -874,6 +878,21 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 connectionLost(e);
             }
         }
+    }
+    /**
+     * method that listen for the final score of the game, for RMI clients
+     * @author Ettori
+     */
+    private void listenForEndGame(){
+        Message msg = null;
+        try {
+            msg = (Message) inStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            connectionLost(e);
+        }
+        if(msg == null)
+            return;
+        handleFinalScoreEvent(msg);
     }
     /**
      * method that allow the server ping the RMI client

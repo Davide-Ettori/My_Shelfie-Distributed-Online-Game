@@ -161,6 +161,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
             drawAll();
+            if(netMode == RMI)
+                new Thread(this::listenForEndGame).start();
             System.out.println("List of the commands of the chat\n@all for message to everyone\n@\"name\" for private message\n@names to see the nicknames of all the players\n@exit to close the game");
         }catch(Exception e){connectionLost(e);}
         try { // ottieni la reference al server remoto
@@ -203,6 +205,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
             drawAll();
+            if(netMode == RMI)
+                new Thread(this::listenForEndGame).start();
             System.out.println("List of the commands of the chat\n@all for message to everyone\n@\"name\" for private message\n@names to see the nicknames of all the players\n@exit to close the game");
         }catch(Exception e){connectionLost(e);}
         try { // ottieni la reference al server remoto
@@ -830,6 +834,21 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 connectionLost(e);
             }
         }
+    }
+    /**
+     * method that listen for the final score of the game, for RMI clients
+     * @author Ettori
+     */
+    private void listenForEndGame(){
+        Message msg = null;
+        try {
+            msg = (Message) inStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            connectionLost(e);
+        }
+        if(msg == null)
+            return;
+        handleFinalScoreEvent(msg);
     }
     /********************************************* RMI ***************************************************************/
     /**

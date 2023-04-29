@@ -260,7 +260,6 @@ public class Player extends UnicastRemoteObject implements Serializable {
      * @return the private objective of the player
      */
     public PrivateObjective getPrivateObjective(){return objective;}
-
     /*********************************************** RMI *********************************************************/
     public void stampaTerminale(String s){System.out.println(s);}
 
