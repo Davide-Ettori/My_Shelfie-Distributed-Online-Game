@@ -717,8 +717,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        for(int i = 0; i < numPlayers; i++)
+        for(int i = 0; i < numPlayers; i++) {
+            if(rmiClients.containsKey(names.get(i)))
+                continue;
             new ChatBroadcast(this, i).start();
+        }
         waitForSeconds(standardTimer / 2.5);
         sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         //while (true){}
