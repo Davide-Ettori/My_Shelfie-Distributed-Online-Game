@@ -1538,6 +1538,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc2.gridy=0;
         mainPanel.add(generalLabel,gbc2);
 
+        mainFrame.setIconImage(new ImageIcon("assets/Publisher material/Icon 50x50px.png").getImage());
         mainFrame.setVisible(true);
         new Thread(this::updateGUI).start();
     }
