@@ -462,6 +462,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     if (i != activePlayer)
                         sendToClient(i,msg);
                 }
+                if(msg.getType() == LIB_FULL && !endGameSituation){
+                    endGameSituation = true;
+                    continue;
+                }
                 if(msg.getType() == UPDATE_UNPLAYBLE){
                     JSONObject jsonObject = (JSONObject) msg.getContent();
                     Board b = (Board) jsonObject.get("board");
@@ -515,13 +519,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     }
                 }
             }
-            if(players.get(activePlayer).library.isFull() && !endGameSituation) { // se la library ricevuta è piena entro nella fase finale del gioco
-                endGameSituation = true;
-                for(int i = 0; i < names.size(); i++){
-                    if(i != activePlayer)
-                        sendToClient(i, new Message(LIB_FULL, names.get(activePlayer), null));
-                }
-            }
+            //if(players.get(activePlayer).library.isFull() && !endGameSituation) // se la library ricevuta è piena entro nella fase finale del gioco
+            //    endGameSituation = true;
             advanceTurn();
         }catch(Exception e){connectionLost(e);}
     }
@@ -915,6 +914,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 //chatThreads = new ArrayList<>();
             }
             default -> {
+                if(msg.getType() == LIB_FULL && !endGameSituation)
+                    endGameSituation = true;
                 for (int i = 0; i < numPlayers; i++) { // broadcast a tutti tranne a chi ha mandato il messaggio
                     if (i != activePlayer)
                         sendToClient(i,msg);
