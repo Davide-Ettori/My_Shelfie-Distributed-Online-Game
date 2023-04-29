@@ -73,7 +73,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 outStream.writeObject(false);
             }
             else{
-                //mySocket.setSoTimeout((int) (standardTimer * 2));
+                //mySocket.setSoTimeout((int) (Game.standardTimer * 2));
             }
         }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); System.exit(0);}
         System.out.println("\nClient connected");
@@ -337,7 +337,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         }
         //drawAll();
         System.out.println("\nPlayer " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        //Game.waitForSeconds(standardTimer);
+        //Game.waitForSeconds(Game.standardTimer);
         if(netMode == SOCKET)
             waitForEvents();
     }
@@ -348,7 +348,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleFinalScoreEvent(Message msg){
         System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        Game.waitForSeconds(standardTimer * 5);
+        Game.waitForSeconds(Game.standardTimer * 5);
         System.exit(0); // il gioco finisce e tutto si chiude forzatamente
     }
     /**
@@ -372,7 +372,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleCO_1Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
-        Game.waitForSeconds(standardTimer);
+        Game.waitForSeconds(Game.standardTimer);
         if(netMode == SOCKET)
             waitForEvents();
     }
@@ -383,7 +383,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleCO_2Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
-        Game.waitForSeconds(standardTimer);
+        Game.waitForSeconds(Game.standardTimer);
         if(netMode == SOCKET)
             waitForEvents();
     }
@@ -394,7 +394,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleLibFullEvent(Message msg){
         System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
-        Game.waitForSeconds(standardTimer);
+        Game.waitForSeconds(Game.standardTimer);
         endGame = true;
         if(netMode == SOCKET)
             waitForEvents();
@@ -563,7 +563,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 CO_1_Done = true;
                 sendToServer(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(standardTimer);
+                Game.waitForSeconds(Game.standardTimer);
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
@@ -574,7 +574,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 CO_2_Done = true;
                 sendToServer(new Message(CO_2, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(standardTimer);
+                Game.waitForSeconds(Game.standardTimer);
                 change = true;
             }
         }catch(Exception e){connectionLost(e);}
@@ -592,7 +592,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow++;
                 sendToServer(new Message(LIB_FULL, name, null));
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
-                Game.waitForSeconds(standardTimer);
+                Game.waitForSeconds(Game.standardTimer);
                 return true;
             }
         }catch (Exception e){connectionLost(e);}
@@ -625,11 +625,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
 
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            //Game.waitForSeconds(standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
-            Game.waitForSeconds(standardTimer * 6 / 5);
+            //Game.waitForSeconds(Game.standardTimer * 2); // aspetto che tutti abbiano il tempo di capire cosa è successo nel turno
+            Game.waitForSeconds(Game.standardTimer * 6 / 5);
             new Thread(() -> { // aspetto un secondo e poi mando la notifica di fine turno
                 try {
-                    Game.waitForSeconds(standardTimer / 2.5);
+                    Game.waitForSeconds(Game.standardTimer / 2.5);
                     playerStatus.put("player", new PlayerSend(this));
                     sendToServer(new Message(END_TURN, name, playerStatus));
                 }catch (Exception e){connectionLost(e);}
@@ -707,7 +707,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             return false;
         if(msg.equals("@exit")){
             System.out.println("The game is exiting...");
-            Game.waitForSeconds(standardTimer);
+            Game.waitForSeconds(Game.standardTimer);
             System.exit(0);
         }
         if(msg.charAt(0) != '@')
@@ -797,7 +797,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             throw new RuntimeException(e);
         else
             System.out.println("\nThe connection was lost and the application is disconnecting...");
-        Game.waitForSeconds(standardTimer / 2.5);
+        Game.waitForSeconds(Game.standardTimer / 2.5);
         System.exit(0);
     }
 
@@ -808,7 +808,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     public void ping(){
         while(true){
             //System.out.println("START PINGING");
-            Game.waitForSeconds(standardTimer * 2);
+            Game.waitForSeconds(Game.standardTimer * 2);
             //System.out.println("PING");
             if(pingFlag)
                 return;
@@ -825,7 +825,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     public void pingRMI(){
         while(true){
-            Game.waitForSeconds(standardTimer * 2);
+            Game.waitForSeconds(Game.standardTimer * 2);
             if(pingFlag)
                 return;
             try {

@@ -31,7 +31,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
-    private final double standardTimer = 2.5;
+    public static final double standardTimer = 2.5;
     public static boolean showErrors = true;
     public static String serverPlayer = "";
     private final int targetPlayers;
@@ -104,7 +104,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             if(gameTemp.names.containsAll(names)) {
                 initializeOldClients();
                 if(gameTemp.endGameSituation){
-                    Game.waitForSeconds(standardTimer / 2.5);
+                    Game.waitForSeconds(Game.standardTimer / 2.5);
                     sendFinalScoresToAll();
                 }
             }
@@ -117,7 +117,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         else
             initializeAllClients();
         //System.out.println(Game.serverPlayer);
-        Game.waitForSeconds(standardTimer / 2.5);
+        Game.waitForSeconds(Game.standardTimer / 2.5);
         //System.out.println(names.get(0));
         for(int i = 0; i < numPlayers; i++){
             if(rmiClients.containsKey(names.get(i)))
@@ -311,7 +311,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
                 new Thread(() ->{
-                    Game.waitForSeconds(standardTimer / 2.5);
+                    Game.waitForSeconds(Game.standardTimer / 2.5);
                     if(rmiClients.containsKey(name))
                         return;
                     try {
@@ -538,6 +538,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         while(disconnectedPlayers.contains(names.get(activePlayer)));
         //System.out.println(names.get(activePlayer));
+        if(activePlayer == 0 && endGameSituation) {
+            System.out.println("\nThe game is ending...");
+            waitForSeconds(Game.standardTimer / 2.5);
+            //System.out.println("dopo");
+            sendFinalScoresToAll();
+            return;
+        }
         notifyNewTurn();
     }
     /**
@@ -556,18 +563,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }catch (Exception e){connectionLost(e);}
         }
         new Thread(() -> {
-            Game.waitForSeconds(standardTimer / 2.5);
+            Game.waitForSeconds(Game.standardTimer / 2.5);
             //System.out.println("prima");
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
         FILEHelper.writeServer(this); // salvo lo stato della partita
-        if(activePlayer == 0 && endGameSituation) {
-            System.out.println("\nThe game is ending...");
-            waitForSeconds(standardTimer);
-            //System.out.println("dopo");
-            sendFinalScoresToAll();
-            return;
-        }
         //System.out.println("PRIMA -" + names.get(activePlayer));
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
@@ -712,7 +712,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 continue;
             new ChatBroadcast(this, i).start();
         }
-        waitForSeconds(standardTimer / 2.5);
+        waitForSeconds(Game.standardTimer / 2.5);
         sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         //while (true){}
     }
@@ -926,7 +926,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void pingRMI(){
         while(true){
-            waitForSeconds(standardTimer * 2);
+            waitForSeconds(Game.standardTimer * 2);
             for(String n: names){
                 if(!rmiClients.containsKey(n) || disconnectedPlayers.contains(n) || (endGameSituation && activePlayer == 0))
                     continue;
