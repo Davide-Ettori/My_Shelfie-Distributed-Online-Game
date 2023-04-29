@@ -824,7 +824,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         //   System.out.println(names.get(i) + " - " + msg.getType() + " - " + msg.getAuthor());
         if(disconnectedPlayers.contains(names.get(i)))
             return;
-        if(!rmiClients.containsKey(names.get(i))){
+        if(!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE){
             try {
                 outStreams.get(i).writeObject(msg);
             } catch (IOException e) {
