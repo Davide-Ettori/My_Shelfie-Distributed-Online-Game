@@ -404,16 +404,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
     }
     /**
-     * Make a clone of the server, needed for the persistence functionality
-     * @param g server status
-     * @author Ettori
-     */
-    private void clone(Game g){
-        endGameSituation = g.endGameSituation;
-        players = g.players;
-        names = g.names;
-    }
-    /**
      * Make a random choose of the objective (Common and Private)
      * @author Ettori
      */
