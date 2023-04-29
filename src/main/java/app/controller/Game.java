@@ -848,7 +848,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 rmiClients.get(names.get(i)).receivedEventRMI(msg);
             } catch (RemoteException e) {
                 System.out.println("ERRORACCIO 2 - " + names.get(i));
-                throw new RuntimeException(e);
+                if(msg.getType() == FINAL_SCORE)
+                    return;
+                //throw new RuntimeException(e);
                 //playerDisconnected(i);
                 //return;
             }
