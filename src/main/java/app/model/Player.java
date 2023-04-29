@@ -38,7 +38,6 @@ public class Player extends UnicastRemoteObject implements Serializable {
     protected transient ObjectOutputStream outStream;
     protected transient Socket mySocket;
     protected String fullChat = "";
-    protected boolean pingFlag = false;
 
     //Questi che seguono sono gli attributi condivisi da playerTUI e PlayerGUI
     /** the name of the chairman of the game */
@@ -260,7 +259,4 @@ public class Player extends UnicastRemoteObject implements Serializable {
      * @return the private objective of the player
      */
     public PrivateObjective getPrivateObjective(){return objective;}
-    /*********************************************** RMI *********************************************************/
-    public void stampaTerminale(String s){System.out.println(s);}
-
 }

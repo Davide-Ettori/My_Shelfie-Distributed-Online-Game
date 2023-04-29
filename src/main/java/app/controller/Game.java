@@ -501,13 +501,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void advanceTurn(){
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
+            advance = true;
             if(endGameSituation && activePlayer == 0)
                 return;
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
                 System.out.println("\nThe game is temporarily paused because you are the only connected player");
-            advance = true;
             return;
         }
         do{
