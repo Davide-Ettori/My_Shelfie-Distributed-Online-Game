@@ -634,17 +634,24 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             p = players.get(i);
             scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.gameLibrary));
         }
-        names.sort((a, b) -> {
-            int n, m;
-            n = scores.get(names.indexOf(a));
-            m = scores.get(names.indexOf(b));
-            if (n == m)
-                return 0;
-            if (n > m)
-                return 1;
-            return -1;
-        });
-        scores.sort(null);
+        for(int i = 0; i < numPlayers; i++){
+            System.out.print(scores.get(i) + " - ");
+            System.out.println(names.get(i));
+        }
+        String temp;
+        int tempScore;
+        for(int i = 0; i < numPlayers; i++){
+            for(int j = i + 1; j < numPlayers; j++){
+                if(scores.get(j) < scores.get(i)){
+                    temp = names.get(i);
+                    tempScore = scores.get(i);
+                    names.set(i, names.get(j));
+                    scores.set(i, scores.get(j));
+                    names.set(j, temp);
+                    scores.set(j, tempScore);
+                }
+            }
+        }
         Collections.reverse(names);
         Collections.reverse(scores);
         for(int i = 0; i < numPlayers; i++)
