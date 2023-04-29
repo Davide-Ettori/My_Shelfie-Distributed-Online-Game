@@ -553,6 +553,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         activeName = name;
         if(board.isBoardUnplayable())
             fixUnplayableBoard();
+        if(name.equals(chairmanName) && endGame)
+            pingFlag = true;
         updateInfo();
         updateBoard();
         updateOtherLibraries();
@@ -565,6 +567,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     private void handleChangeTurnEvent(Message msg){
         activeName = (String) msg.getContent();
+        if(activeName.equals(chairmanName) && endGame)
+            pingFlag = true;
         updateInfo();
         updateBoard();
         updateOtherLibraries();
@@ -805,6 +809,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     public void ping(){
         while(true){
             Game.waitForSeconds(standardTimer * 2);
+            if(pingFlag)
+                return;
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {
@@ -819,6 +825,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     public void pingRMI(){
         while(true){
             Game.waitForSeconds(standardTimer * 2);
+            if(pingFlag)
+                return;
             try {
                 server.ping();
             } catch (RemoteException e) {

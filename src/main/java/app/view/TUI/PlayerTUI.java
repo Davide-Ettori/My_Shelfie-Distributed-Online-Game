@@ -280,6 +280,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleYourTurnEvent(){
         activeName = name;
+        if(name.equals(chairmanName) && endGame)
+            pingFlag = true;
         drawAll();
         stopChatThread();
         if(netMode == SOCKET) {
@@ -295,6 +297,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleChangeTurnEvent(Message msg){
         startChatSendThread();
         activeName = (String) msg.getContent();
+        if(activeName.equals(chairmanName) && endGame)
+            pingFlag = true;
         drawAll();
         if(netMode == SOCKET)
             waitForEvents();
@@ -804,6 +808,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             //System.out.println("START PINGING");
             Game.waitForSeconds(standardTimer * 2);
             //System.out.println("PING");
+            if(pingFlag)
+                return;
             try {
                 outStream.writeObject(new Message(PING, null, null));
             } catch (IOException e) {
@@ -818,6 +824,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     public void pingRMI(){
         while(true){
             Game.waitForSeconds(standardTimer * 2);
+            if(pingFlag)
+                return;
             try {
                 server.ping();
             } catch (RemoteException e) {
