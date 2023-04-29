@@ -27,7 +27,7 @@ In this table you can see which functionalities we implemented
 | Complete Rules     | ✅    |          |
 | Socket             | ✅    |          |
 | RMI                | ✅    |          |
-| CLI                | ✅    |          |
+| TUI                | ✅    |          |
 | GUI                | ✅    |          |
 | Multiple Games     |      | ❌        |
 | Server Persistence |      | ✅        |
@@ -38,13 +38,13 @@ In this table you can see how the project is evaluated
 
 | Requirements                                       | Grade |
 |----------------------------------------------------|-------|
-| Simplified Rules + CLI + (Socket o RMI)            | 18    |
-| Complete Rules + CLI + (Socket o RMI)              | 20    |
-| Complete Rules + CLI + (Socket o RMI) + 1 AF       | 22    |
-| Complete Rules + CLI + GUI + (Socket o RMI) + 1 AF | 24    |
-| Complete Rules + GUI + Socket + RMI + 1 AF         | 27    |
-| Complete Rules + CLI + GUI + Socket + RMI + 2 AF   | 30    |
-| Complete Rules + CLI + GUI + Socket + RMI + 3 AF   | 30L   |
+| Simplified Rules + TUI + (Socket o RMI)            | 18    |
+| Complete Rules + TUI + (Socket o RMI)              | 20    |
+| Complete Rules + TUI + (Socket o RMI) + 1 AF       | 22    |
+| Complete Rules + TUI + GUI + (Socket o RMI) + 1 AF | 24    |
+| Complete Rules + TUI + GUI + Socket + RMI + 1 AF   | 27    |
+| Complete Rules + TUI + GUI + Socket + RMI + 2 AF   | 30    |
+| Complete Rules + TUI + GUI + Socket + RMI + 3 AF   | 30L   |
 
 
 ## How to Play
