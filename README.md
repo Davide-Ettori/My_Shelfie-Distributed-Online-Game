@@ -61,8 +61,7 @@ For this project we documented:
 - [Sequence Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/54cfcebd3fc741955e5c213090cbb66ec0a11f60/deliveries/UML%20Diagrams/PNG/Sequence%20Diagram.drawio.png) that represent how the messages are exchanged between the Client and the Server
 - [State Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/State%20Diagram.drawio.png) that describe the general behaviour of the system
 - [Full Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Full%20Class%20Diagram.drawio.png) the complete Class Diagram of the project, generated with IntelliJ
-
-## Test Report 
+### 3. Test Report 
 - [Here](https://test-report-web.netlify.app) you will see our test report.
 
 ## Development
