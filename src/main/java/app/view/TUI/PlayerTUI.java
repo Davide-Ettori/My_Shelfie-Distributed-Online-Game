@@ -156,7 +156,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             drawAll();
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();
-            System.out.println("List of the commands of the chat\n@all for message to everyone\n@\"name\" for private message\n@names to see the nicknames of all the players\n@exit to close the game");
+            System.out.println("List of the commands of the chat\n@all for message to everyone\n@\"name\" for private message\n@names to see the nicknames of all the players\n@exit to close the game\n");
         }catch(Exception e){connectionLost(e);}
         try {
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
