@@ -452,6 +452,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         players.get(i).board = new Board(b);
                 }
                 if(msg.getType() == UPDATE_GAME) {
+                    JSONObject jsonObject = (JSONObject) msg.getContent();
+                    players.get(activePlayer).library = (Library) jsonObject.get("library");
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     break;
