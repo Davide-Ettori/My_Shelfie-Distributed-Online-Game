@@ -116,7 +116,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else
             initializeAllClients();
-        System.out.println(Game.serverPlayer);
+        //System.out.println(Game.serverPlayer);
         Game.waitForSeconds(standardTimer / 2.5);
         //System.out.println(names.get(0));
         for(int i = 0; i < numPlayers; i++){
