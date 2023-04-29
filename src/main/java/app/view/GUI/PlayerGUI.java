@@ -615,7 +615,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     private void handleFinalScoreEvent(Message msg){
         alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        Game.waitForSeconds(Game.standardTimer * 5);
+        Game.waitForSeconds(Game.standardTimer);
         System.exit(0); // il gioco finisce e tutto si chiude forzatamente
     }
     /**

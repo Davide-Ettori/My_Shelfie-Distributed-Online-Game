@@ -526,6 +526,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.out.println(n);
          */
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
+            if(endGameSituation && activePlayer == 0)
+                return;
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
@@ -707,11 +709,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        /*
         for(int i = 0; i < numPlayers; i++) {
             if(rmiClients.containsKey(names.get(i)))
                 continue;
             new ChatBroadcast(this, i).start();
         }
+         */
         waitForSeconds(Game.standardTimer / 2.5);
         sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
         //while (true){}
