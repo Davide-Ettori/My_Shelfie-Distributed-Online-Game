@@ -838,6 +838,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             try {
                 outStreams.get(i).writeObject(msg);
             } catch (IOException e) {
+                if(msg.getType() == FINAL_SCORE)
+                    return;
                 //System.out.println("ERRORACCIO 1");
                 playerDisconnected(i);
                 //return;
