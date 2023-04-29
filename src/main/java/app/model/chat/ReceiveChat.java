@@ -32,9 +32,9 @@ public class ReceiveChat extends Thread{
             return;
         try {
             while (true) {
-                System.out.println("ASPETTO CHAT");
+                //System.out.println("ASPETTO CHAT");
                 Message msg = (Message) player.getInStream().readObject();
-                System.out.println(msg.getType());
+                //System.out.println(msg.getType());
                 //System.out.println("\nfrom CHAT - " + msg.getType());
                 if(msg == null || msg.getType() == STOP)
                     return;
@@ -53,6 +53,6 @@ public class ReceiveChat extends Thread{
             //return ;
             //per il muletto
             player.connectionLost(e);
-            }
+        }
     }
 }
