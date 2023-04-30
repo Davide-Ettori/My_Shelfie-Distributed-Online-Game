@@ -54,7 +54,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/20)
+    (0/19)
   </span>
 </td>
 <td class="coverageStat">
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/74)
+    (0/76)
   </span>
 </td>
 </tr>
@@ -99,7 +99,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; */
 &nbsp;public class Player extends UnicastRemoteObject implements Serializable {
 &nbsp;
-&nbsp;    public static final int pingTimeout = 1000 * 20;
+&nbsp;    public static final int pingTimeout = 1000 * 10;
 &nbsp;    protected String name;
 &nbsp;    protected PrivateObjective objective;
 &nbsp;    /** list of the libraries of all the players in the game */
@@ -211,14 +211,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @author Faccincani
 &nbsp;     */
 &nbsp;    protected boolean checkRawCoords(String[] s) {
-<b class="nc">&nbsp;        if (s.length % 2 == 1)</b>
-<b class="nc">&nbsp;            return false;</b>
-&nbsp;        else {
-<b class="nc">&nbsp;            for (int i = 0; i &lt; s.length; i++) {</b>
-<b class="nc">&nbsp;                if (Integer.parseInt(s[i]) &lt; 0 || Integer.parseInt(s[i]) &gt; 9)</b>
-<b class="nc">&nbsp;                    return false;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            if (s.length % 2 == 1)</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                for (int i = 0; i &lt; s.length; i++) {</b>
+<b class="nc">&nbsp;                    if (Integer.parseInt(s[i]) &lt; 0 || Integer.parseInt(s[i]) &gt; 9)</b>
+<b class="nc">&nbsp;                        return false;</b>
+&nbsp;                }
 &nbsp;            }
-&nbsp;        }
+<b class="nc">&nbsp;        }catch (Exception e){</b>
+<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;        }</b>
 <b class="nc">&nbsp;        return true;</b>
 &nbsp;    }
 &nbsp;    /**
@@ -331,10 +335,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the private objective of the player
 &nbsp;     */
 <b class="nc">&nbsp;    public PrivateObjective getPrivateObjective(){return objective;}</b>
-&nbsp;
-&nbsp;    /*********************************************** RMI *********************************************************/
-<b class="nc">&nbsp;    public void stampaTerminale(String s){System.out.println(s);}</b>
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -359,7 +359,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-23 10:24</div>
+    <div style="float:right;">generated on 2023-04-30 09:22</div>
 </div>
 </body>
 </html>

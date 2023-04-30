@@ -99,13 +99,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public void run(){
 &nbsp;        try {
 &nbsp;            String s;
-&nbsp;            //System.out.println(&quot;INIZIO CHAT THREAD&quot;);
 &nbsp;            while (true) {
 <b class="nc">&nbsp;                while (System.in.available() == 0) {</b>
 <b class="nc">&nbsp;                    Thread.sleep(100);</b>
 &nbsp;                }
 <b class="nc">&nbsp;                s = br.readLine();</b>
-&nbsp;                //System.out.println(&quot;CHAT RILEVATA&quot;);
 <b class="nc">&nbsp;                if(player.sendChatMsg(s))</b>
 <b class="nc">&nbsp;                    player.drawAll();</b>
 &nbsp;            }
@@ -137,7 +135,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-23 10:24</div>
+    <div style="float:right;">generated on 2023-04-30 09:22</div>
 </div>
 </body>
 </html>

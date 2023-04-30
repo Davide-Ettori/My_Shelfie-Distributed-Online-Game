@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    66,7%
   </span>
   <span class="absValue">
-    (3/3)
+    (2/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    71,4%
   </span>
   <span class="absValue">
-    (14/14)
+    (10/14)
   </span>
 </td>
 </tr>
@@ -97,11 +97,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return true iff there are no empty on the column
 &nbsp;     */
 &nbsp;    private boolean notEmptyOnCol(Card[][] board, int c){
-<b class="fc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
-<b class="fc">&nbsp;            if(board[i][c].color == EMPTY)</b>
-<b class="fc">&nbsp;                return false;</b>
+<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
+<b class="nc">&nbsp;            if(board[i][c].color == EMPTY)</b>
+<b class="nc">&nbsp;                return false;</b>
 &nbsp;        }
-<b class="fc">&nbsp;        return true;</b>
+<b class="nc">&nbsp;        return true;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * check if the matrix match with the objective
@@ -116,10 +116,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        for (int j = 0; j &lt; COLS; j++) {</b>
 <b class="fc">&nbsp;            colors = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;            for (int i = 0; i &lt; ROWS; i++) {</b>
-<b class="fc">&nbsp;                if (!colors.contains(board[i][j].color))</b>
+<b class="fc">&nbsp;                if (!colors.contains(board[i][j].color) &amp;&amp; board[i][j].color != EMPTY)</b>
 <b class="fc">&nbsp;                    colors.add(board[i][j].color);</b>
 &nbsp;            }
-<b class="fc">&nbsp;            if (colors.size() == 6 &amp;&amp; notEmptyOnCol(board, j))</b>
+<b class="fc">&nbsp;            if (colors.size() == 6)</b>
 <b class="fc">&nbsp;                count++;</b>
 &nbsp;        }
 <b class="fc">&nbsp;        return count &gt;= 2;</b>
@@ -148,7 +148,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-23 10:24</div>
+    <div style="float:right;">generated on 2023-04-30 09:22</div>
 </div>
 </body>
 </html>

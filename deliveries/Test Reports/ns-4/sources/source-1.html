@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/9)
+    (0/15)
   </span>
 </td>
 </tr>
@@ -76,8 +76,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package app.model.chat;
 &nbsp;
+&nbsp;import app.controller.Game;
 &nbsp;import app.controller.Message;
 &nbsp;import app.model.NetMode;
+&nbsp;import app.model.Player;
 &nbsp;import app.view.TUI.PlayerTUI;
 &nbsp;
 &nbsp;import java.io.IOException;
@@ -106,17 +108,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            return;
 &nbsp;        try {
 &nbsp;            while (true) {
-&nbsp;                //System.out.println(&quot;ASPETTO CHAT&quot;);
 <b class="nc">&nbsp;                Message msg = (Message) player.getInStream().readObject();</b>
-&nbsp;                //System.out.println(&quot;\nfrom CHAT - &quot; + msg.getType());
-<b class="nc">&nbsp;                if(msg.getType() == STOP)</b>
+<b class="nc">&nbsp;                if(msg == null || msg.getType() == STOP)</b>
 &nbsp;                    return;
+<b class="nc">&nbsp;                if(msg.getType() == FINAL_SCORE){</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;\nThe game is finished, this is the final scoreboard:\n\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;                    Game.waitForSeconds(5);</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+&nbsp;                }
 <b class="nc">&nbsp;                System.out.println(&quot;\n&quot; + msg.getContent());</b>
 <b class="nc">&nbsp;                player.addToFullChat((String)msg.getContent());</b>
 <b class="nc">&nbsp;            }</b>
 &nbsp;        }
 <b class="nc">&nbsp;        catch (IOException ignored){}</b>
-<b class="nc">&nbsp;        catch(Exception e){player.connectionLost(e);}</b>
+<b class="nc">&nbsp;        catch(Exception e){</b>
+<b class="nc">&nbsp;            player.connectionLost(e);</b>
+<b class="nc">&nbsp;        }</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -142,7 +149,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-23 10:24</div>
+    <div style="float:right;">generated on 2023-04-30 09:22</div>
 </div>
 </body>
 </html>

@@ -128,10 +128,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return true or false, depending on if library is full or not
 &nbsp;     */
 &nbsp;    public boolean isFull(){
-&nbsp;        /*
-&nbsp;        if(gameLibrary[4][4].color != EMPTY) // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
-&nbsp;            return true;
-&nbsp;         */
+&nbsp;        //if(gameLibrary[4][4].color != EMPTY) // SOLO PER TESTING, TOGLIERE ASSOLUTAMENTE
+&nbsp;        //    return true;
 <b class="fc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
 <b class="fc">&nbsp;            for(int j = 0; j &lt; COLS; j++){</b>
 <b class="fc">&nbsp;                if(gameLibrary[i][j].color == EMPTY)</b>
@@ -263,13 +261,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @author Gumus
 &nbsp;     */
 &nbsp;    public void draw(){
-<b class="nc">&nbsp;        System.out.println(&quot;\nYour own library&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;\nYour own library (&quot; + name +&quot;)&quot;);</b>
 <b class="nc">&nbsp;        System.out.print(&quot;  &quot;);</b>
 <b class="nc">&nbsp;        for (int i = 0; i &lt; COLS; i++)</b>
-<b class="nc">&nbsp;            System.out.print(i + &quot; &quot;);</b>
+<b class="nc">&nbsp;            System.out.print((i + 1) + &quot; &quot;);</b>
 <b class="nc">&nbsp;        System.out.println();</b>
 <b class="nc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
-<b class="nc">&nbsp;            System.out.print(i + &quot; &quot;);</b>
+<b class="nc">&nbsp;            System.out.print((i + 1) + &quot; &quot;);</b>
 <b class="nc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
 <b class="nc">&nbsp;                gameLibrary[i][j].draw();</b>
 <b class="nc">&nbsp;                System.out.print(&quot; &quot;);</b>
@@ -285,10 +283,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        System.out.println(title);</b>
 <b class="fc">&nbsp;        System.out.print(&quot;  &quot;);</b>
 <b class="fc">&nbsp;        for (int i = 0; i &lt; COLS; i++)</b>
-<b class="fc">&nbsp;            System.out.print(i + &quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print((i + 1) + &quot; &quot;);</b>
 <b class="fc">&nbsp;        System.out.println();</b>
 <b class="fc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
-<b class="fc">&nbsp;            System.out.print(i + &quot; &quot;);</b>
+<b class="fc">&nbsp;            System.out.print((i + 1) + &quot; &quot;);</b>
 <b class="fc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
 <b class="fc">&nbsp;                gameLibrary[i][j].draw();</b>
 <b class="fc">&nbsp;                System.out.print(&quot; &quot;);</b>
@@ -336,7 +334,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-23 10:24</div>
+    <div style="float:right;">generated on 2023-04-30 09:22</div>
 </div>
 </body>
 </html>

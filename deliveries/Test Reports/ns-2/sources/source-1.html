@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/11)
+    (0/12)
   </span>
 </td>
 </tr>
@@ -99,20 +99,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public void run(){
-&nbsp;        //System.out.println(&quot;SERVER ASCOLTA CHAT&quot;);
 &nbsp;        while (true) {
 <b class="nc">&nbsp;            Message msg = null;</b>
 &nbsp;            try {
 <b class="nc">&nbsp;                msg = (Message) game.getInStreams().get(index).readObject();</b>
-<b class="nc">&nbsp;            } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;            } catch (Exception e) {</b>
 <b class="nc">&nbsp;                game.playerDisconnected(index);</b>
 &nbsp;                return;
 <b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(msg == null)</b>
+&nbsp;                return;
 <b class="nc">&nbsp;            if(msg.getType() == PING)</b>
 <b class="nc">&nbsp;                continue;</b>
 <b class="nc">&nbsp;            if(msg.getType() == STOP)</b>
 &nbsp;                return;
-&nbsp;            //System.out.println(&quot;\nRICEVUTO MEX - &quot; + msg.getContent());
 <b class="nc">&nbsp;            game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;    }
@@ -140,7 +140,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-23 10:24</div>
+    <div style="float:right;">generated on 2023-04-30 09:22</div>
 </div>
 </body>
 </html>
