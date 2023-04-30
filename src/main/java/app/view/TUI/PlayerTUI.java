@@ -163,13 +163,13 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         try {
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
         } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
+            connectionLost(e);
         }
         if(netMode == RMI) {
             try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
         }
         if(netMode == SOCKET)
@@ -199,13 +199,13 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         try {
             server = (GameI)LocateRegistry.getRegistry(IP.activeIP, Initializer.PORT_RMI).lookup("Server");
         } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
+            connectionLost(e);
         }
         if(netMode == RMI) {
             try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
         }
         if(netMode == SOCKET)
