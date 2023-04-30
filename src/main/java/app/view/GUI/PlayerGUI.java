@@ -106,7 +106,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(!opt.equals("yes")){
                 outStream.writeObject(false);
             }
-        }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
+        }catch (Exception e){alert("\nServer is inactive, try later"); connectionLost(e);}
         System.out.println("\nClient connected");
         new Thread(() -> showChooseNameWindow(flag)).start();
     }

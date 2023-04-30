@@ -71,7 +71,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             if(!opt.equals("yes")){
                 outStream.writeObject(false);
             }
-        }catch (Exception e){System.out.println("\nServer is either full or inactive, try later"); System.exit(0);}
+        }catch (Exception e){System.out.println("\nServer is inactive, try later"); connectionLost(e);}
         System.out.println("\nClient connected");
         chooseUserName(flag);
     }
