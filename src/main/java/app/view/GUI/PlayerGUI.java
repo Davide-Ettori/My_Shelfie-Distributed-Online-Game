@@ -1522,9 +1522,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         internalPanelSide.setBackground(new Color(0, 0, 0, 0));
         internalPanelLow.setBackground(new Color(0, 0, 0, 0));
         //infoBox.setBackground(new Color(0, 0, 0, 0));
-        player1Panel.setBackground(new Color(0, 0, 0, 0));
-        player2Panel.setBackground(new Color(0, 0, 0, 0));
-        player3Panel.setBackground(new Color(0, 0, 0, 0));
+        //player1Panel.setBackground(new Color(0, 0, 0, 0));
+        //player2Panel.setBackground(new Color(0, 0, 0, 0));
+        //player3Panel.setBackground(new Color(0, 0, 0, 0));
         //gameBoardPanel.setBackground(new Color(0, 0, 0, 0));
         //myLibraryPanel.setBackground(new Color(0, 0, 0, 0));
         //chatPanel.setBackground(new Color(0, 0, 0, 0));
