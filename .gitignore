@@ -12,7 +12,7 @@ assets/*
 documentation/*
 out/*
 META-INF/*
-src/main/java/app/controller/cache/server.txt
+src/main/java/app/controller/cache
 run.sh
 
 # User-specific stuff
