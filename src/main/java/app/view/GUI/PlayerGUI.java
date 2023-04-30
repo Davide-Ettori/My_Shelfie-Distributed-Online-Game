@@ -1185,7 +1185,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.1;
         gbc.weighty = 0.0;
         internalPanelLow.add(player1Panel,gbc);
         //player 2
@@ -1207,7 +1207,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.1;
         gbc.weighty = 0.0;
         internalPanelLow.add(player2Panel,gbc);
         //player 3
@@ -1229,7 +1229,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.ipady = 0;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.1;
         gbc.weighty = 0.0;
         internalPanelLow.add(player3Panel,gbc);
 
