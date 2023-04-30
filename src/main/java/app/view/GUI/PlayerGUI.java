@@ -108,7 +108,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             }
         }catch (Exception e){alert("\nServer is either full or inactive, try later"); return;}
         System.out.println("\nClient connected");
-        showChooseNameWindow(flag);
+        new Thread(() -> showChooseNameWindow(flag)).start();
     }
     /**
      * Clone the player on the client in the player on the server
@@ -338,14 +338,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 sendBtn.setVisible(false);
                 if(flag)
                     Game.serverPlayer = name;
-                getInitialState();
+                new Thread(this::getInitialState).start();
                 return;
             }
             if(status == OLD){
                 alert("\nName: '" + name + " was found in a previous game");
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
-                getInitialState();
+                new Thread(this::getInitialState).start();
                 return;
             }
             if(status == NOT_FOUND){
@@ -355,7 +355,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(status == FOUND){
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
-                getPreviousState();
+                new Thread(this::getPreviousState).start();
                 return;
             }
             alert("Name Taken, choose another name");
