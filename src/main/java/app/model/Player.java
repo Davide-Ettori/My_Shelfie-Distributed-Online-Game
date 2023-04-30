@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -59,6 +60,8 @@ public class Player extends UnicastRemoteObject implements Serializable {
     protected transient JSONObject boardStatus;
     protected transient JSONObject playerStatus;
     protected transient JSONObject gameStatus;
+    /** points achieved until now with the common objectives by all the other players: (name, points) */
+    public HashMap<String, Integer> pointsMap = new HashMap<>();
 
     /**
      * constructor used by the server to initializer a base Player object
@@ -93,6 +96,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
+        pointsMap = p.pointsMap;
     }
 
     /**
@@ -120,6 +124,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
+        pointsMap = p.pointsMap;
     }
     /**
      * Clone the player on the client in the player on the server

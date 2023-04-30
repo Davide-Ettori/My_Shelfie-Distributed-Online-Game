@@ -51,6 +51,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.getEndGame();
+        pointsMap = p.pointsMap;
     }
     /**
      * standard constructor, starts the main game process on the client side
@@ -97,6 +98,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
+        pointsMap = p.pointsMap;
     }
     /**
      * method for choosing the nickname of the player for the future game
@@ -306,6 +308,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
+        pointsMap.put(msg.getAuthor(), (int) jsonObject.get("points"));
         System.out.println("\nPlayer " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
         if(netMode == SOCKET)
             waitForEvents();
@@ -731,7 +734,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         objective.draw();
         library.draw();
         for(int i = 0; i < numPlayers - 1; i++)
-            librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name);
+            librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(i).name) + " points )");
         if(pointsUntilNow % 2 == 1){
             System.out.println("\nYou have achieved " + (pointsUntilNow - 1) + " points from the common objectives (until now)");
             System.out.println("You also achieved 1 point for being the first player to complete the library");

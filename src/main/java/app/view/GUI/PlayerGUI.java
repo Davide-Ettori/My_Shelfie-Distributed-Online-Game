@@ -87,6 +87,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.getEndGame();
+        pointsMap = p.pointsMap;
     }
     /**
      * standard constructor, starts the main game process on the client side
@@ -131,6 +132,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
+        pointsMap = p.pointsMap;
     }
     /**
      * method that update the information about the game
@@ -208,12 +210,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void updateOtherLibraries(){
         try {
             SwingUtilities.invokeAndWait(() ->{
+                library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points)");
                 for(int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
                         otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
                         otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);
                     }
                 }
+                library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points)");
                 if(numPlayers >= 3){
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
@@ -222,6 +226,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                         }
                     }
                 }
+                library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points)");
                 if(numPlayers >= 4){
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
@@ -525,6 +530,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
+        pointsMap.put(msg.getAuthor(), (int) jsonObject.get("points"));
         updateEventText(" Player " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
     }
     /**

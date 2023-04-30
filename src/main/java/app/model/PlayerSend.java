@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -45,6 +46,8 @@ public class PlayerSend implements Serializable {
     /** points achieved until now with the common objectives */
     public int pointsUntilNow;
     protected boolean endGame = false;
+    /** points achieved until now with the common objectives by all the other players: (name, points) */
+    public HashMap<String, Integer> pointsMap = new HashMap<>();
 
     /**
      * copy constructor for the Player object
@@ -69,6 +72,7 @@ public class PlayerSend implements Serializable {
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
+        pointsMap = p.pointsMap;
     }
     /**
      * copy constructor for the PlayerSend object
@@ -93,5 +97,6 @@ public class PlayerSend implements Serializable {
         activeName = p.activeName;
         numPlayers = p.numPlayers;
         endGame = p.endGame;
+        pointsMap = p.pointsMap;
     }
 }

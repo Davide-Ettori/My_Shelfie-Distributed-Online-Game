@@ -193,6 +193,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
+            for(int j = 0; j < numPlayers; j++){
+                if(i == j)
+                    continue;
+                p.pointsMap.put(names.get(j), 0);
+            }
             p.setName(names.get(i));
             p.setIsChairMan(i == 0);
             p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));
@@ -460,6 +465,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         if(i == activePlayer)
                             continue;
                         players.get(i).board = (Board) jsonObject.get("board");
+                        players.get(i).pointsMap.put(names.get(activePlayer), (int) jsonObject.get("points"));
                         for(int j = 0; j < numPlayers - 1; j++){
                             if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
                                 players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
@@ -843,6 +849,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     if(i == activePlayer)
                         continue;
                     players.get(i).board = (Board) jsonObject.get("board");
+                    players.get(i).pointsMap.put(names.get(activePlayer), (int) jsonObject.get("points"));
                     for(int j = 0; j < numPlayers - 1; j++){
                         if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
                             players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
