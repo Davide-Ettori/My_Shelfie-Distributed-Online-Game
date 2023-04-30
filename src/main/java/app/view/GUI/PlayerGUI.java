@@ -1540,7 +1540,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         chairmanPanel.setBackground(new Color(0, 0, 0, 0));
         //chooseColPanel.setBackground(new Color(0, 0, 0, 0));
 
-
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;

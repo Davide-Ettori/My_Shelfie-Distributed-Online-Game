@@ -519,6 +519,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
                 System.out.println("\nThe game is temporarily paused because you are the only connected player");
+            activePlayer = names.indexOf(Game.serverPlayer);
             return;
         }
         do{
