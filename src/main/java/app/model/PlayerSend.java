@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class PlayerSend implements Serializable {
     public String name;
-    protected PrivateObjective objective;
+    public PrivateObjective objective;
     /** list of the libraries of all the players in the game */
     public ArrayList<Library> librariesOfOtherPlayers = new ArrayList<>();
     /** the board seen and used by this player */
@@ -94,10 +94,4 @@ public class PlayerSend implements Serializable {
         numPlayers = p.numPlayers;
         endGame = p.endGame;
     }
-    /**
-     * Getter for the private objective
-     * @author Ettori
-     * @return the private objective of the player
-     */
-    public PrivateObjective getPrivateObjective(){return objective;}
 }

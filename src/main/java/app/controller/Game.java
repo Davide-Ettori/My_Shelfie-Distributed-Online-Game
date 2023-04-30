@@ -634,7 +634,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         PlayerSend p;
         for(int i = 0; i < numPlayers; i++){
             p = players.get(i);
-            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.gameLibrary));
+            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.objective.countPoints(p.library.gameLibrary));
         }
         String tempName;
         int tempScore;
