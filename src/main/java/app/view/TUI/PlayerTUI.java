@@ -591,6 +591,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
+        gameStatus.put("points", pointsUntilNow);
 
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));

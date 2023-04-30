@@ -455,6 +455,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     JSONObject jsonObject = (JSONObject) msg.getContent();
                     players.get(activePlayer).library = (Library) jsonObject.get("library");
                     players.get(activePlayer).board = (Board) jsonObject.get("board");
+                    players.get(activePlayer).pointsUntilNow = (int) jsonObject.get("points");
+                    for(int i = 0; i < numPlayers; i++) {
+                        if(i == activePlayer)
+                            continue;
+                        players.get(i).board = (Board) jsonObject.get("board");
+                        for(int j = 0; j < numPlayers - 1; j++){
+                            if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
+                                players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
+                        }
+                    }
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     break;
@@ -484,17 +494,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 throw new RuntimeException();
             JSONObject jsonObject = (JSONObject) msg.getContent();
             players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
-            PlayerSend p = (PlayerSend) jsonObject.get("player");
-            for(int i = 0; i < numPlayers; i++){
-                if(i == activePlayer)
-                    continue;
-                for(int j = 0; j < numPlayers - 1; j++){
-                    if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {
-                        players.get(i).librariesOfOtherPlayers.set(j, p.library);
-                        players.get(i).board = p.board;
-                    }
-                }
-            }
             advanceTurn();
         }catch(Exception e){connectionLost(e);}
     }
@@ -829,17 +828,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             case END_TURN -> {
                 JSONObject jsonObject = (JSONObject) msg.getContent();
                 players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
-                PlayerSend p = (PlayerSend) jsonObject.get("player");
-                for(int i = 0; i < numPlayers; i++){
-                    if(i == activePlayer)
-                        continue;
-                    for(int j = 0; j < numPlayers - 1; j++){
-                        if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {
-                            players.get(i).librariesOfOtherPlayers.set(j, p.library);
-                            players.get(i).board = p.board;
-                        }
-                    }
-                }
                 if(players.get(activePlayer).library.isFull() && !endGameSituation) {
                     endGameSituation = true;
                     for(int i = 0; i < names.size(); i++){
@@ -854,7 +842,21 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     if (i != activePlayer)
                         sendToClient(i,msg);
                 }
-                sendToClient(activePlayer, new Message(STOP, null, null));
+                JSONObject jsonObject = (JSONObject) msg.getContent();
+                players.get(activePlayer).library = (Library) jsonObject.get("library");
+                players.get(activePlayer).board = (Board) jsonObject.get("board");
+                players.get(activePlayer).pointsUntilNow = (int) jsonObject.get("points");
+                for(int i = 0; i < numPlayers; i++) {
+                    if(i == activePlayer)
+                        continue;
+                    players.get(i).board = (Board) jsonObject.get("board");
+                    for(int j = 0; j < numPlayers - 1; j++){
+                        if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
+                            players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
+                    }
+                }
+                if(!rmiClients.containsKey(names.get(activePlayer)))
+                    sendToClient(activePlayer, new Message(STOP, null, null));
             }
             default -> {
                 if(msg.getType() == LIB_FULL && !endGameSituation)
