@@ -1,1 +1,0 @@
-Esempio di GUI - Specifiche:

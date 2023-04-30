@@ -1,4 +1,0 @@
-come chiudere il processo su una porta per liberarla (macOs):
-
-    sudo lsof -i :portNumber
-    sudo kill -9 PID
