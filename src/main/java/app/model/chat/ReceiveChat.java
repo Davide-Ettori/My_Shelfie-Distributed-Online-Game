@@ -6,6 +6,8 @@ import app.model.NetMode;
 import app.model.Player;
 import app.view.TUI.PlayerTUI;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import static app.controller.MessageType.*;
