@@ -68,7 +68,37 @@ public class isBoardUnplayableTest {
 
         assertEquals(board1.isBoardUnplayable(), false);
     }
+    @Test
+    public void board_sixNearCards(){
+        //inizializzo la matrice con degli EMPTY
+        for(int i=0; i<DIM; i++){
+            for(int j=0; j<DIM; j++){
+                gameBoard1[i][j] = new Card(EMPTY);
+            }
+        }
+        //metto le carte colorate dove mi interessano
+        gameBoard1[0][3].color = BLUE;
+        gameBoard1[5][3].color = BLUE;
+        gameBoard1[1][3].color = BLUE;
+        gameBoard1[2][3].color = BLUE;
+        gameBoard1[3][3].color = BLUE;
+        gameBoard1[4][3].color = BLUE;
+        //uso il setter definito in Board
+        board1.setGameBoard(gameBoard1);
 
+        assertEquals(board1.isBoardUnplayable(), false);
+    }
+    @Test
+    public void board_ZeroCards(){
+        //inizializzo la matrice con degli EMPTY
+        for(int i=0; i<DIM; i++){
+            for(int j=0; j<DIM; j++){
+                gameBoard1[i][j] = new Card(EMPTY);
+            }
+        }
+        //uso il setter definito in Board
+        board1.setGameBoard(gameBoard1);
 
-
+        assertEquals(board1.isBoardUnplayable(), true);
+    }
 }
