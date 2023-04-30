@@ -1333,13 +1333,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //Text on top of my library
         myLibraryText = new JTextArea(" Your personal Library (" + name + ") ");
         myLibraryText.setEditable(false);
-        /*
-        chooseColText = new JTextField();
-        chooseColText.setText("Insert col: ");
-        chooseColText.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
-        chooseColText.setBorder(null);
-        chooseColText.addActionListener(event -> pickCardsBtn.doClick());
-         */
+
         chooseColPanel = new JPanel();
         r1 = new JRadioButton("col 1");
         r2 = new JRadioButton("col 2");
