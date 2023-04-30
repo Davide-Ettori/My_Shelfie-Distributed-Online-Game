@@ -301,97 +301,91 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @author Ettori Giammusso
      */
     private void showChooseNameWindow(boolean flag){
-        try {
-            SwingUtilities.invokeAndWait(() ->{
-                mainFrame =  new JFrame("My Shelfie");
-                mainPanel = new JPanel(new GridBagLayout());
+        mainFrame =  new JFrame("My Shelfie");
+        mainPanel = new JPanel(new GridBagLayout());
 
-                //SFONDO:
-                //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-                JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_1.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-                generalLabelChooseName.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
-                generalLabelChooseName.setLayout(new GridBagLayout());
+        //SFONDO:
+        //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_1.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        generalLabelChooseName.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
+        generalLabelChooseName.setLayout(new GridBagLayout());
 
-                //titolo my shelfie
-                JLabel myShelfieTitleLabel = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Title 2000x618px.png").getImage().getScaledInstance(screenSize.width * 4 / 6, screenSize.height * 4 / 10, Image.SCALE_SMOOTH)));
+        //titolo my shelfie
+        JLabel myShelfieTitleLabel = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Title 2000x618px.png").getImage().getScaledInstance(screenSize.width * 4 / 6, screenSize.height * 4 / 10, Image.SCALE_SMOOTH)));
 
-                sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
-                textInput = new JTextField(20); // textbox input dall'utente
+        sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
+        textInput = new JTextField(20); // textbox input dall'utente
 
-                textInput.setBounds(100, 20, 165, 25);
-                textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
+        textInput.setBounds(100, 20, 165, 25);
+        textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
 
-                sendBtn.addActionListener((event) ->{ // funzione di event listener
-                    NameStatus status = null;
-                    name = textInput.getText();
-                    if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names") || name.equals("...") || name.equals("exit")){
-                        alert("Name invalid, choose another name"); // vedi JavaDoc di alert
-                        textInput.setText("");
-                        return;
-                    }
-                    try {
-                        outStream.writeObject(name);
-                        status = (NameStatus) inStream.readObject();
-                    }catch(Exception e){connectionLost(e);}
+        sendBtn.addActionListener((event) ->{ // funzione di event listener
+            NameStatus status = null;
+            name = textInput.getText();
+            if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names") || name.equals("...") || name.equals("exit")){
+                alert("Name invalid, choose another name"); // vedi JavaDoc di alert
+                textInput.setText("");
+                return;
+            }
+            try {
+                outStream.writeObject(name);
+                status = (NameStatus) inStream.readObject();
+            }catch(Exception e){connectionLost(e);}
 
-                    if(status == NOT_TAKEN){
-                        alert("\nName: '" + name + "' accepted by the server!");
-                        textInput.setVisible(false);
-                        sendBtn.setVisible(false);
-                        if(flag)
-                            Game.serverPlayer = name;
-                        getInitialState();
-                        return;
-                    }
-                    if(status == OLD){
-                        alert("\nName: '" + name + " was found in a previous game");
-                        textInput.setVisible(false);
-                        sendBtn.setVisible(false);
-                        getInitialState();
-                        return;
-                    }
-                    if(status == NOT_FOUND){
-                        alert("\nAnother game is running and your name was not found...");
-                        System.exit(0);
-                    }
-                    if(status == FOUND){
-                        textInput.setVisible(false);
-                        sendBtn.setVisible(false);
-                        getPreviousState();
-                        return;
-                    }
-                    alert("Name Taken, choose another name");
-                    textInput.setText("");
-                });
+            if(status == NOT_TAKEN){
+                alert("\nName: '" + name + "' accepted by the server!");
+                textInput.setVisible(false);
+                sendBtn.setVisible(false);
+                if(flag)
+                    Game.serverPlayer = name;
+                getInitialState();
+                return;
+            }
+            if(status == OLD){
+                alert("\nName: '" + name + " was found in a previous game");
+                textInput.setVisible(false);
+                sendBtn.setVisible(false);
+                getInitialState();
+                return;
+            }
+            if(status == NOT_FOUND){
+                alert("\nAnother game is running and your name was not found...");
+                System.exit(0);
+            }
+            if(status == FOUND){
+                textInput.setVisible(false);
+                sendBtn.setVisible(false);
+                getPreviousState();
+                return;
+            }
+            alert("Name Taken, choose another name");
+            textInput.setText("");
+        });
 
-                gbc2.gridx=0;
-                gbc2.gridy=0;
-                generalLabelChooseName.add(myShelfieTitleLabel,gbc2);
-                gbc2.gridx=0;
-                gbc2.gridy=1;
-                gbc2.insets = new Insets(0,0,15,0);
-                generalLabelChooseName.add(textInput,gbc2);
-                gbc2.gridx=0;
-                gbc2.gridy=2;
-                gbc2.insets = new Insets(0,0,0,0);
-                generalLabelChooseName.add(sendBtn,gbc2);
-                gbc2.gridx=0;
-                gbc2.gridy=0;
-                mainPanel.add(generalLabelChooseName,gbc2);
+        gbc2.gridx=0;
+        gbc2.gridy=0;
+        generalLabelChooseName.add(myShelfieTitleLabel,gbc2);
+        gbc2.gridx=0;
+        gbc2.gridy=1;
+        gbc2.insets = new Insets(0,0,15,0);
+        generalLabelChooseName.add(textInput,gbc2);
+        gbc2.gridx=0;
+        gbc2.gridy=2;
+        gbc2.insets = new Insets(0,0,0,0);
+        generalLabelChooseName.add(sendBtn,gbc2);
+        gbc2.gridx=0;
+        gbc2.gridy=0;
+        mainPanel.add(generalLabelChooseName,gbc2);
 
-                mainFrame.add(mainPanel, BorderLayout.CENTER);
-                mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
-                mainFrame.setResizable(false);
-                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                mainFrame.setTitle("My Shelfie");
-                mainFrame.setIconImage(new ImageIcon("assets/Publisher material/Icon 50x50px.png").getImage());
-                mainFrame.pack(); // preparo la finestra
-                mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
-                mainFrame.setVisible(true); // mostro il tutto a schermo, GUI
-            });
-        } catch (InterruptedException | InvocationTargetException e) {
-            connectionLost(e);
-        }
+        mainFrame.add(mainPanel, BorderLayout.CENTER);
+        mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
+        mainFrame.setResizable(false);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setTitle("My Shelfie");
+        mainFrame.setIconImage(new ImageIcon("assets/Publisher material/Icon 50x50px.png").getImage());
+        mainFrame.pack(); // preparo la finestra
+        mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
+        mainFrame.setVisible(true); // mostro il tutto a schermo, GUI
     }
     /**
      * Receive the status of the player (previously disconnected) from the server and restart the game
