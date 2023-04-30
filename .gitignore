@@ -12,6 +12,7 @@ assets/*
 documentation/*
 out/*
 META-INF/*
+run.sh
 
 # User-specific stuff
 .idea/**/workspace.xml
