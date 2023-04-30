@@ -432,8 +432,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
             coords = new ArrayList<>();
             for(int i = 0; i < rawCoords.length; i += 2){
-                coords.add(Integer.parseInt(rawCoords[i]));
-                coords.add(Integer.parseInt(rawCoords[i + 1]));
+                coords.add(Integer.parseInt(rawCoords[i]) - 1);
+                coords.add(Integer.parseInt(rawCoords[i + 1]) - 1);
             }
             if(board.areCardsPickable(coords) && library.maxCardsInsertable() >= coords.size() / 2)
                 break;
@@ -469,8 +469,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 continue;
             }
             try {
-                index_1 = Character.getNumericValue(coordOrder.charAt(0));
-                index_2 = Character.getNumericValue(coordOrder.charAt(2));
+                index_1 = Character.getNumericValue(coordOrder.charAt(0)) - 1;
+                index_2 = Character.getNumericValue(coordOrder.charAt(2)) - 1;
             }catch (Exception e){System.out.println("\nInvalid selection"); continue;}
             if(coordOrder.length() != 3 || !isCharValid(index_1, index_2, coords.size() / 2)){
                 System.out.println("\nInvalid selection");
@@ -508,7 +508,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 sendChatMsg(column);
                 continue;
             }
-            col = Integer.parseInt(column);
+            col = Integer.parseInt(column) - 1;
             if(library.checkCol(col, size))
                 break;
             System.out.println("\nInvalid selection");

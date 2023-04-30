@@ -188,10 +188,10 @@ public class Library implements Serializable {
         System.out.println("\nYour own library (" + name +")");
         System.out.print("  ");
         for (int i = 0; i < COLS; i++)
-            System.out.print(i + " ");
+            System.out.print((i + 1) + " ");
         System.out.println();
         for (int i = 0; i < ROWS; i++) {
-            System.out.print(i + " ");
+            System.out.print((i + 1) + " ");
             for (int j = 0; j < COLS; j++) {
                 gameLibrary[i][j].draw();
                 System.out.print(" ");
@@ -207,10 +207,10 @@ public class Library implements Serializable {
         System.out.println(title);
         System.out.print("  ");
         for (int i = 0; i < COLS; i++)
-            System.out.print(i + " ");
+            System.out.print((i + 1) + " ");
         System.out.println();
         for (int i = 0; i < ROWS; i++) {
-            System.out.print(i + " ");
+            System.out.print((i + 1) + " ");
             for (int j = 0; j < COLS; j++) {
                 gameLibrary[i][j].draw();
                 System.out.print(" ");

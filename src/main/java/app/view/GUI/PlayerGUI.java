@@ -267,7 +267,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         ArrayList<Integer> cards = new ArrayList<>(cardsPicked);
         cardsPicked = new ArrayList<>();
         int col;
-        try{col = Integer.parseInt(chooseColText.getText());}
+        try{col = Integer.parseInt(chooseColText.getText()) - 1;}
         catch (Exception e){
             alert("Invalid Selection");
             chooseColText.setText("");

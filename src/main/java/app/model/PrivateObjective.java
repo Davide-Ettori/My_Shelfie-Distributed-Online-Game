@@ -60,10 +60,10 @@ public class PrivateObjective extends Objective implements Serializable {
         System.out.println("\nYour own private objective");
         System.out.print("  ");
         for (int i = 0; i < COLS; i++)
-            System.out.print(i + " ");
+            System.out.print((i + 1) + " ");
         System.out.println();
         for (int i = 0; i < ROWS; i++) {
-            System.out.print(i + " ");
+            System.out.print((i + 1) + " ");
             for (int j = 0; j < COLS; j++) {
                 matrix[i][j].draw();
                 System.out.print(" ");
