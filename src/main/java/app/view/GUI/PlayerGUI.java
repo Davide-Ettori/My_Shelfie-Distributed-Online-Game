@@ -1574,6 +1574,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainPanel.add(generalLabel,gbc2);
 
         mainFrame.setVisible(true);
+        Game.waitForSeconds(0.5);
         new Thread(this::updateGUI).start();
     }
 }
