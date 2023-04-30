@@ -49,7 +49,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private final transient int libFullX = 6;
     private final transient int libFullY = 7;
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private final transient GridBagConstraints gbc2 = new GridBagConstraints();
     private transient JFrame mainFrame;
