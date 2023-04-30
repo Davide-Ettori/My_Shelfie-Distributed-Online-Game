@@ -52,10 +52,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private final transient GridBagConstraints gbc = new GridBagConstraints();
     private final transient GridBagConstraints gbc2 = new GridBagConstraints();
     private transient JFrame mainFrame;
-    private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel, mainPanel;
+    private transient JPanel infoBox, internalPanelSide, internalPanelHigh, internalPanelLow, player1Panel, player2Panel, player3Panel, gameBoardPanel, myLibraryPanel, chatPanel, CO1Panel, CO2Panel, POPanel, chairmanPanel, mainPanel, chooseColPanel;
     private transient JLabel POLabel, CO1Label, CO2Label, pointsCO1Label, pointsCO2Label, chairmanLabel, library1Label, library2Label, library3Label, boardLabel, libraryLabel, generalLabel;
-    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, chooseColText, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle, eventText, textInput;
+    private transient JTextField chairmanInfo, activeTurnInfo, curPointsInfo, titleInfo, insertMessage, insertPlayer, CO1Title, CO2Title, POTitle, chairmanTitle, eventText, textInput;
     private transient JTextArea library1Text, library2Text, library3Text, boardText, myLibraryText, chatTitle, tempChatHistory;
+    private transient JRadioButton r1, r2, r3, r4, r5;
+    private transient ButtonGroup btnGroup;
     private transient JScrollPane chatHistory;
     private transient JButton pickCardsBtn, sendMessageBtn, sendBtn;
 
@@ -270,17 +272,20 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void tryToPickCards(){
         ArrayList<Integer> cards = new ArrayList<>(cardsPicked);
         cardsPicked = new ArrayList<>();
-        int col;
-        try{col = Integer.parseInt(chooseColText.getText()) - 1;}
-        catch (Exception e){
-            alert("Invalid Selection");
-            chooseColText.setText("");
-            for(int i = 0; i < cards.size(); i += 2)
-                boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
-            return;
-        }
-        chooseColText.setText("");
-        if(!board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
+        int col = -1;
+
+        if(r1.isSelected())
+            col = 1;
+        if(r2.isSelected())
+            col = 2;
+        if(r3.isSelected())
+            col = 3;
+        if(r4.isSelected())
+            col = 4;
+        if(r5.isSelected())
+            col = 5;
+        col--;
+        if(cards.size() == 0 || !board.areCardsPickable(cards) || !library.checkCol(col, cards.size() / 2))
             alert("Invalid Selection");
         else{
             activeName = "...";
@@ -1328,11 +1333,35 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //Text on top of my library
         myLibraryText = new JTextArea(" Your personal Library (" + name + ") ");
         myLibraryText.setEditable(false);
+        /*
         chooseColText = new JTextField();
         chooseColText.setText("Insert col: ");
         chooseColText.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         chooseColText.setBorder(null);
         chooseColText.addActionListener(event -> pickCardsBtn.doClick());
+         */
+        chooseColPanel = new JPanel();
+        r1 = new JRadioButton("col 1");
+        r2 = new JRadioButton("col 2");
+        r3 = new JRadioButton("col 3");
+        r4 = new JRadioButton("col 4");
+        r5 = new JRadioButton("col 5");
+        r1.setSelected(true);
+
+        btnGroup = new ButtonGroup();
+
+        btnGroup.add(r1);
+        btnGroup.add(r2);
+        btnGroup.add(r3);
+        btnGroup.add(r4);
+        btnGroup.add(r5);
+
+        chooseColPanel.add(r1);
+        chooseColPanel.add(r2);
+        chooseColPanel.add(r3);
+        chooseColPanel.add(r4);
+        chooseColPanel.add(r5);
+
         pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setFocusPainted(false);
         pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
@@ -1425,9 +1454,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.gridy = 2;
         gbc.ipadx = 0;
         gbc.ipady = 0;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.6;
         gbc.weighty = 0.15;
-        myLibraryPanel.add(chooseColText,gbc);
+        myLibraryPanel.add(chooseColPanel,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.ipadx = 0;
@@ -1509,6 +1538,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         CO2Panel.setBackground(new Color(0, 0, 0, 0));
         POPanel.setBackground(new Color(0, 0, 0, 0));
         chairmanPanel.setBackground(new Color(0, 0, 0, 0));
+        //chooseColPanel.setBackground(new Color(0, 0, 0, 0));
 
 
         gbc.gridx = 0;
