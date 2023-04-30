@@ -210,14 +210,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void updateOtherLibraries(){
         try {
             SwingUtilities.invokeAndWait(() ->{
-                library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points)");
+                library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points) ");
                 for(int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
                         otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
                         otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);
                     }
                 }
-                library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points)");
+                library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points) ");
                 if(numPlayers >= 3){
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
@@ -226,7 +226,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                         }
                     }
                 }
-                library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points)");
+                library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points) ");
                 if(numPlayers >= 4){
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
@@ -1374,12 +1374,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         chatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));
         insertMessage = new JTextField(textCols);
         insertMessage.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
-        insertMessage.setText("Insert the message: ");
+        insertMessage.setText("Insert message: ");
         insertMessage.setBorder(null);
         insertMessage.addActionListener(event -> sendMessageBtn.doClick());
         insertPlayer = new JTextField(textCols);
         insertPlayer.setBorder(null);
-        insertPlayer.setText("Insert the player (all for everyone) : ");
+        insertPlayer.setText("Insert player (all for everyone) : ");
         insertPlayer.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
         sendMessageBtn = new JButton("Send Message");
         sendMessageBtn.setFocusPainted(false);
