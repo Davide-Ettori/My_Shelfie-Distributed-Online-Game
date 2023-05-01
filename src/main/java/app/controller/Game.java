@@ -476,6 +476,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                                 players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
                         }
                     }
+                    FILEHelper.writeServer(this);
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     break;
@@ -552,7 +553,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             Game.waitForSeconds(Game.waitTimer / 2.5);
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
-        FILEHelper.writeServer(this);
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
         else {
@@ -861,6 +861,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                             players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
                     }
                 }
+                FILEHelper.writeServer(this);
                 if(!rmiClients.containsKey(names.get(activePlayer)))
                     sendToClient(activePlayer, new Message(STOP, null, null));
             }
