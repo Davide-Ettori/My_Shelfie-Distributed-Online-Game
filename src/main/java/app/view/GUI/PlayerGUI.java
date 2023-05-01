@@ -309,6 +309,16 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainFrame =  new JFrame("My Shelfie");
         mainPanel = new JPanel(new GridBagLayout());
 
+        //PLACEHOLDERS:
+        JPanel tempPanel1 = new JPanel();
+        tempPanel1.setPreferredSize(new Dimension(placeholderW, placeholderH));
+        tempPanel1.setBackground(new java.awt.Color(0, 0, 0, 0));
+        tempPanel1.setOpaque(false);
+        JPanel tempPanel2 = new JPanel();
+        tempPanel2.setPreferredSize(new Dimension(placeholderW, placeholderH));
+        tempPanel2.setBackground(new java.awt.Color(0, 0, 0, 0));
+        tempPanel2.setOpaque(false);
+
         //SFONDO:
         //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
         JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_1.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
@@ -341,6 +351,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 alert("\nName: '" + name + "' accepted by the server!");
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
+
+                gbc2.gridx = 0;
+                gbc2.gridy = 3;
+                generalLabelChooseName.add(tempPanel1,gbc2);
+                gbc2.gridx = 0;
+                gbc2.gridy = 4;
+                generalLabelChooseName.add(tempPanel1,gbc2);
+
                 if(flag)
                     Game.serverPlayer = name;
                 new Thread(this::getInitialState).start();
@@ -350,6 +368,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 alert("\nName: '" + name + " was found in a previous game");
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
+
+                gbc2.gridx = 0;
+                gbc2.gridy = 3;
+                generalLabelChooseName.add(tempPanel1,gbc2);
+                gbc2.gridx = 0;
+                gbc2.gridy = 4;
+                generalLabelChooseName.add(tempPanel1,gbc2);
+
                 new Thread(this::getInitialState).start();
                 return;
             }
@@ -360,6 +386,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(status == FOUND){
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
+
+                gbc2.gridx = 0;
+                gbc2.gridy = 3;
+                generalLabelChooseName.add(tempPanel1,gbc2);
+                gbc2.gridx = 0;
+                gbc2.gridy = 4;
+                generalLabelChooseName.add(tempPanel1,gbc2);
+
                 new Thread(this::getPreviousState).start();
                 return;
             }
