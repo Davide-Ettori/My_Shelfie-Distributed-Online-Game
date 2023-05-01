@@ -31,8 +31,10 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * in theory it is mutable, but it is only instanced one time, at the start of the server
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
-    /** variable that represent the standard timer of the app for showing events */
+    /** variable that represent the standard timer of the app for advancing the state of the game */
     public static final double waitTimer = 2.5;
+    /** variable that represent the standard timer of the app for showing events */
+    public static final double showTimer = 2;
     /** variable that represent if we want to run or debug our application */
     public static boolean showErrors = false;
     /** variable that represent the name of the first player, which is also hosting the server */

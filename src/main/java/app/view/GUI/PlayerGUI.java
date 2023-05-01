@@ -543,7 +543,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     private void handleFinalScoreEvent(Message msg){
         alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        Game.waitForSeconds(Game.waitTimer);
+        Game.waitForSeconds(Game.showTimer);
         System.exit(0);
     }
     /**
@@ -612,7 +612,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 CO_1_Done = true;
                 sendToServer(new Message(CO_1, name, Integer.toString(points)));
                 updateEventText(" Well done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(Game.waitTimer / 2.5);
+                Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
@@ -623,7 +623,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 CO_2_Done = true;
                 sendToServer(new Message(CO_2, name, Integer.toString(points)));
                 updateEventText(" Well done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(Game.waitTimer / 2.5);
+                Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
         }catch(Exception e){connectionLost(e);}
@@ -642,7 +642,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 sendToServer(new Message(LIB_FULL, name, null));
                 updateEventText(" Well done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
                 updateBoard();
-                Game.waitForSeconds(Game.waitTimer / 2.5);
+                Game.waitForSeconds(Game.showTimer);
                 return true;
             }
         }catch (Exception e){connectionLost(e);}
@@ -1521,18 +1521,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         internalPanelHigh.setBackground(new Color(0, 0, 0, 0));
         internalPanelSide.setBackground(new Color(0, 0, 0, 0));
         internalPanelLow.setBackground(new Color(0, 0, 0, 0));
-        //infoBox.setBackground(new Color(0, 0, 0, 0));
-        //player1Panel.setBackground(new Color(0, 0, 0, 0));
-        //player2Panel.setBackground(new Color(0, 0, 0, 0));
-        //player3Panel.setBackground(new Color(0, 0, 0, 0));
-        //gameBoardPanel.setBackground(new Color(0, 0, 0, 0));
-        //myLibraryPanel.setBackground(new Color(0, 0, 0, 0));
-        //chatPanel.setBackground(new Color(0, 0, 0, 0));
         CO1Panel.setBackground(new Color(0, 0, 0, 0));
         CO2Panel.setBackground(new Color(0, 0, 0, 0));
         POPanel.setBackground(new Color(0, 0, 0, 0));
         chairmanPanel.setBackground(new Color(0, 0, 0, 0));
-        //chooseColPanel.setBackground(new Color(0, 0, 0, 0));
 
         gbc.gridx = 0;
         gbc.gridy = 0;

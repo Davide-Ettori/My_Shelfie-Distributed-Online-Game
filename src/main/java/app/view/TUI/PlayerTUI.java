@@ -320,7 +320,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void handleFinalScoreEvent(Message msg){
         System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-        Game.waitForSeconds(Game.waitTimer);
+        Game.waitForSeconds(Game.showTimer);
         System.exit(0);
     }
     /**
@@ -535,7 +535,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 CO_1_Done = true;
                 sendToServer(new Message(CO_1, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(Game.waitTimer);
+                Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
@@ -546,7 +546,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 CO_2_Done = true;
                 sendToServer(new Message(CO_2, name, Integer.toString(points)));
                 System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
-                Game.waitForSeconds(Game.waitTimer);
+                Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
         }catch(Exception e){connectionLost(e);}
@@ -564,7 +564,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow++;
                 sendToServer(new Message(LIB_FULL, name, null));
                 System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
-                Game.waitForSeconds(Game.waitTimer);
+                Game.waitForSeconds(Game.showTimer);
                 return true;
             }
         }catch (Exception e){connectionLost(e);}
