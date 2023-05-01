@@ -61,22 +61,32 @@ public class Client {
                     System.out.println("error");
                     throw new RuntimeException(exc);
                 }
-                if(numPlayers.length() == 0)
-                    numPlayers = "2";
+                if(numPlayers.length() == 0){
+                    numP = 2;
+                    break;
+                }
                 numP = Integer.parseInt(numPlayers);
                 if(numP < 2 || numP > 4){
                     System.out.println("\nInvalid choice, try again");
-                    continue;
-                }
-                String old;
+                }else
+                    break;
+            }
+            final String old;
+            String oldTemporary;
+            while(true){
                 System.out.print("\nDo you want to load an old game ? (yes or no for persistence): ");
                 try {
-                    old = br.readLine();
+                    oldTemporary = br.readLine();
                 } catch (IOException exc) {
                     System.out.println("error");
                     throw new RuntimeException(exc);
                 }
+                if(!(oldTemporary.equalsIgnoreCase("YES")||oldTemporary.equalsIgnoreCase("NO")||oldTemporary.equalsIgnoreCase(""))){
+                    System.out.println("\nInvalid choice, try again");
+                    continue;
+                }
                 int finalNumP = numP;
+                old = oldTemporary;
                 Thread serverTh = new Thread(() -> {
                     try {
                         new Game(finalNumP, old);
