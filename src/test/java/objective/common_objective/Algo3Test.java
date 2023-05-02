@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * class that test the third algorithm, four cards of the same type at the corner of the library
  * <p>
- * test which are false are #1
+ * test which are true are #1
  * <p>
  * test which are false are #2
  * <p>

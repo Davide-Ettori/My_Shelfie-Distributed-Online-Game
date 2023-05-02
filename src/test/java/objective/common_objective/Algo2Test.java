@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * class that test the second algorithm, five cards of the same type that form a diagonal.
  * <p>
- * test which are false are #1 #2 #3 #4
+ * test which are true are #1 #2 #3 #4
  * <p>
  * test which are false are #5 #6 #7 #8
  * <p>
