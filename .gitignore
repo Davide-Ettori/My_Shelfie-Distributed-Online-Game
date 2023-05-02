@@ -14,6 +14,7 @@ out/*
 META-INF/*
 src/main/java/app/controller/cache/*
 run.sh
+target/*
 
 
 # User-specific stuff
