@@ -598,7 +598,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
 
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            Game.waitForSeconds(Game.waitTimer * 6 / 5);
+            Game.waitForSeconds(Game.fastTimer);
+            //Game.waitForSeconds(Game.waitTimer * 6 / 5);
             new Thread(() -> {
                 try {
                     Game.waitForSeconds(Game.waitTimer / 2.5);

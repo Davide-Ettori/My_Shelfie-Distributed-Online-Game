@@ -710,8 +710,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            //Game.waitForSeconds(1);
-            Game.waitForSeconds(Game.waitTimer * 6 / 5);
+            Game.waitForSeconds(Game.fastTimer);
+            //Game.waitForSeconds(Game.waitTimer * 6 / 5);
             new Thread(() -> {
                 try {
                     Game.waitForSeconds(Game.waitTimer / 2.5);
