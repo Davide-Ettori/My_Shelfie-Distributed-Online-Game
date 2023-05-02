@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
  * test which are false are #2 #3
  * @author Faccincani, Ettori
  */
+
 public class Algo6Test {
     Algo_CO_6 algoCo6 = null;
 

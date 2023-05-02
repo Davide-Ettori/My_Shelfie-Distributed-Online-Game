@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
  * test which check corner case: #8 #9 #10 #11 #12 #13
  * @author Faccincani, Ettori
  */
+
 public class Algo1Test {
     Algo_CO_1 algoCo1 = null;
     Card[][] mat = new Card[6][5];

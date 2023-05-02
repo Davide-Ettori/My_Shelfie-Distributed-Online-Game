@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * @author Faccincani, Ettori
  */
+
 public class Algo2Test {
     Algo_CO_2 algoCo2 = null;
     Card[][] mat = new Card[6][5];

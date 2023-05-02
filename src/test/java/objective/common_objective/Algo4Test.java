@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
  * test which check corner case: #3
  * @author Faccincani, Ettori
  */
+
 public class Algo4Test {
     Algo_CO_4 algoCo4 = null;
 

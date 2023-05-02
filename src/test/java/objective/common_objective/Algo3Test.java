@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * @author Faccincani, Ettori
  */
+
 public class Algo3Test {
     Algo_CO_3 algoCo3 = null;
 
