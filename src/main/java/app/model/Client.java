@@ -72,9 +72,10 @@ public class Client {
                 }
             }catch (Exception e){
                 alert("Invalid Selection");
-                ipText.setText("Insert ip:");
-                socketPortText.setText("Insert socket port:");
-                rmiPortText.setText("Insert rmi port:");
+                ipText.setText(" Insert ip: ");
+                socketPortText.setText(" Insert socket port: ");
+                rmiPortText.setText(" Insert rmi port: ");
+                title.requestFocusInWindow();
             }
         });
         generalPanel.setLayout(new GridLayout(5, 1));
