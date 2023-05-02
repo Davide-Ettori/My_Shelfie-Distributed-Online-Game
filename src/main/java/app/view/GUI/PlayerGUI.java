@@ -840,14 +840,19 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     private void listenForEndGame(){
         Message msg = null;
-        try {
-            msg = (Message) inStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            connectionLost(e);
+        while(true) {
+            try {
+                msg = (Message) inStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                connectionLost(e);
+            }
+            if (msg == null)
+                return;
+            System.out.print(msg.getAuthor()  + " - " + msg.getType());
+            if (msg.getType() != FINAL_SCORE)
+                return;
+            handleFinalScoreEvent(msg);
         }
-        if(msg == null)
-            return;
-        handleFinalScoreEvent(msg);
     }
     /**
      * method that allow the server ping the RMI client
