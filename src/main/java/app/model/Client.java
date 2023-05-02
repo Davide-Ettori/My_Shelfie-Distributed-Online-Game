@@ -97,7 +97,10 @@ public class Client {
      * method for drawing the GUI to ask number of players and persistence
      */
     private void insertPlayers(){
-        JTextField title = new JTextField(" Choose the number of players ");
+        String s = " Choose the number of players ";
+        for(int i = 0; i < 15; i++)
+            s = " " + s;
+        JTextField title = new JTextField(s);
         title.setEditable(false);
         JRadioButton p_2 = new JRadioButton("2 players");
         JRadioButton p_3 = new JRadioButton("3 players");
@@ -110,7 +113,7 @@ public class Client {
         group_1.add(p_2);
         group_1.add(p_3);
         group_1.add(p_4);
-        JTextField pers = new JTextField(" Do you want to activate persistence ");
+        JTextField pers = new JTextField(" Do you want to activate persistence ?");
         pers.setEditable(false);
         JRadioButton yes = new JRadioButton("yes");
         yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
@@ -175,7 +178,7 @@ public class Client {
         uiText.setEditable(false);
         JTextField netText = new JTextField(" Choose NET mode ");
         netText.setEditable(false);
-        JTextField resilText = new JTextField(" Do you want to activate persistence ");
+        JTextField resilText = new JTextField(" Do you want to activate resilience ?");
         resilText.setEditable(false);
         JRadioButton tui = new JRadioButton("TUI");
         tui.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
@@ -203,6 +206,7 @@ public class Client {
         enterBtn.addActionListener((event) ->{
             setupFrame.dispose();
             if(tui.isSelected() && socket.isSelected()){
+                alert("The game will continue in the terminal...");
                 Client.uiModeCur = TUI;
                 new Thread(() ->{
                     try {
@@ -214,6 +218,7 @@ public class Client {
             }
             if(tui.isSelected() && rmi.isSelected()){
                 Client.uiModeCur = TUI;
+                alert("The game will continue in the terminal...");
                 try {
                     new PlayerTUI(RMI, yes.isSelected() ? "yes" : "no", flag);
                 } catch (RemoteException e) {
