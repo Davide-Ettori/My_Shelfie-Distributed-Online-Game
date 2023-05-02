@@ -9,7 +9,15 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+/**
+ * <p>
+ * class that test the tenth algorithm, five cards of the same type that made an X
+ * <p>
+ * test which are true are #1
+ * <p>
+ * test which are false are #2
+ * @author Faccincani, Ettori
+ */
 public class Algo10Test {
     Algo_CO_10 algoCo10 = null;
 
@@ -65,7 +73,7 @@ public class Algo10Test {
         assertTrue(algoCo10.checkMatch(mat));
     }
     @Test
-    public void algo10_test1_F() {
+    public void algo10_test2_F() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(GREEN);
         mat[0][2] = new Card();

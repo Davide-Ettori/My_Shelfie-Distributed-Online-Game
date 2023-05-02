@@ -9,7 +9,15 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+/**
+ * <p>
+ * class that test the eleventh algorithm, eight cards of the same type everywhere in the library
+ * <p>
+ * test which are true are #1
+ * <p>
+ * test which are false are #2
+ * @author Faccincani, Ettori
+ */
 public class Algo11Test {
     Algo_CO_11 algoCo11 = null;
 
@@ -65,7 +73,7 @@ public class Algo11Test {
         assertTrue(algoCo11.checkMatch(mat));
     }
     @Test // test 1
-    public void algo11_test1_F() {
+    public void algo11_test2_F() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);

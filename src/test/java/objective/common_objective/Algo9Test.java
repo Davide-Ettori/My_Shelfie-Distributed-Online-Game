@@ -9,7 +9,15 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+/**
+ * <p>
+ * class that test the ninth algorithm, tre column made by siw cards of max three types of cards
+ * <p>
+ * test which are true are #1
+ * <p>
+ * test which are false are #2 #3
+ * @author Faccincani, Ettori
+ */
 public class Algo9Test {
     Algo_CO_9 algoCo9 = null;
 
@@ -65,7 +73,7 @@ public class Algo9Test {
         assertTrue(algoCo9.checkMatch(mat));
     }
     @Test // test 1
-    public void algo9_test1_F_less_3_cols() {
+    public void algo9_test2_F_less_3_cols() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -105,7 +113,7 @@ public class Algo9Test {
         assertFalse(algoCo9.checkMatch(mat));
     }
     @Test // test 1
-    public void algo9_test1_F_more_3_types() {
+    public void algo9_test3_F_more_3_types() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -144,7 +152,4 @@ public class Algo9Test {
 
         assertFalse(algoCo9.checkMatch(mat));
     }
-
-
-
 }
