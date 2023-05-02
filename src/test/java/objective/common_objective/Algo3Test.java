@@ -9,7 +9,16 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+/**
+ * <p>
+ * class that test the third algorithm, four cards of the same type at the corner of the library
+ * <p>
+ * test which are false are #1
+ * <p>
+ * test which are false are #2
+ * <p>
+ * @author Faccincani, Ettori
+ */
 public class Algo3Test {
     Algo_CO_3 algoCo3 = null;
 
@@ -65,7 +74,7 @@ public class Algo3Test {
         assertTrue(algoCo3.checkMatch(mat));
     }
     @Test // test 1
-    public void algo3_test1_F_general() {
+    public void algo3_test2_F_general() {
         mat[0][0] = new Card(GREEN);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);

@@ -8,6 +8,17 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * <p>
+ * class that test the first algorithm, six group of a couple of cards of the same type
+ * <p>
+ * test which are false are #2 #4 #6
+ * <p>
+ * test which are false are #1 #3 #5
+ * <p>
+ * test which check corner case: #8 #9 #10 #11 #12 #13
+ * @author Faccincani, Ettori
+ */
 public class Algo1Test {
     Algo_CO_1 algoCo1 = null;
     Card[][] mat = new Card[6][5];
@@ -21,7 +32,7 @@ public class Algo1Test {
         return;
     }
 
-    @Test // test generale, 10 coppie
+    @Test
     public void algo1_test1_T_general() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -62,7 +73,7 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
     @Test // test generale, 5 coppie
-    public void algo1_test1_F_general() {
+    public void algo1_test2_F_general() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -102,7 +113,7 @@ public class Algo1Test {
         assertFalse(algoCo1.checkMatch(mat));
     }
     @Test // 3 in fila, vero
-    public void algo1_test1_T_three() {
+    public void algo1_test3_T_three() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card(GREEN);
@@ -142,7 +153,7 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
     @Test // 3 in fila, false
-    public void algo1_test1_F_three() {
+    public void algo1_test4_F_three() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -182,7 +193,7 @@ public class Algo1Test {
         assertFalse(algoCo1.checkMatch(mat));
     }
     @Test // 3 in fila, vero
-    public void algo1_test1_T_L() {
+    public void algo1_test5_T_L() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card(GREEN);
@@ -222,7 +233,7 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
     @Test // L, falso
-    public void algo1_test1_F_L() {
+    public void algo1_test6_F_L() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card(GREEN);
@@ -262,7 +273,7 @@ public class Algo1Test {
         assertFalse(algoCo1.checkMatch(mat));
     }
     @Test // 6 couple of 2 cards
-    public void algo1_test1_6couple() {
+    public void algo1_test7_6couple() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -302,7 +313,7 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
     @Test // 6 couple of 2 cards
-    public void algo1_test1_6couple2() {
+    public void algo1_test8_6couple2() {
         mat[0][0] = new Card(BLUE);
         mat[0][1] = new Card(BLUE);
         mat[0][2] = new Card();
@@ -342,7 +353,7 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
     @Test // 6 couple of 3 cards
-    public void algo1_test1_6couple3() {
+    public void algo1_test9_6couple3() {
         mat[0][0] = new Card(YELLOW);
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -382,7 +393,7 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
     @Test // 6 couple of 2 or more cards
-    public void algo1_test1_6couple4() {
+    public void algo1_test10_6couple4() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -422,7 +433,7 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
     @Test // 5 couple of 2 or more cards
-    public void algo1_test1_5couple2() {
+    public void algo1_test11_5couple2() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -462,7 +473,7 @@ public class Algo1Test {
         assertFalse(algoCo1.checkMatch(mat));
     }
     @Test // 6 diagonal couples of 2 cards
-    public void algo1_test1_6diagonalcouple() {
+    public void algo1_test12_6diagonalcouple() {
         mat[0][0] = new Card(CYAN);
         mat[0][1] = new Card(BLUE);
         mat[0][2] = new Card();
@@ -502,7 +513,7 @@ public class Algo1Test {
         assertFalse(algoCo1.checkMatch(mat));
     }
     @Test // 6 right couples
-    public void algo1_test1_6rightcouple() {
+    public void algo1_test13_6rightcouple() {
         mat[0][0] = new Card(BLUE);
         mat[0][1] = new Card(BLUE);
         mat[0][2] = new Card();

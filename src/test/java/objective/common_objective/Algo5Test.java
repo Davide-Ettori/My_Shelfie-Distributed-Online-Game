@@ -10,6 +10,18 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * <p>
+ * class that test the first algorithm, four column of the same type (different column can have different type)
+ * cards
+ * <p>
+ * test which are false are #1
+ * <p>
+ * test which are false are #2
+ * <p>
+ * test which check corner case: #3
+ * @author Faccincani, Ettori
+ */
 public class Algo5Test {
     Algo_CO_5 algoCo5 = null;
 

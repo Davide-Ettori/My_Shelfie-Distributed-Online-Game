@@ -10,6 +10,18 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * <p>
+ * class that test the first algorithm, four row with five cards of one, two or three types of different
+ * cards
+ * <p>
+ * test which are false are #1
+ * <p>
+ * test which are false are #2
+ * <p>
+ * test which check corner case: #3
+ * @author Faccincani, Ettori
+ */
 public class Algo4Test {
     Algo_CO_4 algoCo4 = null;
 
@@ -65,7 +77,7 @@ public class Algo4Test {
         assertTrue(algoCo4.checkMatch(mat));
     }
     @Test // test 1
-    public void algo4_test1_F_3_rows() {
+    public void algo4_test2_F_3_rows() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(GREEN);
         mat[0][2] = new Card();
@@ -105,7 +117,7 @@ public class Algo4Test {
         assertFalse(algoCo4.checkMatch(mat));
     }
     @Test // test 1
-    public void algo4_test1_F_more_3_types() {
+    public void algo4_test3_F_more_3_types() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(GREEN);
         mat[0][2] = new Card(GREEN);

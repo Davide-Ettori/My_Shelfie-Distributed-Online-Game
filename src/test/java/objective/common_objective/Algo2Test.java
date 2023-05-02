@@ -9,8 +9,16 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
-//al posto di fare 12 test diversi, creo diverse shelfie e testo tutti gli obbiettivi comuni su ognuna
+/**
+ * <p>
+ * class that test the second algorithm, five cards of the same type that form a diagonal.
+ * <p>
+ * test which are false are #1 #2 #3 #4
+ * <p>
+ * test which are false are #5 #6 #7 #8
+ * <p>
+ * @author Faccincani, Ettori
+ */
 public class Algo2Test {
     Algo_CO_2 algoCo2 = null;
     Card[][] mat = new Card[6][5];
@@ -68,7 +76,7 @@ public class Algo2Test {
 
     }
     @Test
-    public void algo2_test1_bassodx() {
+    public void algo2_test2_bassodx() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -109,7 +117,7 @@ public class Algo2Test {
 
     }
     @Test
-    public void algo2_test1_unodx() {
+    public void algo2_test3_unodx() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -150,7 +158,7 @@ public class Algo2Test {
 
     }
     @Test
-    public void algo2_test1_unosx() {
+    public void algo2_test4_unosx() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card(GREEN);
@@ -193,7 +201,7 @@ public class Algo2Test {
 
     //false
     @Test
-    public void algo2_test1_F_bassosx() {
+    public void algo2_test5_F_bassosx() {
         mat[0][0] = new Card(GREEN);
         mat[0][1] = new Card(GREEN);
         mat[0][2] = new Card(GREEN);
@@ -234,7 +242,7 @@ public class Algo2Test {
 
     }
     @Test
-    public void algo2_test1_F_bassodx() {
+    public void algo2_test6_F_bassodx() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -275,7 +283,7 @@ public class Algo2Test {
 
     }
     @Test
-    public void algo2_test1_F_unodx() {
+    public void algo2_test7_F_unodx() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -316,7 +324,7 @@ public class Algo2Test {
 
     }
     @Test
-    public void algo2_test1_F_unosx() {
+    public void algo2_test8_F_unosx() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
         mat[0][2] = new Card(GREEN);
