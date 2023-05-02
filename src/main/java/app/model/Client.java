@@ -9,6 +9,7 @@ import app.view.UIMode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -106,6 +107,7 @@ public class Client {
         JRadioButton yes = new JRadioButton("yes");
         yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
         JRadioButton no = new JRadioButton("no");
+        no.setSelected(true);
         ButtonGroup group_2 = new ButtonGroup();
         group_2.add(yes);
         group_2.add(no);
@@ -191,6 +193,7 @@ public class Client {
         JButton enterBtn = new JButton(" Enter ");
 
         enterBtn.addActionListener((event) ->{
+            setupFrame.dispose();
             if(tui.isSelected() && socket.isSelected()){
                 new Thread(() ->{
                     try {
