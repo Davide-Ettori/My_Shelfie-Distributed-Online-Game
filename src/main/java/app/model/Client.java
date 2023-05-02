@@ -40,6 +40,7 @@ public class Client {
      @author Ettori
      */
     public Client() {
+
         //Panel and Frame
         JFrame setupFrame = new JFrame("Setup of the game");
         JPanel setupPanel = new JPanel(new GridBagLayout());
