@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: common_objective.Algo2Test
--------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in common_objective.Algo2Test
