@@ -40,6 +40,12 @@ public class Client {
         JTextField ipText = new JTextField(" Insert ip: ");
         JTextField socketPortText = new JTextField(" Insert socket port: ");
         JTextField rmiPortText = new JTextField(" Insert rmi port: ");
+        String s = "Now you will be asked some parameters about the game ";
+        for(int i = 0; i < 75; i++)
+            s = " " + s;
+        JTextField title = new JTextField(s);
+        title.setEditable(false);
+        title.requestFocusInWindow();
         JButton sendIP = new JButton(" Enter ");
 
         ipText.addActionListener(event -> sendIP.doClick());
@@ -71,12 +77,14 @@ public class Client {
                 rmiPortText.setText("Insert rmi port:");
             }
         });
-        generalPanel.setLayout(new GridLayout(4, 1));
+        generalPanel.setLayout(new GridLayout(5, 1));
+        generalPanel.add(title);
         generalPanel.add(ipText);
         generalPanel.add(socketPortText);
         generalPanel.add(rmiPortText);
         generalPanel.add(sendIP);
         generalPanel.setPreferredSize(new Dimension((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.5)));
+        generalPanel.requestFocusInWindow();
         setupFrame.add(generalPanel, BorderLayout.CENTER);
         setupFrame.setSize((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.75));
         setupFrame.setResizable(false);
