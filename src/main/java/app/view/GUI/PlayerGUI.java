@@ -847,10 +847,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 connectionLost(e);
             }
             if (msg == null)
-                return;
-            System.out.print(msg.getAuthor()  + " - " + msg.getType());
+                continue;
+            //System.out.print(msg.getAuthor()  + " - " + msg.getType());
             if (msg.getType() != FINAL_SCORE)
-                return;
+                continue;
             handleFinalScoreEvent(msg);
         }
     }
