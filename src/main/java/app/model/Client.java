@@ -31,25 +31,26 @@ public class Client {
     private JPanel generalPanel = new JPanel();
     private boolean flag = false;
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    /**
+     * method for drawing the GUI to ask ip, port for socket and port for RMI
+     */
     private void insertIp(){
-        //Panel and Frame
-        generalPanel.setLayout(new GridLayout(4, 1));
-        //Informative text
-        JTextField ipText = new JTextField("Insert ip:");
-        JTextField socketPortText = new JTextField("Insert socket port:");
-        JTextField rmiPortText = new JTextField("Insert rmi port:");
-        JButton sendIP = new JButton("Enter");
+        JTextField ipText = new JTextField(" Insert ip: ");
+        JTextField socketPortText = new JTextField(" Insert socket port: ");
+        JTextField rmiPortText = new JTextField(" Insert rmi port: ");
+        JButton sendIP = new JButton(" Enter ");
 
         ipText.addActionListener(event -> sendIP.doClick());
         socketPortText.addActionListener(event -> sendIP.doClick());
         rmiPortText.addActionListener(event -> sendIP.doClick());
         sendIP.addActionListener((event) ->{
             try{
-                if(!socketPortText.getText().equals("Insert socket port:"))
+                if(!socketPortText.getText().equals(" Insert socket port: "))
                     Initializer.PORT = Integer.parseInt(socketPortText.getText());
-                if(!rmiPortText.getText().equals("Insert rmi port:"))
+                if(!rmiPortText.getText().equals(" Insert rmi port: "))
                     Initializer.PORT_RMI = Integer.parseInt(rmiPortText.getText());
-                if(!ipText.getText().equals("Insert ip:"))
+                if(!ipText.getText().equals(" Insert ip: "))
                     IP.activeIP = ipText.getText();
                 try{
                     Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);
@@ -69,42 +70,47 @@ public class Client {
                 rmiPortText.setText("Insert rmi port:");
             }
         });
+        generalPanel.setLayout(new GridLayout(4, 1));
         generalPanel.add(ipText);
         generalPanel.add(socketPortText);
         generalPanel.add(rmiPortText);
         generalPanel.add(sendIP);
-        generalPanel.setPreferredSize(new Dimension((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.75)));
+        generalPanel.setPreferredSize(new Dimension((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.5)));
         setupFrame.add(generalPanel, BorderLayout.CENTER);
         setupFrame.setSize((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.75));
-        //setupFrame.setResizable(false);
+        setupFrame.setResizable(false);
         setupFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setupFrame.pack();
         setupFrame.setLocationRelativeTo(null);
         setupFrame.setVisible(true);
     }
+    /**
+     * method for drawing the GUI to ask number of players and persistence
+     */
     private void insertPlayers(){
-        generalPanel.removeAll();
-        generalPanel.setLayout(new GridLayout(4, 3));
-        setupFrame.setVisible(true);
-        JTextField title = new JTextField("Choose the number of players");
+        JTextField title = new JTextField(" Choose the number of players ");
         title.setEditable(false);
-        JRadioButton p_2 = new JRadioButton("2");
-        JRadioButton p_3 = new JRadioButton("3");
-        JRadioButton p_4 = new JRadioButton("4");
+        JRadioButton p_2 = new JRadioButton("2 players");
+        JRadioButton p_3 = new JRadioButton("3 players");
+        JRadioButton p_4 = new JRadioButton("4 players");
+        p_2.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
+        p_3.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
+        p_4.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
         p_2.setSelected(true);
         ButtonGroup group_1 = new ButtonGroup();
         group_1.add(p_2);
         group_1.add(p_3);
         group_1.add(p_4);
-        JTextField pers = new JTextField("Do you want to activate persistence");
+        JTextField pers = new JTextField(" Do you want to activate persistence ");
         pers.setEditable(false);
         JRadioButton yes = new JRadioButton("yes");
+        yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
         JRadioButton no = new JRadioButton("no");
         ButtonGroup group_2 = new ButtonGroup();
         group_2.add(yes);
         group_2.add(no);
 
-        JButton enterBtn = new JButton("Enter");
+        JButton enterBtn = new JButton(" Enter ");
         enterBtn.addActionListener((event) ->{
             int numP = 0;
             String persOpt = "";
@@ -133,6 +139,8 @@ public class Client {
             Game.waitForSeconds(1);
             new Thread(this::insertInfo).start();
         });
+        generalPanel.removeAll();
+        generalPanel.setLayout(new GridLayout(4, 3));
         generalPanel.add(new Panel());
         generalPanel.add(title);
         generalPanel.add(new Panel());
@@ -145,24 +153,30 @@ public class Client {
         generalPanel.add(new Panel());
         generalPanel.add(enterBtn);
         generalPanel.add(new Panel());
-    }
-    private void insertInfo(){
-        generalPanel.removeAll();
-        generalPanel.setLayout(new GridLayout(4, 3));
+        generalPanel.revalidate();
+        generalPanel.repaint();
         setupFrame.setVisible(true);
-        JTextField uiText = new JTextField("Choose UI mode");
+    }
+    /**
+     * method for drawing the GUI to ask UI mode, net Mode and resilience
+     */
+    private void insertInfo(){
+        JTextField uiText = new JTextField(" Choose UI mode ");
         uiText.setEditable(false);
-        JTextField netText = new JTextField("Choose NET mode");
+        JTextField netText = new JTextField(" Choose NET mode ");
         netText.setEditable(false);
-        JTextField resilText = new JTextField("Do you want to activate persistence");
+        JTextField resilText = new JTextField(" Do you want to activate persistence ");
         resilText.setEditable(false);
         JRadioButton tui = new JRadioButton("TUI");
+        tui.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
         JRadioButton gui = new JRadioButton("GUI");
         gui.setSelected(true);
         JRadioButton socket = new JRadioButton("Socket");
+        socket.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
         JRadioButton rmi = new JRadioButton("RMI");
         socket.setSelected(true);
         JRadioButton yes = new JRadioButton("Yes");
+        yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
         JRadioButton no = new JRadioButton("No");
         no.setSelected(true);
         ButtonGroup group_1 = new ButtonGroup();
@@ -174,7 +188,7 @@ public class Client {
         group_2.add(rmi);
         group_3.add(yes);
         group_3.add(no);
-        JButton enterBtn = new JButton("Enter");
+        JButton enterBtn = new JButton(" Enter ");
 
         enterBtn.addActionListener((event) ->{
             if(tui.isSelected() && socket.isSelected()){
@@ -208,6 +222,8 @@ public class Client {
                 }
             }
         });
+        generalPanel.removeAll();
+        generalPanel.setLayout(new GridLayout(4, 3));
         generalPanel.add(uiText);
         generalPanel.add(tui);
         generalPanel.add(gui);
@@ -220,7 +236,14 @@ public class Client {
         generalPanel.add(new Panel());
         generalPanel.add(enterBtn);
         generalPanel.add(new Panel());
+        generalPanel.revalidate();
+        generalPanel.repaint();
+        setupFrame.setVisible(true);
     }
+    /**
+     * helper function for alerting a message to the user (pop-up)
+     * @param s the string og the message to show
+     */
     private void alert(String s){javax.swing.JOptionPane.showMessageDialog(null, s);}
 
     /**
