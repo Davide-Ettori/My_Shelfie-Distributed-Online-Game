@@ -94,7 +94,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     /**
      * standard constructor, starts the main game process on the client side
      * @param mode type of the network chosen by the user
-     * @param ui type of ui chosen by the user
      * @author Ettori
      */
     public PlayerGUI(NetMode mode, String opt, boolean flag) throws RemoteException {

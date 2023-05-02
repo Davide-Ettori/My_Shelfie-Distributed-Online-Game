@@ -73,10 +73,19 @@ public class Client {
         generalPanel.add(socketPortText);
         generalPanel.add(rmiPortText);
         generalPanel.add(sendIP);
+        generalPanel.setPreferredSize(new Dimension((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.75)));
+        setupFrame.add(generalPanel, BorderLayout.CENTER);
+        setupFrame.setSize((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.75));
+        //setupFrame.setResizable(false);
+        setupFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setupFrame.pack();
+        setupFrame.setLocationRelativeTo(null);
+        setupFrame.setVisible(true);
     }
     private void insertPlayers(){
         generalPanel.removeAll();
         generalPanel.setLayout(new GridLayout(4, 3));
+        setupFrame.setVisible(true);
         JTextField title = new JTextField("Choose the number of players");
         title.setEditable(false);
         JRadioButton p_2 = new JRadioButton("2");
@@ -140,6 +149,7 @@ public class Client {
     private void insertInfo(){
         generalPanel.removeAll();
         generalPanel.setLayout(new GridLayout(4, 3));
+        setupFrame.setVisible(true);
         JTextField uiText = new JTextField("Choose UI mode");
         uiText.setEditable(false);
         JTextField netText = new JTextField("Choose NET mode");
@@ -218,13 +228,6 @@ public class Client {
      @author Ettori
      */
     public Client() {
-        setupFrame.add(generalPanel, BorderLayout.CENTER);
-        setupFrame.setSize((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.75));
-        setupFrame.setResizable(false);
-        setupFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setupFrame.pack();
-        setupFrame.setLocationRelativeTo(null);
-        setupFrame.setVisible(true);
         new Thread(this::insertIp).start();
     }
 }
