@@ -21,6 +21,7 @@ import java.util.Date;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.NetMode.*;
+import static app.view.UIMode.TUI;
 
 /**
  * class which represent the player on the client side, mutable,
@@ -59,9 +60,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public PlayerTUI(NetMode mode, UIMode ui, String opt, boolean flag) throws RemoteException {
+    public PlayerTUI(NetMode mode, String opt, boolean flag) throws RemoteException {
         super();
-        uiMode = ui;
+        uiMode = TUI;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {

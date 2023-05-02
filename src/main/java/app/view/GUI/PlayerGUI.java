@@ -31,6 +31,7 @@ import static app.model.Color.EMPTY;
 import static app.model.NetMode.RMI;
 import static app.model.NetMode.SOCKET;
 import static app.view.Dimensions.*;
+import static app.view.UIMode.GUI;
 import static java.awt.Color.*;
 import static java.awt.GridBagConstraints.*;
 import static javax.swing.JOptionPane.*;
@@ -96,9 +97,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param ui type of ui chosen by the user
      * @author Ettori
      */
-    public PlayerGUI(NetMode mode, UIMode ui, String opt, boolean flag) throws RemoteException {
+    public PlayerGUI(NetMode mode, String opt, boolean flag) throws RemoteException {
         super();
-        uiMode = ui;
+        uiMode = GUI;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
@@ -1368,7 +1369,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         myLibraryText = new JTextArea(" Your personal Library (" + name + ") ");
         myLibraryText.setEditable(false);
 
-        chooseColPanel = new JPanel();
+        chooseColPanel = new JPanel(new FlowLayout());
         r1 = new JRadioButton("col 1");
         r2 = new JRadioButton("col 2");
         r3 = new JRadioButton("col 3");

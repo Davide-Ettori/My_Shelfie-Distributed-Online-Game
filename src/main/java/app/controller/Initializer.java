@@ -33,8 +33,8 @@ public class Initializer {
     private static final int ROWS = 6;
     private static final int COLS = 5;
     private static final int cardNum = 22;
-    public static final int PORT = 3333;
-    public static final int PORT_RMI = 5555;
+    public static int PORT = 3333;
+    public static int PORT_RMI = 5555;
     /**
      * return a new full matrix of empty cards - STATIC
      * @author Ettori Faccincani
