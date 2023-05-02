@@ -203,6 +203,7 @@ public class Client {
         enterBtn.addActionListener((event) ->{
             setupFrame.dispose();
             if(tui.isSelected() && socket.isSelected()){
+                Client.uiModeCur = TUI;
                 new Thread(() ->{
                     try {
                         new PlayerTUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
@@ -212,6 +213,7 @@ public class Client {
                 }).start();
             }
             if(tui.isSelected() && rmi.isSelected()){
+                Client.uiModeCur = TUI;
                 try {
                     new PlayerTUI(RMI, yes.isSelected() ? "yes" : "no", flag);
                 } catch (RemoteException e) {
@@ -219,6 +221,7 @@ public class Client {
                 }
             }
             if(gui.isSelected() && socket.isSelected()){
+                Client.uiModeCur = GUI;
                 try {
                     new PlayerGUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
                 } catch (RemoteException e) {
@@ -226,6 +229,7 @@ public class Client {
                 }
             }
             if(gui.isSelected() && rmi.isSelected()){
+                Client.uiModeCur = GUI;
                 try {
                     new PlayerGUI(RMI, yes.isSelected() ? "yes" : "no", flag);
                 } catch (RemoteException e) {
