@@ -13,6 +13,7 @@ documentation/*
 out/*
 META-INF/*
 src/main/java/app/controller/cache/*
+run.sh
 
 # User-specific stuff
 .idea/**/workspace.xml
