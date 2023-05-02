@@ -32,7 +32,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the standard timer of the app for advancing the state of the game */
-    public static final double waitTimer = 1.5;
+    public static final double waitTimer = 2;
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2;
     /** variable that represent if we want to run or debug our application */
