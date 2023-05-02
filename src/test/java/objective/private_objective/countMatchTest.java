@@ -9,6 +9,10 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+/**
+ * Test the different number of goals and the different private objective
+ * @author Furkan
+ */
 
 public class countMatchTest {
     Card[][] lib = null;
