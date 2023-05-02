@@ -12,6 +12,16 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * <p>
+ * class that test the sixth algorithm, two columns of six different types of cards
+ * <p>
+ * test which are true are #1
+ * <p>
+ * test which are false are #2 #3
+ * @author Faccincani, Ettori
+ */
+
 public class Algo6Test {
     Algo_CO_6 algoCo6 = null;
 
@@ -67,7 +77,7 @@ public class Algo6Test {
         assertTrue(algoCo6.checkMatch(mat));
     }
     @Test
-    public void algo6_test1_one_row() {
+    public void algo6_test2_one_row() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -107,7 +117,7 @@ public class Algo6Test {
         assertFalse(algoCo6.checkMatch(mat));
     }
     @Test
-    public void algo6_test1_same_types() {
+    public void algo6_test3_same_types() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);

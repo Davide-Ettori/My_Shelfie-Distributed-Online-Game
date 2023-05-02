@@ -12,16 +12,15 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * <p>
- * class that test the first algorithm, four column of the same type (different column can have different type)
+ * class that test the fifth algorithm, four column of the same type (different column can have different type)
  * cards
  * <p>
- * test which are false are #1
+ * test which are true are #1 #3
  * <p>
- * test which are false are #2
- * <p>
- * test which check corner case: #3
+ * test which are false are #2 #3 #5
  * @author Faccincani, Ettori
  */
+
 public class Algo5Test {
     Algo_CO_5 algoCo5 = null;
 
@@ -77,7 +76,7 @@ public class Algo5Test {
         assertTrue(algoCo5.checkMatch(mat));
     }
     @Test
-    public void algo5_test1_F() {
+    public void algo5_test2_F() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card();
@@ -117,7 +116,7 @@ public class Algo5Test {
         assertFalse(algoCo5.checkMatch(mat));
     }
     @Test //4 gruppi da 4 o piu carte
-    public void algo5_test1_4groupstrue() {
+    public void algo5_test3_4groupstrue() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card();
@@ -157,7 +156,7 @@ public class Algo5Test {
         assertTrue(algoCo5.checkMatch(mat));
     }
     @Test
-    public void algo5_test1_3groupsfalse() {
+    public void algo5_test4_3groupsfalse() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card();
@@ -197,7 +196,7 @@ public class Algo5Test {
         assertFalse(algoCo5.checkMatch(mat));
     }
     @Test //4 gruppi da 4 o piu carte
-    public void algo5_test1_3groupsfalse2() {
+    public void algo5_test5_3groupsfalse2() {
         mat[0][0] = new Card(BLUE);
         mat[0][1] = new Card(BLUE);
         mat[0][2] = new Card();

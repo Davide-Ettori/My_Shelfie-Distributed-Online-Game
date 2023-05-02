@@ -12,16 +12,17 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * <p>
- * class that test the first algorithm, four row with five cards of one, two or three types of different
+ * class that test the fourth algorithm, four row with five cards of one, two or three types of different
  * cards
  * <p>
- * test which are false are #1
+ * test which are true are #1
  * <p>
  * test which are false are #2
  * <p>
  * test which check corner case: #3
  * @author Faccincani, Ettori
  */
+
 public class Algo4Test {
     Algo_CO_4 algoCo4 = null;
 

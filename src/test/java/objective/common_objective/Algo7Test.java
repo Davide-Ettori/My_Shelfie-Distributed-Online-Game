@@ -10,6 +10,18 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+/**
+ * <p>
+ * class that test the seventh algorithm,
+ * two groups of four cards of the same type: cards of two groups must be of the same type
+ * <p>
+ * test which are true are #3
+ * <p>
+ * test which are false are #1 #2 #4
+ * <p>
+ * test which check corner case: #5 #6 #7
+ * @author Faccincani, Ettori
+ */
 
 public class Algo7Test {
     Algo_CO_7 algoCo7 = null;
@@ -66,7 +78,7 @@ public class Algo7Test {
         assertFalse(algoCo7.checkMatch(mat));
     }
     @Test // test 1
-    public void algo7_test1_F_3x3() {
+    public void algo7_test2_F_3x3() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(PINK);
@@ -106,7 +118,7 @@ public class Algo7Test {
         assertFalse(algoCo7.checkMatch(mat));
     }
     @Test // test 1
-    public void algo7_test1_T_3x3_same_colors() {
+    public void algo7_test3_T_3x3_same_colors() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(PINK);
@@ -146,7 +158,7 @@ public class Algo7Test {
         assertTrue(algoCo7.checkMatch(mat));
     }
     @Test // test 1
-    public void algo7_test1_only_one_square() {
+    public void algo7_test4_only_one_square() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
         mat[0][2] = new Card(GREEN);
@@ -186,7 +198,7 @@ public class Algo7Test {
         assertFalse(algoCo7.checkMatch(mat));
     }
     @Test
-    public void algo7_test1_strangeshape() {
+    public void algo7_test5_strangeshape() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -225,7 +237,8 @@ public class Algo7Test {
 
         assertTrue(algoCo7.checkMatch(mat));
     }
-    public void algo7_test1_strangeshape2() {
+    @Test
+    public void algo7_test6_strangeshape2() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -265,7 +278,7 @@ public class Algo7Test {
         assertTrue(algoCo7.checkMatch(mat));
     }
     @Test // test 1
-    public void algo7_test1_strangeshape3() {
+    public void algo7_test7_strangeshape3() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();

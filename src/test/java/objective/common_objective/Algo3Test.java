@@ -13,12 +13,13 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * class that test the third algorithm, four cards of the same type at the corner of the library
  * <p>
- * test which are false are #1
+ * test which are true are #1
  * <p>
  * test which are false are #2
  * <p>
  * @author Faccincani, Ettori
  */
+
 public class Algo3Test {
     Algo_CO_3 algoCo3 = null;
 
