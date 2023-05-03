@@ -76,15 +76,25 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 gameTemp = FILEHelper.loadServer();
                 FILEHelper.writeFail();
                 if(gameTemp.numPlayers != maxP) {
-                    System.out.println("\nThe old game is not compatible, starting a new game...");
+                    if(Client.uiModeCur == TUI)
+                        System.out.println("\nThe old game is not compatible, starting a new game...");
+                    else
+                        showMessageDialog(null, "The old game is not compatible, starting a new game...");
                     gameTemp = null;
                 }
                 else {
-                    System.out.println("\nLoading the old game...");
+                    if(Client.uiModeCur == TUI)
+                        System.out.println("\nLoading the old game...");
+                    else
+                        showMessageDialog(null, "Loading the old game...");
                 }
             }
-            else
-                System.out.println("\nThere is no game to load, starting a new game...");
+            else {
+                if(Client.uiModeCur == TUI)
+                    System.out.println("\nThere is no game to load, starting a new game...");
+                else
+                    showMessageDialog(null, "There is no game to load, starting a new game...");
+            }
         }
         FILEHelper.writeFail();
         shuffleObjBucket();
@@ -94,7 +104,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             Game.waitForSeconds(60 * minutes);
             if(!timeExp)
                 return;
-            System.out.println("\nTime limit exceeded, not enough players connected");
+            if(Client.uiModeCur == TUI)
+                System.out.println("\nTime limit exceeded, not enough players connected");
+            else
+                showMessageDialog(null, "Time limit exceeded, not enough players connected");
             System.exit(0);
         }).start();
 
@@ -113,7 +126,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
             }
             else{
-                System.out.println("\nThe names of the clients do not match the old ones, starting a new game...");
+                if(Client.uiModeCur == TUI)
+                    System.out.println("\nThe names of the clients do not match the old ones, starting a new game...");
+                else
+                    showMessageDialog(null, "The names of the clients do not match the old ones, starting a new game...");
                 initializeAllClients();
             }
             gameTemp = null;
@@ -748,7 +764,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         try {
             playersSocket.get(i).setSoTimeout(0);
         } catch (SocketException e) {
-            System.out.println("Errore della socket");
+            System.out.println("Socket Error");
         }
         disconnectedPlayers.add(names.get(i));
         rmiClients.remove(names.get(i));
@@ -781,7 +797,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.exit(0);
         }
     }
-
     /**
      * method that find the number of players which are currently connected to the game
      * @author Ettori
