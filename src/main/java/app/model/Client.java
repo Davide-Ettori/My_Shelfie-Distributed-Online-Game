@@ -41,7 +41,7 @@ public class Client {
         JTextField socketPortText = new JTextField(" Insert socket port: ");
         JTextField rmiPortText = new JTextField(" Insert rmi port: ");
         String s = "Now you will be asked some parameters about the game ";
-        for(int i = 0; i < 50; i++)
+        for(int i = 0; i < 55; i++)
             s = " " + s;
         JTextField title = new JTextField(s);
         title.setEditable(false);
@@ -78,16 +78,18 @@ public class Client {
                 title.requestFocusInWindow();
             }
         });
+        int w = 800;
+        int h = 450;
         generalPanel.setLayout(new GridLayout(5, 1));
         generalPanel.add(title);
         generalPanel.add(ipText);
         generalPanel.add(socketPortText);
         generalPanel.add(rmiPortText);
         generalPanel.add(sendIP);
-        generalPanel.setPreferredSize(new Dimension((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.5)));
+        generalPanel.setPreferredSize(new Dimension(w, h));
         generalPanel.requestFocusInWindow();
         setupFrame.add(generalPanel, BorderLayout.CENTER);
-        setupFrame.setSize((int) (screenSize.width * 0.5), (int) (screenSize.height * 0.75));
+        setupFrame.setSize(w, h);
         setupFrame.setResizable(false);
         setupFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setupFrame.pack();
@@ -99,7 +101,7 @@ public class Client {
      */
     private void insertPlayers(){
         String s = " Choose the number of players ";
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 8; i++)
             s = " " + s;
         JTextField title = new JTextField(s);
         title.setEditable(false);
