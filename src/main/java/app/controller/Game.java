@@ -37,7 +37,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     /** variable that represent the name of the first player, which is also hosting the server */
     public static String serverPlayer = "";
     private final int targetPlayers;
@@ -329,7 +329,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
                 new Thread(() ->{
-                    Game.waitForSeconds(Game.waitTimer / 2.5);
+                    Game.waitForSeconds(Game.waitTimer);
                     if(rmiClients.containsKey(name))
                         return;
                     try {
