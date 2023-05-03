@@ -9,7 +9,17 @@ import org.junit.Test;
 import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+/**
+ * <p>
+ * class that test the twelfth algorithm, five columns of increasing height or descending:
+ * starting from the first column left or right, each successive column it must be formed by an extra tile.
+ * Tiles can be of any type.
+ * <p>
+ * test which are true are #1 #3 #5 #7
+ * <p>
+ * test which are false are #2 #4 #6 #8 #9 #10
+ * @author Faccincani, Ettori
+ */
 public class Algo12Test {
     Algo_CO_12 algoCo12 = null;
 
@@ -65,7 +75,7 @@ public class Algo12Test {
         assertTrue(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_F_decrescent() {
+    public void algo12_test2_general_F_decrescent() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -105,7 +115,7 @@ public class Algo12Test {
         assertFalse(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_digdecrescent() {
+    public void algo12_test3_general_digdecrescent() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -145,7 +155,7 @@ public class Algo12Test {
         assertTrue(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_F_digdecrescent() {
+    public void algo12_test4_general_F_digdecrescent() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -185,7 +195,7 @@ public class Algo12Test {
         assertFalse(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_crescent() {
+    public void algo12_test5_general_crescent() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -225,7 +235,7 @@ public class Algo12Test {
         assertTrue(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_F_crescent() {
+    public void algo12_test6_general_F_crescent() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -265,7 +275,7 @@ public class Algo12Test {
         assertFalse(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_digcrescent() {
+    public void algo12_test7_general_digcrescent() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -305,7 +315,7 @@ public class Algo12Test {
         assertTrue(algoCo12.checkMatch(mat));
     }
     @Test // test 1
-    public void algo12_test1_general_F_digcrescent(){
+    public void algo12_test8_general_F_digcrescent(){
         mat[0][0] = new Card();
         mat[0][1] = new Card(GREEN);
         mat[0][2] = new Card();
@@ -345,7 +355,7 @@ public class Algo12Test {
         assertFalse(algoCo12.checkMatch(mat));
     }
     @Test // QUESTO TEST PUO ESSERE SBAGLIATO IN BASE ALL'INTERPRETAZIONE DELL'OBIETTIVO COMUNE-->CHIEDERE PROF
-    public void algo12_test1_general_dicrescent2(){
+    public void algo12_test9_general_dicrescent2(){
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
@@ -385,7 +395,7 @@ public class Algo12Test {
         assertFalse(algoCo12.checkMatch(mat));
     }
     @Test //falso in ogni interpretazione
-    public void algo12_test1_general_dicrescent3(){
+    public void algo12_test10_general_dicrescent3(){
         mat[0][0] = new Card();
         mat[0][1] = new Card();
         mat[0][2] = new Card();
