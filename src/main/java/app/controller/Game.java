@@ -120,7 +120,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             if(gameTemp.names.containsAll(names)) {
                 initializeOldClients();
                 if(gameTemp.endGameSituation){
-                    Game.waitForSeconds(Game.waitTimer / 2.5);
+                    Game.waitForSeconds(Game.waitTimer);
                     sendFinalScoresToAll();
                 }
             }
@@ -540,7 +540,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
             advance = true;
             if(endGameSituation && activePlayer == 0)
-                return;
+                sendFinalScoresToAll();
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
