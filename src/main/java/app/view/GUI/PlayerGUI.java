@@ -718,21 +718,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
         gameStatus.put("points", pointsUntilNow);
-
-        try {
-            sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            //Game.waitForSeconds(Game.fastTimer);
-            Game.waitForSeconds(Game.fastTimer * 6);
-            new Thread(() -> {
-                try {
-                    //Game.waitForSeconds(Game.fastTimer * 2);
-                    Game.waitForSeconds(Game.waitTimer / 2.5);
-                    playerStatus.put("player", new PlayerSend(this));
-                    sendToServer(new Message(END_TURN, name, playerStatus));
-                }catch (Exception e){connectionLost(e);}
-            }).start();
-
-        }catch(Exception e){connectionLost(e);}
+        gameStatus.put("player", new PlayerSend(this));
     }
     /**
      * Send with socket network the message of the chat to the right players

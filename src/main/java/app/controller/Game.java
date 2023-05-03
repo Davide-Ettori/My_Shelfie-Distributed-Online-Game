@@ -142,7 +142,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         for(int i = 0; i < numPlayers; i++){
             if(rmiClients.containsKey(names.get(i)))
                 continue;
-            System.out.print(names.get(i));
+            //System.out.print(names.get(i));
             try {
                 playersSocket.get(i).setSoTimeout(Player.pingTimeout);
             } catch (SocketException e) {
@@ -498,13 +498,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         }
                     }
                     FILEHelper.writeServer(this);
+                    players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     break;
                 }
             }catch(Exception e){connectionLost(e);}
         }
-        waitForEndTurn();
+        Game.waitForSeconds(Game.waitTimer);
+        advanceTurn();
+        //waitForEndTurn();
     }
     /**
      * Wait the end of the turn of the client and check if the library is full
@@ -896,6 +899,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     }
                 }
                 FILEHelper.writeServer(this);
+                players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
                 if(!rmiClients.containsKey(names.get(activePlayer)))
                     sendToClient(activePlayer, new Message(STOP, null, null));
             }
