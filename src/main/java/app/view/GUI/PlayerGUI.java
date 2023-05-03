@@ -845,10 +845,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 connectionLost(e);
             }
             if (msg == null)
-                continue;
-            //System.out.print(msg.getAuthor()  + " - " + msg.getType());
+                throw new NullPointerException();
             if (msg.getType() != FINAL_SCORE)
-                continue;
+                throw new RuntimeException("listenForEndGame method in GUI received a message different than FINAL_SCORE");
             handleFinalScoreEvent(msg);
         }
     }
