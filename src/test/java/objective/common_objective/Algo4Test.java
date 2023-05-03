@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  * test which are false are #2
  * <p>
  * test which check corner case: #3
- * @author Faccincani, Ettori
+ * @author Faccincani, Ettori , Gumus
  */
 
 public class Algo4Test {
@@ -37,6 +37,16 @@ public class Algo4Test {
         return;
     }
 
+    /**
+     * <table border="1">
+     * <tr><td>P</td><td>G</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>Y</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo4_test1_T_general() {
         mat[0][0] = new Card(PINK);
@@ -77,6 +87,17 @@ public class Algo4Test {
 
         assertTrue(algoCo4.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>Y</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo4_test2_F_3_rows() {
         mat[0][0] = new Card(PINK);
@@ -117,6 +138,17 @@ public class Algo4Test {
 
         assertFalse(algoCo4.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>P</td><td>G</td><td>G</td><td>W</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>Y</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo4_test3_F_more_3_types() {
         mat[0][0] = new Card(PINK);

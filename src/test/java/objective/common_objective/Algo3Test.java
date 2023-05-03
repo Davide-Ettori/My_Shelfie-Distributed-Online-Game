@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * test which are false are #2
  * <p>
- * @author Faccincani, Ettori
+ * @author Faccincani, Ettori , Gumus
  */
 
 public class Algo3Test {
