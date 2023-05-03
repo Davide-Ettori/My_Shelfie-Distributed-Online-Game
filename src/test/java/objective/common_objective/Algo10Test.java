@@ -32,6 +32,17 @@ public class Algo10Test {
         return;
     }
 
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>G</td><td>P</td><td>G</td><td>Y</td></tr>
+     * <tr><td>B</td><td>P</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>P</td><td>C</td><td>P</td><td>B</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void algo10_test1_T() {
         mat[0][0] = new Card(PINK);
@@ -72,6 +83,18 @@ public class Algo10Test {
 
         assertTrue(algoCo10.checkMatch(mat));
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>Y</td></tr>
+     * <tr><td>B</td><td>P</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>P</td><td>C</td><td>P</td><td>B</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void algo10_test2_F() {
         mat[0][0] = new Card(PINK);
