@@ -15,6 +15,13 @@ import app.model.Algo_CO_2;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * <p>
+ * class that test the draw method of the Board class
+ * <p>
+ * this class utilize the setGameBoard method of the Board class, which was specifically created to test the draw method
+ * @author Giammusso
+ */
 public class drawTest {
     int DIM = 9;
     Strategy strategy1 = null;
@@ -33,20 +40,19 @@ public class drawTest {
         CO1 = new CommonObjective(strategy1, 0);
         CO2 = new CommonObjective(strategy2, 0);
 
-
         board1 = new Board(4, CO1, CO2);
         gameBoard1 = new Card[DIM][DIM];
     }
 
     @Test //test1
     public void drawBoard(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[1][3].color = BLUE;
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
@@ -59,7 +65,7 @@ public class drawTest {
 
         cardXY = new ArrayList<>(Arrays.asList(1, 3, 2, 3));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         board1.draw();
