@@ -237,23 +237,30 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Ettori Faccincani
      */
     private void waitForEvents(){
-        try {
-            Message msg = (Message) inStream.readObject();
-            switch (msg.getType()) {
-                case YOUR_TURN -> handleYourTurnEvent();
-                case CHANGE_TURN -> handleChangeTurnEvent(msg);
-                case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
-                case UPDATE_GAME -> handleUpdateGameEvent(msg);
-                case FINAL_SCORE -> handleFinalScoreEvent(msg);
-                case CHAT -> handleChatEvent(msg);
-                case CO_1 -> handleCO_1Event(msg);
-                case CO_2 -> handleCO_2Event(msg);
-                case LIB_FULL -> handleLibFullEvent(msg);
-                case DISCONNECTED -> handleDisconnectedEvent(msg);
+        boolean flag;
+        while(true){
+            flag = false;
+            try {
+                Message msg = (Message) inStream.readObject();
+                switch (msg.getType()) {
+                    case YOUR_TURN -> {handleYourTurnEvent(); flag = true;}
+                    case CHANGE_TURN -> handleChangeTurnEvent(msg);
+                    case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+                    case UPDATE_GAME -> handleUpdateGameEvent(msg);
+                    case FINAL_SCORE -> handleFinalScoreEvent(msg);
+                    case CHAT -> handleChatEvent(msg);
+                    case CO_1 -> handleCO_1Event(msg);
+                    case CO_2 -> handleCO_2Event(msg);
+                    case LIB_FULL -> handleLibFullEvent(msg);
+                    case DISCONNECTED -> handleDisconnectedEvent(msg);
+                }
+                if(flag)
+                    break;
+            }catch(Exception e){
+                connectionLost(e);
             }
-        }catch(Exception e){
-            connectionLost(e);
         }
+        waitForMove();
     }
     /**
      * helper function for handling the turn event notification from the server
@@ -266,7 +273,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         if(netMode == SOCKET) {
             startChatReceiveThread();
         }
-        waitForMove();
     }
     /**
      * helper function for handling the change event notification from the server
@@ -277,8 +283,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         startChatSendThread();
         activeName = (String) msg.getContent();
         drawAll();
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * helper function for handling the unplayble board fixing event notification from the server
@@ -290,8 +294,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         board = (Board) jsonObject.get("board");
         drawAll();
         System.out.println("\nBoard updated because it was unplayable");
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * helper function for handling the update game notification from the server
@@ -310,8 +312,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         }
         pointsMap.put(msg.getAuthor(), (int) jsonObject.get("points"));
         System.out.println("\nPlayer " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * helper function for handling the final score calculation event notification from the server
@@ -334,8 +334,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             System.out.println(msg.getContent());
         else
             drawAll();
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * helper function for handling the achievement of the first common objective event notification from the server
@@ -345,8 +343,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleCO_1Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the first common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(Game.waitTimer);
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * helper function for handling the achievement of the second common objective event notification from the server
@@ -356,8 +352,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleCO_2Event(Message msg){
         System.out.println(msg.getAuthor() + " completed the second common objective getting " + msg.getContent() + " points");
         Game.waitForSeconds(Game.waitTimer);
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * helper function for handling the completion of the library event notification from the server
@@ -368,8 +362,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         System.out.println(msg.getAuthor() + " completed the library, the game will continue until the next turn of " + chairmanName);
         Game.waitForSeconds(Game.waitTimer);
         endGame = true;
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * helper function for handling the disconnection event notification from the server (of the active client)
@@ -380,8 +372,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         System.out.println("\nThe active player (" + (String)msg.getAuthor() + ") disconnected from the game");
         if(netMode == SOCKET)
             sendToServer(new Message(STOP, null, null));
-        if(netMode == SOCKET)
-            waitForEvents();
     }
     /**
      * method which waits for the current player's move, checks it and, then, send it to all other users (it also updates the library of this player)
@@ -590,7 +580,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void sendDoneMove(){
         gameStatus = new JSONObject();
-        System.out.println(" You made your move, now wait for other players to acknowledge it (chat disabled)...");
+        System.out.println("You made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
         gameStatus.put("points", pointsUntilNow);
