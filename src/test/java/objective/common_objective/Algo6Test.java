@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
  * test which are true are #1
  * <p>
  * test which are false are #2 #3
- * @author Faccincani, Ettori
+ * @author Faccincani, Ettori , Gumus
  */
 
 public class Algo6Test {
@@ -36,6 +36,17 @@ public class Algo6Test {
         return;
     }
 
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>P</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>G</td><td>Y</td><td>G</td><td>P</td><td>C</td></tr>
+     * <tr><td>Y</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>W</td></tr>
+     * <tr><td>W</td><td>G</td><td>G</td><td>P</td><td>G</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo6_test1_general() {
         mat[0][0] = new Card(PINK);
@@ -76,6 +87,18 @@ public class Algo6Test {
 
         assertTrue(algoCo6.checkMatch(mat));
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>P</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>G</td><td>Y</td><td>G</td><td>P</td><td>C</td></tr>
+     * <tr><td>Y</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>W</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td><td>G</td></tr>
+     * </table>
+     */
     @Test
     public void algo6_test2_one_row() {
         mat[0][0] = new Card(PINK);
@@ -116,6 +139,18 @@ public class Algo6Test {
 
         assertFalse(algoCo6.checkMatch(mat));
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>P</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>P</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>G</td><td>Y</td><td>G</td><td>P</td><td>C</td></tr>
+     * <tr><td>Y</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>W</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td><td>G</td></tr>
+     * </table>
+     */
     @Test
     public void algo6_test3_same_types() {
         mat[0][0] = new Card(PINK);
