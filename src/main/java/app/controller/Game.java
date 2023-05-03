@@ -4,10 +4,7 @@ import app.model.*;
 import app.view.IP;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -40,7 +37,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     /** variable that represent the name of the first player, which is also hosting the server */
     public static String serverPlayer = "";
     private final int targetPlayers;
@@ -481,6 +478,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     Board b = (Board) jsonObject.get("board");
                     for(int i = 0; i < numPlayers; i++)
                         players.get(i).board = new Board(b);
+                    FILEHelper.writeServer(this);
                 }
                 if(msg.getType() == UPDATE_GAME) {
                     JSONObject jsonObject = (JSONObject) msg.getContent();
@@ -497,9 +495,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                                 players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
                         }
                     }
-                    FILEHelper.writeServer(this);
                     players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
                     players.get(activePlayer).activeName = names.get(activePlayer);
+                    FILEHelper.writeServer(this);
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     break;
@@ -899,9 +897,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                             players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
                     }
                 }
-                FILEHelper.writeServer(this);
                 players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
                 players.get(activePlayer).activeName = names.get(activePlayer);
+                FILEHelper.writeServer(this);
                 if(!rmiClients.containsKey(names.get(activePlayer)))
                     sendToClient(activePlayer, new Message(STOP, null, null));
                 Game.waitForSeconds(Game.waitTimer);
