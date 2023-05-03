@@ -152,7 +152,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void getPreviousState(){
         PlayerTUI p;
         try {
-            System.out.println("\nBe patient, the game will start soon...");
+            System.out.println("\nReconnecting to the running game...");
             p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
             drawAll();

@@ -443,7 +443,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void getPreviousState(){
         PlayerGUI p;
         try {
-            alert("Be patient, the game will start soon...");
+            alert("Reconnecting to the running game...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             new Thread(this::initGUI).start();
