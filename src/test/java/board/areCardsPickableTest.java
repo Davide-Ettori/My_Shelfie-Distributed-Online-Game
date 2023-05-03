@@ -34,6 +34,10 @@ public class areCardsPickableTest {
     Board board2 = null;
     Card[][] gameBoard1 = null;
     ArrayList<Integer> cardXY = null;
+    /**
+     * The Before method start before every test and is used to create the new objects on which perform the testing
+     * @author Giammusso
+     */
     @Before
     public void setUp(){
         strategy1 = new Algo_CO_1();
@@ -48,7 +52,8 @@ public class areCardsPickableTest {
 
         board2 = new Board(2,CO1,CO2);
     }
-    /** This test is used to test the case in which only 2 cards are picked
+    /**
+     * Test the case in which only 2 cards are picked in a board initialized for just 2 players
      * @author Giammusso
      */
     @Test //test 0
@@ -82,7 +87,7 @@ public class areCardsPickableTest {
         assertTrue(board2.areCardsPickable(cardXY));
     }
 
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * Adjacent
      * Positioned: aligned
      * They have at least one free side
@@ -114,7 +119,7 @@ public class areCardsPickableTest {
 
         assertTrue(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * Adjacent
      * Positioned: not aligned
      * They have at least one free side
@@ -146,7 +151,7 @@ public class areCardsPickableTest {
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * not Adjacent
      * Positioned: aligned
      * They have at least one free side
@@ -178,7 +183,7 @@ public class areCardsPickableTest {
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * not Adjacent
      * Positioned: aligned
      * They have at least one free side
@@ -216,7 +221,7 @@ public class areCardsPickableTest {
 
         assertEquals(board1.areCardsPickable(cardXY), false);
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * Adjacent
      * Positioned: aligned
      * They don't have at least one free side
@@ -253,7 +258,7 @@ public class areCardsPickableTest {
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * Adjacent
      * Positioned: not aligned
      * They don't have at least one free side
@@ -290,7 +295,7 @@ public class areCardsPickableTest {
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * not Adjacent
      * Positioned: aligned
      * They don't have at least one free side
@@ -327,7 +332,7 @@ public class areCardsPickableTest {
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * not Adjacent
      * Positioned: aligned
      * They have at least one free side
@@ -359,7 +364,7 @@ public class areCardsPickableTest {
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * not Adjacent
      * Positioned: not aligned
      * They don't have at least one free side
@@ -396,7 +401,7 @@ public class areCardsPickableTest {
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-    /** This test is used to test the case in which the cards picked are
+    /** Test the case in which the cards picked are
      * Adjacent
      * Positioned: aligned
      * They don't have at least one free side

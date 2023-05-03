@@ -32,6 +32,10 @@ public class drawTest {
     Card[][] gameBoard1 = null;
     ArrayList<Integer> cardXY = null;
 
+    /**
+     * The Before method start before every test and is used to create the new objects on which perform the testing
+     * @author Giammusso
+     */
     @Before
     public void setUp() {
         strategy1 = new Algo_CO_1();
@@ -43,7 +47,7 @@ public class drawTest {
         board1 = new Board(4, CO1, CO2);
         gameBoard1 = new Card[DIM][DIM];
     }
-    /** This test is used to test the draw method of board on the TUI
+    /** Test the draw method of board on the TUI
      * @author Giammusso
      */
     @Test //test1
