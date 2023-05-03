@@ -7,6 +7,16 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
 import app.model.Library;
 
+/**
+ * <p>
+ * class that test the checkCol method of the library class
+ * The checkCol method checks if the selected column has enough space to insert a specific number of cards
+ * <p>
+ * The False tests are:1,3
+ * <p>
+ * The True tests are: 2
+ * @author Giammusso , Ettori
+ */
 public class checkColTest {
 
     Library lib = null;
@@ -19,6 +29,10 @@ public class checkColTest {
         return;
     }
 
+    /**
+     * in this test all the columns are filled so we can't insert any other card in the library
+     * @autor: Giammusso
+     */
     @Test // test 1
     public void checkCol_allFull(){
         lib.gameLibrary[0][0] = new Card(PINK);
@@ -60,6 +74,10 @@ public class checkColTest {
         assertEquals(lib.checkCol(0, 3), false);
     }
 
+    /**
+     * in this test colomn 0 is empty so we can insert cards
+     * @autor: Giammusso
+     */
     @Test // test 2
     public void checkCol_emptyColumn_correct(){
         lib.gameLibrary[0][0] = new Card();
@@ -101,6 +119,10 @@ public class checkColTest {
         assertEquals(lib.checkCol(0, 3), true);
     }
 
+    /**
+     * in this test column 0 has 2 free spaces but there are 3 cards to put in the same column
+     * @autor: Giammusso
+     */
     @Test // test 3
     public void checkCol_tooManyCards(){
         lib.gameLibrary[0][0] = new Card();
