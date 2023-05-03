@@ -789,9 +789,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 connectionLost(e);
             }
             if(msg == null)
-                return;
-            if(msg.getType() == FINAL_SCORE)
-                return;
+                throw new NullPointerException();
+            if(msg.getType() != FINAL_SCORE)
+                throw new RuntimeException("listenForEndGame method in TUI received a message different than FINAL_SCORE");
             handleFinalScoreEvent(msg);
         }
     }
@@ -803,7 +803,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     public void receivedEventRMI(Message msg){
         switch (msg.getType()) {
-            case YOUR_TURN -> handleYourTurnEvent();
+            case YOUR_TURN -> {handleYourTurnEvent(); waitForMove();}
             case CHANGE_TURN -> handleChangeTurnEvent(msg);
             case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
             case UPDATE_GAME -> handleUpdateGameEvent(msg);

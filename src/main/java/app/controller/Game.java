@@ -566,8 +566,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void notifyNewTurn(){
         for(int i = 0; i < numPlayers; i++){
-            if(names.get(i).equals(Game.serverPlayer))
-                continue;
+            //if(names.get(i).equals(Game.serverPlayer))
+            //   continue;
             try {
                 if (i != activePlayer)
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
@@ -575,6 +575,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
             }catch (Exception e){connectionLost(e);}
         }
+        /*
         new Thread(() -> {
             Game.waitForSeconds(Game.endTimer * 2);
             for(int i = 0; i < numPlayers; i++){
@@ -588,6 +589,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }catch (Exception e){connectionLost(e);}
             }
         }).start();
+         */
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
         else {
