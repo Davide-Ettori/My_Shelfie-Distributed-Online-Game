@@ -649,7 +649,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         int points, lastIndex;
         boolean change = false;
         try {
-            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
+            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done && board.pointsCO_1.size() > 0) { // non devi riprendere il CO se lo hai già fatto una volta
                 lastIndex = board.pointsCO_1.size() - 1;
                 points = board.pointsCO_1.get(lastIndex);
                 board.pointsCO_1.remove(lastIndex);
@@ -660,7 +660,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
-            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
+            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done && board.pointsCO_2.size() > 0) {
                 lastIndex = board.pointsCO_2.size() - 1;
                 points = board.pointsCO_2.get(lastIndex);
                 board.pointsCO_2.remove(lastIndex);

@@ -528,7 +528,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         int points, lastIndex;
         boolean change = false;
         try {
-            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done) { // non devi riprendere il CO se lo hai già fatto una volta
+            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done && board.pointsCO_1.size() > 0) { // non devi riprendere il CO se lo hai già fatto una volta
                 lastIndex = board.pointsCO_1.size() - 1;
                 points = board.pointsCO_1.get(lastIndex);
                 board.pointsCO_1.remove(lastIndex);
@@ -539,7 +539,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
-            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done) {
+            if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done && board.pointsCO_2.size() > 0) {
                 lastIndex = board.pointsCO_2.size() - 1;
                 points = board.pointsCO_2.get(lastIndex);
                 board.pointsCO_2.remove(lastIndex);
@@ -591,28 +591,12 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void sendDoneMove(){
         gameStatus = new JSONObject();
-        playerStatus = new JSONObject();
-        System.out.println("\nYou made your move, now wait for other players to acknowledge it (chat disabled)...");
+        System.out.println(" You made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
         gameStatus.put("points", pointsUntilNow);
-
-        try {
-            sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            //Game.waitForSeconds(Game.fastTimer);
-            Game.waitForSeconds(Game.fastTimer * 6);
-            new Thread(() -> {
-                try {
-                    Game.waitForSeconds(Game.waitTimer / 2.5);
-                    playerStatus.put("player", new PlayerSend(this));
-                    sendToServer(new Message(END_TURN, name, playerStatus));
-                }catch (Exception e){connectionLost(e);}
-            }).start();
-
-        }catch(Exception e){connectionLost(e);}
-        if(netMode == SOCKET) {
-            waitForEvents();
-        }
+        gameStatus.put("player", new PlayerSend(this));
+        sendToServer(new Message(UPDATE_GAME, name, gameStatus));
     }
     /**
      * stops all the thread interaction related to the chat (should be only ReceiveChat)

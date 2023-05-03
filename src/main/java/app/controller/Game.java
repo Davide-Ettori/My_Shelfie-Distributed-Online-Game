@@ -499,6 +499,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     }
                     FILEHelper.writeServer(this);
                     players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
+                    players.get(activePlayer).activeName = names.get(activePlayer);
                     if(!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(STOP, null, null));
                     break;
@@ -900,8 +901,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
                 FILEHelper.writeServer(this);
                 players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
+                players.get(activePlayer).activeName = names.get(activePlayer);
                 if(!rmiClients.containsKey(names.get(activePlayer)))
                     sendToClient(activePlayer, new Message(STOP, null, null));
+                Game.waitForSeconds(Game.waitTimer);
+                advanceTurn();
             }
             default -> {
                 if(msg.getType() == LIB_FULL && !endGameSituation)
