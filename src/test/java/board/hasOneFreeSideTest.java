@@ -6,6 +6,13 @@ import org.junit.Test;
 
 import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
+/**
+ * <p>
+ * class that test if a card on the board has a freeside
+ * <p>
+ * this class utilize the setGameBoard method of the Board class, which was specifically created to test the hasOneFreeSideTest method
+ * @author Gumus
+ */
 
 public class hasOneFreeSideTest {
     int DIM=9;
@@ -16,6 +23,11 @@ public class hasOneFreeSideTest {
         board1 = new Board(4,null,null);
         gameBoard1 = new Card[DIM][DIM];
     }
+
+    /**
+     * this test check if the selected card(which don't have a freeside) has a freeside
+     * @autor Gumus
+     */
     @Test
     public void board_nofreeside(){
         for(int i=0; i<DIM; i++){
@@ -36,6 +48,11 @@ public class hasOneFreeSideTest {
         board1.setGameBoard(gameBoard1);
         assertEquals(board1.hasOneFreeSide(3,4), false);
     }
+
+    /**
+     * this test check if the selected card(which have a single freeside) has a freeside
+     * @autor Gumus
+     */
     @Test
     public void board_haveonefreeside(){
         for(int i=0; i<DIM; i++){
@@ -56,6 +73,10 @@ public class hasOneFreeSideTest {
         board1.setGameBoard(gameBoard1);
         assertEquals(board1.hasOneFreeSide(4,5), true);
     }
+    /**
+     * this test check if the selected card(which have 2 freeside) has a freeside
+     * @autor Gumus
+     */
     @Test
     public void board_havetwofreeside(){
         for(int i=0; i<DIM; i++){
