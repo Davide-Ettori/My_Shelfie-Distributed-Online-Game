@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  * test which are true are #1 #3 #5 #7
  * <p>
  * test which are false are #2 #4 #6 #8 #9 #10
- * @author Faccincani, Ettori
+ * @author Faccincani, Ettori , Gumus
  */
 public class Algo12Test {
     Algo_CO_12 algoCo12 = null;
@@ -34,6 +34,16 @@ public class Algo12Test {
         return;
     }
 
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test1_general_decrescent() {
         mat[0][0] = new Card();
@@ -74,6 +84,16 @@ public class Algo12Test {
 
         assertTrue(algoCo12.checkMatch(mat));
     }
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test2_general_F_decrescent() {
         mat[0][0] = new Card();
@@ -114,6 +134,17 @@ public class Algo12Test {
 
         assertFalse(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>W</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test3_general_digdecrescent() {
         mat[0][0] = new Card();
@@ -154,6 +185,17 @@ public class Algo12Test {
 
         assertTrue(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>W</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>W</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test4_general_F_digdecrescent() {
         mat[0][0] = new Card();
@@ -194,6 +236,17 @@ public class Algo12Test {
 
         assertFalse(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>W</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td><td>P</td><td>Y</td></tr>
+     * <tr><td>W</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test5_general_crescent() {
         mat[0][0] = new Card();
@@ -234,6 +287,17 @@ public class Algo12Test {
 
         assertTrue(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>W</td><td>W</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>P</td><td>P</td><td>Y</td></tr>
+     * <tr><td>W</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test6_general_F_crescent() {
         mat[0][0] = new Card();
@@ -274,6 +338,17 @@ public class Algo12Test {
 
         assertFalse(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>W</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>Y</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test7_general_digcrescent() {
         mat[0][0] = new Card();
@@ -314,6 +389,17 @@ public class Algo12Test {
 
         assertTrue(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>W</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>Y</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo12_test8_general_F_digcrescent(){
         mat[0][0] = new Card();
@@ -354,6 +440,17 @@ public class Algo12Test {
 
         assertFalse(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>W</td><td>W</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>B</td><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * </table>
+     */
     @Test // QUESTO TEST PUO ESSERE SBAGLIATO IN BASE ALL'INTERPRETAZIONE DELL'OBIETTIVO COMUNE-->CHIEDERE PROF
     public void algo12_test9_general_dicrescent2(){
         mat[0][0] = new Card();
@@ -394,6 +491,17 @@ public class Algo12Test {
 
         assertFalse(algoCo12.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>W</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>B</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>P</td><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * </table>
+     */
     @Test //falso in ogni interpretazione
     public void algo12_test10_general_dicrescent3(){
         mat[0][0] = new Card();
