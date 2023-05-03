@@ -40,7 +40,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
-    public static boolean showErrors = false;
+    public static boolean showErrors = true;
     /** variable that represent the name of the first player, which is also hosting the server */
     public static String serverPlayer = "";
     private final int targetPlayers;
@@ -138,10 +138,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else
             initializeAllClients();
-        Game.waitForSeconds(Game.waitTimer / 2.5);
+        Game.waitForSeconds(Game.waitTimer);
         for(int i = 0; i < numPlayers; i++){
             if(rmiClients.containsKey(names.get(i)))
                 continue;
+            System.out.print(names.get(i));
             try {
                 playersSocket.get(i).setSoTimeout(Player.pingTimeout);
             } catch (SocketException e) {
@@ -457,7 +458,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             try {
                 msg = (Message) inStreams.get(activePlayer).readObject();
             } catch (IOException | ClassNotFoundException e) {
-                playerDisconnected(activePlayer);
+                playerDisconnected(activePlayer, e);
                 return;
             }
             try {
@@ -514,7 +515,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         try {
             msg = (Message) inStreams.get(activePlayer).readObject();
         } catch (IOException | ClassNotFoundException e) {
-            playerDisconnected(activePlayer);
+            playerDisconnected(activePlayer, e);
             return;
         }
         try {
@@ -563,15 +564,27 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void notifyNewTurn(){
         for(int i = 0; i < numPlayers; i++){
+            if(names.get(i).equals(Game.serverPlayer))
+                continue;
             try {
-                if (i != activePlayer) {
+                if (i != activePlayer)
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-                }
+                else
+                    sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
             }catch (Exception e){connectionLost(e);}
         }
         new Thread(() -> {
-            Game.waitForSeconds(Game.endTimer);
-            sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
+            Game.waitForSeconds(Game.endTimer * 2);
+            for(int i = 0; i < numPlayers; i++){
+                if(!names.get(i).equals(Game.serverPlayer))
+                    continue;
+                try {
+                    if (i != activePlayer)
+                        sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
+                    else
+                        sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
+                }catch (Exception e){connectionLost(e);}
+            }
         }).start();
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
@@ -760,7 +773,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param i the index of the lost client
      * @author Ettori
      */
-    public void playerDisconnected(int i) {
+    public void playerDisconnected(int i, Exception exc) {
+        if(showErrors)
+            throw  new RuntimeException(exc);
         if (disconnectedPlayers.contains(names.get(i)))
             return;
         try {
@@ -820,7 +835,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             } catch (IOException e) {
                 if(msg.getType() == FINAL_SCORE)
                     return;
-                playerDisconnected(i);
+                playerDisconnected(i, e);
             }
         }
         else{
@@ -829,7 +844,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             } catch (RemoteException e) {
                 if(msg.getType() == FINAL_SCORE)
                     return;
-                playerDisconnected(i);
+                playerDisconnected(i, e);
             }
         }
     }
@@ -913,7 +928,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     rmiClients.get(n).pingClient();
                 } catch (RemoteException e) {
-                    playerDisconnected(names.indexOf(n));
+                    playerDisconnected(names.indexOf(n), e);
                 }
             }
         }

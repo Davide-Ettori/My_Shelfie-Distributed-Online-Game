@@ -61,6 +61,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     public PlayerTUI(NetMode mode, String opt, boolean flag) throws RemoteException {
         super();
+        System.setProperty("java.rmi.server.hostname", IP.activeIP);
         uiMode = TUI;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");

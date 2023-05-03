@@ -98,6 +98,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     public PlayerGUI(NetMode mode, String opt, boolean flag) throws RemoteException {
         super();
+        System.setProperty("java.rmi.server.hostname", IP.activeIP);
         uiMode = GUI;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
@@ -720,10 +721,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         try {
             sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-            Game.waitForSeconds(Game.fastTimer);
-            //Game.waitForSeconds(Game.waitTimer * 6 / 5);
+            //Game.waitForSeconds(Game.fastTimer);
+            Game.waitForSeconds(Game.waitTimer * 4 / 5);
             new Thread(() -> {
                 try {
+                    //Game.waitForSeconds(Game.fastTimer * 2);
                     Game.waitForSeconds(Game.waitTimer / 2.5);
                     playerStatus.put("player", new PlayerSend(this));
                     sendToServer(new Message(END_TURN, name, playerStatus));
