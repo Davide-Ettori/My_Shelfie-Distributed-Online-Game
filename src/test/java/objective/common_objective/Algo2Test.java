@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
  * <p>
  * test which are false are #5 #6 #7 #8
  * <p>
- * @author Faccincani, Ettori
+ * @author Faccincani, Ettori , Gumus
  */
 
 public class Algo2Test {
@@ -35,6 +35,17 @@ public class Algo2Test {
         return;
     }
 
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>P</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>C</td><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test1_bassosx() {
         mat[0][0] = new Card(GREEN);
@@ -76,6 +87,18 @@ public class Algo2Test {
         assertTrue(algoCo2.checkMatch(mat));
 
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>P</td></tr>
+     * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test2_bassodx() {
         mat[0][0] = new Card(PINK);
@@ -117,6 +140,18 @@ public class Algo2Test {
         assertTrue(algoCo2.checkMatch(mat));
 
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
+     * <tr><td>G</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
+     * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
+     * <tr><td>G</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test3_unodx() {
         mat[0][0] = new Card(PINK);
@@ -158,6 +193,18 @@ public class Algo2Test {
         assertTrue(algoCo2.checkMatch(mat));
 
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>Y</td></tr>
+     * <tr><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td></tr>
+     * <tr><td>G</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>Y</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>Y</td><td>G</td><td>G</td><td>Y</td><td>Y</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test4_unosx() {
         mat[0][0] = new Card(PINK);
@@ -201,6 +248,18 @@ public class Algo2Test {
     }
 
     //false
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>P</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>C</td><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test5_F_bassosx() {
         mat[0][0] = new Card(GREEN);
@@ -242,6 +301,18 @@ public class Algo2Test {
         assertFalse(algoCo2.checkMatch(mat));
 
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>P</td></tr>
+     * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test6_F_bassodx() {
         mat[0][0] = new Card(PINK);
@@ -283,6 +354,18 @@ public class Algo2Test {
         assertFalse(algoCo2.checkMatch(mat));
 
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
+     * <tr><td>G</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
+     * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
+     * <tr><td>G</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test7_F_unodx() {
         mat[0][0] = new Card(PINK);
@@ -324,6 +407,18 @@ public class Algo2Test {
         assertFalse(algoCo2.checkMatch(mat));
 
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>Y</td></tr>
+     * <tr><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td></tr>
+     * <tr><td>G</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>Y</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
+     * <tr><td>Y</td><td>G</td><td>G</td><td>Y</td><td>Y</td></tr>
+     * </table>
+     */
     @Test
     public void algo2_test8_F_unosx() {
         mat[0][0] = new Card(PINK);
