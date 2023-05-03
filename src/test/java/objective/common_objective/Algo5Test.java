@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  * test which are true are #1 #3
  * <p>
  * test which are false are #2 #3 #5
- * @author Faccincani, Ettori
+ * @author Faccincani, Ettori , Gumus
  */
 
 public class Algo5Test {
@@ -35,6 +35,17 @@ public class Algo5Test {
         return;
     }
 
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>C</td><td>C</td><td>G</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo5_test1_T_general() {
         mat[0][0] = new Card(PINK);
@@ -75,6 +86,18 @@ public class Algo5Test {
 
         assertTrue(algoCo5.checkMatch(mat));
     }
+
+    /**
+     * this test is used to test the following library:
+     *<table border="1">
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>C</td><td>C</td><td>G</td><td>B</td><td>B</td></tr>
+     * <tr><td>G</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void algo5_test2_F() {
         mat[0][0] = new Card(PINK);
@@ -115,6 +138,18 @@ public class Algo5Test {
 
         assertFalse(algoCo5.checkMatch(mat));
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td></tr>
+     * <tr><td>B</td><td>B</td><td>Y</td><td>C</td><td>C</td></tr>
+     * <tr><td>B</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
+     * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>G</td></tr>
+     * </table>
+     */
     @Test //4 gruppi da 4 o piu carte
     public void algo5_test3_4groupstrue() {
         mat[0][0] = new Card(PINK);
@@ -155,6 +190,18 @@ public class Algo5Test {
 
         assertTrue(algoCo5.checkMatch(mat));
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>C</td><td>C</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
+     * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>G</td></tr>
+     * </table>
+     */
     @Test
     public void algo5_test4_3groupsfalse() {
         mat[0][0] = new Card(PINK);
@@ -195,6 +242,18 @@ public class Algo5Test {
 
         assertFalse(algoCo5.checkMatch(mat));
     }
+
+    /**
+     * this test is used to test the following library:
+     * <table border="1">
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>C</td><td>C</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
+     * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>G</td></tr>
+     * </table>
+     */
     @Test //4 gruppi da 4 o piu carte
     public void algo5_test5_3groupsfalse2() {
         mat[0][0] = new Card(BLUE);
