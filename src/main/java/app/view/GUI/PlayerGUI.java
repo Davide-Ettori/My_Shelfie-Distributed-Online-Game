@@ -713,12 +713,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     private void sendDoneMove(){
         gameStatus = new JSONObject();
-        playerStatus = new JSONObject();
         updateEventText(" You made your move, now wait for other players to acknowledge it (chat disabled)...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
         gameStatus.put("points", pointsUntilNow);
         gameStatus.put("player", new PlayerSend(this));
+        sendToServer(new Message(UPDATE_GAME, name, gameStatus));
     }
     /**
      * Send with socket network the message of the chat to the right players
