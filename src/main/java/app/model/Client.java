@@ -145,7 +145,8 @@ public class Client {
                 try {
                     new Game(finalNumP, finalPersOpt);
                 } catch (RemoteException ex) {
-                    throw new RuntimeException(ex);
+                    alert("Server unable to start...");
+                    System.exit(0);
                 }
             });
             serverTh.setPriority(Thread.MAX_PRIORITY);
@@ -213,7 +214,8 @@ public class Client {
                     try {
                         new PlayerTUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
                     } catch (RemoteException e) {
-                        throw new RuntimeException(e);
+                        alert("Client process unable to start...");
+                        System.exit(0);
                     }
                 }).start();
             }
@@ -223,7 +225,8 @@ public class Client {
                 try {
                     new PlayerTUI(RMI, yes.isSelected() ? "yes" : "no", flag);
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    alert("Client process unable to start...");
+                    System.exit(0);
                 }
             }
             if(gui.isSelected() && socket.isSelected()){
@@ -231,7 +234,8 @@ public class Client {
                 try {
                     new PlayerGUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    alert("Client process unable to start...");
+                    System.exit(0);
                 }
             }
             if(gui.isSelected() && rmi.isSelected()){
@@ -239,7 +243,8 @@ public class Client {
                 try {
                     new PlayerGUI(RMI, yes.isSelected() ? "yes" : "no", flag);
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    alert("Client process unable to start...");
+                    System.exit(0);
                 }
             }
         });
