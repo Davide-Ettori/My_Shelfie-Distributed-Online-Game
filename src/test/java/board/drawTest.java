@@ -43,7 +43,9 @@ public class drawTest {
         board1 = new Board(4, CO1, CO2);
         gameBoard1 = new Card[DIM][DIM];
     }
-
+    /** This test is used to test the draw method of board on the TUI
+     * @author Giammusso
+     */
     @Test //test1
     public void drawBoard(){
         //initialize the matrix with EMPTY cards
