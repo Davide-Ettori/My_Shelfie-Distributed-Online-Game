@@ -91,7 +91,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         pointsUntilNow = p.pointsUntilNow;
         board = new Board(p.board);
         librariesOfOtherPlayers = new ArrayList<>(p.librariesOfOtherPlayers);
-        mySocket = p.mySocket;
         CO_1_Done = p.CO_1_Done;
         CO_2_Done = p.CO_2_Done;
         fullChat = p.fullChat;
