@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
  * test which are true are #1
  * <p>
  * test which are false are #2 #3
- * @author Faccincani, Ettori
+ * @author Faccincani, Ettori , Gumus
  */
 public class Algo8Test {
     Algo_CO_8 algoCo8 = null;
@@ -32,6 +32,16 @@ public class Algo8Test {
         return;
     }
 
+    /**
+     * <table border="1">
+     * <tr><td>P</td><td>W</td><td>B</td><td>C</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>Y</td><td>G</td><td>W</td><td>B</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo8_test1_T() {
         mat[0][0] = new Card(PINK);
@@ -72,6 +82,17 @@ public class Algo8Test {
 
         assertTrue(algoCo8.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>P</td><td>W</td><td>B</td><td>C</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>B</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo8_test2_F_one_row() {
         mat[0][0] = new Card(PINK);
@@ -112,6 +133,17 @@ public class Algo8Test {
 
         assertFalse(algoCo8.checkMatch(mat));
     }
+
+    /**
+     * <table border="1">
+     * <tr><td>P</td><td>W</td><td>B</td><td>C</td><td>Y</td></tr>
+     * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>Y</td><td>W</td><td>W</td><td>B</td></tr>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
+     * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void algo8_test3_F_same_type() {
         mat[0][0] = new Card(PINK);
