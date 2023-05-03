@@ -151,6 +151,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
     /**
      * method that update the board of the game
@@ -172,6 +174,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
     /**
      * method that update the library of the active player
@@ -190,6 +194,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
     /**
      * method that update the event text of the game, notifying the most recent event
@@ -203,6 +209,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
     /**
      * method that update the libraries of all the player except the one which is active
@@ -240,6 +248,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (InterruptedException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
     /**
      * Function that update the GUI with the new information
@@ -1565,6 +1575,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         CO2Panel.setBackground(new Color(0, 0, 0, 0));
         POPanel.setBackground(new Color(0, 0, 0, 0));
         chairmanPanel.setBackground(new Color(0, 0, 0, 0));
+        player1Panel.setBackground(new Color(0, 0, 0, 0));
+        player2Panel.setBackground(new Color(0, 0, 0, 0));
+        player3Panel.setBackground(new Color(0, 0, 0, 0));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
