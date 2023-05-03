@@ -37,7 +37,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
-    public static boolean showErrors = false;
+    public static boolean showErrors = true;
     /** variable that represent the name of the first player, which is also hosting the server */
     public static String serverPlayer = "";
     private final int targetPlayers;
@@ -566,8 +566,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void notifyNewTurn(){
         for(int i = 0; i < numPlayers; i++){
-            //if(names.get(i).equals(Game.serverPlayer))
-            //   continue;
+            if(names.get(i).equals(Game.serverPlayer))
+               continue;
             try {
                 if (i != activePlayer)
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
@@ -575,21 +575,19 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
             }catch (Exception e){connectionLost(e);}
         }
-        /*
-        new Thread(() -> {
-            Game.waitForSeconds(Game.endTimer * 2);
-            for(int i = 0; i < numPlayers; i++){
-                if(!names.get(i).equals(Game.serverPlayer))
-                    continue;
-                try {
-                    if (i != activePlayer)
-                        sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-                    else
-                        sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
-                }catch (Exception e){connectionLost(e);}
+        Game.waitForSeconds(Game.fastTimer * 2);
+        for(int i = 0; i < numPlayers; i++) {
+            if (!names.get(i).equals(Game.serverPlayer))
+                continue;
+            try {
+                if (i != activePlayer)
+                    sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
+                else
+                    sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
+            } catch (Exception e) {
+                connectionLost(e);
             }
-        }).start();
-         */
+        }
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
         else {
