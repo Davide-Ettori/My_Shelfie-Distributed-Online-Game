@@ -41,7 +41,7 @@ public class Client {
         JTextField socketPortText = new JTextField(" Insert socket port: ");
         JTextField rmiPortText = new JTextField(" Insert rmi port: ");
         String s = "Now you will be asked some parameters about the game ";
-        for(int i = 0; i < 75; i++)
+        for(int i = 0; i < 50; i++)
             s = " " + s;
         JTextField title = new JTextField(s);
         title.setEditable(false);
@@ -99,7 +99,7 @@ public class Client {
      */
     private void insertPlayers(){
         String s = " Choose the number of players ";
-        for(int i = 0; i < 15; i++)
+        for(int i = 0; i < 5; i++)
             s = " " + s;
         JTextField title = new JTextField(s);
         title.setEditable(false);
