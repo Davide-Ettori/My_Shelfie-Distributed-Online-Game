@@ -15,6 +15,15 @@ import app.model.Algo_CO_2;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * <p>
+ * class that test the areCardsPickable method of the Board class
+ * <p>
+ * The False tests are: 0, 1, 10
+ * <p>
+ * The True tests are: 2, 3, 4, 5, 6, 7, 8, 9
+ * @author Giammusso
+ */
 public class areCardsPickableTest {
     int DIM = 9;
     Strategy strategy1 = null;
@@ -39,15 +48,18 @@ public class areCardsPickableTest {
 
         board2 = new Board(2,CO1,CO2);
     }
+    /** This test is used to test the case in which only 2 cards are picked
+     * @author Giammusso
+     */
     @Test //test 0
     public void twoPlayers_pickOnly_TwoCards(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[1][3].color = BLUE;
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
@@ -64,20 +76,27 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(1,3,1,4));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board2.setGameBoard(gameBoard1);
 
         assertTrue(board2.areCardsPickable(cardXY));
     }
+
+    /** This test is used to test the case in which the cards picked are
+     * Adjacent
+     * Positioned: aligned
+     * They have at least one free side
+     * @author Giammusso
+     */
     @Test //test1
-    public void adiacent_Allineated_FreeSide(){ //Significa: che le tessere sono 1)Adiacenti, 2)Su una linea retta, 3)Hanno almeno 1 lato libero
-        //inizializzo la matrice con degli EMPTY
+    public void adiacent_Allineated_FreeSide(){
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[1][3].color = BLUE;
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
@@ -90,21 +109,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(1,3,2,3));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertTrue(board1.areCardsPickable(cardXY));
     }
-
+    /** This test is used to test the case in which the cards picked are
+     * Adjacent
+     * Positioned: not aligned
+     * They have at least one free side
+     * @author Giammusso
+     */
     @Test //test2
     public void adiacent_NotAllineated_FreeSide(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[1][3].color = BLUE;
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
@@ -117,21 +141,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(1,3,2,3,1,4));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-
-    @Test//test3 - non passa
+    /** This test is used to test the case in which the cards picked are
+     * not Adjacent
+     * Positioned: aligned
+     * They have at least one free side
+     * @author Giammusso
+     */
+    @Test//test3
     public void notAdiacent_Allineated_FreeSide_Vertical(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[1][3].color = BLUE;
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
@@ -144,21 +173,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(1,3,2,3,4,3));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-
-    @Test //test 3 - BIS
+    /** This test is used to test the case in which the cards picked are
+     * not Adjacent
+     * Positioned: aligned
+     * They have at least one free side
+     * @author Giammusso
+     */
+    @Test //test 4
     public void notAdiacent_Allineated_FreeSide_Orizontal(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[3][3].color = BLUE;
         gameBoard1[4][3].color = BLUE;
         gameBoard1[5][3].color = BLUE;
@@ -177,21 +211,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(3,3,3,4,3,6));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertEquals(board1.areCardsPickable(cardXY), false);
     }
-
-    @Test //test 4
+    /** This test is used to test the case in which the cards picked are
+     * Adjacent
+     * Positioned: aligned
+     * They don't have at least one free side
+     * @author Giammusso
+     */
+    @Test //test 5
     public void adiacent_Allineated_NotFreeSide(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
         gameBoard1[4][3].color = BLUE;
@@ -209,21 +248,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(3,4,4,4));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-
-    @Test //test 5
+    /** This test is used to test the case in which the cards picked are
+     * Adjacent
+     * Positioned: not aligned
+     * They don't have at least one free side
+     * @author Giammusso
+     */
+    @Test //test 6
     public void adiacent_NotAllineated_NotFreeSide(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
         gameBoard1[4][3].color = BLUE;
@@ -241,21 +285,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(2,4,3,4,2,5));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-
-    @Test //test 6
+    /** This test is used to test the case in which the cards picked are
+     * not Adjacent
+     * Positioned: aligned
+     * They don't have at least one free side
+     * @author Giammusso
+     */
+    @Test //test 7
     public void notAdiacent_Allineated_NotFreeSide(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
         gameBoard1[4][3].color = BLUE;
@@ -273,21 +322,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(2,4,4,4));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-
-    @Test //test 7
+    /** This test is used to test the case in which the cards picked are
+     * not Adjacent
+     * Positioned: aligned
+     * They have at least one free side
+     * @author Giammusso
+     */
+    @Test //test 8
     public void notAdiacent_NotAllineated_FreeSide(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
         gameBoard1[4][3].color = BLUE;
@@ -300,21 +354,26 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(2,3,3,4));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-
-    @Test //test 8
+    /** This test is used to test the case in which the cards picked are
+     * not Adjacent
+     * Positioned: not aligned
+     * They don't have at least one free side
+     * @author Giammusso
+     */
+    @Test //test 9
     public void notAdiacent_NotAllineated_NotFreeSide(){
-        //inizializzo la matrice con degli EMPTY
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
         gameBoard1[4][3].color = BLUE;
@@ -332,21 +391,27 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(2,3,3,4,4,5));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertFalse(board1.areCardsPickable(cardXY));
     }
-
-    @Test //test 9
-    public void Adiacent_Allineated_FreeSide_ButPickedNotInOrder(){//cioè le "picca" vicine ma non in ordine consecutivo
-        //inizializzo la matrice con degli EMPTY
+    /** This test is used to test the case in which the cards picked are
+     * Adjacent
+     * Positioned: aligned
+     * They don't have at least one free side
+     * They are picked near but not in consecutive order
+     * @author Giammusso
+     */
+    @Test //test 10
+    public void Adiacent_Allineated_FreeSide_ButPickedNotInOrder(){
+        //initialize the matrix with EMPTY cards
         for(int i=0; i<DIM; i++){
             for(int j=0; j<DIM; j++){
                 gameBoard1[i][j] = new Card(EMPTY);
             }
         }
-        //metto le carte colorate dove mi interessano
+        //put the coloured cards specifically where I want them to be
         gameBoard1[2][3].color = BLUE;
         gameBoard1[3][3].color = BLUE;
         gameBoard1[4][3].color = BLUE;
@@ -359,7 +424,7 @@ public class areCardsPickableTest {
 
         cardXY = new ArrayList<>(Arrays.asList(2,3,4,3,3,3));
 
-        //uso il setter definito in Board
+        //use the setter defined in the Board Class
         board1.setGameBoard(gameBoard1);
 
         assertTrue(board1.areCardsPickable(cardXY));
