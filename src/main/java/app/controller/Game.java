@@ -33,7 +33,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the fast timer of the app for small waiting task */
     public static final double fastTimer = 0.5;
     /** variable that represent the timer for the new turn interaction */
-    public static final double passTimer = 0.5;
+    public static final double passTimer = 2.5;
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
@@ -504,7 +504,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
             }catch(Exception e){connectionLost(e);}
         }
-        Game.waitForSeconds(Game.waitTimer);
+        Game.waitForSeconds(Game.passTimer);
         advanceTurn();
         //waitForEndTurn();
     }
@@ -904,7 +904,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 FILEHelper.writeServer(this);
                 if(!rmiClients.containsKey(names.get(activePlayer)))
                     sendToClient(activePlayer, new Message(STOP, null, null));
-                Game.waitForSeconds(Game.waitTimer);
+                Game.waitForSeconds(Game.passTimer);
                 advanceTurn();
             }
             default -> {
