@@ -607,6 +607,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
         }
         pointsMap.put(msg.getAuthor(), (int) jsonObject.get("points"));
+        if(endGame)
+            updateGUI();
         updateEventText(" Player " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
     }
     /**
