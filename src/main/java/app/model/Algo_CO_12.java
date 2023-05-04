@@ -1,5 +1,7 @@
 package app.model;
 
+import java.util.Collections;
+
 import static app.model.Color.EMPTY;
 
 /*
@@ -66,6 +68,18 @@ public class Algo_CO_12 extends Strategy {
         return res;
     }
     /**
+     * checks if the array is sorted, strictly
+     * @param arr the interger array to check
+     * @return true iff the array is sorted with no duplicates
+     */
+    private boolean checkSort(int[] arr){
+        for(int i = 1; i < COLS; i++){
+            if(arr[i - 1] >= arr[i])
+                return false;
+        }
+        return true;
+    }
+    /**
      * check if the matrix match with the objective
      * @author Ettori
      * @param board the matrix of the board
@@ -73,6 +87,16 @@ public class Algo_CO_12 extends Strategy {
      */
     @Override
     public boolean checkMatch(Card[][] board) {
-        return checkLowTriangle_1(board) || checkLowTriangle_2(board) || checkLowTriangle_1(invert(board)) || checkLowTriangle_2(invert(board));
+        int[] heights_1 = new int[]{0,0,0,0,0};
+        int[] heights_2 = new int[]{0,0,0,0,0};
+        for(int i = 0; i < COLS; i++){
+            for(int j = ROWS - 1; j >= 0; j--){
+                if(board[j][i].color != EMPTY) {
+                    heights_1[i]++;
+                    heights_2[COLS - 1 - i]++;
+                }
+            }
+        }
+        return checkSort(heights_1) || checkSort(heights_2);
     }
 }

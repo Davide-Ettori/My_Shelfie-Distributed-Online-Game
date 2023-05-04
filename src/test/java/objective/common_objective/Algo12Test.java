@@ -483,7 +483,7 @@ public class Algo12Test {
      * </table>
      * @author Faccincani, Ettori , Gumus
      */
-    @Test // QUESTO TEST PUO ESSERE SBAGLIATO IN BASE ALL'INTERPRETAZIONE DELL'OBIETTIVO COMUNE-->CHIEDERE PROF
+    @Test
     public void algo12_test9_general_dicrescent2(){
         mat[0][0] = new Card();
         mat[0][1] = new Card();
@@ -521,7 +521,7 @@ public class Algo12Test {
         mat[5][3] = new Card(PINK);
         mat[5][4] = new Card();
 
-        assertFalse(algoCo12.checkMatch(mat));
+        assertTrue(algoCo12.checkMatch(mat));
     }
 
     /**
