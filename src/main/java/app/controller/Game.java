@@ -33,11 +33,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the fast timer of the app for small waiting task */
     public static final double fastTimer = 0.5;
     /** variable that represent the timer for the new turn interaction */
-    public static final double endTimer = 0.5;
+    public static final double passTimer = 0.5;
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
-    public static boolean showErrors = true;
+    public static boolean showErrors = false;
     /** variable that represent the name of the first player, which is also hosting the server */
     public static String serverPlayer = "";
     private final int targetPlayers;
@@ -566,8 +566,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void notifyNewTurn(){
         for(int i = 0; i < numPlayers; i++){
-            if(names.get(i).equals(Game.serverPlayer))
-               continue;
+            //if(names.get(i).equals(Game.serverPlayer))
+            //   continue;
             try {
                 if (i != activePlayer)
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
@@ -575,6 +575,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
             }catch (Exception e){connectionLost(e);}
         }
+        /*
         Game.waitForSeconds(Game.fastTimer * 2);
         for(int i = 0; i < numPlayers; i++) {
             if (!names.get(i).equals(Game.serverPlayer))
@@ -588,6 +589,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 connectionLost(e);
             }
         }
+         */
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
         else {
