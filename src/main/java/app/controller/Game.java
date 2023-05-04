@@ -178,13 +178,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
             }
         }
-        System.out.println("\nAncient client not found...");
+        if(Client.uiModeCur == TUI)
+            System.out.println("\nAncient client not found...");
+        else
+            showMessageDialog(null, "Ancient client not found...");
         System.exit(0);
-        try {
-            return new Player();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
     /**
      * helper method for initializing the old clients that were playing in the previous game
