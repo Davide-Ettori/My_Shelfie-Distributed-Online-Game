@@ -41,14 +41,15 @@ public class Client {
         JTextField ipText = new JTextField(" Insert ip: ");
         JTextField socketPortText = new JTextField(" Insert socket port: ");
         JTextField rmiPortText = new JTextField(" Insert rmi port: ");
-        String s = "Now you will be asked some parameters about the game ";
-        for(int i = 0; i < 55; i++)
+        String s = "Insert the Parameters of the Game";
+        for(int i = 0; i < 17; i++)
             s = " " + s;
         JTextField title = new JTextField(s);
+        title.setFont(new Font("Calibri", Font.PLAIN, 30));
         title.setEditable(false);
         title.requestFocusInWindow();
         JButton sendIP = new JButton(" Enter ");
-        sendIP.setFont(new Font("Calibri", Font.PLAIN, 30));
+        sendIP.setFont(new Font("Calibri", Font.PLAIN, 25));
 
         ipText.addActionListener(event -> sendIP.doClick());
         socketPortText.addActionListener(event -> sendIP.doClick());
