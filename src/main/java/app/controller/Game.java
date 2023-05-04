@@ -808,7 +808,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         try {
             playersSocket.get(i).setSoTimeout(0);
         } catch (SocketException e) {
-            System.out.println("Socket Error");
+            //System.out.println("Socket Error");
         }
         disconnectedPlayers.add(names.get(i));
         rmiClients.remove(names.get(i));
