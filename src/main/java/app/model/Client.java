@@ -42,13 +42,7 @@ public class Client {
         JTextField ipText = new JTextField(" Insert ip: ");
         JTextField socketPortText = new JTextField(" Insert socket port: ");
         JTextField rmiPortText = new JTextField(" Insert rmi port: ");
-        String s = "Insert the Parameters of the Game";
-        for(int i = 0; i < 17; i++)
-            s = " " + s;
-        JTextField title = new JTextField(s);
-        title.setFont(new Font("Calibri", Font.PLAIN, 30));
-        title.setEditable(false);
-        title.requestFocusInWindow();
+        generalPanel.requestFocusInWindow();
         JButton sendIP = new JButton(" Enter ");
         sendIP.setFont(new Font("Calibri", Font.PLAIN, 25));
 
@@ -88,13 +82,12 @@ public class Client {
                 ipText.setText(" Insert ip: ");
                 socketPortText.setText(" Insert socket port: ");
                 rmiPortText.setText(" Insert rmi port: ");
-                title.requestFocusInWindow();
+                generalPanel.requestFocusInWindow();
             }
         });
         int w = 800;
         int h = 450;
-        generalPanel.setLayout(new GridLayout(5, 1));
-        generalPanel.add(title);
+        generalPanel.setLayout(new GridLayout(4, 1));
         generalPanel.add(ipText);
         generalPanel.add(socketPortText);
         generalPanel.add(rmiPortText);
