@@ -336,7 +336,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 outStreams.set(names.indexOf(name), out);
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
-                in.readObject();
+                boolean temp = (boolean)in.readObject();
                 //Game.waitForSeconds(Game.waitTimer);
                 new Thread(() ->{
                     Game.waitForSeconds(Game.fastTimer * 2);
