@@ -344,7 +344,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
                 boolean temp = (boolean)in.readObject();
-                //Game.waitForSeconds(Game.waitTimer);
                 new Thread(() ->{
                     Game.waitForSeconds(Game.fastTimer * 2);
                     if(rmiClients.containsKey(name))
@@ -358,12 +357,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         new ChatBroadcast(this, names.indexOf(name)).start();
                 }).start();
                 if(getActivePlayersNumber() == 2){
-                    /*
-                    if(Client.uiModeCur == GUI)
-                        showMessageDialog(null, "The game is now resuming and the next turn is starting...");
-                    else
-                        System.out.println("\nThe game is now resuming and the next turn is starting...");
-                     */
                     if(advance){
                         advance = false;
                         advanceTurn();
@@ -525,31 +518,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         Game.waitForSeconds(Game.passTimer);
         advanceTurn();
-        //waitForEndTurn();
-    }
-    /**
-     * Wait the end of the turn of the client and check if the library is full
-     * @author Ettori Faccincani
-     */
-    private void waitForEndTurn(){
-        Message msg = null;
-        try {
-            msg = (Message) inStreams.get(activePlayer).readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            playerDisconnected(activePlayer, e);
-            return;
-        }
-        try {
-            if(msg.getType() == PING) {
-                waitForEndTurn();
-                return;
-            }
-            if(msg.getType() != END_TURN)
-                throw new RuntimeException();
-            JSONObject jsonObject = (JSONObject) msg.getContent();
-            players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
-            advanceTurn();
-        }catch(Exception e){connectionLost(e);}
     }
     /**
      * Set the status of the players for the next turn and assign activePlayer to who will play this turn
@@ -558,14 +526,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void advanceTurn(){
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
             advance = true;
-            //if(endGameSituation && activePlayer == 0)
-            //    return;
-            /*
-            if(Client.uiModeCur == GUI)
-                showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
-            else
-                System.out.println("\nThe game is temporarily paused because you are the only connected player");
-             */
             activePlayer = names.indexOf(Game.serverPlayer);
             return;
         }
@@ -587,8 +547,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void notifyNewTurn(){
         for(int i = 0; i < numPlayers; i++){
-            //if(names.get(i).equals(Game.serverPlayer))
-            //   continue;
             try {
                 if (i != activePlayer)
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
@@ -596,21 +554,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
             }catch (Exception e){connectionLost(e);}
         }
-        /*
-        Game.waitForSeconds(Game.fastTimer * 2);
-        for(int i = 0; i < numPlayers; i++) {
-            if (!names.get(i).equals(Game.serverPlayer))
-                continue;
-            try {
-                if (i != activePlayer)
-                    sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-                else
-                    sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
-            } catch (Exception e) {
-                connectionLost(e);
-            }
-        }
-         */
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
         else {
@@ -783,8 +726,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         else{
             closed = true;
             System.out.println("\nConnection lost, the server is closing...");
-            //System.out.println(e.toString());
-            //e.printStackTrace();
             try {
                 serverSocket.close();
                 for(Socket s: playersSocket)
@@ -807,9 +748,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             return;
         try {
             playersSocket.get(i).setSoTimeout(0);
-        } catch (SocketException e) {
-            //System.out.println("Socket Error");
-        }
+        } catch (SocketException ignored) {}
         disconnectedPlayers.add(names.get(i));
         rmiClients.remove(names.get(i));
         if (getActivePlayersNumber() == 1)
