@@ -42,7 +42,6 @@ public class Client {
         JTextField ipText = new JTextField(" Insert ip: ");
         JTextField socketPortText = new JTextField(" Insert socket port: ");
         JTextField rmiPortText = new JTextField(" Insert rmi port: ");
-        generalPanel.requestFocusInWindow();
         JButton sendIP = new JButton(" Enter ");
         sendIP.setFont(new Font("Calibri", Font.PLAIN, 25));
 
@@ -101,6 +100,7 @@ public class Client {
         setupFrame.pack();
         setupFrame.setLocationRelativeTo(null);
         setupFrame.setVisible(true);
+        generalPanel.requestFocus();
     }
     /**
      * method for drawing the GUI to ask number of players and persistence
