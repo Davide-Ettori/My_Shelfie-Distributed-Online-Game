@@ -322,7 +322,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         pointsMap.put(msg.getAuthor(), (int) jsonObject.get("points"));
         if(endGame)
             drawAll();
-        System.out.println("\nPlayer " + msg.getAuthor() + " made his move, now wait for the turn to change (chat disabled)...");
+        System.out.println("\nPlayer " + msg.getAuthor() + " made his move, now wait for the turn to change...");
     }
     /**
      * helper function for handling the final score calculation event notification from the server
@@ -535,7 +535,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow += points;
                 CO_1_Done = true;
                 sendToServer(new Message(CO_1, name, Integer.toString(points)));
-                System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points (chat disabled)...");
+                System.out.println("\nWell done, you completed the first common objective and you gain " + points + " points...");
                 Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
@@ -546,7 +546,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 pointsUntilNow += points;
                 CO_2_Done = true;
                 sendToServer(new Message(CO_2, name, Integer.toString(points)));
-                System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points (chat disabled)...");
+                System.out.println("\nWell done, you completed the second common objective and you gain " + points + " points...");
                 Game.waitForSeconds(Game.showTimer);
                 change = true;
             }
@@ -564,7 +564,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 endGame = true;
                 pointsUntilNow++;
                 sendToServer(new Message(LIB_FULL, name, null));
-                System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + " (chat disabled)...");
+                System.out.println("\nWell done, you are the first player to complete the library, the game will continue until the next turn of " + chairmanName + "...");
                 Game.waitForSeconds(Game.showTimer);
                 return true;
             }
@@ -591,7 +591,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      */
     private void sendDoneMove(){
         gameStatus = new JSONObject();
-        System.out.println("You made your move, now wait for other players to acknowledge it (chat disabled)...");
+        System.out.println("You made your move, now wait for other players to acknowledge it...");
         gameStatus.put("board", new Board(board));
         gameStatus.put("library", new Library(library));
         gameStatus.put("points", pointsUntilNow);
