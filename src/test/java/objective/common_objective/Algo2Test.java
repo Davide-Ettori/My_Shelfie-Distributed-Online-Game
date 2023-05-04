@@ -12,11 +12,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * <p>
  * class that test the second algorithm, five cards of the same type that form a diagonal.
- * <p>
- * test which are true are #1 #2 #3 #4
- * <p>
- * test which are false are #5 #6 #7 #8
- * <p>
  * @author Faccincani, Ettori , Gumus
  */
 
@@ -36,7 +31,9 @@ public class Algo2Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the left bottom of the library</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>P</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
@@ -45,6 +42,7 @@ public class Algo2Test {
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test1_bassosx() {
@@ -89,7 +87,9 @@ public class Algo2Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the right bottom of the library</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>P</td></tr>
      * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
@@ -98,6 +98,7 @@ public class Algo2Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test2_bassodx() {
@@ -142,7 +143,9 @@ public class Algo2Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the right angle of the second row of the library</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
      * <tr><td>G</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -151,6 +154,7 @@ public class Algo2Test {
      * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
      * <tr><td>G</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test3_unodx() {
@@ -195,7 +199,9 @@ public class Algo2Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the left angle of the second row of the library</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>Y</td></tr>
@@ -204,6 +210,7 @@ public class Algo2Test {
      * <tr><td>Y</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
      * <tr><td>Y</td><td>G</td><td>G</td><td>Y</td><td>Y</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test4_unosx() {
@@ -250,7 +257,9 @@ public class Algo2Test {
     //false
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the left bottom of the library (False)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>P</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
@@ -259,6 +268,7 @@ public class Algo2Test {
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test5_F_bassosx() {
@@ -303,7 +313,9 @@ public class Algo2Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the right bottom of the library (False)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>P</td></tr>
      * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
@@ -312,6 +324,7 @@ public class Algo2Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test6_F_bassodx() {
@@ -356,7 +369,9 @@ public class Algo2Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the right angle of the second row of the library (False)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td></tr>
      * <tr><td>G</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -365,6 +380,7 @@ public class Algo2Test {
      * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td></tr>
      * <tr><td>G</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test7_F_unodx() {
@@ -409,7 +425,9 @@ public class Algo2Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Diagonal start on the left angle of the second row of the library (False)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>Y</td></tr>
@@ -418,6 +436,7 @@ public class Algo2Test {
      * <tr><td>Y</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td></tr>
      * <tr><td>Y</td><td>G</td><td>G</td><td>Y</td><td>Y</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo2_test8_F_unosx() {

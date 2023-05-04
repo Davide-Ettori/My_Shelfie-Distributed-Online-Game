@@ -11,13 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * <p>
- * class that test the fifth algorithm, four column of the same type (different column can have different type)
- * cards
- * <p>
- * test which are true are #1 #3
- * <p>
- * test which are false are #2 #3 #5
+ * class that test the fifth algorithm, four column have four element of the same color (different column can have different colors) cards
  * @author Faccincani, Ettori , Gumus
  */
 
@@ -36,7 +30,9 @@ public class Algo5Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Four columns with four element of the same color of cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -45,8 +41,9 @@ public class Algo5Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo5_test1_T_general() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -88,7 +85,9 @@ public class Algo5Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Four columns with four element with different colors of cards</p>
+     * <p></p>
+     * <p> testing library:
      *<table border="1">
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -97,6 +96,7 @@ public class Algo5Test {
      * <tr><td>G</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo5_test2_F() {
@@ -140,7 +140,9 @@ public class Algo5Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Four columns with more than four element with the same color of cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -149,8 +151,9 @@ public class Algo5Test {
      * <tr><td>B</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test //4 gruppi da 4 o piu carte
+    @Test
     public void algo5_test3_4groupstrue() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -192,7 +195,9 @@ public class Algo5Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Threee columns with four element with the same color of cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -201,6 +206,7 @@ public class Algo5Test {
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo5_test4_3groupsfalse() {
@@ -244,7 +250,9 @@ public class Algo5Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Three columns with more than four element with the same color of cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -253,8 +261,9 @@ public class Algo5Test {
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * <tr><td>G</td><td>G</td><td>G</td><td>G</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test //4 gruppi da 4 o piu carte
+    @Test
     public void algo5_test5_3groupsfalse2() {
         mat[0][0] = new Card(BLUE);
         mat[0][1] = new Card(BLUE);

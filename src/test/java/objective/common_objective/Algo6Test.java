@@ -13,12 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * <p>
- * class that test the sixth algorithm, two columns of six different types of cards
- * <p>
- * test which are true are #1
- * <p>
- * test which are false are #2 #3
+* class that test the sixth algorithm, two columns of six different color
  * @author Faccincani, Ettori , Gumus
  */
 
@@ -37,7 +32,9 @@ public class Algo6Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Two columns with six different color</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>P</td></tr>
@@ -46,6 +43,7 @@ public class Algo6Test {
      * <tr><td>Y</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>W</td></tr>
      * <tr><td>W</td><td>G</td><td>G</td><td>P</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test // test 1
     public void algo6_test1_general() {
@@ -89,7 +87,9 @@ public class Algo6Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>One column with six different color</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>P</td></tr>
@@ -98,6 +98,7 @@ public class Algo6Test {
      * <tr><td>Y</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>W</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo6_test2_one_row() {
@@ -141,7 +142,9 @@ public class Algo6Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Two columns without six different color</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>P</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>P</td></tr>
@@ -150,6 +153,7 @@ public class Algo6Test {
      * <tr><td>Y</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>W</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>G</td><td>P</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo6_test3_same_types() {

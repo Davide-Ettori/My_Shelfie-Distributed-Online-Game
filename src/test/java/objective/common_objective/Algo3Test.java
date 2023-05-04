@@ -10,13 +10,7 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 /**
- * <p>
  * class that test the third algorithm, four cards of the same type at the corner of the library
- * <p>
- * test which are true are #1
- * <p>
- * test which are false are #2
- * <p>
  * @author Faccincani, Ettori , Gumus
  */
 
@@ -33,9 +27,10 @@ public class Algo3Test {
     public void tearDown() {
         return;
     }
-
     /**
-     * this test is used to test the following library:
+     * <p>Card of the same color in the library's corners</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>P</td></tr>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -44,8 +39,9 @@ public class Algo3Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo3_test1_T_general() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -85,9 +81,10 @@ public class Algo3Test {
 
         assertTrue(algoCo3.checkMatch(mat));
     }
-
     /**
-     * this test is used to test the following library:
+     * <p>Cards of different colors in the library's corners</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>G</td><td>P</td><td>G</td><td>G</td><td>P</td></tr>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -96,6 +93,7 @@ public class Algo3Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test // test 1
     public void algo3_test2_F_general() {
