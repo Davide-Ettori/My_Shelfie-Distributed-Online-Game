@@ -11,15 +11,7 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 /**
- * <p>
- * class that test the seventh algorithm,
- * two groups of four cards of the same type: cards of two groups must be of the same type
- * <p>
- * test which are true are #3
- * <p>
- * test which are false are #1 #2 #4
- * <p>
- * test which check corner case: #5 #6 #7
+ * class that test the seventh algorithm, two groups of four cards of the same color: cards of two groups must be of the same color
  * @author Faccincani, Ettori , Gumus
  */
 
@@ -38,7 +30,9 @@ public class Algo7Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Two groups of four cards with different colors</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -47,8 +41,9 @@ public class Algo7Test {
      * <tr><td>P</td><td>G</td><td>G</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo7_test1_F() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -90,7 +85,9 @@ public class Algo7Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>One group of six cards with the same color</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>P</td><td>G</td><td>Y</td></tr>
      * <tr><td>P</td><td>P</td><td>P</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -99,8 +96,9 @@ public class Algo7Test {
      * <tr><td>P</td><td>G</td><td>G</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo7_test2_F_3x3() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -142,7 +140,9 @@ public class Algo7Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Two group of six cards with the same color</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>P</td><td>G</td><td>Y</td></tr>
      * <tr><td>P</td><td>P</td><td>P</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -151,6 +151,7 @@ public class Algo7Test {
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test // test 1
     public void algo7_test3_T_3x3_same_colors() {
@@ -194,7 +195,9 @@ public class Algo7Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>One group of four cards with the same color</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -203,6 +206,7 @@ public class Algo7Test {
      * <tr><td>P</td><td>G</td><td>G</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test // test 1
     public void algo7_test4_only_one_square() {
@@ -246,7 +250,9 @@ public class Algo7Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Two group of six cards with the same color (corner case)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -255,6 +261,7 @@ public class Algo7Test {
      * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo7_test5_strangeshape() {
@@ -298,7 +305,9 @@ public class Algo7Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Two group of six cards with the same color (corner case)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -307,6 +316,7 @@ public class Algo7Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test
     public void algo7_test6_strangeshape2() {
@@ -349,7 +359,9 @@ public class Algo7Test {
         assertTrue(algoCo7.checkMatch(mat));
     }
     /**
-     * this test is used to test the following library:
+     * <p>Two group of six cards with the same color (corner case)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -358,8 +370,9 @@ public class Algo7Test {
      * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo7_test7_strangeshape3() {
         mat[0][0] = new Card();
         mat[0][1] = new Card();
