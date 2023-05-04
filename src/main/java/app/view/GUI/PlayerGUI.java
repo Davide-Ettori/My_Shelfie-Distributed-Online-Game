@@ -149,6 +149,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempChatHistory.setText(fullChat);
             });
         } catch (InterruptedException | InvocationTargetException e) {
+            new Thread(() ->{
+                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+                activeTurnInfo.setText(" The active player is " + activeName + " ");
+                curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
+                tempChatHistory.setText(fullChat);
+            }).start();
             return;
             //throw new RuntimeException(e);
         }
