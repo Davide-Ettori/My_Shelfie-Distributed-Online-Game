@@ -31,6 +31,7 @@ public class Client {
     private JFrame setupFrame = new JFrame("Setup of the game");
     private JPanel generalPanel = new JPanel();
     private boolean flag = false;
+    private static boolean close = true;
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     /**
@@ -60,12 +61,21 @@ public class Client {
                 if(!ipText.getText().equals(" Insert ip: "))
                     IP.activeIP = ipText.getText();
                 try{
+                    new Thread(() ->{
+                        Game.waitForSeconds(3);
+                        if(!Client.close)
+                            return;
+                        System.out.println("\nThe ip address was incorrect...");
+                        System.exit(0);
+                    }).start();
                     Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);
+                    Client.close = false;
                     ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
                     out.writeObject(true);
                     alert("There is already an active game...");
                     new Thread(this::insertInfo).start();
                 }catch (Exception e){
+                    Client.close = false;
                     alert("You are the first player to connect!");
                     flag = true;
                     new Thread(this::insertPlayers).start();
