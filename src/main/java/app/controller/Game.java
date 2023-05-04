@@ -783,8 +783,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         else{
             closed = true;
             System.out.println("\nConnection lost, the server is closing...");
-            System.out.println(e.toString());
-            e.printStackTrace();
+            //System.out.println(e.toString());
+            //e.printStackTrace();
             try {
                 serverSocket.close();
                 for(Socket s: playersSocket)
