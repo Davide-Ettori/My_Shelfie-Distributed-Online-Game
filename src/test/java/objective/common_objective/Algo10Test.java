@@ -10,12 +10,7 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 /**
- * <p>
- * class that test the tenth algorithm, five cards of the same type that made an X
- * <p>
- * test which are true are #1
- * <p>
- * test which are false are #2
+ * class that test the tenth algorithm, five cards of the same color that made an X
  * @author Faccincani, Ettori
  */
 public class Algo10Test {
@@ -33,7 +28,9 @@ public class Algo10Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Five cards of the same color made an X</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>G</td><td>P</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>P</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -42,6 +39,7 @@ public class Algo10Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori
      */
     @Test
     public void algo10_test1_T() {
@@ -85,7 +83,9 @@ public class Algo10Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Five cards of the same color don't made an X</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>P</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -94,6 +94,7 @@ public class Algo10Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori
      */
     @Test
     public void algo10_test2_F() {

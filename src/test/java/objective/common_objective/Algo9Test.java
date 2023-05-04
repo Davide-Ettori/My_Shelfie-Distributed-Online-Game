@@ -11,11 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 /**
  * <p>
- * class that test the ninth algorithm, tre column made by siw cards of max three types of cards
- * <p>
- * test which are true are #1
- * <p>
- * test which are false are #2 #3
+ * class that test the ninth algorithm, three column made by six cards of max three colors
  * @author Faccincani, Ettori , Gumus
  */
 public class Algo9Test {
@@ -33,7 +29,9 @@ public class Algo9Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Three column made by six cards of three colors</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>B</td><td>Y</td><td>P</td></tr>
@@ -42,8 +40,9 @@ public class Algo9Test {
      * <tr><td>P</td><td>P</td><td>G</td><td>C</td><td>Y</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo9_test1_T() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -85,7 +84,9 @@ public class Algo9Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Less than three column made by six cards of three colors</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>B</td><td>Y</td><td>P</td></tr>
@@ -94,8 +95,9 @@ public class Algo9Test {
      * <tr><td>P</td><td>P</td><td>G</td><td>C</td><td>Y</td></tr>
      * <tr><td>C</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo9_test2_F_less_3_cols() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
@@ -137,7 +139,9 @@ public class Algo9Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Three column made by six cards of more than three colors</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>B</td><td>Y</td><td>P</td></tr>
@@ -146,8 +150,9 @@ public class Algo9Test {
      * <tr><td>P</td><td>P</td><td>G</td><td>C</td><td>Y</td></tr>
      * <tr><td>W</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
-    @Test // test 1
+    @Test
     public void algo9_test3_F_more_3_types() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card(PINK);
