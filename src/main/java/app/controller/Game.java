@@ -135,7 +135,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else
             initializeAllClients();
-        Game.waitForSeconds(Game.waitTimer);
+        boolean temp;
+        for(int i = 0; i < numPlayers; i++) {
+            try {
+                temp = (boolean)inStreams.get(i).readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //Game.waitForSeconds(Game.waitTimer);
         for(int i = 0; i < numPlayers; i++){
             if(rmiClients.containsKey(names.get(i)))
                 continue;
