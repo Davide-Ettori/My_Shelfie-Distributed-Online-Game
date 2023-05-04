@@ -586,9 +586,10 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         gameStatus.put("points", pointsUntilNow);
         gameStatus.put("player", new PlayerSend(this));
         sendToServer(new Message(UPDATE_GAME, name, gameStatus));
-        if(netMode == SOCKET)
+        if(netMode == SOCKET) {
             Game.waitForSeconds(Game.waitTimer);
-        waitForEvents();
+            waitForEvents();
+        }
     }
     /**
      * stops all the thread interaction related to the chat (should be only ReceiveChat)
