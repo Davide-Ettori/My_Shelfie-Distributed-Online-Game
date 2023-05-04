@@ -149,7 +149,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempChatHistory.setText(fullChat);
             });
         } catch (InterruptedException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            return;
+            //throw new RuntimeException(e);
         }
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -172,7 +173,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 boardCards[libFullX][libFullY].setVisible(!endGame);
             });
         } catch (InterruptedException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            return;
         }
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -192,7 +194,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 }
             });
         } catch (InterruptedException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            return;
         }
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -207,7 +210,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 eventText.setText(s);
             });
         } catch (InterruptedException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            return;
         }
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -246,7 +250,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 }
             });
         } catch (InterruptedException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            return;
         }
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -459,8 +464,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
-               connectionLost(e);
+                connectionLost(e);
             }
+        }
+        try {
+            outStream.writeObject(true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         if(netMode == SOCKET) {
             new Thread(this::waitForEvents).start();
@@ -761,6 +771,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         else
             alert("\nThe connection was lost and the application is disconnecting...");
         System.out.println(e.toString());
+        e.printStackTrace();
         Game.waitForSeconds(Game.waitTimer / 2.5);
         System.exit(0);
     }

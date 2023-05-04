@@ -336,8 +336,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 outStreams.set(names.indexOf(name), out);
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
+                boolean temp = (boolean)in.readObject();
+                //Game.waitForSeconds(Game.waitTimer);
                 new Thread(() ->{
-                    Game.waitForSeconds(Game.waitTimer);
+                    Game.waitForSeconds(Game.fastTimer * 2);
                     if(rmiClients.containsKey(name))
                         return;
                     try {
@@ -556,8 +558,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
                 System.out.println("\nThe game is temporarily paused because you are the only connected player");
-            activePlayer = names.indexOf(Game.serverPlayer);
              */
+            activePlayer = names.indexOf(Game.serverPlayer);
             return;
         }
         do{
@@ -775,6 +777,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             closed = true;
             System.out.println("\nConnection lost, the server is closing...");
             System.out.println(e.toString());
+            e.printStackTrace();
             try {
                 serverSocket.close();
                 for(Socket s: playersSocket)
