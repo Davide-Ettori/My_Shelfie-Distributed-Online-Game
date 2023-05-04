@@ -458,7 +458,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             alert("Reconnecting to the running game...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
-            new Thread(this::initGUI).start();
+            Thread th = new Thread(this::initGUI);
+            th.start();
+            th.join();
+            updateInfo();
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();
         }catch(Exception e){connectionLost(e);}
@@ -479,6 +482,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        updateInfo();
         if(netMode == SOCKET) {
             new Thread(this::waitForEvents).start();
             new Thread(this::ping).start();
@@ -496,8 +500,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             alert("Be patient, the game will start soon...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
+            Thread th = new Thread(this::initGUI);
+            th.start();
+            th.join();
             updateInfo();
-            new Thread(this::initGUI).start();
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();
         }catch(Exception e){connectionLost(e);}
