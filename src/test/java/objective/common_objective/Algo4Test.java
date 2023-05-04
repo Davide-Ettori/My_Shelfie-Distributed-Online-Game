@@ -11,15 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * <p>
- * class that test the fourth algorithm, four row with five cards of one, two or three types of different
- * cards
- * <p>
- * test which are true are #1
- * <p>
- * test which are false are #2
- * <p>
- * test which check corner case: #3
+ * class that test the fourth algorithm, four row with five cards of one, two or three different colors
  * @author Faccincani, Ettori , Gumus
  */
 
@@ -38,6 +30,9 @@ public class Algo4Test {
     }
 
     /**
+     * <p>Four row with three different colors</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>G</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -46,6 +41,7 @@ public class Algo4Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test // test 1
     public void algo4_test1_T_general() {
@@ -89,6 +85,9 @@ public class Algo4Test {
     }
 
     /**
+     * <p>Three row with three different colors</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -97,6 +96,7 @@ public class Algo4Test {
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test // test 1
     public void algo4_test2_F_3_rows() {
@@ -140,6 +140,9 @@ public class Algo4Test {
     }
 
     /**
+     * <p>Four row with more than three different colors (False)</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td>G</td><td>G</td><td>W</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -148,6 +151,7 @@ public class Algo4Test {
      * <tr><td>P</td><td>P</td><td>G</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Ettori , Gumus
      */
     @Test // test 1
     public void algo4_test3_F_more_3_types() {

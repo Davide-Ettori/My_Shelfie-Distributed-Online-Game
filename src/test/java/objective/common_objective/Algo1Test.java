@@ -11,12 +11,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * <p>
  * class that test the first algorithm, six group of a couple of cards of the same type
- * <p>
- * test which are false are #2 #4 #6
- * <p>
- * test which are true are #1 #3 #5
- * <p>
- * test which check corner case: #8 #9 #10 #11 #12 #13
  * @author Faccincani, Ettori, Gumus
  */
 
@@ -35,8 +29,9 @@ public class Algo1Test {
 
 
     /**
-     *this test is used to test the following library:
-     *<table border="1">
+     * <p>Six cuople of cards with the same type</p>
+     * <p></p>
+     * <p> testing library:
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td> </td><td>Y</td><td> </td></tr>
      * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
@@ -44,6 +39,7 @@ public class Algo1Test {
      * <tr><td>P</td><td>P</td><td> </td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
     @Test
     public void algo1_test1_T_general() {
@@ -87,7 +83,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Five cuople of cards with the same type</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td> </td><td> </td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td> </td><td> </td><td>Y</td><td> </td></tr>
@@ -96,8 +94,9 @@ public class Algo1Test {
      * <tr><td>P</td><td>P</td><td> </td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // test generale, 5 coppie
+    @Test
     public void algo1_test2_F_general() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
@@ -139,7 +138,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>One of the cuople is made by tre cards and six cuople</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td> </td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>B</td><td>Y</td><td> </td></tr>
@@ -148,8 +149,9 @@ public class Algo1Test {
      * <tr><td>P</td><td>P</td><td> </td><td>C</td><td> </td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td> </td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 3 in fila, vero
+    @Test
     public void algo1_test3_T_three() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
@@ -186,7 +188,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>One of the cuople is made by tre cards and five cuople</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td> </td><td> </td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>B</td><td>Y</td><td> </td></tr>
@@ -195,8 +199,9 @@ public class Algo1Test {
      * <tr><td>P</td><td>P</td><td> </td><td>C</td><td> </td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td> </td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 3 in fila, false
+    @Test
     public void algo1_test4_F_three() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
@@ -238,7 +243,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Three cards make an L, six couple</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td> </td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td> </td><td>Y</td><td> </td></tr>
@@ -247,8 +254,9 @@ public class Algo1Test {
      * <tr><td>P</td><td>P</td><td> </td><td>C</td><td> </td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td> </td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 3 in fila, vero
+    @Test
     public void algo1_test5_T_L() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
@@ -290,7 +298,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Three cards make an L, five couple</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td> </td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td> </td><td>B</td><td>Y</td><td> </td></tr>
@@ -299,8 +309,9 @@ public class Algo1Test {
      * <tr><td>P</td><td>P</td><td> </td><td>C</td><td> </td></tr>
      * <tr><td>P</td><td>G</td><td>G</td><td> </td><td>P</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // L, falso
+    @Test
     public void algo1_test6_F_L() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
@@ -342,7 +353,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Six couple of different types of cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -351,6 +364,7 @@ public class Algo1Test {
      * <tr><td>P</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * <tr><td>P</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
     @Test // 6 couple of 2 cards
     public void algo1_test7_6couple() {
@@ -389,7 +403,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Six couple of same type of cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>B</td><td>B</td><td> </td><td>B</td><td>B</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -398,8 +414,9 @@ public class Algo1Test {
      * <tr><td>B</td><td> </td><td>B</td><td> </td><td>B</td></tr>
      * <tr><td>B</td><td> </td><td>B</td><td> </td><td>B</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 6 couple of 2 cards
+    @Test
     public void algo1_test8_6couple2() {
         mat[0][0] = new Card(BLUE);
         mat[0][1] = new Card(BLUE);
@@ -441,7 +458,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Six couple of three different type of cards</p>
+     * <p></p>
+     * <p> testing library:
      *<table border="1">
      * <tr><td>Y</td><td> </td><td> </td><td> </td><td> </td></tr>
      * <tr><td>Y</td><td>B</td><td>G</td><td>Y</td><td>B</td></tr>
@@ -450,8 +469,9 @@ public class Algo1Test {
      * <tr><td>P</td><td>B</td><td>Y</td><td>C</td><td>C</td></tr>
      * <tr><td>P</td><td>B</td><td>Y</td><td>G</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 6 couple of 3 cards
+    @Test
     public void algo1_test9_6couple3() {
         mat[0][0] = new Card(YELLOW);
         mat[0][1] = new Card();
@@ -493,7 +513,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Six groups of more than two cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td> </td><td> </td><td> </td><td> </td></tr>
      * <tr><td>P</td><td>B</td><td>B</td><td>B</td><td> </td></tr>
@@ -502,8 +524,9 @@ public class Algo1Test {
      * <tr><td>P</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * <tr><td>P</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 6 couple of 2 or more cards
+    @Test
     public void algo1_test10_6couple4() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
@@ -544,8 +567,10 @@ public class Algo1Test {
         assertTrue(algoCo1.checkMatch(mat));
     }
 
-    /**
-     * this test is used to test the following library:
+     /**
+     * <p>Five couple of more than two cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>P</td><td> </td><td> </td><td> </td><td>P</td></tr>
      * <tr><td> </td><td>B</td><td>B</td><td>B</td><td> </td></tr>
@@ -554,8 +579,9 @@ public class Algo1Test {
      * <tr><td> </td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * <tr><td>P</td><td>B</td><td>Y</td><td>C</td><td>G</td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 5 couple of 2 or more cards
+    @Test
     public void algo1_test11_5couple2() {
         mat[0][0] = new Card(PINK);
         mat[0][1] = new Card();
@@ -597,7 +623,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Six couple of cards on diagonal</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>C</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>B</td><td>C</td><td> </td><td> </td><td> </td></tr>
@@ -606,8 +634,9 @@ public class Algo1Test {
      * <tr><td>B</td><td>P</td><td> </td><td> </td><td> </td></tr>
      * <tr><td>P</td><td>B</td><td> </td><td> </td><td> </td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 6 diagonal couples of 2 cards
+    @Test
     public void algo1_test12_6diagonalcouple() {
         mat[0][0] = new Card(CYAN);
         mat[0][1] = new Card(BLUE);
@@ -649,7 +678,9 @@ public class Algo1Test {
     }
 
     /**
-     * this test is used to test the following library:
+     * <p>Six couple of cards</p>
+     * <p></p>
+     * <p> testing library:
      * <table border="1">
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>C</td><td>C</td><td> </td><td> </td><td> </td></tr>
@@ -658,8 +689,9 @@ public class Algo1Test {
      * <tr><td>C</td><td>C</td><td> </td><td> </td><td> </td></tr>
      * <tr><td>B</td><td>B</td><td> </td><td> </td><td> </td></tr>
      * </table>
+     * @author Faccincani, Gumus, Ettori
      */
-    @Test // 6 right couples
+    @Test
     public void algo1_test13_6rightcouple() {
         mat[0][0] = new Card(BLUE);
         mat[0][1] = new Card(BLUE);
