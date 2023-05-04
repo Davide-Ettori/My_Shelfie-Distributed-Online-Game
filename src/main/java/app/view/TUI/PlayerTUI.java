@@ -262,6 +262,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                     case CO_2 -> handleCO_2Event(msg);
                     case LIB_FULL -> handleLibFullEvent(msg);
                     case DISCONNECTED -> handleDisconnectedEvent(msg);
+                    case LOST_CLIENT -> handleLostClientEvent(msg);
                 }
                 if(flag)
                     break;
@@ -270,6 +271,14 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
         }
         waitForMove();
+    }
+    /**
+     * helper function for handling the client (not active) disconnection notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    public void handleLostClientEvent(Message msg){
+        System.out.println("\nPlayer " + msg.getAuthor() + " disconnected from the game");
     }
     /**
      * helper function for handling the turn event notification from the server
@@ -825,6 +834,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             case CO_2 -> handleCO_2Event(msg);
             case LIB_FULL -> handleLibFullEvent(msg);
             case DISCONNECTED -> handleDisconnectedEvent(msg);
+            case LOST_CLIENT -> handleLostClientEvent(msg);
         }
     }
 

@@ -546,11 +546,20 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     case CO_2 -> handleCO_2Event(msg);
                     case LIB_FULL -> handleLibFullEvent(msg);
                     case DISCONNECTED -> handleDisconnectedEvent(msg);
+                    case LOST_CLIENT -> handleLostClientEvent(msg);
                 }
             }catch(Exception e){
                 connectionLost(e);
             }
         }
+    }
+    /**
+     * helper function for handling the client (not active) disconnection notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleLostClientEvent(Message msg){
+        updateEventText("Player " + msg.getAuthor() + " disconnected from the game");
     }
     /**
      * helper function for handling the turn event notification from the server
@@ -662,7 +671,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleDisconnectedEvent(Message msg){
-        updateEventText(" The active player (" + (String)msg.getAuthor() + ") disconnected from the game");
+        updateEventText(" The active player (" + msg.getAuthor() + ") disconnected from the game");
         if(netMode == SOCKET)
             sendToServer(new Message(STOP, null, null));
     }
@@ -836,6 +845,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             case CO_2 -> handleCO_2Event(msg);
             case LIB_FULL -> handleLibFullEvent(msg);
             case DISCONNECTED -> handleDisconnectedEvent(msg);
+            case LOST_CLIENT -> handleLostClientEvent(msg);
         }
     }
     /**
