@@ -219,7 +219,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             for(int j = 0; j < numPlayers; j++){
                 if(i == j)
                     continue;
-                p.pointsMap.put(names.get(j), 0);
+                try {
+                    p.pointsMap.put(names.get(j), 0);
+                }catch (Exception e){
+                    if(Client.uiModeCur == TUI)
+                        System.out.println("\nServer unable to start...");
+                    else
+                        showMessageDialog(null, "\nServer unable to start...");
+                    System.exit(0);
+                }
             }
             p.setName(names.get(i));
             p.setIsChairMan(i == 0);
@@ -341,10 +349,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         new ChatBroadcast(this, names.indexOf(name)).start();
                 }).start();
                 if(getActivePlayersNumber() == 2){
+                    /*
                     if(Client.uiModeCur == GUI)
                         showMessageDialog(null, "The game is now resuming and the next turn is starting...");
                     else
                         System.out.println("\nThe game is now resuming and the next turn is starting...");
+                     */
                     if(advance){
                         advance = false;
                         advanceTurn();
@@ -539,13 +549,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void advanceTurn(){
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
             advance = true;
-            if(endGameSituation && activePlayer == 0)
-                return;
+            //if(endGameSituation && activePlayer == 0)
+            //    return;
+            /*
             if(Client.uiModeCur == GUI)
                 showMessageDialog(null, "The game is temporarily paused because you are the only connected player");
             else
                 System.out.println("\nThe game is temporarily paused because you are the only connected player");
             activePlayer = names.indexOf(Game.serverPlayer);
+             */
             return;
         }
         do{
@@ -762,6 +774,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         else{
             closed = true;
             System.out.println("\nConnection lost, the server is closing...");
+            System.out.println(e.toString());
             try {
                 serverSocket.close();
                 for(Socket s: playersSocket)
