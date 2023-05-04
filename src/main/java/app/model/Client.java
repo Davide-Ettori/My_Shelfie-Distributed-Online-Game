@@ -48,6 +48,7 @@ public class Client {
         title.setEditable(false);
         title.requestFocusInWindow();
         JButton sendIP = new JButton(" Enter ");
+        sendIP.setFont(new Font("Calibri", Font.PLAIN, 30));
 
         ipText.addActionListener(event -> sendIP.doClick());
         socketPortText.addActionListener(event -> sendIP.doClick());
@@ -111,7 +112,7 @@ public class Client {
      */
     private void insertPlayers(){
         String s = " Choose the number of players ";
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 7; i++)
             s = " " + s;
         JTextField title = new JTextField(s);
         title.setEditable(false);
@@ -137,6 +138,7 @@ public class Client {
         group_2.add(no);
 
         JButton enterBtn = new JButton(" Enter ");
+        enterBtn.setFont(new Font("Calibri", Font.PLAIN, 25));
         enterBtn.addActionListener((event) ->{
             int numP = 0;
             String persOpt = "";
@@ -216,6 +218,7 @@ public class Client {
         group_3.add(yes);
         group_3.add(no);
         JButton enterBtn = new JButton(" Enter ");
+        enterBtn.setFont(new Font("Calibri", Font.PLAIN, 25));
 
         enterBtn.addActionListener((event) ->{
             setupFrame.dispose();
