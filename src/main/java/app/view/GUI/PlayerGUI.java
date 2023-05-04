@@ -458,7 +458,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             alert("Reconnecting to the running game...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
-            updateInfo();
             new Thread(this::initGUI).start();
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();
@@ -497,6 +496,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             alert("Be patient, the game will start soon...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
+            updateInfo();
             new Thread(this::initGUI).start();
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();
