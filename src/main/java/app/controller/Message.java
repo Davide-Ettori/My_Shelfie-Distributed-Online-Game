@@ -1,5 +1,6 @@
 package app.controller;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,8 @@ public class Message implements Serializable {
     private final MessageType type;
     private final String author;
     private final Object content;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * normal constructor for the Messages that will be sent in the network
