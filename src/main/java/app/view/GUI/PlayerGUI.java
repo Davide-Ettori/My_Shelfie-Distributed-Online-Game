@@ -459,8 +459,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             try {
                 server.addClient(name, this);
             } catch (RemoteException e) {
-               connectionLost(e);
+                connectionLost(e);
             }
+        }
+        try {
+            outStream.writeObject(true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         if(netMode == SOCKET) {
             new Thread(this::waitForEvents).start();
