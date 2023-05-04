@@ -28,7 +28,7 @@ public class Client {
 
     /** variable used to keep track of the UI mode that the player is currently using */
     public static UIMode uiModeCur;
-    private JFrame setupFrame = new JFrame("Setup of the game");
+    private JFrame setupFrame = new JFrame();
     private JPanel generalPanel = new JPanel();
     private boolean flag = false;
     private static boolean close = true;
@@ -38,6 +38,7 @@ public class Client {
      * method for drawing the GUI to ask ip, port for socket and port for RMI
      */
     private void insertIp(){
+        setupFrame.setTitle("Insert the IP Address");
         JTextField ipText = new JTextField(" Insert ip: ");
         JTextField socketPortText = new JTextField(" Insert socket port: ");
         JTextField rmiPortText = new JTextField(" Insert rmi port: ");
@@ -112,11 +113,7 @@ public class Client {
      * method for drawing the GUI to ask number of players and persistence
      */
     private void insertPlayers(){
-        String s = " Choose the number of players ";
-        for(int i = 0; i < 7; i++)
-            s = " " + s;
-        JTextField title = new JTextField(s);
-        title.setEditable(false);
+        setupFrame.setTitle("Insert the Number of Players");
         JRadioButton p_2 = new JRadioButton("2 players");
         JRadioButton p_3 = new JRadioButton("3 players");
         JRadioButton p_4 = new JRadioButton("4 players");
@@ -170,10 +167,7 @@ public class Client {
             new Thread(this::insertInfo).start();
         });
         generalPanel.removeAll();
-        generalPanel.setLayout(new GridLayout(4, 3));
-        generalPanel.add(new Panel());
-        generalPanel.add(title);
-        generalPanel.add(new Panel());
+        generalPanel.setLayout(new GridLayout(3, 3));
         generalPanel.add(p_2);
         generalPanel.add(p_3);
         generalPanel.add(p_4);
@@ -191,6 +185,7 @@ public class Client {
      * method for drawing the GUI to ask UI mode, net Mode and resilience
      */
     private void insertInfo(){
+        setupFrame.setTitle("Insert the Game Mode");
         JTextField uiText = new JTextField(" Choose UI mode ");
         uiText.setEditable(false);
         JTextField netText = new JTextField(" Choose NET mode ");
