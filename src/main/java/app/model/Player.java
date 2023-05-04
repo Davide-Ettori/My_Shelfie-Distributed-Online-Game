@@ -1,13 +1,9 @@
 package app.model;
 
-import app.controller.Game;
-import app.controller.Message;
-import app.controller.MessageType;
 import app.view.TUI.PlayerTUI;
 import app.view.UIMode;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;

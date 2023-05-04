@@ -1,6 +1,7 @@
 package app.view.TUI;
 
 import app.view.IP;
+import app.view.UIMode;
 import app.controller.*;
 import app.model.*;
 import app.model.chat.ReceiveChat;
@@ -20,7 +21,6 @@ import java.util.Date;
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.NetMode.*;
-import static app.view.UIMode.TUI;
 
 /**
  * class which represent the player on the client side, mutable,
@@ -61,7 +61,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     public PlayerTUI(NetMode mode, String opt, boolean flag) throws RemoteException {
         super();
         System.setProperty("java.rmi.server.hostname", IP.activeIP);
-        uiMode = TUI;
+        uiMode = UIMode.TUI;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {

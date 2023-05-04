@@ -9,14 +9,12 @@ import app.view.UIMode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
 import static app.model.NetMode.RMI;
 import static app.model.NetMode.SOCKET;
-import static app.view.Dimensions.textCols;
 import static app.view.UIMode.GUI;
 import static app.view.UIMode.TUI;
 

@@ -1,10 +1,11 @@
 package app.view.GUI;
 
+import app.view.Dimensions;
 import app.view.IP;
+import app.view.UIMode;
 import app.controller.*;
 import app.model.*;
 
-import app.view.UIMode;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
@@ -23,15 +24,12 @@ import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Random;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
 import static app.model.Color.EMPTY;
 import static app.model.NetMode.RMI;
 import static app.model.NetMode.SOCKET;
-import static app.view.Dimensions.*;
-import static app.view.UIMode.GUI;
 import static java.awt.Color.*;
 import static java.awt.GridBagConstraints.*;
 import static javax.swing.JOptionPane.*;
@@ -99,7 +97,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     public PlayerGUI(NetMode mode, String opt, boolean flag) throws RemoteException {
         super();
         System.setProperty("java.rmi.server.hostname", IP.activeIP);
-        uiMode = GUI;
+        uiMode = UIMode.GUI;
         netMode = mode;
         System.out.println("\nSoon you will need to enter your nickname for the game");
         try {
@@ -142,16 +140,16 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void updateInfo(){
         try {
             SwingUtilities.invokeAndWait(() -> {
-                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
                 activeTurnInfo.setText(" The active player is " + activeName + " ");
                 curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
                 tempChatHistory.setText(fullChat);
             });
         } catch (InterruptedException | InvocationTargetException e) {
             new Thread(() ->{
-                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
+                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
                 activeTurnInfo.setText(" The active player is " + activeName + " ");
                 curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
                 tempChatHistory.setText(fullChat);
@@ -173,7 +171,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     for(int j = 0; j < DIM; j++){
                         if(i == libFullX && j == libFullY)
                             continue;
-                        boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                        boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
                         boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != EMPTY);
                     }
                 }
@@ -194,7 +192,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             SwingUtilities.invokeAndWait(() ->{
                 for(int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
-                        myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                        myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
                         myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != EMPTY);
                     }
                 }
@@ -230,7 +228,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points) ");
                 for(int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
-                        otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                        otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
                         otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != EMPTY);
                     }
                 }
@@ -238,7 +236,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points) ");
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
-                            otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                            otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
                             otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != EMPTY);
                         }
                     }
@@ -247,7 +245,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points) ");
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
-                            otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
+                            otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
                             otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != EMPTY);
                         }
                     }
@@ -329,11 +327,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         //PLACEHOLDERS:
         JPanel tempPanel1 = new JPanel();
-        tempPanel1.setPreferredSize(new Dimension(placeholderW, placeholderH));
+        tempPanel1.setPreferredSize(new Dimension(Dimensions.placeholderW, Dimensions.placeholderH));
         tempPanel1.setBackground(new java.awt.Color(0, 0, 0, 0));
         tempPanel1.setOpaque(false);
         JPanel tempPanel2 = new JPanel();
-        tempPanel2.setPreferredSize(new Dimension(placeholderW, placeholderH));
+        tempPanel2.setPreferredSize(new Dimension(Dimensions.placeholderW, Dimensions.placeholderH));
         tempPanel2.setBackground(new java.awt.Color(0, 0, 0, 0));
         tempPanel2.setOpaque(false);
 
@@ -904,52 +902,52 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
 
         //Internals: second level of abstraction
-        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
+        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
 
         //CYAN
 
-        POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(PO_w, PO_h, Image.SCALE_SMOOTH)));
-        POLabel.setPreferredSize(new Dimension(PO_w, PO_h));
+        POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(Dimensions.PO_w, Dimensions.PO_h, Image.SCALE_SMOOTH)));
+        POLabel.setPreferredSize(new Dimension(Dimensions.PO_w, Dimensions.PO_h));
 
         POPanel = new JPanel(new GridBagLayout());
         POTitle = new JTextField(" Your private objective ");
-        POTitle.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        POTitle.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         POTitle.setEditable(false);
         POTitle.setBorder(null);
 
-        CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
+        CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(Dimensions.CO_w, Dimensions.CO_h, Image.SCALE_SMOOTH)));
         CO1Label.setLayout(null);
-        CO1Label.setPreferredSize(new Dimension(CO_w, CO_h));
+        CO1Label.setPreferredSize(new Dimension(Dimensions.CO_w, Dimensions.CO_h));
 
         CO1Panel = new JPanel(new GridBagLayout());
         CO1Title = new JTextField(" The first common objective ");
         CO1Title.setBorder(null);
-        CO1Title.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        CO1Title.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         CO1Title.setEditable(false);
 
-        CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(CO_w, CO_h, Image.SCALE_SMOOTH)));
+        CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(Dimensions.CO_w, Dimensions.CO_h, Image.SCALE_SMOOTH)));
         CO2Label.setLayout(null);
-        CO2Label.setPreferredSize(new Dimension(CO_w, CO_h));
+        CO2Label.setPreferredSize(new Dimension(Dimensions.CO_w, Dimensions.CO_h));
 
         CO2Panel = new JPanel(new GridBagLayout());
         CO2Title = new JTextField(" The second common objective ");
         CO2Title.setBorder(null);
-        CO2Title.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        CO2Title.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         CO2Title.setEditable(false);
 
-        pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-        pointsCO1Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
+        pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO1Label.setPreferredSize(new Dimension(Dimensions.pointsDim, Dimensions.pointsDim));
 
-        pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(pointsDim, pointsDim, Image.SCALE_SMOOTH)));
-        pointsCO2Label.setPreferredSize(new Dimension(pointsDim, pointsDim));
+        pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO2Label.setPreferredSize(new Dimension(Dimensions.pointsDim, Dimensions.pointsDim));
 
-        chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(chairmanDim, chairmanDim, Image.SCALE_SMOOTH)));
-        chairmanLabel.setPreferredSize(new Dimension(chairmanDim, chairmanDim));
+        chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)));
+        chairmanLabel.setPreferredSize(new Dimension(Dimensions.chairmanDim, Dimensions.chairmanDim));
 
         chairmanPanel = new JPanel(new GridBagLayout());
         chairmanTitle = new JTextField(" Chairman Icon ");
         chairmanTitle.setBorder(null);
-        chairmanTitle.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        chairmanTitle.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         chairmanTitle.setEditable(false);
 
         chairmanPanel.setVisible(isChairMan);
@@ -958,19 +956,19 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         chairmanInfo = new JTextField();
         chairmanInfo.setText(" The chairman is " + chairmanName + " ");
         chairmanInfo.setBorder(null);
-        chairmanInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
+        chairmanInfo.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum + 2), Dimensions.textCols));
         chairmanInfo.setEditable(false);
         activeTurnInfo = new JTextField();
         activeTurnInfo.setBorder(null);
-        activeTurnInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
+        activeTurnInfo.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum + 2), Dimensions.textCols));
         activeTurnInfo.setEditable(false);
         curPointsInfo = new JTextField();
         curPointsInfo.setBorder(null);
-        curPointsInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
+        curPointsInfo.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum + 2), Dimensions.textCols));
         curPointsInfo.setEditable(false);
         titleInfo = new JTextField(" INFORMATIONS ABOUT THE GAME ");
         titleInfo.setBorder(null);
-        titleInfo.setMinimumSize(new Dimension(textCols * (textCharsNum + 2), textCols));
+        titleInfo.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum + 2), Dimensions.textCols));
         titleInfo.setEditable(false);
 
         gbc.gridx = 0;
@@ -1016,7 +1014,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         Insets insets = CO1Label.getInsets();
 
         CO1Label.add(pointsCO1Label);
-        pointsCO1Label.setBounds(insets.left + 85, insets.top + 27, pointsDim, pointsDim);
+        pointsCO1Label.setBounds(insets.left + 85, insets.top + 27, Dimensions.pointsDim, Dimensions.pointsDim);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -1041,12 +1039,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.ipady = 100;
         gbc.insets = new Insets(25,0,0,0);
         internalPanelSide.add(CO1Panel,gbc);
-        gbc.insets = new Insets(generalBorder, generalBorder, generalBorder, generalBorder);
+        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
 
         insets = CO2Label.getInsets();
 
         CO2Label.add(pointsCO2Label);
-        pointsCO2Label.setBounds(insets.left + 85, insets.top + 27, pointsDim, pointsDim);
+        pointsCO2Label.setBounds(insets.left + 85, insets.top + 27, Dimensions.pointsDim, Dimensions.pointsDim);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -1120,7 +1118,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.weightx = 1.0;
         gbc.insets = new Insets(0,0,25,0);
         internalPanelSide.add(infoBox, gbc);
-        gbc.insets = new Insets(generalBorder, generalBorder, generalBorder, generalBorder);
+        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
         gbc.weightx = 0.0;
 
         //GREEN
@@ -1128,34 +1126,34 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         player1Panel = new JPanel(new GridBagLayout());
         //Text
-        library1Text = new JTextArea(1, textCols * 2 / 3);
+        library1Text = new JTextArea(1, Dimensions.textCols * 2 / 3);
         library1Text.setEditable(false);
         //Library of the player 1
-        library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
+        library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         library1Label.setLayout(null);
-        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));
+        library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
 
         player2Panel = new JPanel(new GridBagLayout());
 
         //Text
-        library2Text = new JTextArea(1, textCols * 2 / 3);
+        library2Text = new JTextArea(1, Dimensions.textCols * 2 / 3);
         library2Text.setEditable(false);
 
         //Library of the player 2
-        library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
+        library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         library2Label.setLayout(null);
-        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));
+        library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
 
         player3Panel = new JPanel(new GridBagLayout());
 
         //Text
-        library3Text = new JTextArea(1, textCols * 2 / 3);
+        library3Text = new JTextArea(1, Dimensions.textCols * 2 / 3);
         library3Text.setEditable(false);
 
         //Library of the player 3
-        library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
+        library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         library3Label.setLayout(null);
-        library1Label.setPreferredSize(new Dimension(lib_w, lib_h));
+        library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
 
         library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " ");
         if(numPlayers >= 3)
@@ -1179,15 +1177,15 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempLabel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempPanel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
+                tempPanel.setBounds(insets.left + (Dimensions.cardLib_w * j) + 30 + (9 * j), insets.top + (Dimensions.cardLib_h * i) + 18 + (2 * i), Dimensions.cardLib_w, Dimensions.cardLib_h);
 
                 library1Label.add(tempPanel,gbc);
                 otherLibrariesCards.get(0)[i][j] = tempLabel;
@@ -1201,15 +1199,15 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempLabel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempPanel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
+                tempPanel.setBounds(insets.left + (Dimensions.cardLib_w * j) + 30 + (9 * j), insets.top + (Dimensions.cardLib_h * i) + 18 + (2 * i), Dimensions.cardLib_w, Dimensions.cardLib_h);
 
                 library2Label.add(tempPanel,gbc);
                 otherLibrariesCards.get(1)[i][j] = tempLabel;
@@ -1223,15 +1221,15 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempLabel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempPanel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
+                tempPanel.setBounds(insets.left + (Dimensions.cardLib_w * j) + 30 + (9 * j), insets.top + (Dimensions.cardLib_h * i) + 18 + (2 * i), Dimensions.cardLib_w, Dimensions.cardLib_h);
 
                 library3Label.add(tempPanel,gbc);
                 otherLibrariesCards.get(2)[i][j] = tempLabel;
@@ -1308,7 +1306,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         eventText = new JTextField(120);
         updateEventText(" Last relevant event of the Game ");
-        eventText.setMinimumSize(new Dimension(textCols * 45, textCols + 8));
+        eventText.setMinimumSize(new Dimension(Dimensions.textCols * 45, Dimensions.textCols + 8));
         eventText.setEditable(false);
         eventText.setBorder(null);
 
@@ -1329,8 +1327,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         //Text on top of the board
         boardText = new JTextArea(" Board of the Game ");
         boardText.setEditable(false);
-        boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(boardDim, boardDim, Image.SCALE_SMOOTH)));
-        boardLabel.setPreferredSize(new Dimension(boardDim, boardDim));
+        boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(Dimensions.boardDim, Dimensions.boardDim, Image.SCALE_SMOOTH)));
+        boardLabel.setPreferredSize(new Dimension(Dimensions.boardDim, Dimensions.boardDim));
         boardLabel.setLayout(new GridBagLayout());
         // fill the board
         for(int i = 0; i < DIM; i++){
@@ -1338,7 +1336,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
+                tempLabel.setPreferredSize(new Dimension(Dimensions.cardDimBoard, Dimensions.cardDimBoard));
                 tempLabel.setVisible(false);
 
                 gbc.insets = new Insets(0,0,0,0);
@@ -1359,14 +1357,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 }
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardDimBoard, cardDimBoard));
+                tempPanel.setPreferredSize(new Dimension(Dimensions.cardDimBoard, Dimensions.cardDimBoard));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
                 boardLabel.add(tempPanel,gbc);
 
                 if(i == libFullX && j == libFullY){
                     insets = tempPanel.getInsets();
-                    tempLabel.setBounds(insets.left + 4, insets.top, cardDimBoard, cardDimBoard);
+                    tempLabel.setBounds(insets.left + 4, insets.top, Dimensions.cardDimBoard, Dimensions.cardDimBoard);
                 }
 
                 boardCards[i][j] = tempLabel;
@@ -1400,8 +1398,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             }
         }
 
-        boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(cardDimBoard, cardDimBoard, Image.SCALE_SMOOTH)));
-        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
+        boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
         myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
         myLibraryText = new JTextArea(" Your personal Library (" + name + ") ");
@@ -1431,10 +1429,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
 
         pickCardsBtn = new JButton("Pick Cards");
         pickCardsBtn.setFocusPainted(false);
-        pickCardsBtn.setPreferredSize(new Dimension(btnW, btnH));
+        pickCardsBtn.setPreferredSize(new Dimension(Dimensions.btnW, Dimensions.btnH));
         pickCardsBtn.addActionListener(e -> new Thread(this::tryToPickCards).start());
-        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(lib_w, lib_h, Image.SCALE_SMOOTH)));
-        libraryLabel.setPreferredSize(new Dimension(lib_w, lib_h));
+        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
+        libraryLabel.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
         libraryLabel.setLayout(null);
         insets = libraryLabel.getInsets();
         // fill library
@@ -1443,42 +1441,42 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempLabel = new JLabel();
                 tempPanel = new JPanel();
 
-                tempLabel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempLabel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempLabel.setVisible(false);
 
                 tempPanel.add(tempLabel);
-                tempPanel.setPreferredSize(new Dimension(cardLib_w, cardLib_h));
+                tempPanel.setPreferredSize(new Dimension(Dimensions.cardLib_w, Dimensions.cardLib_h));
                 tempPanel.setBackground(new java.awt.Color(0, 0, 0, 0));
                 tempPanel.setOpaque(false);
 
-                tempPanel.setBounds(insets.left + (cardLib_w * j) + 30 + (9 * j), insets.top + (cardLib_h * i) + 18 + (2 * i), cardLib_w, cardLib_h);
+                tempPanel.setBounds(insets.left + (Dimensions.cardLib_w * j) + 30 + (9 * j), insets.top + (Dimensions.cardLib_h * i) + 18 + (2 * i), Dimensions.cardLib_w, Dimensions.cardLib_h);
 
                 libraryLabel.add(tempPanel,gbc);
                 myLibraryCards[i][j] = tempLabel;
             }
         }
-        gbc.insets = new Insets(generalBorder,generalBorder,generalBorder,generalBorder);
+        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
         chatPanel = new JPanel(new GridBagLayout());
         chatTitle = new JTextArea(" Chat history of the Game ");
         chatTitle.setEditable(false);
-        tempChatHistory = new JTextArea(textCols, textCols - 8);
-        tempChatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));
+        tempChatHistory = new JTextArea(Dimensions.textCols, Dimensions.textCols - 8);
+        tempChatHistory.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum), Dimensions.textCols * (Dimensions.textCharsNum)));
         tempChatHistory.setEditable(false);
         chatHistory = new JScrollPane(tempChatHistory);
-        chatHistory.setMinimumSize(new Dimension(textCols * (textCharsNum), textCols * (textCharsNum)));
-        insertMessage = new JTextField(textCols);
-        insertMessage.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        chatHistory.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum), Dimensions.textCols * (Dimensions.textCharsNum)));
+        insertMessage = new JTextField(Dimensions.textCols);
+        insertMessage.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         insertMessage.setText("Insert message: ");
         insertMessage.setBorder(null);
         insertMessage.addActionListener(event -> sendMessageBtn.doClick());
-        insertPlayer = new JTextField(textCols);
+        insertPlayer = new JTextField(Dimensions.textCols);
         insertPlayer.setBorder(null);
         insertPlayer.setText("Insert player (all for everyone) : ");
-        insertPlayer.setMinimumSize(new Dimension(textCols * textCharsNum, textCols));
+        insertPlayer.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         sendMessageBtn = new JButton("Send Message");
         sendMessageBtn.setFocusPainted(false);
         sendMessageBtn.setPreferredSize(new Dimension());
-        sendMessageBtn.setPreferredSize(new Dimension(btnW, btnH));
+        sendMessageBtn.setPreferredSize(new Dimension(Dimensions.btnW, Dimensions.btnH));
         sendMessageBtn.addActionListener(e -> new Thread(this::sendChatMsg).start());
         //BOARD
         gbc.gridx = 0;
