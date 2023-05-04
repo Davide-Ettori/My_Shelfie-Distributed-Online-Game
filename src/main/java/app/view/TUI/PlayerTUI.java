@@ -587,7 +587,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         gameStatus.put("player", new PlayerSend(this));
         sendToServer(new Message(UPDATE_GAME, name, gameStatus));
         if(netMode == SOCKET) {
-            Game.waitForSeconds(Game.waitTimer);
+            Game.waitForSeconds(Game.passTimer);
             waitForEvents();
         }
     }
