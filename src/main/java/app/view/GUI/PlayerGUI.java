@@ -387,7 +387,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 return;
             }
             if(status == OLD){
-                alert("\nName: '" + name + " was found in a previous game");
+                alert("\nName: " + name + " was found in a previous game");
                 textInput.setVisible(false);
                 sendBtn.setVisible(false);
 
