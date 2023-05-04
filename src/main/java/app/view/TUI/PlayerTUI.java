@@ -5,7 +5,6 @@ import app.controller.*;
 import app.model.*;
 import app.model.chat.ReceiveChat;
 import app.model.chat.SendChat;
-import app.view.UIMode;
 import org.json.simple.JSONObject;
 
 import java.io.*;
