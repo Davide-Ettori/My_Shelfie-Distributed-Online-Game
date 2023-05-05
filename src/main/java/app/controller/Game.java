@@ -779,9 +779,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             advanceTurn();
         }
         else{
-            for(int x = 0; i < numPlayers; x++){
+            for(int x = 0; x < numPlayers; x++){
                 if(!disconnectedPlayers.contains(names.get(x)))
-                    sendToClient(x, new Message(LOST_CLIENT, names.get(i), null));
+                    sendToClient(x, new Message(LOST_CLIENT, names.get(x), null));
             }
         }
 
