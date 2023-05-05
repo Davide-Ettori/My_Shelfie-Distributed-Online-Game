@@ -730,6 +730,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             System.out.println("Now " + activeName + " is playing his turn...");
         }
         board.draw();
+        System.out.println("\nThere are " + (endGame ? "0" : "1") + " points available for completing the library");
         objective.draw();
         library.draw();
         for(int i = 0; i < numPlayers - 1; i++)

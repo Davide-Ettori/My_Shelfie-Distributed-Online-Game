@@ -155,7 +155,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 tempChatHistory.setText(fullChat);
             }).start();
             return;
-            //throw new RuntimeException(e);
         }
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -567,9 +566,11 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         activeName = name;
         if(board.isBoardUnplayable())
             fixUnplayableBoard();
+        if(!endGame) {
+            updateBoard();
+            updateOtherLibraries();
+        }
         updateInfo();
-        updateBoard();
-        updateOtherLibraries();
         updateEventText(" Your turn is now started, play your move !");
     }
     /**
