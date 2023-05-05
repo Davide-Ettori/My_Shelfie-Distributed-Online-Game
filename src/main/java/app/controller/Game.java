@@ -570,10 +570,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             try {
                 if (i != activePlayer)
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
-                else
-                    sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
             }catch (Exception e){connectionLost(e);}
         }
+        sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         if(!rmiClients.containsKey(names.get(activePlayer)))
             waitMoveFromClient();
         else {
@@ -781,10 +780,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         else{
             for(int x = 0; x < numPlayers; x++){
                 if(!disconnectedPlayers.contains(names.get(x)))
-                    sendToClient(x, new Message(LOST_CLIENT, names.get(x), null));
+                    sendToClient(x, new Message(LOST_CLIENT, names.get(i), null));
             }
         }
-
     }
     /**
      * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
