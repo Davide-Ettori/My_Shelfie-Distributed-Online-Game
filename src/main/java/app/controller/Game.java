@@ -366,7 +366,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }).start();
                 if(getActivePlayersNumber() == 2){
                     if(advance){
-                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "Player " + name + " reconnected, the the game is resuming..."));
+                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
                         Game.waitForSeconds(Game.fastTimer * 3);
                         advance = false;
                         advanceTurn();
