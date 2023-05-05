@@ -366,8 +366,19 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }).start();
                 if(getActivePlayersNumber() == 2){
                     if(advance){
+                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "Player " + name + " reconnected, the the game is resuming..."));
+                        Game.waitForSeconds(Game.fastTimer * 3);
                         advance = false;
                         advanceTurn();
+                    }
+                    else
+                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                }
+                else{
+                    for(int i = 0; i < numPlayers; i++){
+                        if(names.get(i).equals(name))
+                            continue;
+                        sendToClient(i, new Message(SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
                     }
                 }
             }
@@ -533,6 +544,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void advanceTurn(){
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
+            sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "The game is temporarily paused because you are the only connected player"));
             advance = true;
             activePlayer = names.indexOf(Game.serverPlayer);
             return;

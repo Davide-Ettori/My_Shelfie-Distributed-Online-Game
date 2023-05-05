@@ -544,11 +544,20 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     case LIB_FULL -> handleLibFullEvent(msg);
                     case DISCONNECTED -> handleDisconnectedEvent(msg);
                     case LOST_CLIENT -> handleLostClientEvent(msg);
+                    case SHOW_EVENT -> handleShowEvent(msg);
                 }
             }catch(Exception e){
                 connectionLost(e);
             }
         }
+    }
+    /**
+     * helper function for handling the show event notification from the server
+     * @author Ettori
+     * @param msg the message containing the necessary information for reacting to the event
+     */
+    private void handleShowEvent(Message msg){
+        updateEventText((String) msg.getContent());
     }
     /**
      * helper function for handling the client (not active) disconnection notification from the server
@@ -845,6 +854,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             case LIB_FULL -> handleLibFullEvent(msg);
             case DISCONNECTED -> handleDisconnectedEvent(msg);
             case LOST_CLIENT -> handleLostClientEvent(msg);
+            case SHOW_EVENT -> handleShowEvent(msg);
         }
     }
     /**

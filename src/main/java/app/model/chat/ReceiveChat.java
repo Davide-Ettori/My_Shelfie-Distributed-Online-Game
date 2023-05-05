@@ -42,6 +42,10 @@ public class ReceiveChat extends Thread{
                     player.handleLostClientEvent(msg);
                     continue;
                 }
+                if(msg.getType() == SHOW_EVENT){
+                    System.out.println("\n" + msg.getContent());
+                    continue;
+                }
                 System.out.println("\n" + msg.getContent());
                 player.addToFullChat((String)msg.getContent());
             }
