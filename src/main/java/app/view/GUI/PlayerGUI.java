@@ -800,7 +800,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      */
     public void connectionLost(Exception e){
-        if(Game.showErrors)
+        if(Player.showErrors)
             throw new RuntimeException(e);
         else
             alert("\nThe connection was lost and the application is disconnecting...");

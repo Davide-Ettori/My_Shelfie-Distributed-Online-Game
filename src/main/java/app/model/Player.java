@@ -20,7 +20,10 @@ import java.util.HashMap;
  */
 public class Player extends UnicastRemoteObject implements Serializable {
 
+    /** timer for pinging the socket from client to server */
     public static final int pingTimeout = 1000 * 10;
+    /** variable that chooses from debugging or running */
+    public static final boolean showErrors = false;
     protected String name;
     protected PrivateObjective objective;
     /** list of the libraries of all the players in the game */
