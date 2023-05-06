@@ -44,7 +44,7 @@ public class hasOneFreeSideTest {
         gameBoard1[4][3].color = BLUE;
         gameBoard1[4][4].color = BLUE;
         gameBoard1[4][5].color = BLUE;
-        //uso il setter definito in Board
+
         board1.setGameBoard(gameBoard1);
         assertEquals(board1.hasOneFreeSide(3,4), false);
     }
@@ -69,7 +69,7 @@ public class hasOneFreeSideTest {
         gameBoard1[4][3].color = BLUE;
         gameBoard1[4][4].color = BLUE;
         gameBoard1[4][5].color = BLUE;
-        //uso il setter definito in Board
+
         board1.setGameBoard(gameBoard1);
         assertEquals(board1.hasOneFreeSide(4,5), true);
     }
@@ -93,7 +93,7 @@ public class hasOneFreeSideTest {
         gameBoard1[4][3].color = BLUE;
         gameBoard1[4][4].color = BLUE;
         gameBoard1[4][5].color = BLUE;
-        //uso il setter definito in Board
+
         board1.setGameBoard(gameBoard1);
         assertEquals(board1.hasOneFreeSide(4,4), true);
     }

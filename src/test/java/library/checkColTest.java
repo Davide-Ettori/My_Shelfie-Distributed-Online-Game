@@ -20,17 +20,18 @@ import app.model.Library;
 public class checkColTest {
 
     Library lib = null;
-    @Before // eseguita prima dei test
+
+    /**
+     * method executed before every test that create a new library
+     * @author Giammusso
+     */
+    @Before
     public void setUp(){
         this.lib = new Library("");
     }
-    @After // eseguita dopo i test
-    public void tearDown(){
-        return;
-    }
 
     /**
-     * in this test all the columns are filled so we can't insert any other card in the library
+     * in this test all the columns are filled so that we can't insert any other card in the library
      * @autor: Giammusso
      */
     @Test // test 1
