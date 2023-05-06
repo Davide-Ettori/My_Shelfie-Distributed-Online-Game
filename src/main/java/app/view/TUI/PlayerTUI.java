@@ -611,9 +611,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void sendDoneMove(){
         gameStatus = new JSONObject();
         System.out.println("You made your move, now wait for other players to acknowledge it...");
-        gameStatus.put("board", new Board(board));
-        gameStatus.put("library", new Library(library));
-        gameStatus.put("points", pointsUntilNow);
         gameStatus.put("player", new PlayerSend(this));
         sendToServer(new Message(UPDATE_GAME, name, gameStatus));
         if(netMode == SOCKET) {
@@ -686,7 +683,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             return false;
         if(msg.equals("@exit")){
             System.out.println("The game is exiting...");
-            Game.waitForSeconds(Game.waitTimer);
+            Game.waitForSeconds(Game.fastTimer * 2);
             System.exit(0);
         }
         if(msg.charAt(0) != '@')

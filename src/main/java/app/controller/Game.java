@@ -352,7 +352,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
                 boolean temp = (boolean)in.readObject();
-                Game.waitForSeconds(Game.fastTimer * 2);
                 if(!rmiClients.containsKey(name)) {
                     try {
                         s.setSoTimeout(Player.pingTimeout);
@@ -364,19 +363,19 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
                 if(getActivePlayersNumber() == 2){
                     if(advance){
-                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
+                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " Player " + name + " reconnected, the game is resuming..."));
                         Game.waitForSeconds(Game.fastTimer * 3);
                         advance = false;
-                        advanceTurn();
+                        new Thread(this::advanceTurn).start();
                     }
                     else
-                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " Player " + name + " reconnected to the game"));
                 }
                 else{
                     for(int i = 0; i < numPlayers; i++){
                         if(names.get(i).equals(name))
                             continue;
-                        sendToClient(i, new Message(SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                        sendToClient(i, new Message(SHOW_EVENT, null, " Player " + name + " reconnected to the game"));
                     }
                 }
             }
@@ -540,7 +539,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void advanceTurn(){
         if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
-            sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "The game is temporarily paused because you are the only connected player"));
+            sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " The game is temporarily paused because you are the only connected player"));
             advance = true;
             activePlayer = names.indexOf(Game.serverPlayer);
             return;
