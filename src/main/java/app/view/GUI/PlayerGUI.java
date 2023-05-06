@@ -565,7 +565,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleLostClientEvent(Message msg){
-        updateEventText("Player " + msg.getAuthor() + " disconnected from the game");
+        updateEventText(" Player " + msg.getAuthor() + " disconnected from the game");
     }
     /**
      * helper function for handling the turn event notification from the server
