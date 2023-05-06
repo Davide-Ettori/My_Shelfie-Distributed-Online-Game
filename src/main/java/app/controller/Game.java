@@ -386,9 +386,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 s.close();
                 out.close();
                 in.close();
-            } catch (IOException ex) {
-                return;
-            }
+            } catch (IOException ignored) {}
         }
     }
     /**
