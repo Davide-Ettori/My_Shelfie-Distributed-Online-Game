@@ -125,7 +125,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         try {
                             temp = (boolean)inStreams.get(i).readObject();
                         } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
+                            connectionLost(e);
                         }
                     }
                     Game.waitForSeconds(Game.waitTimer);
@@ -148,7 +148,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             try {
                 temp = (boolean)inStreams.get(i).readObject();
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
         }
         //Game.waitForSeconds(Game.waitTimer);
@@ -182,7 +182,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     return new Player(playerList.get(i));
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    connectionLost(e);
                 }
             }
         }
@@ -224,12 +224,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void initializeAllClients(){
         randomizeChairman();
-        Player p;
+        Player p = null;
         for(int i = 0; i < names.size(); i++){
             try {
                 p = new Player();
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                connectionLost(e);
             }
             for(int j = 0; j < numPlayers; j++){
                 if(i == j)
@@ -702,7 +702,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         try {
             finalTh.join();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            connectionLost(e);
         }
         waitForSeconds(Game.waitTimer / 2.5);
         sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
@@ -724,9 +724,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public static void waitForSeconds(double n){
         try {
             Thread.sleep((long) (n * 1000));
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (InterruptedException ignored) {}
     }
     /**
      * function that handle the eventual disconnection
@@ -746,9 +744,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 for(Socket s: playersSocket)
                     s.close();
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                return;
             }
-            while (true){}
+            Game.waitForSeconds(Game.showTimer * 2);
+            System.exit(0);
         }
     }
     /**
@@ -758,7 +757,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void playerDisconnected(int i, Exception exc) {
         if(showErrors)
-            throw  new RuntimeException(exc);
+            connectionLost(exc);
         if (disconnectedPlayers.contains(names.get(i)))
             return;
         try {
