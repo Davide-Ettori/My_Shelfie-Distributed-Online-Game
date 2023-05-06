@@ -63,7 +63,7 @@ public class FILEHelper {
      */
     public static void writeServer(Game server){
         try {
-            new File("src/main/java/app/controller/cache/status" + Initializer.PORT + ".txt").createNewFile();
+            new File("src/main/java/app/controller/cache/server" + Initializer.PORT + ".txt").createNewFile();
         } catch (IOException e) {
             throw new RuntimeException("File System Corrupted");
         }
@@ -81,7 +81,7 @@ public class FILEHelper {
      */
     public static Game loadServer(){
         try {
-            new File("src/main/java/app/controller/cache/status" + Initializer.PORT + ".txt").createNewFile();
+            new File("src/main/java/app/controller/cache/server" + Initializer.PORT + ".txt").createNewFile();
         } catch (IOException e) {
             throw new RuntimeException("File System Corrupted");
         }
