@@ -151,11 +151,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 connectionLost(e);
             }
         }
-        //Game.waitForSeconds(Game.waitTimer);
         for(int i = 0; i < numPlayers; i++){
             if(rmiClients.containsKey(names.get(i)))
                 continue;
-            //System.out.print(names.get(i));
             try {
                 playersSocket.get(i).setSoTimeout(Player.pingTimeout);
             } catch (SocketException e) {
