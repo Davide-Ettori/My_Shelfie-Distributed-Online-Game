@@ -769,6 +769,9 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Ettori
      */
     public void connectionLost(Exception e){
+        if(closed)
+            return;
+        closed = true;
         if(Player.showErrors)
             throw new RuntimeException(e);
         else
@@ -776,7 +779,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         Game.waitForSeconds(Game.waitTimer / 2.5);
         System.exit(0);
     }
-
     /**
      * method that periodically pings the server from socket client
      * @author Ettori

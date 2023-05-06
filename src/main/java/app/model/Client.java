@@ -37,9 +37,9 @@ public class Client {
      */
     private void insertIp(){
         setupFrame.setTitle("Insert the IP Address");
-        JTextField ipText = new JTextField(" Insert ip: ");
-        JTextField socketPortText = new JTextField(" Insert socket port: ");
-        JTextField rmiPortText = new JTextField(" Insert rmi port: ");
+        JTextField ipText = new JTextField(" Insert ip: (default = 127.0.0.1) ");
+        JTextField socketPortText = new JTextField(" Insert socket port: (default = 3333) ");
+        JTextField rmiPortText = new JTextField(" Insert rmi port: (default = 5555) ");
         JButton sendIP = new JButton(" Enter ");
         sendIP.setFont(new Font("Calibri", Font.PLAIN, 25));
 
@@ -48,11 +48,11 @@ public class Client {
         rmiPortText.addActionListener(event -> sendIP.doClick());
         sendIP.addActionListener((event) ->{
             try{
-                if(!socketPortText.getText().equals(" Insert socket port: "))
+                if(!socketPortText.getText().equals(" Insert socket port: (default = 3333) "))
                     Initializer.PORT = Integer.parseInt(socketPortText.getText());
-                if(!rmiPortText.getText().equals(" Insert rmi port: "))
+                if(!rmiPortText.getText().equals(" Insert rmi port: (default = 5555) "))
                     Initializer.PORT_RMI = Integer.parseInt(rmiPortText.getText());
-                if(!ipText.getText().equals(" Insert ip: "))
+                if(!ipText.getText().equals(" Insert ip: (default = 127.0.0.1) "))
                     IP.activeIP = ipText.getText();
                 try{
                     new Thread(() ->{
