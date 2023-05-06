@@ -352,18 +352,16 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
                 boolean temp = (boolean)in.readObject();
-                new Thread(() ->{
-                    Game.waitForSeconds(Game.fastTimer * 2);
-                    if(rmiClients.containsKey(name))
-                        return;
+                Game.waitForSeconds(Game.fastTimer * 2);
+                if(!rmiClients.containsKey(name)) {
                     try {
                         s.setSoTimeout(Player.pingTimeout);
                     } catch (SocketException e) {
                         connectionLost(e);
                     }
-                    if(getActivePlayersNumber() >= 3) // se ci sono solo 2 player il turno cambierà quindi non devo ascoltare la chat
+                    if (getActivePlayersNumber() >= 3) // se ci sono solo 2 player il turno cambierà quindi non devo ascoltare la chat
                         new ChatBroadcast(this, names.indexOf(name)).start();
-                }).start();
+                }
                 if(getActivePlayersNumber() == 2){
                     if(advance){
                         sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
@@ -513,20 +511,18 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
                 if(msg.getType() == UPDATE_GAME) {
                     JSONObject jsonObject = (JSONObject) msg.getContent();
-                    players.get(activePlayer).library = (Library) jsonObject.get("library");
-                    players.get(activePlayer).board = (Board) jsonObject.get("board");
-                    players.get(activePlayer).pointsUntilNow = (int) jsonObject.get("points");
+                    PlayerSend p = (PlayerSend) jsonObject.get("player");
                     for(int i = 0; i < numPlayers; i++) {
                         if(i == activePlayer)
                             continue;
-                        players.get(i).board = (Board) jsonObject.get("board");
-                        players.get(i).pointsMap.put(names.get(activePlayer), (int) jsonObject.get("points"));
+                        players.get(i).board = p.board;
+                        players.get(i).pointsMap.put(names.get(activePlayer), p.pointsUntilNow);
                         for(int j = 0; j < numPlayers - 1; j++){
                             if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
-                                players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
+                                players.get(i).librariesOfOtherPlayers.set(j, p.library);
                         }
                     }
-                    players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
+                    players.set(activePlayer, p);
                     players.get(activePlayer).activeName = names.get(activePlayer);
                     FILEHelper.writeServer(this);
                     if(!rmiClients.containsKey(names.get(activePlayer)))
@@ -873,20 +869,18 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         sendToClient(i,msg);
                 }
                 JSONObject jsonObject = (JSONObject) msg.getContent();
-                players.get(activePlayer).library = (Library) jsonObject.get("library");
-                players.get(activePlayer).board = (Board) jsonObject.get("board");
-                players.get(activePlayer).pointsUntilNow = (int) jsonObject.get("points");
+                PlayerSend p = (PlayerSend) jsonObject.get("player");
                 for(int i = 0; i < numPlayers; i++) {
                     if(i == activePlayer)
                         continue;
-                    players.get(i).board = (Board) jsonObject.get("board");
-                    players.get(i).pointsMap.put(names.get(activePlayer), (int) jsonObject.get("points"));
+                    players.get(i).board = p.board;
+                    players.get(i).pointsMap.put(names.get(activePlayer), p.pointsUntilNow);
                     for(int j = 0; j < numPlayers - 1; j++){
                         if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))
-                            players.get(i).librariesOfOtherPlayers.set(j, (Library) jsonObject.get("library"));
+                            players.get(i).librariesOfOtherPlayers.set(j, p.library);
                     }
                 }
-                players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
+                players.set(activePlayer, p);
                 players.get(activePlayer).activeName = names.get(activePlayer);
                 FILEHelper.writeServer(this);
                 if(!rmiClients.containsKey(names.get(activePlayer)))

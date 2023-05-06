@@ -614,12 +614,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         if(netMode == SOCKET)
             sendToServer(new Message(STOP, null, null));
         JSONObject jsonObject = (JSONObject) msg.getContent();
-        board = (Board)jsonObject.get("board");
+        PlayerSend p = (PlayerSend) jsonObject.get("player");
+        board = p.board;
         for(int i = 0; i < numPlayers - 1; i++){
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
-                librariesOfOtherPlayers.set(i, (Library)jsonObject.get("library"));
+                librariesOfOtherPlayers.set(i, p.library);
         }
-        pointsMap.put(msg.getAuthor(), (int) jsonObject.get("points"));
+        pointsMap.put(msg.getAuthor(), p.pointsUntilNow);
         if(endGame)
             updateGUI();
         updateEventText(" Player " + msg.getAuthor() + " made his move, now wait for the turn to change...");
@@ -757,9 +758,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void sendDoneMove(){
         gameStatus = new JSONObject();
         updateEventText(" You made your move, now wait for other players to acknowledge it...");
-        gameStatus.put("board", new Board(board));
-        gameStatus.put("library", new Library(library));
-        gameStatus.put("points", pointsUntilNow);
         gameStatus.put("player", new PlayerSend(this));
         sendToServer(new Message(UPDATE_GAME, name, gameStatus));
     }
