@@ -852,11 +852,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 from = from.substring(0, from.indexOf(" "));
                 sendChatToClients(from, msg.getAuthor(), (String)msg.getContent());
             }
-            case END_TURN -> {
-                JSONObject jsonObject = (JSONObject) msg.getContent();
-                players.set(activePlayer, (PlayerSend) jsonObject.get("player"));
-                advanceTurn();
-            }
             case UPDATE_GAME -> {
                 for (int i = 0; i < numPlayers; i++) {
                     if (i != activePlayer)
