@@ -57,7 +57,6 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public int pointsUntilNow;
     protected boolean endGame = false;
     protected transient JSONObject boardStatus;
-    protected transient JSONObject playerStatus;
     protected transient JSONObject gameStatus;
     /** points achieved until now with the common objectives by all the other players: (name, points) */
     public HashMap<String, Integer> pointsMap = new HashMap<>();
