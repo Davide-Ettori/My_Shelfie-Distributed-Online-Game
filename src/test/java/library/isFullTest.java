@@ -17,6 +17,17 @@ public class isFullTest {
         return;
     }
 
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>B</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void isFull_allFull(){
         lib.gameLibrary[0][0] = new Card(PINK);
@@ -57,7 +68,17 @@ public class isFullTest {
 
         assertEquals(lib.isFull(), true);
     }
-
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>B</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 2
     public void isFull_oneEmpty(){
         lib.gameLibrary[0][0] = new Card();
@@ -99,6 +120,17 @@ public class isFullTest {
         assertEquals(lib.isFull(), false);
     }
 
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 3
     public void isFull_firstColEmpty(){
         lib.gameLibrary[0][0] = new Card();
@@ -139,6 +171,18 @@ public class isFullTest {
 
         assertEquals(lib.isFull(), false);
     }
+
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 4
     public void isFull_secondColEmpty(){
         lib.gameLibrary[0][0] = new Card();
@@ -179,6 +223,18 @@ public class isFullTest {
 
         assertEquals(lib.isFull(), false);
     }
+
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>G</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * </table>
+     */
     @Test // test 5
     public void isFull_lastColEmpty(){
         lib.gameLibrary[0][0] = new Card();
