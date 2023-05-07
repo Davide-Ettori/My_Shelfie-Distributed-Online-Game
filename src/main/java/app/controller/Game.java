@@ -761,7 +761,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param i the index of the lost client
      * @author Ettori
      */
-     synchronized public void playerDisconnected(int i, Exception exc) {
+     public void playerDisconnected(int i, Exception exc) {
          synchronized (sendMoveLock){
              if(Game.showErrors)
                  connectionLost(exc);
