@@ -762,33 +762,35 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
      synchronized public void playerDisconnected(int i, Exception exc) {
-        if(Game.showErrors)
-            connectionLost(exc);
-        //System.out.println("disco: " + names.get(i));
-        if (disconnectedPlayers.contains(names.get(i)))
-            return;
-        try {
-            playersSocket.get(i).close();
-            outStreams.get(i).close();
-            inStreams.get(i).close();
-        } catch (IOException ignored){}
-        disconnectedPlayers.add(names.get(i));
-        rmiClients.remove(names.get(i));
-        if (getActivePlayersNumber() == 1)
-            new Thread(this::disconnectedTimer).start();
-        if (i == activePlayer) {
-            for (int j = 0; j < numPlayers; j++)
-                sendToClient(j, new Message(DISCONNECTED, names.get(activePlayer), null));
-            advanceTurn();
-        }
-        else{
-            for(int x = 0; x < numPlayers; x++){
-                if(!disconnectedPlayers.contains(names.get(x))) {
-                    sendToClient(x, new Message(LOST_CLIENT, names.get(i), null));
-                }
-            }
-        }
-    }
+         synchronized (sendMoveLock){
+             if(Game.showErrors)
+                 connectionLost(exc);
+             //System.out.println("disco: " + names.get(i));
+             if (disconnectedPlayers.contains(names.get(i)))
+                 return;
+             try {
+                 playersSocket.get(i).close();
+                 outStreams.get(i).close();
+                 inStreams.get(i).close();
+             } catch (IOException ignored){}
+             disconnectedPlayers.add(names.get(i));
+             rmiClients.remove(names.get(i));
+             if (getActivePlayersNumber() == 1)
+                 new Thread(this::disconnectedTimer).start();
+             if (i == activePlayer) {
+                 for (int j = 0; j < numPlayers; j++)
+                     sendToClient(j, new Message(DISCONNECTED, names.get(activePlayer), null));
+                 advanceTurn();
+             }
+             else{
+                 for(int x = 0; x < numPlayers; x++){
+                     if(!disconnectedPlayers.contains(names.get(x))) {
+                         sendToClient(x, new Message(LOST_CLIENT, names.get(i), null));
+                     }
+                 }
+             }
+         }
+     }
     /**
      * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
      * @author Ettori
@@ -823,26 +825,27 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        //System.out.println("tra poco mando");
-        if(disconnectedPlayers.contains(names.get(i)))
-            return;
-        //System.out.println("mando " + msg.getType() + " to " + names.get(i));
-        if(!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE){
-            try {
-                outStreams.get(i).writeObject(msg);
-            } catch (IOException e) {
-                if(msg.getType() == FINAL_SCORE)
-                    return;
-                playerDisconnected(i, e);
-            }
-        }
-        else{
-            try {
-                rmiClients.get(names.get(i)).receivedEventRMI(msg);
-            } catch (RemoteException e) {
-                if(msg.getType() == FINAL_SCORE)
-                    return;
-                playerDisconnected(i, e);
+        synchronized (sendMoveLock) {
+            //System.out.println("tra poco mando");
+            if (disconnectedPlayers.contains(names.get(i)))
+                return;
+            //System.out.println("mando " + msg.getType() + " to " + names.get(i));
+            if (!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE) {
+                try {
+                    outStreams.get(i).writeObject(msg);
+                } catch (IOException e) {
+                    if (msg.getType() == FINAL_SCORE)
+                        return;
+                    playerDisconnected(i, e);
+                }
+            } else {
+                try {
+                    rmiClients.get(names.get(i)).receivedEventRMI(msg);
+                } catch (RemoteException e) {
+                    if (msg.getType() == FINAL_SCORE)
+                        return;
+                    playerDisconnected(i, e);
+                }
             }
         }
     }
