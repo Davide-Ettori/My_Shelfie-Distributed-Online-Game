@@ -19,7 +19,17 @@ public class drawTest {
     public void tearDown(){
         return;
     }
-
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>B</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void drawLibrary(){
         lib.gameLibrary[0][0] = new Card(PINK);
