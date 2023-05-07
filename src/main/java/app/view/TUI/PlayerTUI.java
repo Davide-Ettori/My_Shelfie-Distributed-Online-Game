@@ -330,7 +330,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
     private void handleUpdateGameEvent(Message msg){
         stopChatThread();
         if(netMode == SOCKET)
-            sendToServer(new Message(STOP, null, null)); // scrivi questo messaggio sulla tua stessa socket
+            sendToServer(new Message(STOP, null, null)); // send this message on your Socket (to yourself)
         JSONObject jsonObject = (JSONObject) msg.getContent();
         PlayerSend p = (PlayerSend) jsonObject.get("player");
         board = p.board;
@@ -547,7 +547,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         int points, lastIndex;
         boolean change = false;
         try {
-            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done && board.pointsCO_1.size() > 0) { // non devi riprendere il CO se lo hai già fatto una volta
+            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done && board.pointsCO_1.size() > 0) { // you can't take another time the CO if you already did
                 lastIndex = board.pointsCO_1.size() - 1;
                 points = board.pointsCO_1.get(lastIndex);
                 board.pointsCO_1.remove(lastIndex);

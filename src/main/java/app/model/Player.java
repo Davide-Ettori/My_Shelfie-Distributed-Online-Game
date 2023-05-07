@@ -39,7 +39,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
     protected transient Socket mySocket;
     protected String fullChat = "";
 
-    //Questi che seguono sono gli attributi condivisi da playerTUI e PlayerGUI
+    //The following attributes are shared between playerTUI and PlayerGUI
     /** the name of the chairman of the game */
     public String chairmanName;
     /** the network mode chosen by the user */
@@ -170,11 +170,11 @@ public class Player extends UnicastRemoteObject implements Serializable {
      * @author Ettori
      * @param coord the list of coupled coordinates of the cards that the player want to take from the board
      */
-    protected void pickCards(ArrayList<Integer> coord, int col) { // Coordinate accoppiate. Questo metodo verrà chiamato quando la GUI o la CLI rilevano una scelta dall'utente
+    protected void pickCards(ArrayList<Integer> coord, int col) { // Paired Coordinates. This method will be called when the GUI o the TUI detect a choice made by the player
         ArrayList<Card> cards = new ArrayList<>();
         for (int i = 0; i < coord.size(); i += 2) {
             cards.add(new Card(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]));
-            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(); // dopo che hai preso una carta, tale posto diventa EMPTY
+            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(); // after a card is picked, it became EMPTY
         }
 
         deployCards(col, cards);

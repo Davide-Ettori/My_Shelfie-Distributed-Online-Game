@@ -14,7 +14,7 @@ public class PrivateObjective extends Objective implements Serializable {
     private Card[][] matrix;
     public final String imagePath;
     /** the unique identifier of the private objective */
-    public int objectiveId; // non sono sicuro che serva, per ora lo teniamo
+    public int objectiveId;
 
     /**
      * normal constructor for this type of objects

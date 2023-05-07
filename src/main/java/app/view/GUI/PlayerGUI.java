@@ -311,7 +311,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             if(change_1 || change_2)
                 updateInfo();
 
-            sendDoneMove(); // mando la mossa al server
+            sendDoneMove(); // send the move to the server
             }
         for(int i = 0; i < cards.size(); i += 2)
             boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
@@ -334,26 +334,27 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         tempPanel2.setBackground(new java.awt.Color(0, 0, 0, 0));
         tempPanel2.setOpaque(false);
 
-        //SFONDO:
+        //WALLPAPER:
+        //if you want a random wallpaper, uncomment the following line and comment the next line
         //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
         JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_1.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
         generalLabelChooseName.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
         generalLabelChooseName.setLayout(new GridBagLayout());
 
-        //titolo my shelfie
+        //my shelfie title
         JLabel myShelfieTitleLabel = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Title 2000x618px.png").getImage().getScaledInstance(screenSize.width * 4 / 6, screenSize.height * 4 / 10, Image.SCALE_SMOOTH)));
 
-        sendBtn = new JButton("Choose Name"); // bottone per mandare il nome
-        textInput = new JTextField(20); // textbox input dall'utente
+        sendBtn = new JButton("Choose Name"); // button to send the name
+        textInput = new JTextField(20); // textbox input from the user
 
         textInput.setBounds(100, 20, 165, 25);
-        textInput.addActionListener(event -> sendBtn.doClick()); // se l'utente preme invio, chiama automaticamente il bottone sendBtn
+        textInput.addActionListener(event -> sendBtn.doClick()); // if you press enter on the keyboard, automatically use sendBtn
 
-        sendBtn.addActionListener((event) ->{ // funzione di event listener
+        sendBtn.addActionListener((event) ->{ // function of event listener
             NameStatus status = null;
             name = textInput.getText();
             if(name.length() == 0 || name.charAt(0) == '@' || name.equals("all") || name.equals("names") || name.equals("...") || name.equals("exit")){
-                alert("Name invalid, choose another name"); // vedi JavaDoc di alert
+                alert("Name invalid, choose another name");
                 textInput.setText("");
                 return;
             }
@@ -437,9 +438,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("My Shelfie");
         mainFrame.setIconImage(new ImageIcon("assets/Publisher material/Icon 50x50px.png").getImage());
-        mainFrame.pack(); // preparo la finestra
+        mainFrame.pack(); // setup of the window
         mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
-        mainFrame.setVisible(true); // mostro il tutto a schermo, GUI
+        mainFrame.setVisible(true); // show the frame
     }
     /**
      * Receive the status of the player (previously disconnected) from the server and restart the game
@@ -693,7 +694,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         int points, lastIndex;
         boolean change = false;
         try {
-            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done && board.pointsCO_1.size() > 0) { // non devi riprendere il CO se lo hai già fatto una volta
+            if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done && board.pointsCO_1.size() > 0) { // you can't take the CO if you already did
                 lastIndex = board.pointsCO_1.size() - 1;
                 points = board.pointsCO_1.get(lastIndex);
                 board.pointsCO_1.remove(lastIndex);
@@ -1562,7 +1563,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.5;
-        //gbc.fill = GridBagConstraints.BOTH;
         chatPanel.add(chatHistory,gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -1570,7 +1570,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.ipady = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.1;
-        //gbc.fill = NONE;
         chatPanel.add(insertPlayer,gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -1593,7 +1592,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.weightx = 0.0;
         gbc.weighty = 0.25;
         internalPanelHigh.add(chatPanel,gbc);
-
 
         //FIRST LEVEL - RED
 
@@ -1639,8 +1637,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         gbc.gridheight = 2;
         generalLabel.add(internalPanelSide,gbc);
 
-        mainPanel.removeAll();//RIMUOVE TUTTA LA PRECEDENTE GUI USATA PER SCEGLIERE IL NOME UTENTE
-        //ORA AGGIUNGO LA NUOVA GUI DI GIOCO:
+        mainPanel.removeAll();//remove all the precedent GUI used to choose the name
+        //Now add the new GUI to play the game
         gbc2.gridx=0;
         gbc2.gridy=0;
         mainPanel.add(generalLabel,gbc2);

@@ -40,7 +40,7 @@ public class Board implements Serializable {
         commonObjective_1 = CO_1;
         commonObjective_2 = CO_2;
         if(numPlayers == 2){
-            pointsCO_1 = new LinkedList<>(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --> da destra verso sinistra
+            pointsCO_1 = new LinkedList<>(Arrays.asList(4, 8)); // they need to be taken with the method list.pop() --> from right to left
             pointsCO_2 = new LinkedList<>(Arrays.asList(4, 8));
         }
         else if(numPlayers == 3){
@@ -74,7 +74,7 @@ public class Board implements Serializable {
      * getter for the game board
      * @author Ettori
      */
-    public Card[][] getGameBoard(){return gameBoard;} // getter che saranno utili in seguito
+    public Card[][] getGameBoard(){return gameBoard;} // useful getter :-)
     /**
      * getter for the CO 1
      * @author Ettori
@@ -112,7 +112,7 @@ public class Board implements Serializable {
      * @param y pos y
      * @return true iff the card is alone
      */
-    private boolean isAlone(int x, int y){ // returna true sse la carta è da sola, ovvero non ha nessuna carta adiacente
+    private boolean isAlone(int x, int y){ // return true iif the card is lonely, this means that there aren't adjacent cards
         if(isValidIndex(x + 1, y) && gameBoard[x + 1][y].color != EMPTY)
             return false;
         if(isValidIndex(x - 1, y) && gameBoard[x - 1][y].color != EMPTY)
@@ -131,11 +131,11 @@ public class Board implements Serializable {
     public boolean isBoardUnplayable() {
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
-                if(gameBoard[i][j].color != EMPTY && !isAlone(i, j)) // ha trovato una carta non vuota e che non è sola, quindi la board non è ingiocabile
+                if(gameBoard[i][j].color != EMPTY && !isAlone(i, j)) // found a not empty and not lonely card, so the board is not unplayable
                     return false;
             }
         }
-        // se è unplayable devi chiamare il metodo fillBoard(numeroDiGiocatori)
+        // if it's unplayable, call the method fillBoard(number of players)
         return true;
     }
     /**
@@ -146,7 +146,7 @@ public class Board implements Serializable {
      * @return true iff it has at least one free side
      */
     public boolean hasOneFreeSide(int x, int y){
-        if(!isValidIndex(x , y) || gameBoard[x][y].color == EMPTY) // controlla che la carda corrente sia sensata, poi controlla le carte vicine
+        if(!isValidIndex(x , y) || gameBoard[x][y].color == EMPTY) // check if the current card is in a valid spot, then look for near cards
             return false;
         if(isValidIndex(x + 1, y) && gameBoard[x + 1][y].color == EMPTY)
             return true;
@@ -251,7 +251,7 @@ public class Board implements Serializable {
                 if(numPlayers >= gameMatrix[i][j]){
                     card = bucketOfCards.get(0);
                     gameBoard[i][j] = new Card(card);
-                    bucketOfCards.remove(0); // bucketOfCards viene anche lui scambiato con il server tramite il client
+                    bucketOfCards.remove(0); // bucketOfCards gets exchanged with the server through the client
                 }
             }
         }
