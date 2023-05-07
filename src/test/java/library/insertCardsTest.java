@@ -27,6 +27,28 @@ public class insertCardsTest {
         return;
     }
 
+    /**
+     * First Testlibrary:<br>
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table><br>
+     * Second Testlibrary:<br>
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>B</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>G</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void insertCards_correct(){
         //First library
@@ -107,6 +129,28 @@ public class insertCardsTest {
         assertEquals(afterLib.sameLibraryColor(beforeLib), true);
     }
 
+    /**
+     * First TestLibrary:<br>
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table><br>
+     * Second Library:<br>
+     *<table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>C</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>G</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 2
     public void insertCards_incorrect(){
         //First library
