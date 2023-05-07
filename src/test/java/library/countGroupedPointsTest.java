@@ -18,6 +18,18 @@ public class countGroupedPointsTest {
     public void tearDown(){
         return;
     }
+
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>P</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>B</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test // test 1
     public void countPoints_normal_correct(){
         lib.gameLibrary[0][0] = new Card(PINK);
@@ -58,6 +70,18 @@ public class countGroupedPointsTest {
 
         assertEquals(lib.countGroupedPoints(), 25);
     }
+
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>B</td><td>B</td><td>G</td><td>B</td><td>G</td></tr>
+     * <tr><td>B</td><td>G</td><td>B</td><td>G</td><td>B</td></tr>
+     * <tr><td>G</td><td>B</td><td>G</td><td>B</td><td>G</td></tr>
+     * <tr><td>B</td><td>G</td><td>B</td><td>G</td><td>P</td></tr>
+     * <tr><td>G</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>B</td><td>G</td><td>P</td><td>P</td><td>P</td></tr>
+     * </table>
+     */
     @Test
     public void countPoints_diagonal_correct(){
         lib.gameLibrary[0][0] = new Card(BLUE);
@@ -98,6 +122,18 @@ public class countGroupedPointsTest {
 
         assertEquals(lib.countGroupedPoints(), 10);
     }
+
+    /**
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+     * </table>
+     */
     @Test
     public void countPoints_empty_correct(){
         lib.gameLibrary[0][0] = new Card();
