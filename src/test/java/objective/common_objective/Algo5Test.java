@@ -34,6 +34,7 @@ public class Algo5Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
@@ -89,6 +90,7 @@ public class Algo5Test {
      * <p></p>
      * <p> testing library:
      *<table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
@@ -144,6 +146,7 @@ public class Algo5Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>C</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td></tr>
@@ -199,6 +202,7 @@ public class Algo5Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>Y</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>C</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td></tr>
@@ -254,6 +258,7 @@ public class Algo5Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>C</td></tr>
