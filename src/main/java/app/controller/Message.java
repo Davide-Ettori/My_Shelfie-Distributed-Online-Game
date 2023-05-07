@@ -20,7 +20,7 @@ public class Message implements Serializable {
      * @param p the sender of the message (name)
      * @param cont the content of the message, any type of class (Object)
      */
-    public Message(MessageType t, String p, Object cont){ // li costruisci in maniera completa una e una sola volta
+    public Message(MessageType t, String p, Object cont){ // build the message in a complete way, only one time
         type = t;
         author = p;
         content = cont;

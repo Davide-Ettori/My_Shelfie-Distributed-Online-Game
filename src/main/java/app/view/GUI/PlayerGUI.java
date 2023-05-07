@@ -535,7 +535,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 switch (msg.getType()) {
                     case YOUR_TURN -> handleYourTurnEvent();
                     case CHANGE_TURN -> handleChangeTurnEvent(msg);
-                    case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+                    case UPDATE_UNPLAYABLE -> handleUpdateUnplayableEvent(msg);
                     case UPDATE_GAME -> handleUpdateGameEvent(msg);
                     case FINAL_SCORE -> handleFinalScoreEvent(msg);
                     case CHAT -> handleChatEvent(msg);
@@ -748,7 +748,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         try {
             boardStatus = new JSONObject();
             boardStatus.put("board", board);
-            sendToServer(new Message(UPDATE_UNPLAYBLE, name, boardStatus));
+            sendToServer(new Message(UPDATE_UNPLAYABLE, name, boardStatus));
         }catch (Exception e){connectionLost(e);}
     }
     /**
@@ -846,7 +846,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         switch (msg.getType()) {
             case YOUR_TURN -> handleYourTurnEvent();
             case CHANGE_TURN -> handleChangeTurnEvent(msg);
-            case UPDATE_UNPLAYBLE -> handleUpdateUnplayableEvent(msg);
+            case UPDATE_UNPLAYABLE -> handleUpdateUnplayableEvent(msg);
             case UPDATE_GAME -> handleUpdateGameEvent(msg);
             case FINAL_SCORE -> handleFinalScoreEvent(msg);
             case CHAT -> handleChatEvent(msg);

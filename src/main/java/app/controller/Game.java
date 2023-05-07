@@ -67,11 +67,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public Game(int maxP, String old) throws RemoteException {
         super();
         System.setProperty("java.rmi.server.hostname", IP.activeIP);
-        LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind("Server", this); // hosto il server sulla rete
+        LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind("Server", this); // host the server on the network
 
         targetPlayers = maxP;
         if(old.equals("yes")){
-            if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che ci sia un server nella cache, nel caso lo carichi
+            if(FILEHelper.havaCachedServer()) {// check if there's a server in the cache, if so, use it
                 gameTemp = FILEHelper.loadServer();
                 FILEHelper.writeFail();
                 if(gameTemp.numPlayers != maxP) {
@@ -98,7 +98,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         FILEHelper.writeFail();
         shuffleObjBucket();
         numPlayers = 0;
-        new Thread(() -> { // imposto un timer di un minuto per aspettare le connessioni dei client
+        new Thread(() -> { // start a timer that wait for clients connections
             double minutes = 2;
             Game.waitForSeconds(60 * minutes);
             if(!timeExp)
@@ -356,7 +356,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     } catch (SocketException e) {
                         connectionLost(e);
                     }
-                    if (getActivePlayersNumber() >= 3) // se ci sono solo 2 player il turno cambierà quindi non devo ascoltare la chat
+                    if (getActivePlayersNumber() >= 3) // if there are only 2 players, the turn will change, so there is no need to listen to the chat
                         new ChatBroadcast(this, names.indexOf(name)).start();
                 }
                 if(getActivePlayersNumber() == 2){
@@ -497,7 +497,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     endGameSituation = true;
                     continue;
                 }
-                if(msg.getType() == UPDATE_UNPLAYBLE){
+                if(msg.getType() == UPDATE_UNPLAYABLE){
                     JSONObject jsonObject = (JSONObject) msg.getContent();
                     Board b = (Board) jsonObject.get("board");
                     for(int i = 0; i < numPlayers; i++)
@@ -685,7 +685,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void sendFinalScoresToAll(){
         String finalScores = getFinalScore();
-        FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache
+        FILEHelper.writeSucc(); // the server finished with success, so nothing has to be written in the cache
         Thread finalTh = new Thread(() ->{
             for(int i = 0; i < numPlayers; i++) {
                 if(names.get(i).equals(Game.serverPlayer))
