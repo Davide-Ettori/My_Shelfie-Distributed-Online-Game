@@ -60,6 +60,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
     private boolean advance = false;
     private final transient Object waitMoveLock = new Object();
+    private final transient Object sendMoveLock = new Object();
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
