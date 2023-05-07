@@ -235,6 +235,7 @@ public class countMatchTest {
      * 5 match<br>
      * testlibrary:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -244,6 +245,7 @@ public class countMatchTest {
      * </table>
      * <br>testpersonalobjective:<br>
      *<table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>Y</td><td>B</td><td>Y</td><td>Y</td></tr>
      * <tr><td>B</td><td>Y</td><td>G</td><td>G</td><td>G</td></tr>
      * <tr><td>B</td><td>Y</td><td>G</td><td>W</td><td>W</td></tr>
@@ -335,6 +337,7 @@ public class countMatchTest {
      * 6 match:<br>
      * testlibrary:<br>
      *<table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -344,6 +347,7 @@ public class countMatchTest {
      * </table>
      * <br>testpersonalobjective:<br>
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>Y</td><td>B</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>B</td><td>Y</td><td>G</td><td>G</td><td>G</td></tr>
      * <tr><td>B</td><td>Y</td><td>G</td><td>W</td><td>G</td></tr>
@@ -435,6 +439,7 @@ public class countMatchTest {
      * Personalgoalempty:<br>
      * testlibrary:<br>
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -444,6 +449,7 @@ public class countMatchTest {
      * </table>
      * <br>testpersonalgoal:<br>
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -534,6 +540,7 @@ public class countMatchTest {
     /**
      * testlibrary:<br>
      *<table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -543,6 +550,7 @@ public class countMatchTest {
      * </table><br>
      * testpersonalobject:<br>
      *<table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -633,6 +641,7 @@ public class countMatchTest {
     /**
      * testlibrary: <br>
      *<table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>W</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -642,6 +651,7 @@ public class countMatchTest {
      * </table><br>
      * testpersonalobjective:<br>
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
