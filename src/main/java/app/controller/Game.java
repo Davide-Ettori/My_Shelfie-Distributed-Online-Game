@@ -738,6 +738,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void connectionLost(Exception e){
         if(closed)
             return;
+        e.printStackTrace();
         if(Game.showErrors)
             throw new RuntimeException(e);
         else{
@@ -762,6 +763,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      synchronized public void playerDisconnected(int i, Exception exc) {
         if(Game.showErrors)
             connectionLost(exc);
+        //System.out.println("disco: " + names.get(i));
         if (disconnectedPlayers.contains(names.get(i)))
             return;
         try {
