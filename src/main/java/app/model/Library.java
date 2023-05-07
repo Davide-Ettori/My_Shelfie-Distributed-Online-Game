@@ -186,9 +186,9 @@ public class Library implements Serializable {
      */
     public void draw(){
         System.out.println("\nYour own library (" + name +")");
-        System.out.print("  ");
+        System.out.print("   ");
         for (int i = 0; i < COLS; i++)
-            System.out.print((i + 1) + " ");
+            System.out.print((i + 1) + "   ");
         System.out.println();
         for (int i = 0; i < ROWS; i++) {
             System.out.print((i + 1) + " ");
@@ -205,9 +205,9 @@ public class Library implements Serializable {
      */
     public void draw(String title){
         System.out.println(title);
-        System.out.print("  ");
+        System.out.print("   ");
         for (int i = 0; i < COLS; i++)
-            System.out.print((i + 1) + " ");
+            System.out.print((i + 1) + "   ");
         System.out.println();
         for (int i = 0; i < ROWS; i++) {
             System.out.print((i + 1) + " ");

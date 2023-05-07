@@ -288,9 +288,9 @@ public class Board implements Serializable {
      */
     public void draw() {
         System.out.println("\nThe main board of the game");
-        System.out.print("  ");
+        System.out.print("   ");
         for (int i = 0; i < DIM; i++)
-            System.out.print((i + 1) + " ");
+            System.out.print((i + 1) + "   ");
         System.out.println();
         for (int i = 0; i < DIM; i++) {
             System.out.print((i + 1) + " ");
