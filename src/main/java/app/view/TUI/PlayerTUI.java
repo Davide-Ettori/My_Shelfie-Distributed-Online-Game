@@ -807,25 +807,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
         }
     }
-    /**
-     * method that listen for the final score of the game, for RMI clients
-     * @author Ettori
-     */
-    private void listenForEndGame(){
-        Message msg = null;
-        while(true){
-            try {
-                msg = (Message) inStream.readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                connectionLost(e);
-            }
-            if(msg == null)
-                connectionLost(new NullPointerException());
-            if(msg.getType() != FINAL_SCORE)
-                connectionLost(new RuntimeException("listenForEndGame method in TUI received a message different than FINAL_SCORE"));
-            handleFinalScoreEvent(msg);
-        }
-    }
     /********************************************* RMI ***************************************************************/
     /**
      * method (called from remote) that is the equivalent of wait for events of the socket version
@@ -848,7 +829,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             case SHOW_EVENT -> handleShowEvent(msg);
         }
     }
-
     /**
      * general method to send a message to the server, it chooses the right network connection of the player
      * @author Ettori
@@ -868,6 +848,25 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             } catch (RemoteException e) {
                 connectionLost(e);
             }
+        }
+    }
+    /**
+     * method that listen for the final score of the game, for RMI clients
+     * @author Ettori
+     */
+    private void listenForEndGame(){
+        Message msg = null;
+        while(true){
+            try {
+                msg = (Message) inStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                connectionLost(e);
+            }
+            if(msg == null)
+                connectionLost(new NullPointerException());
+            if(msg.getType() != FINAL_SCORE)
+                connectionLost(new RuntimeException("listenForEndGame method in TUI received a message different than FINAL_SCORE"));
+            handleFinalScoreEvent(msg);
         }
     }
     /**

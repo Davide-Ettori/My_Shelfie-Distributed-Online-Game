@@ -493,6 +493,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String) msg.getContent());
                         continue;
                     }
+                    if(msg.getType() == STOP)
+                        continue;
                     for (int i = 0; i < numPlayers; i++) {
                         if (i != activePlayer)
                             sendToClient(i, msg);
@@ -820,8 +822,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
+        System.out.println("tra poco mando");
         if(disconnectedPlayers.contains(names.get(i)))
             return;
+        System.out.println("mando " + msg.getType() + " to " + names.get(i));
         if(!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE){
             try {
                 outStreams.get(i).writeObject(msg);
@@ -884,11 +888,17 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 players.set(activePlayer, p);
                 players.get(activePlayer).activeName = names.get(activePlayer);
                 FILEHelper.writeServer(this);
-                if(!rmiClients.containsKey(names.get(activePlayer)))
+                for(String s: rmiClients.keySet())
+                    System.out.print(s + " ");
+                System.out.println();
+                if(!rmiClients.containsKey(names.get(activePlayer))) {
+                    System.out.println("ecco");
                     sendToClient(activePlayer, new Message(STOP, null, null));
+                }
                 Game.waitForSeconds(Game.passTimer);
                 advanceTurn();
             }
+            case STOP -> {}
             default -> {
                 if(msg.getType() == LIB_FULL && !endGameSituation)
                     endGameSituation = true;
