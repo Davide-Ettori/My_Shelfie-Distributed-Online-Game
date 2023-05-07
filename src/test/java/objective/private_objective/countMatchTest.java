@@ -10,18 +10,18 @@ import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
 /**
  * Test the different number of goals and the different private objective
- * @author Furkan
+ * @author Gumus
  */
 
 public class countMatchTest {
     Card[][] lib = null;
-    @Before // eseguita prima dei test
+    /**
+     * method executed before every test that create a new library
+     * @author Gumus
+     */
+    @Before
     public void setUp(){
         this.lib = new Card[6][5];
-    }
-    @After // eseguita dopo i test
-    public void tearDown() {
-        return;
     }
 
     /**

@@ -18,16 +18,14 @@ import static org.junit.Assert.assertTrue;
 public class Algo2Test {
     Algo_CO_2 algoCo2 = null;
     Card[][] mat = new Card[6][5];
-
-    @Before // eseguita prima dei test
+    /**
+     * method executed before every test that create a new algorithm
+     * @author Ettori
+     */
+    @Before
     public void setUp() {
         this.algoCo2 = new Algo_CO_2();
 
-    }
-
-    @After // eseguita dopo i test
-    public void tearDown() {
-        return;
     }
 
     /**

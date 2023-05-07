@@ -9,14 +9,14 @@ import app.model.Library;
 
 public class countGroupedPointsTest {
     Library lib = null;
-    @Before // eseguita prima dei test
+    /**
+     * method executed before every test that create a new library
+     * @author Giammusso
+     */
+    @Before
     public void setUp(){
         this.lib = new Library("");
 
-    }
-    @After // eseguita dopo i test
-    public void tearDown(){
-        return;
     }
 
     /**

@@ -15,16 +15,14 @@ public class insertCardsTest {
     Library beforeLib = null;
     Library afterLib = null;
     ArrayList<Card> myCards = new ArrayList<Card>(Arrays.asList(new Card(PINK),new Card(GREEN),new Card(BLUE)));
-
-
+    /**
+     * method executed before every test that create a new library
+     * @author Giammusso
+     */
     @Before // eseguita prima dei test
     public void setUp(){
         this.beforeLib = new Library("");
         this.afterLib = new Library("");
-    }
-    @After // eseguita dopo i test
-    public void tearDown(){
-        return;
     }
 
     /**
@@ -191,7 +189,7 @@ public class insertCardsTest {
         beforeLib.gameLibrary[5][4] = new Card(PINK);
 
         //Second library
-        afterLib.gameLibrary[0][0] = new Card(CYAN);//1 - i change only this color to obtain an incorrect result (the correct was BLUE)
+        afterLib.gameLibrary[0][0] = new Card(CYAN);//1 - I changed only this color to obtain an incorrect result (the correct was BLUE)
         afterLib.gameLibrary[0][1] = new Card(PINK);
         afterLib.gameLibrary[0][2] = new Card(PINK);
         afterLib.gameLibrary[0][3] = new Card(PINK);

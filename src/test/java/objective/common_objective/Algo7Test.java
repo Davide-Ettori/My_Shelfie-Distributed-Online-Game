@@ -19,14 +19,13 @@ public class Algo7Test {
     Algo_CO_7 algoCo7 = null;
 
     Card[][] mat = new Card[6][5];
-
-    @Before // eseguita prima dei test
+    /**
+     * method executed before every test that create a new algorithm
+     * @author Ettori
+     */
+    @Before
     public void setUp() {
         this.algoCo7 = new Algo_CO_7();
-    }
-    @After // eseguita dopo i test
-    public void tearDown() {
-        return;
     }
 
     /**

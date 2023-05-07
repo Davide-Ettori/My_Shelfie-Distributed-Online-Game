@@ -10,14 +10,14 @@ import app.model.Library;
 public class drawTest {
 
     Library lib = null;
-    @Before // eseguita prima dei test
+    /**
+     * method executed before every test that create a new library
+     * @author Giammusso
+     */
+    @Before
     public void setUp(){
         lib = new Library("");
         lib.name = "sam";
-    }
-    @After // eseguita dopo i test
-    public void tearDown(){
-        return;
     }
     /**
      * <table border="1">

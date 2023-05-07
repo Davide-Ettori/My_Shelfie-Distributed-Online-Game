@@ -18,14 +18,13 @@ public class Algo3Test {
     Algo_CO_3 algoCo3 = null;
 
     Card[][] mat = new Card[6][5];
-
-    @Before // eseguita prima dei test
+    /**
+     * method executed before every test that create a new algorithm
+     * @author Ettori
+     */
+    @Before
     public void setUp() {
         this.algoCo3 = new Algo_CO_3();
-    }
-    @After // eseguita dopo i test
-    public void tearDown() {
-        return;
     }
     /**
      * <p>Card of the same color in the library's corners</p>
