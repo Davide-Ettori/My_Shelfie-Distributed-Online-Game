@@ -15,7 +15,7 @@ import app.model.Library;
  * The False tests are:1,3
  * <p>
  * The True tests are: 2
- * @author Giammusso , Ettori
+ * @author Giammusso, Ettori
  */
 public class checkColTest {
 
@@ -41,7 +41,7 @@ public class checkColTest {
      * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
-     * @autor: Giammusso
+     * @author Giammusso
      */
     @Test // test 1
     public void checkCol_allFull(){
@@ -95,7 +95,7 @@ public class checkColTest {
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
-     * @autor: Giammusso
+     * @author Giammusso
      */
     @Test // test 2
     public void checkCol_emptyColumn_correct(){
@@ -149,7 +149,7 @@ public class checkColTest {
      * <tr><td>G</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * <tr><td>G</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
      * </table>
-     * @autor: Giammusso
+     * @author Giammusso
      */
     @Test // test 3
     public void checkCol_tooManyCards(){

@@ -26,7 +26,7 @@ public class hasOneFreeSideTest {
 
     /**
      * this test check if the selected card(which don't have a freeside) has a freeside
-     * @autor Gumus
+     * @author Gumus
      */
     @Test
     public void board_nofreeside(){
@@ -51,7 +51,7 @@ public class hasOneFreeSideTest {
 
     /**
      * this test check if the selected card(which have a single freeside) has a freeside
-     * @autor Gumus
+     * @author Gumus
      */
     @Test
     public void board_haveonefreeside(){
@@ -75,7 +75,7 @@ public class hasOneFreeSideTest {
     }
     /**
      * this test check if the selected card(which have 2 freeside) has a freeside
-     * @autor Gumus
+     * @author Gumus
      */
     @Test
     public void board_havetwofreeside(){
