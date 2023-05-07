@@ -59,6 +59,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private transient Game gameTemp = null;
     private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
     private boolean advance = false;
+    private boolean canWait = true;
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -310,7 +311,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 ObjectOutputStream finalClientOut = clientOut;
                 th = new Thread(() ->{
                     try{getUserName(finalClientIn, finalClientOut);}
-                    catch(Exception e){System.out.println(e);}
+                    catch(Exception e){connectionLost(e);}
                 });
                 th.start();
                 ths.add(th);
@@ -483,6 +484,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 return;
             }
             try {
+                if(msg == null)
+                    continue;
                 if(msg.getType() == PING)
                     continue;
                 if(msg.getType() == CHAT){
@@ -565,7 +568,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         if(!rmiClients.containsKey(names.get(activePlayer)))
-            waitMoveFromClient();
+            new Thread(this::waitMoveFromClient).start();
         else {
             startChatServerThread();
         }
@@ -729,6 +732,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void connectionLost(Exception e){
         if(closed)
             return;
+        e.printStackTrace();
         if(Game.showErrors)
             throw new RuntimeException(e);
         else{
@@ -750,14 +754,17 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param i the index of the lost client
      * @author Ettori
      */
-    public void playerDisconnected(int i, Exception exc) {
-        if(showErrors)
+     synchronized public void playerDisconnected(int i, Exception exc) {
+        if(Game.showErrors)
             connectionLost(exc);
+        exc.printStackTrace();
         if (disconnectedPlayers.contains(names.get(i)))
             return;
         try {
-            playersSocket.get(i).setSoTimeout(0);
-        } catch (SocketException ignored) {}
+            playersSocket.get(i).close();
+            outStreams.get(i).close();
+            inStreams.get(i).close();
+        } catch (IOException ignored){}
         disconnectedPlayers.add(names.get(i));
         rmiClients.remove(names.get(i));
         if (getActivePlayersNumber() == 1)
@@ -769,8 +776,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else{
             for(int x = 0; x < numPlayers; x++){
-                if(!disconnectedPlayers.contains(names.get(x)))
+                if(!disconnectedPlayers.contains(names.get(x))) {
                     sendToClient(x, new Message(LOST_CLIENT, names.get(i), null));
+                }
             }
         }
     }
@@ -907,6 +915,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     rmiClients.get(n).pingClient();
                 } catch (RemoteException e) {
                     playerDisconnected(names.indexOf(n), e);
+                    return;
                 }
             }
         }
