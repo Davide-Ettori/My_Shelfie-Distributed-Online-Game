@@ -29,9 +29,11 @@ public class Algo1Test {
 
 
     /**
-     * <p>Six cuople of cards with the same type</p>
+     * <p>Six couple of cards with the same type</p>
      * <p></p>
      * <p> testing library:
+     * <table border="1">
+     * <caption>matrix</caption>
      * <tr><td>P</td><td>P</td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td> </td><td>Y</td><td> </td></tr>
      * <tr><td>C</td><td>C</td><td>Y</td><td>B</td><td>B</td></tr>
@@ -87,6 +89,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     * <caption>matrix</caption>
      * <tr><td>P</td><td> </td><td> </td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td> </td><td> </td><td>Y</td><td> </td></tr>
      * <tr><td> </td><td>C</td><td>Y</td><td> </td><td>B</td></tr>
@@ -142,6 +145,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     * <caption>matrix</caption>
      * <tr><td>P</td><td> </td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>B</td><td>Y</td><td> </td></tr>
      * <tr><td>C</td><td>C</td><td>Y</td><td> </td><td>B</td></tr>
@@ -192,6 +196,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td> </td><td> </td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td>B</td><td>Y</td><td> </td></tr>
      * <tr><td>C</td><td>C</td><td>Y</td><td> </td><td>B</td></tr>
@@ -247,6 +252,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td> </td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>B</td><td> </td><td>Y</td><td> </td></tr>
      * <tr><td>C</td><td> </td><td>Y</td><td>Y</td><td>B</td></tr>
@@ -302,6 +308,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td> </td><td>G</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td> </td><td>B</td><td>Y</td><td> </td></tr>
      * <tr><td>C</td><td> </td><td>Y</td><td>Y</td><td>B</td></tr>
@@ -357,6 +364,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
@@ -407,6 +415,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>B</td><td>B</td><td> </td><td>B</td><td>B</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td> </td><td>B</td><td>B</td><td> </td><td> </td></tr>
@@ -462,6 +471,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      *<table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>Y</td><td> </td><td> </td><td> </td><td> </td></tr>
      * <tr><td>Y</td><td>B</td><td>G</td><td>Y</td><td>B</td></tr>
      * <tr><td>G</td><td>Y</td><td>B</td><td>G</td><td>Y</td></tr>
@@ -517,6 +527,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td> </td><td> </td><td> </td><td> </td></tr>
      * <tr><td>P</td><td>B</td><td>B</td><td>B</td><td> </td></tr>
      * <tr><td>P</td><td>B</td><td>Y</td><td>B</td><td>B</td></tr>
@@ -572,6 +583,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+      *     <caption>matrix</caption>
      * <tr><td>P</td><td> </td><td> </td><td> </td><td>P</td></tr>
      * <tr><td> </td><td>B</td><td>B</td><td>B</td><td> </td></tr>
      * <tr><td> </td><td>B</td><td>Y</td><td>B</td><td>B</td></tr>
@@ -627,6 +639,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>C</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>B</td><td>C</td><td> </td><td> </td><td> </td></tr>
      * <tr><td>Y</td><td>G</td><td> </td><td> </td><td> </td></tr>
@@ -682,6 +695,7 @@ public class Algo1Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>B</td><td>B</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>C</td><td>C</td><td> </td><td> </td><td> </td></tr>
      * <tr><td>G</td><td>G</td><td> </td><td> </td><td> </td></tr>
