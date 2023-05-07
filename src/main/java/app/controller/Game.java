@@ -738,7 +738,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void connectionLost(Exception e){
         if(closed)
             return;
-        e.printStackTrace();
         if(Game.showErrors)
             throw new RuntimeException(e);
         else{
@@ -763,7 +762,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      synchronized public void playerDisconnected(int i, Exception exc) {
         if(Game.showErrors)
             connectionLost(exc);
-        //exc.printStackTrace();
         if (disconnectedPlayers.contains(names.get(i)))
             return;
         try {
@@ -822,10 +820,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        System.out.println("tra poco mando");
+        //System.out.println("tra poco mando");
         if(disconnectedPlayers.contains(names.get(i)))
             return;
-        System.out.println("mando " + msg.getType() + " to " + names.get(i));
+        //System.out.println("mando " + msg.getType() + " to " + names.get(i));
         if(!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE){
             try {
                 outStreams.get(i).writeObject(msg);
@@ -888,13 +886,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 players.set(activePlayer, p);
                 players.get(activePlayer).activeName = names.get(activePlayer);
                 FILEHelper.writeServer(this);
-                for(String s: rmiClients.keySet())
-                    System.out.print(s + " ");
-                System.out.println();
-                if(!rmiClients.containsKey(names.get(activePlayer))) {
-                    System.out.println("ecco");
+                if(!rmiClients.containsKey(names.get(activePlayer)))
                     sendToClient(activePlayer, new Message(STOP, null, null));
-                }
                 Game.waitForSeconds(Game.passTimer);
                 advanceTurn();
             }
