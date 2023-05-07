@@ -31,7 +31,16 @@ public class checkColTest {
     }
 
     /**
-     * in this test all the columns are filled so that we can't insert any other card in the library
+     * in this test all the columns are filled so that we can't insert any other card in the library<br>
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>B</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>P</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>P</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
      * @autor: Giammusso
      */
     @Test // test 1
@@ -76,7 +85,16 @@ public class checkColTest {
     }
 
     /**
-     * in this test colomn 0 is empty so we can insert cards
+     * in this test colomn 0 is empty so we can insert cards<br>
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
      * @autor: Giammusso
      */
     @Test // test 2
@@ -121,7 +139,16 @@ public class checkColTest {
     }
 
     /**
-     * in this test column 0 has 2 free spaces but there are 3 cards to put in the same column
+     * in this test column 0 has 2 free spaces but there are 3 cards to put in the same column<br>
+     * <table border="1">
+     * <caption> matrix </caption>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>B</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>G</td><td>B</td><td>B</td><td>B</td><td>B</td></tr>
+     * <tr><td>G</td><td>B</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>G</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * <tr><td>G</td><td>P</td><td>G</td><td>P</td><td>P</td></tr>
+     * </table>
      * @autor: Giammusso
      */
     @Test // test 3
