@@ -32,6 +32,7 @@ public class Algo10Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>G</td><td>P</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>P</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>P</td><td>C</td><td>P</td><td>B</td><td>B</td></tr>
@@ -87,6 +88,7 @@ public class Algo10Test {
      * <p></p>
      * <p> testing library:
      * <table border="1">
+     *     <caption>matrix</caption>
      * <tr><td>P</td><td>G</td><td>&nbsp;&nbsp;&nbsp;</td><td>G</td><td>Y</td></tr>
      * <tr><td>B</td><td>P</td><td>Y</td><td>Y</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
      * <tr><td>P</td><td>C</td><td>P</td><td>B</td><td>B</td></tr>
