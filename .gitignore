@@ -11,11 +11,12 @@
 assets/*
 documentation/*
 out/*
-META-INF/*
+src/main/resources/META-INF/*
 src/main/java/app/controller/cache/*
 run.sh
 target/*
-
+resources/*
+src/main/resources/*
 
 
 # User-specific stuff
