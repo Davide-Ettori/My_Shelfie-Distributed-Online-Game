@@ -18,6 +18,7 @@ target/*
 resources/*
 src/main/resources/*
 META-INF/*
+.DS_Store
 
 
 # User-specific stuff
