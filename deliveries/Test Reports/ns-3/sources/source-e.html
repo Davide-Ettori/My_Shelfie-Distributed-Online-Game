@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Algo_CO_9</title>
+  <title>Coverage Report > Card</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">app.model</a>
 </div>
 
-<h1>Coverage Summary for Class: Algo_CO_9 (app.model)</h1>
+<h1>Coverage Summary for Class: Card (app.model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Algo_CO_9</td>
+  <td class="name">Card</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -54,15 +54,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (3/3)
+    (6/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92,9%
+    77,1%
   </span>
   <span class="absValue">
-    (13/14)
+    (27/35)
   </span>
 </td>
 </tr>
@@ -76,56 +76,89 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package app.model;
 &nbsp;
-&nbsp;import java.util.ArrayList;
+&nbsp;import java.io.Serializable;
 &nbsp;
-&nbsp;import static app.model.Color.EMPTY;
-&nbsp;
-&nbsp;/*
-&nbsp;Tre colonne formate ciascuna da
-&nbsp;6 tessere di uno, due o tre tipi differenti.
-&nbsp;Colonne diverse possono avere
-&nbsp;combinazioni diverse di tipi di tessere.
-&nbsp; */
+&nbsp;import static app.model.Color.*;
 &nbsp;/**
-&nbsp; * class which represent the number nine objective (common). Immutable
-&nbsp; * @author Ettori Faccincani
+&nbsp; * class that represent the cards, both in the library and in the board. Mutable
+&nbsp; * @author Ettori Giammusso
 &nbsp; */
-<b class="fc">&nbsp;public class Algo_CO_9 extends Strategy { // quinto prima colonna</b>
+&nbsp;public class Card implements Serializable {
+&nbsp;    /** the color of the card, 6 types + EMPTY */
+&nbsp;    public Color color;
+<b class="fc">&nbsp;    public String imagePath = &quot;&quot;;</b>
+&nbsp;
 &nbsp;    /**
-&nbsp;     * check that the chosen column has no empty
+&nbsp;     * constructor that initialize both the color and the image
+&nbsp;     * @param col the color of the card
+&nbsp;     * @param image the path of the image file
 &nbsp;     * @author Ettori
-&nbsp;     * @param board matrix
-&nbsp;     * @param c column
-&nbsp;     * @return true iff there are no empty on column
 &nbsp;     */
-&nbsp;    private boolean notEmptyOnCol(Card[][] board, int c){
-<b class="fc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
-<b class="fc">&nbsp;            if(board[i][c].color == EMPTY)</b>
-<b class="nc">&nbsp;                return false;</b>
-&nbsp;        }
-<b class="fc">&nbsp;        return true;</b>
+<b class="fc">&nbsp;    public Card(Color col, String image){</b>
+<b class="fc">&nbsp;        color = col;</b>
+<b class="fc">&nbsp;        imagePath = image;</b>
 &nbsp;    }
 &nbsp;    /**
-&nbsp;     * check if the matrix match with the objective
+&nbsp;     * standard constructor to initialize card with the right color
+&nbsp;     * @param col the color to set
 &nbsp;     * @author Ettori
-&nbsp;     * @param board the matrix of the board
-&nbsp;     * @return true iff it found a match
 &nbsp;     */
-&nbsp;    @Override
-&nbsp;    public boolean checkMatch(Card[][] board) {
-<b class="fc">&nbsp;        int count = 0;</b>
-&nbsp;        ArrayList&lt;Color&gt; colors;
-<b class="fc">&nbsp;        for (int j = 0; j &lt; COLS; j++) {</b>
-<b class="fc">&nbsp;            colors = new ArrayList&lt;&gt;();</b>
-<b class="fc">&nbsp;            for (int i = 0; i &lt; ROWS; i++) {</b>
-<b class="fc">&nbsp;                if (!colors.contains(board[i][j].color))</b>
-<b class="fc">&nbsp;                    colors.add(board[i][j].color);</b>
-&nbsp;            }
-<b class="fc">&nbsp;            if (colors.size() &gt;= 1 &amp;&amp; colors.size() &lt;= 3 &amp;&amp; notEmptyOnCol(board, j))</b>
-<b class="fc">&nbsp;                count++;</b>
-&nbsp;        }
-<b class="fc">&nbsp;        return count &gt;= 3;</b>
+<b class="fc">&nbsp;    public Card(Color col){</b>
+<b class="fc">&nbsp;        color = col;</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the most simple constructor, used to initialize the empty cards
+&nbsp;     * @author Ettori
+&nbsp;     */
+<b class="fc">&nbsp;    public Card(){</b>
+<b class="fc">&nbsp;        color = EMPTY;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * copy constructor for this class, used for deep copying objects
+&nbsp;     * @param c the object to copy
+&nbsp;     * @author ettori
+&nbsp;     */
+<b class="fc">&nbsp;    public Card(Card c){ // copy constructor</b>
+<b class="fc">&nbsp;        color = c.color;</b>
+<b class="fc">&nbsp;        imagePath = c.imagePath;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * assigns ansi code to each color to be printed then return the string
+&nbsp;     * @param c the color to be printed
+&nbsp;     * @author Gumus
+&nbsp;     */
+&nbsp;    private String mapColor(Color c) {
+<b class="fc">&nbsp;        String Pink = &quot;\u001B[45m&quot;;</b>
+<b class="fc">&nbsp;        String Cyan = &quot;\u001B[46m&quot;;</b>
+<b class="fc">&nbsp;        String Blue = &quot;\u001B[44m&quot;;</b>
+<b class="fc">&nbsp;        String Green = &quot;\u001B[42m&quot;;</b>
+<b class="fc">&nbsp;        String Yellow = &quot;\u001B[43m&quot;;</b>
+<b class="fc">&nbsp;        String White= &quot;\u001B[47m&quot;;</b>
+<b class="fc">&nbsp;        String Black = &quot;\u001B[40m&quot;;</b>
+<b class="fc">&nbsp;        String Ansi_Reset = &quot;\u001B[0m&quot;;</b>
+<b class="fc">&nbsp;        if (c == PINK)</b>
+<b class="fc">&nbsp;            return Pink+&quot; P &quot;+Ansi_Reset;</b>
+<b class="fc">&nbsp;        if (c == CYAN)</b>
+<b class="nc">&nbsp;            return Cyan+&quot; C &quot;+Ansi_Reset;</b>
+<b class="fc">&nbsp;        if (c == BLUE)</b>
+<b class="fc">&nbsp;            return Blue+&quot; B &quot;+Ansi_Reset;</b>
+<b class="fc">&nbsp;        if (c == GREEN)</b>
+<b class="fc">&nbsp;            return Green+&quot; G &quot;+Ansi_Reset;</b>
+<b class="nc">&nbsp;        if (c == YELLOW)</b>
+<b class="nc">&nbsp;            return Yellow+ &quot; Y &quot;+Ansi_Reset;</b>
+<b class="nc">&nbsp;        if (c == WHITE)</b>
+<b class="nc">&nbsp;            return White+ &quot; W &quot;+Ansi_Reset;</b>
+<b class="nc">&nbsp;        if (c == EMPTY)</b>
+<b class="nc">&nbsp;            return Black+&quot; # &quot;+Ansi_Reset;</b>
+<b class="nc">&nbsp;        return &quot; ? &quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method used to draw the card itself (TUI)
+&nbsp;     * @author Ettori
+&nbsp;     */
+<b class="fc">&nbsp;    public void draw(){System.out.print(mapColor(color));}</b>
 &nbsp;}
 </code>
 </pre>
@@ -150,7 +183,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>

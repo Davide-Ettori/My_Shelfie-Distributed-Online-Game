@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Board</title>
+  <title>Coverage Report > Client</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">app.model</a>
 </div>
 
-<h1>Coverage Summary for Class: Board (app.model)</h1>
+<h1>Coverage Summary for Class: Client (app.model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Board</td>
+  <td class="name">Client</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    52,6%
+    0%
   </span>
   <span class="absValue">
-    (10/19)
+    (0/12)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    61%
+    0%
   </span>
   <span class="absValue">
-    (72/118)
+    (0/208)
   </span>
 </td>
 </tr>
@@ -76,309 +76,286 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package app.model;
 &nbsp;
+&nbsp;import app.controller.Game;
 &nbsp;import app.controller.Initializer;
+&nbsp;import app.view.GUI.PlayerGUI;
+&nbsp;import app.view.IP;
+&nbsp;import app.view.TUI.PlayerTUI;
+&nbsp;import app.view.UIMode;
 &nbsp;
-&nbsp;import java.io.Serializable;
-&nbsp;import java.util.ArrayList;
-&nbsp;import java.util.Arrays;
-&nbsp;import java.util.LinkedList;
-&nbsp;import java.util.Random;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.io.*;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.RemoteException;
 &nbsp;
-&nbsp;import static app.model.Color.*;
+&nbsp;import static app.model.NetMode.RMI;
+&nbsp;import static app.model.NetMode.SOCKET;
+&nbsp;import static app.view.UIMode.GUI;
+&nbsp;import static app.view.UIMode.TUI;
 &nbsp;
 &nbsp;/**
-&nbsp; * class which represent the common board where the players choose the cards. Mutable
-&nbsp; * @author Ettori Faccincani
-&nbsp; *
+&nbsp; * class which represent the entry point for the client
+&nbsp; * @author Ettori
 &nbsp; */
-&nbsp;public class Board implements Serializable {
-<b class="fc">&nbsp;    private final int DIM = 9;</b>
-<b class="fc">&nbsp;    private final Card[][] gameBoard = new Card[DIM][DIM];</b>
-&nbsp;    /** the first common objective */
-&nbsp;    public CommonObjective commonObjective_1;
-&nbsp;    /** the second common objective */
-&nbsp;    public CommonObjective commonObjective_2;
-&nbsp;    /** the points available for the first common objective */
-&nbsp;    public LinkedList&lt;Integer&gt; pointsCO_1;
-&nbsp;    /** the points available for the second common objective */
-&nbsp;    public LinkedList&lt;Integer&gt; pointsCO_2;
-<b class="fc">&nbsp;    private ArrayList&lt;Card&gt; bucketOfCards = Initializer.setBucketOfCards();</b>
-&nbsp;    private int[][] gameMatrix;
-&nbsp;    /** the name of the player owning this board */
-&nbsp;    public String name;
+&nbsp;public class Client {
+&nbsp;
+&nbsp;    /** variable used to keep track of the UI mode that the player is currently using */
+&nbsp;    public static UIMode uiModeCur;
+<b class="nc">&nbsp;    private JFrame setupFrame = new JFrame();</b>
+<b class="nc">&nbsp;    private JPanel generalPanel = new JPanel();</b>
+<b class="nc">&nbsp;    private boolean flag = false; //true only for the first player that connect to the server</b>
+<b class="nc">&nbsp;    private static boolean close = true;</b>
+<b class="nc">&nbsp;    private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</b>
+&nbsp;
 &nbsp;    /**
-&nbsp;     * normal constructor for this type of object
-&nbsp;     * @param numPlayers the number of players in this game
-&nbsp;     * @param CO_1 the first common objective chosen
-&nbsp;     * @param CO_2 the second common objective chosen
+&nbsp;     * method for drawing the GUI to ask ip, port for socket and port for RMI
 &nbsp;     */
-<b class="fc">&nbsp;    public Board(int numPlayers, CommonObjective CO_1, CommonObjective CO_2){</b>
-<b class="fc">&nbsp;        commonObjective_1 = CO_1;</b>
-<b class="fc">&nbsp;        commonObjective_2 = CO_2;</b>
-<b class="fc">&nbsp;        if(numPlayers == 2){</b>
-<b class="fc">&nbsp;            pointsCO_1 = new LinkedList&lt;&gt;(Arrays.asList(4, 8)); // vanno presi con il metodo list.pop() --&gt; da destra verso sinistra</b>
-<b class="fc">&nbsp;            pointsCO_2 = new LinkedList&lt;&gt;(Arrays.asList(4, 8));</b>
-&nbsp;        }
-<b class="fc">&nbsp;        else if(numPlayers == 3){</b>
-<b class="nc">&nbsp;            pointsCO_1 = new LinkedList&lt;&gt;(Arrays.asList(4,6,8));</b>
-<b class="nc">&nbsp;            pointsCO_2 = new LinkedList&lt;&gt;(Arrays.asList(4,6,8));</b>
-&nbsp;        }
-&nbsp;        else{
-<b class="fc">&nbsp;            pointsCO_1 = new LinkedList&lt;&gt;(Arrays.asList(2,4,6,8));</b>
-<b class="fc">&nbsp;            pointsCO_2 = new LinkedList&lt;&gt;(Arrays.asList(2,4,6,8));</b>
-&nbsp;        }
+&nbsp;    private void insertIp(){
+<b class="nc">&nbsp;        setupFrame.setTitle(&quot;Insert the IP Address&quot;);</b>
+<b class="nc">&nbsp;        JTextField ipText = new JTextField(&quot; Insert ip: (default = 127.0.0.1) &quot;);</b>
+<b class="nc">&nbsp;        JTextField socketPortText = new JTextField(&quot; Insert socket port: (default = 3333) &quot;);</b>
+<b class="nc">&nbsp;        JTextField rmiPortText = new JTextField(&quot; Insert rmi port: (default = 5555) &quot;);</b>
+<b class="nc">&nbsp;        JButton sendIP = new JButton(&quot; Enter &quot;);</b>
+<b class="nc">&nbsp;        sendIP.setFont(new Font(&quot;Calibri&quot;, Font.PLAIN, 25));</b>
+&nbsp;
+<b class="nc">&nbsp;        ipText.addActionListener(event -&gt; sendIP.doClick());</b>
+<b class="nc">&nbsp;        socketPortText.addActionListener(event -&gt; sendIP.doClick());</b>
+<b class="nc">&nbsp;        rmiPortText.addActionListener(event -&gt; sendIP.doClick());</b>
+<b class="nc">&nbsp;        sendIP.addActionListener((event) -&gt;{</b>
+&nbsp;            try{
+<b class="nc">&nbsp;                if(!socketPortText.getText().equals(&quot; Insert socket port: (default = 3333) &quot;))</b>
+<b class="nc">&nbsp;                    Initializer.PORT = Integer.parseInt(socketPortText.getText());</b>
+<b class="nc">&nbsp;                if(!rmiPortText.getText().equals(&quot; Insert rmi port: (default = 5555) &quot;))</b>
+<b class="nc">&nbsp;                    Initializer.PORT_RMI = Integer.parseInt(rmiPortText.getText());</b>
+<b class="nc">&nbsp;                if(!ipText.getText().equals(&quot; Insert ip: (default = 127.0.0.1) &quot;))</b>
+<b class="nc">&nbsp;                    IP.activeIP = ipText.getText();</b>
+&nbsp;                try{
+<b class="nc">&nbsp;                    new Thread(() -&gt;{</b>
+<b class="nc">&nbsp;                        Game.waitForSeconds(3);</b>
+<b class="nc">&nbsp;                        if(!Client.close)</b>
+&nbsp;                            return;
+<b class="nc">&nbsp;                        System.out.println(&quot;\nThe ip address was incorrect...&quot;);</b>
+<b class="nc">&nbsp;                        System.exit(0);</b>
+<b class="nc">&nbsp;                    }).start();</b>
+<b class="nc">&nbsp;                    Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);</b>
+<b class="nc">&nbsp;                    Client.close = false;</b>
+<b class="nc">&nbsp;                    ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());</b>
+<b class="nc">&nbsp;                    out.writeObject(true);</b>
+<b class="nc">&nbsp;                    alert(&quot;There is already an active game...&quot;);</b>
+<b class="nc">&nbsp;                    new Thread(this::insertInfo).start();</b>
+<b class="nc">&nbsp;                }catch (Exception e){</b>
+<b class="nc">&nbsp;                    Client.close = false;</b>
+<b class="nc">&nbsp;                    alert(&quot;You are the first player to connect!&quot;);</b>
+<b class="nc">&nbsp;                    flag = true;</b>
+<b class="nc">&nbsp;                    new Thread(this::insertPlayers).start();</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }catch (Exception e){</b>
+<b class="nc">&nbsp;                alert(&quot;Invalid Selection&quot;);</b>
+<b class="nc">&nbsp;                ipText.setText(&quot; Insert ip: &quot;);</b>
+<b class="nc">&nbsp;                socketPortText.setText(&quot; Insert socket port: &quot;);</b>
+<b class="nc">&nbsp;                rmiPortText.setText(&quot; Insert rmi port: &quot;);</b>
+<b class="nc">&nbsp;                generalPanel.requestFocusInWindow();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        });
+<b class="nc">&nbsp;        int w = 800;</b>
+<b class="nc">&nbsp;        int h = 450;</b>
+<b class="nc">&nbsp;        generalPanel.setLayout(new GridLayout(4, 1));</b>
+<b class="nc">&nbsp;        generalPanel.add(ipText);</b>
+<b class="nc">&nbsp;        generalPanel.add(socketPortText);</b>
+<b class="nc">&nbsp;        generalPanel.add(rmiPortText);</b>
+<b class="nc">&nbsp;        generalPanel.add(sendIP);</b>
+<b class="nc">&nbsp;        generalPanel.setPreferredSize(new Dimension(w, h));</b>
+<b class="nc">&nbsp;        generalPanel.requestFocusInWindow();</b>
+<b class="nc">&nbsp;        setupFrame.add(generalPanel, BorderLayout.CENTER);</b>
+<b class="nc">&nbsp;        setupFrame.setSize(w, h);</b>
+<b class="nc">&nbsp;        setupFrame.setResizable(false);</b>
+<b class="nc">&nbsp;        setupFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+<b class="nc">&nbsp;        setupFrame.pack();</b>
+<b class="nc">&nbsp;        setupFrame.setLocationRelativeTo(null);</b>
+<b class="nc">&nbsp;        setupFrame.setVisible(true);</b>
+<b class="nc">&nbsp;        generalPanel.requestFocus();</b>
 &nbsp;    }
 &nbsp;    /**
-&nbsp;     * copy constructor for this class, used for deep copying objects
-&nbsp;     * @param b the object to copy (game board)
+&nbsp;     * method for drawing the GUI to ask number of players and persistence
 &nbsp;     */
-<b class="nc">&nbsp;    public Board(Board b){ // copy constructor</b>
-<b class="nc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
-<b class="nc">&nbsp;            for(int j = 0; j &lt; DIM; j++){</b>
-<b class="nc">&nbsp;                gameBoard[i][j] = new Card(b.gameBoard[i][j]);</b>
+&nbsp;    private void insertPlayers(){
+<b class="nc">&nbsp;        setupFrame.setTitle(&quot;Insert the Number of Players&quot;);</b>
+<b class="nc">&nbsp;        JRadioButton p_2 = new JRadioButton(&quot;2 players&quot;);</b>
+<b class="nc">&nbsp;        JRadioButton p_3 = new JRadioButton(&quot;3 players&quot;);</b>
+<b class="nc">&nbsp;        JRadioButton p_4 = new JRadioButton(&quot;4 players&quot;);</b>
+<b class="nc">&nbsp;        p_2.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));</b>
+<b class="nc">&nbsp;        p_3.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));</b>
+<b class="nc">&nbsp;        p_4.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));</b>
+<b class="nc">&nbsp;        p_2.setSelected(true);</b>
+<b class="nc">&nbsp;        ButtonGroup group_1 = new ButtonGroup();</b>
+<b class="nc">&nbsp;        group_1.add(p_2);</b>
+<b class="nc">&nbsp;        group_1.add(p_3);</b>
+<b class="nc">&nbsp;        group_1.add(p_4);</b>
+<b class="nc">&nbsp;        JTextField pers = new JTextField(&quot; Do you want to activate persistence ?&quot;);</b>
+<b class="nc">&nbsp;        pers.setEditable(false);</b>
+<b class="nc">&nbsp;        JRadioButton yes = new JRadioButton(&quot;yes&quot;);</b>
+<b class="nc">&nbsp;        yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));</b>
+<b class="nc">&nbsp;        JRadioButton no = new JRadioButton(&quot;no&quot;);</b>
+<b class="nc">&nbsp;        no.setSelected(true);</b>
+<b class="nc">&nbsp;        ButtonGroup group_2 = new ButtonGroup();</b>
+<b class="nc">&nbsp;        group_2.add(yes);</b>
+<b class="nc">&nbsp;        group_2.add(no);</b>
+&nbsp;
+<b class="nc">&nbsp;        JButton enterBtn = new JButton(&quot; Enter &quot;);</b>
+<b class="nc">&nbsp;        enterBtn.setFont(new Font(&quot;Calibri&quot;, Font.PLAIN, 25));</b>
+<b class="nc">&nbsp;        enterBtn.addActionListener((event) -&gt;{</b>
+<b class="nc">&nbsp;            int numP = 0;</b>
+<b class="nc">&nbsp;            String persOpt = &quot;&quot;;</b>
+<b class="nc">&nbsp;            if(p_2.isSelected())</b>
+<b class="nc">&nbsp;                numP = 2;</b>
+<b class="nc">&nbsp;            if(p_3.isSelected())</b>
+<b class="nc">&nbsp;                numP = 3;</b>
+<b class="nc">&nbsp;            if(p_4.isSelected())</b>
+<b class="nc">&nbsp;                numP = 4;</b>
+<b class="nc">&nbsp;            if(yes.isSelected())</b>
+<b class="nc">&nbsp;                persOpt = &quot;yes&quot;;</b>
+&nbsp;            else
+<b class="nc">&nbsp;                persOpt = &quot;no&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;            int finalNumP = numP;</b>
+<b class="nc">&nbsp;            String finalPersOpt = persOpt;</b>
+<b class="nc">&nbsp;            Thread serverTh = new Thread(() -&gt; {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    new Game(finalNumP, finalPersOpt);</b>
+<b class="nc">&nbsp;                } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                    alert(&quot;Server unable to start...&quot;);</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            });
+<b class="nc">&nbsp;            serverTh.setPriority(Thread.MAX_PRIORITY);</b>
+<b class="nc">&nbsp;            serverTh.start();</b>
+<b class="nc">&nbsp;            Game.waitForSeconds(1);</b>
+<b class="nc">&nbsp;            new Thread(this::insertInfo).start();</b>
+&nbsp;        });
+<b class="nc">&nbsp;        generalPanel.removeAll();</b>
+<b class="nc">&nbsp;        generalPanel.setLayout(new GridLayout(3, 3));</b>
+<b class="nc">&nbsp;        generalPanel.add(p_2);</b>
+<b class="nc">&nbsp;        generalPanel.add(p_3);</b>
+<b class="nc">&nbsp;        generalPanel.add(p_4);</b>
+<b class="nc">&nbsp;        generalPanel.add(pers);</b>
+<b class="nc">&nbsp;        generalPanel.add(yes);</b>
+<b class="nc">&nbsp;        generalPanel.add(no);</b>
+<b class="nc">&nbsp;        generalPanel.add(new Panel());</b>
+<b class="nc">&nbsp;        generalPanel.add(enterBtn);</b>
+<b class="nc">&nbsp;        generalPanel.add(new Panel());</b>
+<b class="nc">&nbsp;        generalPanel.revalidate();</b>
+<b class="nc">&nbsp;        generalPanel.repaint();</b>
+<b class="nc">&nbsp;        setupFrame.setVisible(true);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method for drawing the GUI to ask UI mode, net Mode and resilience
+&nbsp;     */
+&nbsp;    private void insertInfo(){
+<b class="nc">&nbsp;        setupFrame.setTitle(&quot;Insert the Game Mode&quot;);</b>
+<b class="nc">&nbsp;        JTextField uiText = new JTextField(&quot; Choose UI mode &quot;);</b>
+<b class="nc">&nbsp;        uiText.setEditable(false);</b>
+<b class="nc">&nbsp;        JTextField netText = new JTextField(&quot; Choose NET mode &quot;);</b>
+<b class="nc">&nbsp;        netText.setEditable(false);</b>
+<b class="nc">&nbsp;        JTextField resilText = new JTextField(&quot; Do you want to activate resilience ?&quot;);</b>
+<b class="nc">&nbsp;        resilText.setEditable(false);</b>
+<b class="nc">&nbsp;        JRadioButton tui = new JRadioButton(&quot;TUI&quot;);</b>
+<b class="nc">&nbsp;        tui.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));</b>
+<b class="nc">&nbsp;        JRadioButton gui = new JRadioButton(&quot;GUI&quot;);</b>
+<b class="nc">&nbsp;        gui.setSelected(true);</b>
+<b class="nc">&nbsp;        JRadioButton socket = new JRadioButton(&quot;Socket&quot;);</b>
+<b class="nc">&nbsp;        socket.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));</b>
+<b class="nc">&nbsp;        JRadioButton rmi = new JRadioButton(&quot;RMI&quot;);</b>
+<b class="nc">&nbsp;        socket.setSelected(true);</b>
+<b class="nc">&nbsp;        JRadioButton yes = new JRadioButton(&quot;Yes&quot;);</b>
+<b class="nc">&nbsp;        yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));</b>
+<b class="nc">&nbsp;        JRadioButton no = new JRadioButton(&quot;No&quot;);</b>
+<b class="nc">&nbsp;        no.setSelected(true);</b>
+<b class="nc">&nbsp;        ButtonGroup group_1 = new ButtonGroup();</b>
+<b class="nc">&nbsp;        ButtonGroup group_2 = new ButtonGroup();</b>
+<b class="nc">&nbsp;        ButtonGroup group_3 = new ButtonGroup();</b>
+<b class="nc">&nbsp;        group_1.add(tui);</b>
+<b class="nc">&nbsp;        group_1.add(gui);</b>
+<b class="nc">&nbsp;        group_2.add(socket);</b>
+<b class="nc">&nbsp;        group_2.add(rmi);</b>
+<b class="nc">&nbsp;        group_3.add(yes);</b>
+<b class="nc">&nbsp;        group_3.add(no);</b>
+<b class="nc">&nbsp;        JButton enterBtn = new JButton(&quot; Enter &quot;);</b>
+<b class="nc">&nbsp;        enterBtn.setFont(new Font(&quot;Calibri&quot;, Font.PLAIN, 25));</b>
+&nbsp;
+<b class="nc">&nbsp;        enterBtn.addActionListener((event) -&gt;{</b>
+<b class="nc">&nbsp;            setupFrame.dispose();</b>
+<b class="nc">&nbsp;            if(tui.isSelected() &amp;&amp; socket.isSelected()){</b>
+<b class="nc">&nbsp;                alert(&quot;The game will continue in the terminal...&quot;);</b>
+<b class="nc">&nbsp;                Client.uiModeCur = TUI;</b>
+<b class="nc">&nbsp;                new Thread(() -&gt;{</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        new PlayerTUI(SOCKET, yes.isSelected() ? &quot;yes&quot; : &quot;no&quot;, flag);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                        alert(&quot;Client process unable to start...&quot;);</b>
+<b class="nc">&nbsp;                        System.exit(0);</b>
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                }).start();</b>
 &nbsp;            }
-&nbsp;        }
-<b class="nc">&nbsp;        commonObjective_1 = b.commonObjective_1;</b>
-<b class="nc">&nbsp;        commonObjective_2 = b.commonObjective_2;</b>
-<b class="nc">&nbsp;        pointsCO_1 = new LinkedList&lt;&gt;(b.pointsCO_1);</b>
-<b class="nc">&nbsp;        pointsCO_2 = new LinkedList&lt;&gt;(b.pointsCO_2);</b>
-<b class="nc">&nbsp;        bucketOfCards = new ArrayList&lt;&gt;(b.bucketOfCards);</b>
-<b class="nc">&nbsp;        name = b.name;</b>
-<b class="nc">&nbsp;        gameMatrix = b.gameMatrix;</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * getter for the game board
-&nbsp;     * @author Ettori
-&nbsp;     */
-<b class="nc">&nbsp;    public Card[][] getGameBoard(){return gameBoard;} // getter che saranno utili in seguito</b>
-&nbsp;    /**
-&nbsp;     * getter for the CO 1
-&nbsp;     * @author Ettori
-&nbsp;     */
-<b class="nc">&nbsp;    public CommonObjective getCO_1(){return commonObjective_1;}</b>
-&nbsp;    /**
-&nbsp;     * getter for the CO 2
-&nbsp;     * @author Ettori
-&nbsp;     */
-<b class="nc">&nbsp;    public CommonObjective getCO_2(){return commonObjective_2;}</b>
-&nbsp;    /**
-&nbsp;     * getter for the points of CO 1
-&nbsp;     * @author Ettori
-&nbsp;     */
-<b class="nc">&nbsp;    public LinkedList&lt;Integer&gt; getPCO_1(){return pointsCO_1;}</b>
-&nbsp;    /**
-&nbsp;     * getter for the points of CO 2
-&nbsp;     * @author Ettori
-&nbsp;     */
-<b class="nc">&nbsp;    public LinkedList&lt;Integer&gt; getPCO_2(){return pointsCO_2;}</b>
-&nbsp;    /**
-&nbsp;     * check if the index is valid in the current board
-&nbsp;     * @author Ettori
-&nbsp;     * @param x pos x
-&nbsp;     * @param y pos y
-&nbsp;     * @return true iff index is valid
-&nbsp;     */
-&nbsp;    private boolean isValidIndex(int x, int y){
-<b class="fc">&nbsp;        return x &gt;= 0 &amp;&amp; x &lt; DIM &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; DIM;</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * check if the card has other card near
-&nbsp;     * @author Ettori
-&nbsp;     * @param x pos x
-&nbsp;     * @param y pos y
-&nbsp;     * @return true iff the card is alone
-&nbsp;     */
-&nbsp;    private boolean isAlone(int x, int y){ // returna true sse la carta è da sola, ovvero non ha nessuna carta adiacente
-<b class="fc">&nbsp;        if(isValidIndex(x + 1, y) &amp;&amp; gameBoard[x + 1][y].color != EMPTY)</b>
-<b class="fc">&nbsp;            return false;</b>
-<b class="fc">&nbsp;        if(isValidIndex(x - 1, y) &amp;&amp; gameBoard[x - 1][y].color != EMPTY)</b>
-<b class="nc">&nbsp;            return false;</b>
-<b class="fc">&nbsp;        if(isValidIndex(x, y + 1) &amp;&amp; gameBoard[x][y + 1].color != EMPTY)</b>
-<b class="nc">&nbsp;            return false;</b>
-<b class="fc">&nbsp;        if(isValidIndex(x, y - 1) &amp;&amp; gameBoard[x][y - 1].color != EMPTY)</b>
-<b class="nc">&nbsp;            return false;</b>
-<b class="fc">&nbsp;        return true;</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * check if the current board is unplayable
-&nbsp;     * @author Ettori
-&nbsp;     * @return true iff it is unplayable
-&nbsp;     */
-&nbsp;    public boolean isBoardUnplayable() {
-<b class="fc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
-<b class="fc">&nbsp;            for(int j = 0; j &lt; DIM; j++){</b>
-<b class="fc">&nbsp;                if(gameBoard[i][j].color != EMPTY &amp;&amp; !isAlone(i, j)) // ha trovato una carta non vuota e che non è sola, quindi la board non è ingiocabile</b>
-<b class="fc">&nbsp;                    return false;</b>
+<b class="nc">&nbsp;            if(tui.isSelected() &amp;&amp; rmi.isSelected()){</b>
+<b class="nc">&nbsp;                Client.uiModeCur = TUI;</b>
+<b class="nc">&nbsp;                alert(&quot;The game will continue in the terminal...&quot;);</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    new PlayerTUI(RMI, yes.isSelected() ? &quot;yes&quot; : &quot;no&quot;, flag);</b>
+<b class="nc">&nbsp;                } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                    alert(&quot;Client process unable to start...&quot;);</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+<b class="nc">&nbsp;                }</b>
 &nbsp;            }
-&nbsp;        }
-&nbsp;        // se è unplayable devi chiamare il metodo fillBoard(numeroDiGiocatori)
-<b class="fc">&nbsp;        return true;</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * check if the card has at least one free side
-&nbsp;     * @author Ettori
-&nbsp;     * @param x pos x
-&nbsp;     * @param y pos y
-&nbsp;     * @return true iff it has at least one free side
-&nbsp;     */
-&nbsp;    public boolean hasOneFreeSide(int x, int y){
-<b class="fc">&nbsp;        if(!isValidIndex(x , y) || gameBoard[x][y].color == EMPTY) // controlla che la carda corrente sia sensata, poi controlla le carte vicine</b>
-<b class="nc">&nbsp;            return false;</b>
-<b class="fc">&nbsp;        if(isValidIndex(x + 1, y) &amp;&amp; gameBoard[x + 1][y].color == EMPTY)</b>
-<b class="fc">&nbsp;            return true;</b>
-<b class="fc">&nbsp;        if(isValidIndex(x - 1, y) &amp;&amp; gameBoard[x - 1][y].color == EMPTY)</b>
-<b class="fc">&nbsp;            return true;</b>
-<b class="fc">&nbsp;        if(isValidIndex(x, y + 1) &amp;&amp; gameBoard[x][y + 1].color == EMPTY)</b>
-<b class="fc">&nbsp;            return true;</b>
-<b class="fc">&nbsp;        if(isValidIndex(x, y - 1) &amp;&amp; gameBoard[x][y - 1].color == EMPTY)</b>
-<b class="fc">&nbsp;            return true;</b>
-<b class="fc">&nbsp;        return false;</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * check if the cards picked are all near one to the other
-&nbsp;     * @author Ettori
-&nbsp;     * @param coords list of paired coordinates
-&nbsp;     * @return true iff for each position it exists (at least) one card adjacent to it
-&nbsp;     */
-&nbsp;    private boolean areCardsNear(ArrayList&lt;Integer&gt; coords){
-&nbsp;        boolean flag;
-<b class="fc">&nbsp;        for(int i = 0; i &lt; coords.size(); i += 2){</b>
-<b class="fc">&nbsp;            flag = false;</b>
-<b class="fc">&nbsp;            for(int j = 0; j &lt; coords.size(); j += 2){</b>
-<b class="fc">&nbsp;                if(Math.abs(coords.get(i) - coords.get(j)) + Math.abs(coords.get(i + 1) - coords.get(j + 1)) == 1)</b>
-<b class="fc">&nbsp;                    flag = true;</b>
+<b class="nc">&nbsp;            if(gui.isSelected() &amp;&amp; socket.isSelected()){</b>
+<b class="nc">&nbsp;                Client.uiModeCur = GUI;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    new PlayerGUI(SOCKET, yes.isSelected() ? &quot;yes&quot; : &quot;no&quot;, flag);</b>
+<b class="nc">&nbsp;                } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                    alert(&quot;Client process unable to start...&quot;);</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+<b class="nc">&nbsp;                }</b>
 &nbsp;            }
-<b class="fc">&nbsp;            if(!flag)</b>
-<b class="fc">&nbsp;                return false;</b>
-&nbsp;        }
-<b class="fc">&nbsp;        return true;</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * check if the cards picked are in a valid position
-&nbsp;     * @author Ettori
-&nbsp;     * @param cardPositions list of paired coordinates
-&nbsp;     * @return true iff they are in a valid position
-&nbsp;     */
-&nbsp;    public boolean areCardsPickable(ArrayList&lt;Integer&gt; cardPositions) {
-<b class="fc">&nbsp;        for(int i = 0; i &lt; cardPositions.size(); i += 2 ){</b>
-<b class="fc">&nbsp;            if(!hasOneFreeSide(cardPositions.get(i), cardPositions.get(i + 1)))</b>
-<b class="fc">&nbsp;                return false;</b>
-&nbsp;        }
-<b class="fc">&nbsp;        return cardPositions.size() == 2 || (areCardsAligned(cardPositions) &amp;&amp; areCardsNear(cardPositions));</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * check if the cards are on a straight line
-&nbsp;     * @author Ettori
-&nbsp;     * @param cardPosition list of paired coordinates
-&nbsp;     * @return true iff they are on a straight line
-&nbsp;     */
-&nbsp;    public boolean areCardsAligned(ArrayList&lt;Integer&gt; cardPosition){
-<b class="fc">&nbsp;        boolean allInRow = true;</b>
-<b class="fc">&nbsp;        for(int i = 0; i &lt; cardPosition.size(); i += 2){</b>
-<b class="fc">&nbsp;            if(cardPosition.get(i) != cardPosition.get(0))</b>
-<b class="fc">&nbsp;                allInRow = false;</b>
-&nbsp;        }
-<b class="fc">&nbsp;        boolean allInCol = true;</b>
-<b class="fc">&nbsp;        for(int i = 1; i &lt; cardPosition.size(); i += 2){</b>
-<b class="fc">&nbsp;            if(cardPosition.get(i) != cardPosition.get(1))</b>
-<b class="fc">&nbsp;                allInCol = false;</b>
-&nbsp;        }
-<b class="fc">&nbsp;        return allInRow || allInCol;</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * initialize a new board
-&nbsp;     * @author Ettori
-&nbsp;     * @param numPlayers number of players
-&nbsp;     */
-&nbsp;    public void initBoard(int numPlayers){
-<b class="nc">&nbsp;        shuffleCardsBucket();</b>
-<b class="nc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
-<b class="nc">&nbsp;            for(int j = 0; j &lt; DIM; j++)</b>
-<b class="nc">&nbsp;                gameBoard[i][j] = new Card();</b>
-&nbsp;        }
-<b class="nc">&nbsp;        fillBoard(numPlayers);</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * fill the board (start of the game or when it is unplayable)
-&nbsp;     * @author Ettori
-&nbsp;     * @param numPlayers number of players
-&nbsp;     */
-&nbsp;    public void fillBoard(int numPlayers){
-<b class="nc">&nbsp;        gameMatrix = new int[][]{</b>
-&nbsp;                {0,0,0,3,4,0,0,0,0},
-&nbsp;                {0,0,0,2,2,4,0,0,0},
-&nbsp;                {0,0,3,2,2,2,3,0,0},
-&nbsp;                {0,4,2,2,2,2,2,2,3},
-&nbsp;                {4,2,2,2,2,2,2,2,4},
-&nbsp;                {3,2,2,2,2,2,2,4,0},
-&nbsp;                {0,0,3,2,2,2,3,0,0},
-&nbsp;                {0,0,0,4,2,2,0,0,0},
-&nbsp;                {0,0,0,0,4,3,0,0,0}
-&nbsp;        };
-&nbsp;        Card card;
-<b class="nc">&nbsp;        if(bucketOfCards == null)</b>
-<b class="nc">&nbsp;            bucketOfCards = Initializer.setBucketOfCards();</b>
-<b class="nc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
-<b class="nc">&nbsp;            for(int j = 0; j &lt; DIM; j++){</b>
-<b class="nc">&nbsp;                if(gameMatrix[i][j] == 0)</b>
-<b class="nc">&nbsp;                    continue;</b>
-<b class="nc">&nbsp;                if(gameBoard[i][j].color != EMPTY)</b>
-<b class="nc">&nbsp;                    continue;</b>
-<b class="nc">&nbsp;                if(numPlayers &gt;= gameMatrix[i][j]){</b>
-<b class="nc">&nbsp;                    card = bucketOfCards.get(0);</b>
-<b class="nc">&nbsp;                    gameBoard[i][j] = new Card(card);</b>
-<b class="nc">&nbsp;                    bucketOfCards.remove(0); // bucketOfCards viene anche lui scambiato con il server tramite il client</b>
-&nbsp;                }
+<b class="nc">&nbsp;            if(gui.isSelected() &amp;&amp; rmi.isSelected()){</b>
+<b class="nc">&nbsp;                Client.uiModeCur = GUI;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    new PlayerGUI(RMI, yes.isSelected() ? &quot;yes&quot; : &quot;no&quot;, flag);</b>
+<b class="nc">&nbsp;                } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                    alert(&quot;Client process unable to start...&quot;);</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+<b class="nc">&nbsp;                }</b>
 &nbsp;            }
-&nbsp;        }
+&nbsp;        });
+<b class="nc">&nbsp;        generalPanel.removeAll();</b>
+<b class="nc">&nbsp;        generalPanel.setLayout(new GridLayout(4, 3));</b>
+<b class="nc">&nbsp;        generalPanel.add(uiText);</b>
+<b class="nc">&nbsp;        generalPanel.add(tui);</b>
+<b class="nc">&nbsp;        generalPanel.add(gui);</b>
+<b class="nc">&nbsp;        generalPanel.add(netText);</b>
+<b class="nc">&nbsp;        generalPanel.add(socket);</b>
+<b class="nc">&nbsp;        generalPanel.add(rmi);</b>
+<b class="nc">&nbsp;        generalPanel.add(resilText);</b>
+<b class="nc">&nbsp;        generalPanel.add(yes);</b>
+<b class="nc">&nbsp;        generalPanel.add(no);</b>
+<b class="nc">&nbsp;        generalPanel.add(new Panel());</b>
+<b class="nc">&nbsp;        generalPanel.add(enterBtn);</b>
+<b class="nc">&nbsp;        generalPanel.add(new Panel());</b>
+<b class="nc">&nbsp;        generalPanel.revalidate();</b>
+<b class="nc">&nbsp;        generalPanel.repaint();</b>
+<b class="nc">&nbsp;        setupFrame.setVisible(true);</b>
 &nbsp;    }
 &nbsp;    /**
-&nbsp;     * randomize the card array so that we get a random board
-&nbsp;     * @author Ettori
+&nbsp;     * helper function for alerting a message to the user (pop-up)
+&nbsp;     * @param s the string og the message to show
 &nbsp;     */
-&nbsp;    public void shuffleCardsBucket(){
-<b class="nc">&nbsp;        Random rand = new Random();</b>
-&nbsp;        Card temp;
-&nbsp;        int j;
-<b class="nc">&nbsp;        for(int i = 0; i &lt; bucketOfCards.size(); i++){</b>
-<b class="nc">&nbsp;            j = rand.nextInt(bucketOfCards.size());</b>
-<b class="nc">&nbsp;            temp = bucketOfCards.get(i);</b>
-<b class="nc">&nbsp;            bucketOfCards.set(i, bucketOfCards.get(j));</b>
-<b class="nc">&nbsp;            bucketOfCards.set(j, temp);</b>
-&nbsp;        }
-&nbsp;    }
+<b class="nc">&nbsp;    private void alert(String s){javax.swing.JOptionPane.showMessageDialog(null, s);}</b>
+&nbsp;
 &nbsp;    /**
-&nbsp;     * setter for the gameBoard (only used by testing)
-&nbsp;     * @author Gumus Giammusso
-&nbsp;     * @param g the matrix to copy in the board
+&nbsp;     * main method which is used by the user to choose the UI and the Network
+&nbsp;     @author Ettori
 &nbsp;     */
-&nbsp;    public void setGameBoard(Card[][] g){
-<b class="fc">&nbsp;        for(int i = 0; i &lt; DIM; i++){</b>
-<b class="fc">&nbsp;            for(int j = 0; j &lt; DIM; j++)</b>
-<b class="fc">&nbsp;                gameBoard[i][j] = new Card(g[i][j]);</b>
-&nbsp;            }
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * method that print the game board
-&nbsp;     * @author Gumus
-&nbsp;     */
-&nbsp;    public void draw() {
-<b class="fc">&nbsp;        System.out.println(&quot;\nThe main board of the game&quot;);</b>
-<b class="fc">&nbsp;        System.out.print(&quot;  &quot;);</b>
-<b class="fc">&nbsp;        for (int i = 0; i &lt; DIM; i++)</b>
-<b class="fc">&nbsp;            System.out.print((i + 1) + &quot; &quot;);</b>
-<b class="fc">&nbsp;        System.out.println();</b>
-<b class="fc">&nbsp;        for (int i = 0; i &lt; DIM; i++) {</b>
-<b class="fc">&nbsp;            System.out.print((i + 1) + &quot; &quot;);</b>
-<b class="fc">&nbsp;            for (int j = 0; j &lt; DIM; j++) {</b>
-<b class="fc">&nbsp;                gameBoard[i][j].draw();</b>
-<b class="fc">&nbsp;                System.out.print(&quot; &quot;);</b>
-&nbsp;            }
-<b class="fc">&nbsp;            System.out.println();</b>
-&nbsp;        }
-<b class="fc">&nbsp;        System.out.println();</b>
-<b class="fc">&nbsp;        commonObjective_1.draw(pointsCO_1.size() != 0 ? pointsCO_1.peekLast() : 0);</b>
-<b class="fc">&nbsp;        commonObjective_2.draw(pointsCO_2.size() != 0 ? pointsCO_2.peekLast() : 0);</b>
+<b class="nc">&nbsp;    public Client() {</b>
+<b class="nc">&nbsp;        new Thread(this::insertIp).start();</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -404,7 +381,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>

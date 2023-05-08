@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Algo_CO_13_FAKE</title>
+  <title>Coverage Report > Algo_CO_2</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">app.model</a>
 </div>
 
-<h1>Coverage Summary for Class: Algo_CO_13_FAKE (app.model)</h1>
+<h1>Coverage Summary for Class: Algo_CO_2 (app.model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Algo_CO_13_FAKE</td>
+  <td class="name">Algo_CO_2</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/2)
+    (4/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/2)
+    (20/20)
   </span>
 </td>
 </tr>
@@ -75,25 +75,72 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package app.model;
-&nbsp;import static app.model.Color.EMPTY;
-&nbsp;/**
-&nbsp; * class which represent a fake common objective used just for testing purposes
-&nbsp; * Immutable
-&nbsp; * @author Giammusso
-&nbsp; */
-<b class="nc">&nbsp;public class Algo_CO_13_FAKE extends Strategy {</b>
 &nbsp;
+&nbsp;import static app.model.Color.EMPTY;
+&nbsp;/*
+&nbsp;Five tiles of the same type forming a diagonal.
+&nbsp; */
+&nbsp;/**
+&nbsp; * class which represent the number two objective (common). Immutable
+&nbsp; * @author Ettori Faccincani
+&nbsp; *
+&nbsp; */
+<b class="fc">&nbsp;public class Algo_CO_2 extends Strategy {</b>
 &nbsp;    /**
-&nbsp;     * check if the library have a card in the first element of the first column
-&nbsp;     * @author Giammusso
+&nbsp;     * check the diagonal from right to left
+&nbsp;     * @author Ettori
+&nbsp;     * @param x pos x
+&nbsp;     * @param y pos y
+&nbsp;     * @param color color
+&nbsp;     * @param board matrix
+&nbsp;     * @return true iff found the diagonal
+&nbsp;     */
+&nbsp;
+&nbsp;    private boolean checkDiagonal_1(int x, int y, Color color, Card[][] board) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            if (!DFSHelper.isIndexValid(x + i, y + i))</b>
+<b class="fc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;            if (board[x + i][y + i].color != color)</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check the diagonal from left to right
+&nbsp;     * @author Ettori
+&nbsp;     * @param x pos x
+&nbsp;     * @param y pos y
+&nbsp;     * @param color color
+&nbsp;     * @param board matrix
+&nbsp;     * @return true iff found the diagonal
+&nbsp;     */
+&nbsp;    private boolean checkDiagonal_2(int x, int y, Color color, Card[][] board) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            if (!DFSHelper.isIndexValid(x - i, y + i))</b>
+<b class="fc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;            if (board[x - i][y + i].color != color)</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if the matrix match with the objective
+&nbsp;     * @author Ettori
 &nbsp;     * @param board the matrix of the board
 &nbsp;     * @return true iff it found a match
 &nbsp;     */
 &nbsp;    @Override
-&nbsp;    public boolean checkMatch(Card[][] board){
-<b class="nc">&nbsp;        return board[5][0].color != EMPTY;</b>
+&nbsp;    public boolean checkMatch(Card[][] board) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="fc">&nbsp;                if (board[i][j].color == EMPTY)</b>
+<b class="fc">&nbsp;                    continue;</b>
+<b class="fc">&nbsp;                if (checkDiagonal_1(i, j, board[i][j].color, board) || checkDiagonal_2(i, j, board[i][j].color, board))</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
 &nbsp;    }
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -118,7 +165,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>

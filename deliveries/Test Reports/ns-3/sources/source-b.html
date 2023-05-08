@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Algo_CO_6</title>
+  <title>Coverage Report > Algo_CO_8</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">app.model</a>
 </div>
 
-<h1>Coverage Summary for Class: Algo_CO_6 (app.model)</h1>
+<h1>Coverage Summary for Class: Algo_CO_8 (app.model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Algo_CO_6</td>
+  <td class="name">Algo_CO_8</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66,7%
+    100%
   </span>
   <span class="absValue">
-    (2/3)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    71,4%
+    100%
   </span>
   <span class="absValue">
-    (10/14)
+    (14/14)
   </span>
 </td>
 </tr>
@@ -81,27 +81,27 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import static app.model.Color.EMPTY;
 &nbsp;
 &nbsp;/*
-&nbsp;Due colonne formate ciascuna
-&nbsp;da 6 diversi tipi di tessere.
+&nbsp;Two lines each formed by 5 different types of tiles. One line can show the same or a different combination of the other line.
 &nbsp; */
 &nbsp;/**
-&nbsp; * class which represent the number six objective (common). Immutable
+&nbsp; * class which represent the number eight objective (common). Immutable
 &nbsp; * @author Ettori Faccincani
 &nbsp; */
-<b class="fc">&nbsp;public class Algo_CO_6 extends Strategy { // terzo seconda colonna</b>
+&nbsp;
+<b class="fc">&nbsp;public class Algo_CO_8 extends Strategy { // quarto seconda colonna</b>
 &nbsp;    /**
-&nbsp;     * check if there are no empty on the chosen column
+&nbsp;     * check if the chosen row has no empty cards
 &nbsp;     * @author Ettori
 &nbsp;     * @param board matrix
-&nbsp;     * @param c column
-&nbsp;     * @return true iff there are no empty on the column
+&nbsp;     * @param r row
+&nbsp;     * @return true iff there are no empty on the row
 &nbsp;     */
-&nbsp;    private boolean notEmptyOnCol(Card[][] board, int c){
-<b class="nc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
-<b class="nc">&nbsp;            if(board[i][c].color == EMPTY)</b>
-<b class="nc">&nbsp;                return false;</b>
+&nbsp;    private boolean notEmptyOnRow(Card[][] board, int r){
+<b class="fc">&nbsp;        for(int i = 0; i &lt; COLS; i++){</b>
+<b class="fc">&nbsp;            if(board[r][i].color == EMPTY)</b>
+<b class="fc">&nbsp;                return false;</b>
 &nbsp;        }
-<b class="nc">&nbsp;        return true;</b>
+<b class="fc">&nbsp;        return true;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * check if the matrix match with the objective
@@ -113,13 +113,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public boolean checkMatch(Card[][] board) {
 <b class="fc">&nbsp;        int count = 0;</b>
 &nbsp;        ArrayList&lt;Color&gt; colors;
-<b class="fc">&nbsp;        for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
 <b class="fc">&nbsp;            colors = new ArrayList&lt;&gt;();</b>
-<b class="fc">&nbsp;            for (int i = 0; i &lt; ROWS; i++) {</b>
-<b class="fc">&nbsp;                if (!colors.contains(board[i][j].color) &amp;&amp; board[i][j].color != EMPTY)</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="fc">&nbsp;                if (!colors.contains(board[i][j].color))</b>
 <b class="fc">&nbsp;                    colors.add(board[i][j].color);</b>
 &nbsp;            }
-<b class="fc">&nbsp;            if (colors.size() == 6)</b>
+<b class="fc">&nbsp;            if (colors.size() == 5 &amp;&amp; notEmptyOnRow(board, i))</b>
 <b class="fc">&nbsp;                count++;</b>
 &nbsp;        }
 <b class="fc">&nbsp;        return count &gt;= 2;</b>
@@ -148,7 +148,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>
