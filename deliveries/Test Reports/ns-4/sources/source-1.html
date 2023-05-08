@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/15)
+    (0/21)
   </span>
 </td>
 </tr>
@@ -78,8 +78,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import app.controller.Game;
 &nbsp;import app.controller.Message;
-&nbsp;import app.model.NetMode;
-&nbsp;import app.model.Player;
 &nbsp;import app.view.TUI.PlayerTUI;
 &nbsp;
 &nbsp;import java.io.IOException;
@@ -116,6 +114,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    Game.waitForSeconds(5);</b>
 <b class="nc">&nbsp;                    System.exit(0);</b>
 &nbsp;                }
+<b class="nc">&nbsp;                if(msg.getType() == LOST_CLIENT){</b>
+<b class="nc">&nbsp;                    player.handleLostClientEvent(msg);</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if(msg.getType() == SHOW_EVENT){</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
 <b class="nc">&nbsp;                System.out.println(&quot;\n&quot; + msg.getContent());</b>
 <b class="nc">&nbsp;                player.addToFullChat((String)msg.getContent());</b>
 <b class="nc">&nbsp;            }</b>
@@ -149,7 +155,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>

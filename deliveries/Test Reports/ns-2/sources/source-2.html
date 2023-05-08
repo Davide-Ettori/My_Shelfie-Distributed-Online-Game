@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/29)
+    (0/49)
   </span>
 </td>
 </tr>
@@ -89,7 +89,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public static void writeSucc(){
 &nbsp;        try {
-<b class="nc">&nbsp;            BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;src/main/java/app/controller/cache/status.txt&quot;));</b>
+<b class="nc">&nbsp;            new File(&quot;src/main/java/app/controller/cache/status&quot; + Initializer.PORT + &quot;.txt&quot;).createNewFile();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;File System Corrupted&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;src/main/java/app/controller/cache/status&quot; + Initializer.PORT + &quot;.txt&quot;));</b>
 <b class="nc">&nbsp;            bw.write(&quot;SUCC&quot;);</b>
 <b class="nc">&nbsp;            bw.close();</b>
 <b class="nc">&nbsp;        }catch(Exception e){throw new RuntimeException(e);}</b>
@@ -100,7 +105,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public static void writeFail(){
 &nbsp;        try {
-<b class="nc">&nbsp;            BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;src/main/java/app/controller/cache/status.txt&quot;));</b>
+<b class="nc">&nbsp;            new File(&quot;src/main/java/app/controller/cache/status&quot; + Initializer.PORT + &quot;.txt&quot;).createNewFile();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;File System Corrupted&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;src/main/java/app/controller/cache/status&quot; + Initializer.PORT + &quot;.txt&quot;));</b>
 <b class="nc">&nbsp;            bw.write(&quot;FAIL&quot;);</b>
 <b class="nc">&nbsp;            bw.close();</b>
 <b class="nc">&nbsp;        }catch(Exception e){throw new RuntimeException(e);}</b>
@@ -112,7 +122,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public static boolean havaCachedServer(){
 &nbsp;        try {
-<b class="nc">&nbsp;            BufferedReader br = new BufferedReader(new FileReader(&quot;src/main/java/app/controller/cache/status.txt&quot;));</b>
+<b class="nc">&nbsp;            new File(&quot;src/main/java/app/controller/cache/status&quot; + Initializer.PORT + &quot;.txt&quot;).createNewFile();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;File System Corrupted&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            BufferedReader br = new BufferedReader(new FileReader(&quot;src/main/java/app/controller/cache/status&quot; + Initializer.PORT + &quot;.txt&quot;));</b>
 <b class="nc">&nbsp;            return br.readLine().equals(&quot;FAIL&quot;);</b>
 <b class="nc">&nbsp;        }catch(Exception e){System.out.println();}</b>
 <b class="nc">&nbsp;        return false;</b>
@@ -124,7 +139,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public static void writeServer(Game server){
 &nbsp;        try {
-<b class="nc">&nbsp;            FileOutputStream fos = new FileOutputStream(&quot;src/main/java/app/controller/cache/server.txt&quot;);</b>
+<b class="nc">&nbsp;            new File(&quot;src/main/java/app/controller/cache/server&quot; + Initializer.PORT + &quot;.txt&quot;).createNewFile();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;File System Corrupted&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            FileOutputStream fos = new FileOutputStream(&quot;src/main/java/app/controller/cache/server&quot; + Initializer.PORT + &quot;.txt&quot;);</b>
 <b class="nc">&nbsp;            ObjectOutputStream oos = new ObjectOutputStream(fos);</b>
 <b class="nc">&nbsp;            oos.writeObject(server);</b>
 <b class="nc">&nbsp;            oos.close();</b>
@@ -136,9 +156,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the state of the old server that was saved (Game Object)
 &nbsp;     */
 &nbsp;    public static Game loadServer(){
+&nbsp;        try {
+<b class="nc">&nbsp;            new File(&quot;src/main/java/app/controller/cache/server&quot; + Initializer.PORT + &quot;.txt&quot;).createNewFile();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;File System Corrupted&quot;);</b>
+<b class="nc">&nbsp;        }</b>
 <b class="nc">&nbsp;        Game server = null;</b>
 &nbsp;        try {
-<b class="nc">&nbsp;            FileInputStream fin = new FileInputStream(&quot;src/main/java/app/controller/cache/server.txt&quot;);</b>
+<b class="nc">&nbsp;            FileInputStream fin = new FileInputStream(&quot;src/main/java/app/controller/cache/server&quot; + Initializer.PORT + &quot;.txt&quot;);</b>
 <b class="nc">&nbsp;            ObjectInputStream ois = new ObjectInputStream(fin);</b>
 <b class="nc">&nbsp;            server = (Game) ois.readObject();</b>
 <b class="nc">&nbsp;            ois.close();</b>
@@ -180,7 +205,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>

@@ -43,7 +43,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/42)
+    (0/39)
   </span>
 </td>
 <td class="coverageStat">
@@ -51,12 +51,50 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/473)
+    (0/520)
   </span>
 </td>
 </tr>
   <tr>
     <td class="name">Game$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Game$1 2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Game$1 3</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -81,7 +119,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/43)
+    (0/42)
   </span>
 </td>
 <td class="coverageStat">
@@ -89,7 +127,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/474)
+    (0/523)
   </span>
 </td>
 </tr>
@@ -106,10 +144,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import app.view.IP;
 &nbsp;import org.json.simple.JSONObject;
 &nbsp;
-&nbsp;import java.io.IOException;
-&nbsp;import java.io.ObjectInputStream;
-&nbsp;import java.io.ObjectOutputStream;
-&nbsp;import java.io.Serializable;
+&nbsp;import java.io.*;
 &nbsp;import java.net.InetAddress;
 &nbsp;import java.net.ServerSocket;
 &nbsp;import java.net.Socket;
@@ -133,8 +168,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * in theory it is mutable, but it is only instanced one time, at the start of the server
 &nbsp; */
 &nbsp;public class Game extends UnicastRemoteObject implements Serializable, GameI {
-&nbsp;    public static final double standardTimer = 2.5;
+&nbsp;    /** variable that represent the standard timer of the app for advancing the state of the game */
+&nbsp;    public static final double waitTimer = 2.5;
+&nbsp;    /** variable that represent the fast timer of the app for small waiting task */
+&nbsp;    public static final double fastTimer = 0.5;
+&nbsp;    /** variable that represent the timer for the new turn (changing) interaction */
+&nbsp;    public static final double passTimer = 1;
+&nbsp;    /** variable that represent the standard timer of the app for showing events */
+&nbsp;    public static final double showTimer = 2.5;
+&nbsp;    /** variable that represent if we want to run or debug our application */
 <b class="nc">&nbsp;    public static boolean showErrors = false;</b>
+&nbsp;    /** variable that represent the name of the first player, which is also hosting the server */
 <b class="nc">&nbsp;    public static String serverPlayer = &quot;&quot;;</b>
 &nbsp;    private final int targetPlayers;
 &nbsp;    private int numPlayers;
@@ -154,7 +198,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    private final transient HashMap&lt;String, PlayerI&gt; rmiClients = new HashMap&lt;&gt;();</b>
 <b class="nc">&nbsp;    private transient Game gameTemp = null;</b>
 <b class="nc">&nbsp;    private final transient ArrayList&lt;String&gt; disconnectedPlayers = new ArrayList&lt;&gt;();</b>
-<b class="nc">&nbsp;    private boolean advance = false;</b>
+<b class="nc">&nbsp;    private boolean advance = false; //true iif the server has to force a new turn after resilience activation</b>
+<b class="nc">&nbsp;    private final transient Object waitMoveLock = new Object();</b>
+<b class="nc">&nbsp;    private final transient Object disconnectionLock = new Object();</b>
 &nbsp;    /**
 &nbsp;     * normal constructor for this type of object, this class is also the main process on the server
 &nbsp;     * @param maxP the number of players for this game, chosen before by the user
@@ -163,33 +209,46 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public Game(int maxP, String old) throws RemoteException {
 <b class="nc">&nbsp;        super();</b>
 <b class="nc">&nbsp;        System.setProperty(&quot;java.rmi.server.hostname&quot;, IP.activeIP);</b>
-<b class="nc">&nbsp;        LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind(&quot;Server&quot;, this); // hosto il server sulla rete</b>
+<b class="nc">&nbsp;        LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind(&quot;Server&quot;, this); // host the server on the network</b>
 &nbsp;
 <b class="nc">&nbsp;        targetPlayers = maxP;</b>
 <b class="nc">&nbsp;        if(old.equals(&quot;yes&quot;)){</b>
-<b class="nc">&nbsp;            if(FILEHelper.havaCachedServer()) {// per prima cosa dovresti controllare che ci sia un server nella cache, nel caso lo carichi</b>
+<b class="nc">&nbsp;            if(FILEHelper.havaCachedServer()) {// check if there&#39;s a server in the cache, if so, use it</b>
 <b class="nc">&nbsp;                gameTemp = FILEHelper.loadServer();</b>
 <b class="nc">&nbsp;                FILEHelper.writeFail();</b>
 <b class="nc">&nbsp;                if(gameTemp.numPlayers != maxP) {</b>
-<b class="nc">&nbsp;                    System.out.println(&quot;\nThe old game is not compatible, starting a new game...&quot;);</b>
+<b class="nc">&nbsp;                    if(Client.uiModeCur == TUI)</b>
+<b class="nc">&nbsp;                        System.out.println(&quot;\nThe old game is not compatible, starting a new game...&quot;);</b>
+&nbsp;                    else
+<b class="nc">&nbsp;                        showMessageDialog(null, &quot;The old game is not compatible, starting a new game...&quot;);</b>
 <b class="nc">&nbsp;                    gameTemp = null;</b>
 &nbsp;                }
 &nbsp;                else {
-<b class="nc">&nbsp;                    System.out.println(&quot;\nLoading the old game...&quot;);</b>
+<b class="nc">&nbsp;                    if(Client.uiModeCur == TUI)</b>
+<b class="nc">&nbsp;                        System.out.println(&quot;\nLoading the old game...&quot;);</b>
+&nbsp;                    else
+<b class="nc">&nbsp;                        showMessageDialog(null, &quot;Loading the old game...&quot;);</b>
 &nbsp;                }
 &nbsp;            }
-&nbsp;            else
-<b class="nc">&nbsp;                System.out.println(&quot;\nThere is no game to load, starting a new game...&quot;);</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                if(Client.uiModeCur == TUI)</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;\nThere is no game to load, starting a new game...&quot;);</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    showMessageDialog(null, &quot;There is no game to load, starting a new game...&quot;);</b>
+&nbsp;            }
 &nbsp;        }
 <b class="nc">&nbsp;        FILEHelper.writeFail();</b>
 <b class="nc">&nbsp;        shuffleObjBucket();</b>
 <b class="nc">&nbsp;        numPlayers = 0;</b>
-<b class="nc">&nbsp;        new Thread(() -&gt; { // imposto un timer di un minuto per aspettare le connessioni dei client</b>
+<b class="nc">&nbsp;        new Thread(() -&gt; { // start a timer that wait for clients connections</b>
 <b class="nc">&nbsp;            double minutes = 2;</b>
 <b class="nc">&nbsp;            Game.waitForSeconds(60 * minutes);</b>
 <b class="nc">&nbsp;            if(!timeExp)</b>
 &nbsp;                return;
-<b class="nc">&nbsp;            System.out.println(&quot;\nTime limit exceeded, not enough players connected&quot;);</b>
+<b class="nc">&nbsp;            if(Client.uiModeCur == TUI)</b>
+<b class="nc">&nbsp;                System.out.println(&quot;\nTime limit exceeded, not enough players connected&quot;);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                showMessageDialog(null, &quot;Time limit exceeded, not enough players connected&quot;);</b>
 <b class="nc">&nbsp;            System.exit(0);</b>
 <b class="nc">&nbsp;        }).start();</b>
 &nbsp;
@@ -203,19 +262,37 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            if(gameTemp.names.containsAll(names)) {</b>
 <b class="nc">&nbsp;                initializeOldClients();</b>
 <b class="nc">&nbsp;                if(gameTemp.endGameSituation){</b>
-<b class="nc">&nbsp;                    Game.waitForSeconds(Game.standardTimer / 2.5);</b>
+&nbsp;                    boolean temp; //variable used to check if the rmi is ready
+<b class="nc">&nbsp;                    for(int i = 0; i &lt; numPlayers; i++) {</b>
+&nbsp;                        try {
+<b class="nc">&nbsp;                            temp = (boolean)inStreams.get(i).readObject();</b>
+<b class="nc">&nbsp;                        } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;                            connectionLost(e);</b>
+<b class="nc">&nbsp;                        }</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    Game.waitForSeconds(Game.waitTimer);</b>
 <b class="nc">&nbsp;                    sendFinalScoresToAll();</b>
 &nbsp;                }
 &nbsp;            }
 &nbsp;            else{
-<b class="nc">&nbsp;                System.out.println(&quot;\nThe names of the clients do not match the old ones, starting a new game...&quot;);</b>
+<b class="nc">&nbsp;                if(Client.uiModeCur == TUI)</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;\nThe names of the clients do not match the old ones, starting a new game...&quot;);</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    showMessageDialog(null, &quot;The names of the clients do not match the old ones, starting a new game...&quot;);</b>
 <b class="nc">&nbsp;                initializeAllClients();</b>
 &nbsp;            }
 <b class="nc">&nbsp;            gameTemp = null;</b>
 &nbsp;        }
 &nbsp;        else
 <b class="nc">&nbsp;            initializeAllClients();</b>
-<b class="nc">&nbsp;        Game.waitForSeconds(Game.standardTimer / 2.5);</b>
+&nbsp;        boolean temp; //variable used to check if the rmi is ready
+<b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                temp = (boolean)inStreams.get(i).readObject();</b>
+<b class="nc">&nbsp;            } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
 <b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
 <b class="nc">&nbsp;            if(rmiClients.containsKey(names.get(i)))</b>
 <b class="nc">&nbsp;                continue;</b>
@@ -228,7 +305,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        new Thread(this::pingRMI).start();</b>
 <b class="nc">&nbsp;        new Thread(this::listenForReconnection).start();</b>
 <b class="nc">&nbsp;        if(!rmiClients.containsKey(names.get(0)))</b>
-<b class="nc">&nbsp;            waitMoveFromClient();</b>
+<b class="nc">&nbsp;            new Thread(this::waitMoveFromClient).start();</b>
 &nbsp;        else
 <b class="nc">&nbsp;            startChatServerThread();</b>
 &nbsp;    }
@@ -245,17 +322,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                try {
 <b class="nc">&nbsp;                    return new Player(playerList.get(i));</b>
 <b class="nc">&nbsp;                } catch (RemoteException e) {</b>
-<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    connectionLost(e);</b>
 &nbsp;                }
 &nbsp;            }
 &nbsp;        }
-<b class="nc">&nbsp;        System.out.println(&quot;\nAncient client not found...&quot;);</b>
+<b class="nc">&nbsp;        if(Client.uiModeCur == TUI)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nAncient client not found...&quot;);</b>
+&nbsp;        else
+<b class="nc">&nbsp;            showMessageDialog(null, &quot;Ancient client not found...&quot;);</b>
 <b class="nc">&nbsp;        System.exit(0);</b>
-&nbsp;        try {
-<b class="nc">&nbsp;            return new Player();</b>
-<b class="nc">&nbsp;        } catch (RemoteException e) {</b>
-<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
-&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * helper method for initializing the old clients that were playing in the previous game
@@ -288,13 +364,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    private void initializeAllClients(){
 <b class="nc">&nbsp;        randomizeChairman();</b>
-&nbsp;        Player p;
+<b class="nc">&nbsp;        Player p = null;</b>
 <b class="nc">&nbsp;        for(int i = 0; i &lt; names.size(); i++){</b>
 &nbsp;            try {
 <b class="nc">&nbsp;                p = new Player();</b>
 <b class="nc">&nbsp;            } catch (RemoteException e) {</b>
-<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                connectionLost(e);</b>
 <b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; numPlayers; j++){</b>
+<b class="nc">&nbsp;                if(i == j)</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    p.pointsMap.put(names.get(j), 0);</b>
+<b class="nc">&nbsp;                }catch (Exception e){</b>
+<b class="nc">&nbsp;                    if(Client.uiModeCur == TUI)</b>
+<b class="nc">&nbsp;                        System.out.println(&quot;\nServer unable to start...&quot;);</b>
+&nbsp;                    else
+<b class="nc">&nbsp;                        showMessageDialog(null, &quot;\nServer unable to start...&quot;);</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
 <b class="nc">&nbsp;            p.setName(names.get(i));</b>
 <b class="nc">&nbsp;            p.setIsChairMan(i == 0);</b>
 <b class="nc">&nbsp;            p.board = new Board(numPlayers, bucketOfCO.get(0), bucketOfCO.get(1));</b>
@@ -354,6 +443,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                playersSocket.add(serverSocket.accept());</b>
 <b class="nc">&nbsp;                clientOut = new ObjectOutputStream(playersSocket.get(playersSocket.size() - 1).getOutputStream());</b>
 <b class="nc">&nbsp;                clientIn = new ObjectInputStream(playersSocket.get(playersSocket.size() - 1).getInputStream());</b>
+<b class="nc">&nbsp;                clientOut.flush();</b>
 <b class="nc">&nbsp;                boolean isFake = (boolean) clientIn.readObject();</b>
 <b class="nc">&nbsp;                if(isFake) {</b>
 <b class="nc">&nbsp;                    playersSocket.remove(playersSocket.size() - 1);</b>
@@ -363,7 +453,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                ObjectOutputStream finalClientOut = clientOut;</b>
 <b class="nc">&nbsp;                th = new Thread(() -&gt;{</b>
 <b class="nc">&nbsp;                    try{getUserName(finalClientIn, finalClientOut);}</b>
-<b class="nc">&nbsp;                    catch(Exception e){System.out.println(e);}</b>
+<b class="nc">&nbsp;                    catch(Exception e){connectionLost(e);}</b>
 &nbsp;                });
 <b class="nc">&nbsp;                th.start();</b>
 <b class="nc">&nbsp;                ths.add(th);</b>
@@ -402,26 +492,31 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                outStreams.set(names.indexOf(name), out);</b>
 <b class="nc">&nbsp;                playersSocket.set(names.indexOf(name), s);</b>
 <b class="nc">&nbsp;                disconnectedPlayers.remove(name);</b>
-<b class="nc">&nbsp;                new Thread(() -&gt;{</b>
-<b class="nc">&nbsp;                    Game.waitForSeconds(Game.standardTimer / 2.5);</b>
-<b class="nc">&nbsp;                    if(rmiClients.containsKey(name))</b>
-&nbsp;                        return;
+<b class="nc">&nbsp;                boolean temp = (boolean)in.readObject(); //variable used to check if the rmi is ready</b>
+<b class="nc">&nbsp;                if(!rmiClients.containsKey(name)) {</b>
 &nbsp;                    try {
 <b class="nc">&nbsp;                        s.setSoTimeout(Player.pingTimeout);</b>
 <b class="nc">&nbsp;                    } catch (SocketException e) {</b>
 <b class="nc">&nbsp;                        connectionLost(e);</b>
 <b class="nc">&nbsp;                    }</b>
-<b class="nc">&nbsp;                    if(getActivePlayersNumber() &gt;= 3) // se ci sono solo 2 player il turno cambierà quindi non devo ascoltare la chat</b>
+<b class="nc">&nbsp;                    if (getActivePlayersNumber() &gt;= 3) // if there are only 2 players, the turn will change, so there is no need to listen to the chat</b>
 <b class="nc">&nbsp;                        new ChatBroadcast(this, names.indexOf(name)).start();</b>
-<b class="nc">&nbsp;                }).start();</b>
+&nbsp;                }
 <b class="nc">&nbsp;                if(getActivePlayersNumber() == 2){</b>
-<b class="nc">&nbsp;                    if(Client.uiModeCur == GUI)</b>
-<b class="nc">&nbsp;                        showMessageDialog(null, &quot;The game is now resuming and the next turn is starting...&quot;);</b>
-&nbsp;                    else
-<b class="nc">&nbsp;                        System.out.println(&quot;\nThe game is now resuming and the next turn is starting...&quot;);</b>
 <b class="nc">&nbsp;                    if(advance){</b>
+<b class="nc">&nbsp;                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, &quot; Player &quot; + name + &quot; reconnected, the game is resuming...&quot;));</b>
+<b class="nc">&nbsp;                        Game.waitForSeconds(Game.fastTimer * 3);</b>
 <b class="nc">&nbsp;                        advance = false;</b>
-<b class="nc">&nbsp;                        advanceTurn();</b>
+<b class="nc">&nbsp;                        new Thread(this::advanceTurn).start();</b>
+&nbsp;                    }
+&nbsp;                    else
+<b class="nc">&nbsp;                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, &quot; Player &quot; + name + &quot; reconnected to the game&quot;));</b>
+&nbsp;                }
+&nbsp;                else{
+<b class="nc">&nbsp;                    for(int i = 0; i &lt; numPlayers; i++){</b>
+<b class="nc">&nbsp;                        if(names.get(i).equals(name))</b>
+<b class="nc">&nbsp;                            continue;</b>
+<b class="nc">&nbsp;                        sendToClient(i, new Message(SHOW_EVENT, null, &quot; Player &quot; + name + &quot; reconnected to the game&quot;));</b>
 &nbsp;                    }
 &nbsp;                }
 <b class="nc">&nbsp;            }</b>
@@ -432,9 +527,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                s.close();</b>
 <b class="nc">&nbsp;                out.close();</b>
 <b class="nc">&nbsp;                in.close();</b>
-<b class="nc">&nbsp;            } catch (IOException ex) {</b>
-&nbsp;                return;
-<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            } catch (IOException ignored) {}</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;    }
 &nbsp;    /**
@@ -523,104 +616,92 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @author Ettori Faccincani
 &nbsp;     */
 &nbsp;    private void waitMoveFromClient(){
-<b class="nc">&nbsp;        startChatServerThread();</b>
-&nbsp;        while(true){
-<b class="nc">&nbsp;            Message msg = null;</b>
-&nbsp;            try {
-<b class="nc">&nbsp;                msg = (Message) inStreams.get(activePlayer).readObject();</b>
-<b class="nc">&nbsp;            } catch (IOException | ClassNotFoundException e) {</b>
-<b class="nc">&nbsp;                playerDisconnected(activePlayer);</b>
-&nbsp;                return;
-<b class="nc">&nbsp;            }</b>
-&nbsp;            try {
-<b class="nc">&nbsp;                if(msg.getType() == PING)</b>
-<b class="nc">&nbsp;                    continue;</b>
-<b class="nc">&nbsp;                if(msg.getType() == CHAT){</b>
-<b class="nc">&nbsp;                    sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String)msg.getContent());</b>
-<b class="nc">&nbsp;                    continue;</b>
-&nbsp;                }
-<b class="nc">&nbsp;                for (int i = 0; i &lt; numPlayers; i++) {</b>
-<b class="nc">&nbsp;                    if (i != activePlayer)</b>
-<b class="nc">&nbsp;                        sendToClient(i,msg);</b>
-&nbsp;                }
-<b class="nc">&nbsp;                if(msg.getType() == LIB_FULL &amp;&amp; !endGameSituation){</b>
-<b class="nc">&nbsp;                    endGameSituation = true;</b>
-<b class="nc">&nbsp;                    continue;</b>
-&nbsp;                }
-<b class="nc">&nbsp;                if(msg.getType() == UPDATE_UNPLAYBLE){</b>
-<b class="nc">&nbsp;                    JSONObject jsonObject = (JSONObject) msg.getContent();</b>
-<b class="nc">&nbsp;                    Board b = (Board) jsonObject.get(&quot;board&quot;);</b>
-<b class="nc">&nbsp;                    for(int i = 0; i &lt; numPlayers; i++)</b>
-<b class="nc">&nbsp;                        players.get(i).board = new Board(b);</b>
-&nbsp;                }
-<b class="nc">&nbsp;                if(msg.getType() == UPDATE_GAME) {</b>
-<b class="nc">&nbsp;                    JSONObject jsonObject = (JSONObject) msg.getContent();</b>
-<b class="nc">&nbsp;                    players.get(activePlayer).library = (Library) jsonObject.get(&quot;library&quot;);</b>
-<b class="nc">&nbsp;                    if(!rmiClients.containsKey(names.get(activePlayer)))</b>
-<b class="nc">&nbsp;                        sendToClient(activePlayer, new Message(STOP, null, null));</b>
-<b class="nc">&nbsp;                    break;</b>
-&nbsp;                }
-<b class="nc">&nbsp;            }catch(Exception e){connectionLost(e);}</b>
-<b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        waitForEndTurn();</b>
-&nbsp;    }
-&nbsp;    /**
-&nbsp;     * Wait the end of the turn of the client and check if the library is full
-&nbsp;     * @author Ettori Faccincani
-&nbsp;     */
-&nbsp;    private void waitForEndTurn(){
-<b class="nc">&nbsp;        Message msg = null;</b>
-&nbsp;        try {
-<b class="nc">&nbsp;            msg = (Message) inStreams.get(activePlayer).readObject();</b>
-<b class="nc">&nbsp;        } catch (IOException | ClassNotFoundException e) {</b>
-<b class="nc">&nbsp;            playerDisconnected(activePlayer);</b>
-&nbsp;            return;
-<b class="nc">&nbsp;        }</b>
-&nbsp;        try {
-<b class="nc">&nbsp;            if(msg.getType() == PING) {</b>
-<b class="nc">&nbsp;                waitForEndTurn();</b>
-&nbsp;                return;
-&nbsp;            }
-<b class="nc">&nbsp;            if(msg.getType() != END_TURN)</b>
-<b class="nc">&nbsp;                throw new RuntimeException();</b>
-<b class="nc">&nbsp;            JSONObject jsonObject = (JSONObject) msg.getContent();</b>
-<b class="nc">&nbsp;            players.set(activePlayer, (PlayerSend) jsonObject.get(&quot;player&quot;));</b>
-<b class="nc">&nbsp;            PlayerSend p = (PlayerSend) jsonObject.get(&quot;player&quot;);</b>
-<b class="nc">&nbsp;            for(int i = 0; i &lt; numPlayers; i++){</b>
-<b class="nc">&nbsp;                if(i == activePlayer)</b>
-<b class="nc">&nbsp;                    continue;</b>
-<b class="nc">&nbsp;                for(int j = 0; j &lt; numPlayers - 1; j++){</b>
-<b class="nc">&nbsp;                    if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {</b>
-<b class="nc">&nbsp;                        players.get(i).librariesOfOtherPlayers.set(j, p.library);</b>
-<b class="nc">&nbsp;                        players.get(i).board = p.board;</b>
+<b class="nc">&nbsp;        synchronized (waitMoveLock) {</b>
+<b class="nc">&nbsp;            startChatServerThread();</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                Message msg = null;</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    msg = (Message) inStreams.get(activePlayer).readObject();</b>
+<b class="nc">&nbsp;                } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;                    playerDisconnected(activePlayer, e);</b>
+<b class="nc">&nbsp;                    return;</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    if (msg == null)</b>
+<b class="nc">&nbsp;                        continue;</b>
+<b class="nc">&nbsp;                    if (msg.getType() == PING)</b>
+<b class="nc">&nbsp;                        continue;</b>
+<b class="nc">&nbsp;                    if (msg.getType() == CHAT) {</b>
+<b class="nc">&nbsp;                        sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String) msg.getContent());</b>
+<b class="nc">&nbsp;                        continue;</b>
 &nbsp;                    }
-&nbsp;                }
-&nbsp;            }
-<b class="nc">&nbsp;            advanceTurn();</b>
-<b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
+<b class="nc">&nbsp;                    if(msg.getType() == STOP){</b>
+<b class="nc">&nbsp;                        continue;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    for (int i = 0; i &lt; numPlayers; i++) {</b>
+<b class="nc">&nbsp;                        if (i != activePlayer)</b>
+<b class="nc">&nbsp;                            sendToClient(i, msg);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (msg.getType() == LIB_FULL &amp;&amp; !endGameSituation) {</b>
+<b class="nc">&nbsp;                        endGameSituation = true;</b>
+<b class="nc">&nbsp;                        continue;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (msg.getType() == UPDATE_UNPLAYABLE) {</b>
+<b class="nc">&nbsp;                        JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;                        Board b = (Board) jsonObject.get(&quot;board&quot;);</b>
+<b class="nc">&nbsp;                        for (int i = 0; i &lt; numPlayers; i++)</b>
+<b class="nc">&nbsp;                            players.get(i).board = new Board(b);</b>
+<b class="nc">&nbsp;                        FILEHelper.writeServer(this);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (msg.getType() == UPDATE_GAME) {</b>
+<b class="nc">&nbsp;                        JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;                        PlayerSend p = (PlayerSend) jsonObject.get(&quot;player&quot;);</b>
+<b class="nc">&nbsp;                        for (int i = 0; i &lt; numPlayers; i++) {</b>
+<b class="nc">&nbsp;                            if (i == activePlayer)</b>
+<b class="nc">&nbsp;                                continue;</b>
+<b class="nc">&nbsp;                            players.get(i).board = p.board;</b>
+<b class="nc">&nbsp;                            players.get(i).pointsMap.put(names.get(activePlayer), p.pointsUntilNow);</b>
+<b class="nc">&nbsp;                            for (int j = 0; j &lt; numPlayers - 1; j++) {</b>
+<b class="nc">&nbsp;                                if (players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))</b>
+<b class="nc">&nbsp;                                    players.get(i).librariesOfOtherPlayers.set(j, p.library);</b>
+&nbsp;                            }
+&nbsp;                        }
+<b class="nc">&nbsp;                        players.set(activePlayer, p);</b>
+<b class="nc">&nbsp;                        players.get(activePlayer).activeName = names.get(activePlayer);</b>
+<b class="nc">&nbsp;                        FILEHelper.writeServer(this);</b>
+<b class="nc">&nbsp;                        if (!rmiClients.containsKey(names.get(activePlayer)))</b>
+<b class="nc">&nbsp;                            sendToClient(activePlayer, new Message(STOP, null, null));</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                } catch (Exception e) {</b>
+<b class="nc">&nbsp;                    connectionLost(e);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        Game.waitForSeconds(Game.passTimer);</b>
+<b class="nc">&nbsp;        advanceTurn();</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * Set the status of the players for the next turn and assign activePlayer to who will play this turn
 &nbsp;     * @author Ettori Faccincani
 &nbsp;     */
 &nbsp;    public void advanceTurn(){
-<b class="nc">&nbsp;        if(getActivePlayersNumber() == 1 &amp;&amp; disconnectedPlayers.size() &gt; 0){</b>
-<b class="nc">&nbsp;            advance = true;</b>
-<b class="nc">&nbsp;            if(endGameSituation &amp;&amp; activePlayer == 0)</b>
-&nbsp;                return;
-<b class="nc">&nbsp;            if(Client.uiModeCur == GUI)</b>
-<b class="nc">&nbsp;                showMessageDialog(null, &quot;The game is temporarily paused because you are the only connected player&quot;);</b>
-&nbsp;            else
-<b class="nc">&nbsp;                System.out.println(&quot;\nThe game is temporarily paused because you are the only connected player&quot;);</b>
-&nbsp;            return;
-&nbsp;        }
+<b class="nc">&nbsp;        synchronized (disconnectionLock) {</b>
+<b class="nc">&nbsp;            if (getActivePlayersNumber() == 1 &amp;&amp; disconnectedPlayers.size() &gt; 0) {</b>
+<b class="nc">&nbsp;                Game.waitForSeconds(Game.fastTimer);</b>
+<b class="nc">&nbsp;                sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, &quot; The game is temporarily paused because you are the only connected player&quot;));</b>
+<b class="nc">&nbsp;                advance = true;</b>
+<b class="nc">&nbsp;                activePlayer = names.indexOf(Game.serverPlayer);</b>
+<b class="nc">&nbsp;                return;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
 &nbsp;        do{
 <b class="nc">&nbsp;            activePlayer = (activePlayer + 1) % numPlayers;</b>
 &nbsp;        }
 <b class="nc">&nbsp;        while(disconnectedPlayers.contains(names.get(activePlayer)));</b>
 <b class="nc">&nbsp;        if(activePlayer == 0 &amp;&amp; endGameSituation) {</b>
 <b class="nc">&nbsp;            System.out.println(&quot;\nThe game is ending...&quot;);</b>
-<b class="nc">&nbsp;            waitForSeconds(Game.standardTimer / 2.5);</b>
+<b class="nc">&nbsp;            waitForSeconds(Game.waitTimer / 2.5);</b>
 <b class="nc">&nbsp;            sendFinalScoresToAll();</b>
 &nbsp;            return;
 &nbsp;        }
@@ -633,21 +714,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private void notifyNewTurn(){
 <b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
 &nbsp;            try {
-<b class="nc">&nbsp;                if (i != activePlayer) {</b>
+<b class="nc">&nbsp;                if (i != activePlayer)</b>
 <b class="nc">&nbsp;                    sendToClient(i, new Message(CHANGE_TURN, &quot;server&quot;, names.get(activePlayer)));</b>
-&nbsp;                }
 <b class="nc">&nbsp;            }catch (Exception e){connectionLost(e);}</b>
 &nbsp;        }
-<b class="nc">&nbsp;        new Thread(() -&gt; {</b>
-<b class="nc">&nbsp;            Game.waitForSeconds(Game.standardTimer / 2.5);</b>
-<b class="nc">&nbsp;            sendToClient(activePlayer, new Message(YOUR_TURN, &quot;server&quot;, &quot;&quot;));</b>
-<b class="nc">&nbsp;        }).start();</b>
-<b class="nc">&nbsp;        FILEHelper.writeServer(this);</b>
+<b class="nc">&nbsp;        new Thread(() -&gt; sendToClient(activePlayer, new Message(YOUR_TURN, &quot;server&quot;, &quot;&quot;))).start();</b>
 <b class="nc">&nbsp;        if(!rmiClients.containsKey(names.get(activePlayer)))</b>
-<b class="nc">&nbsp;            waitMoveFromClient();</b>
-&nbsp;        else {
+<b class="nc">&nbsp;            new Thread(this::waitMoveFromClient).start();</b>
+&nbsp;        else
 <b class="nc">&nbsp;            startChatServerThread();</b>
-&nbsp;        }
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
@@ -736,7 +811,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        PlayerSend p;
 <b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers; i++){</b>
 <b class="nc">&nbsp;            p = players.get(i);</b>
-<b class="nc">&nbsp;            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.getPrivateObjective().countPoints(p.library.gameLibrary));</b>
+<b class="nc">&nbsp;            scores.add(p.pointsUntilNow + p.library.countGroupedPoints() + p.objective.countPoints(p.library.gameLibrary));</b>
 &nbsp;        }
 &nbsp;        String tempName;
 &nbsp;        int tempScore;
@@ -764,7 +839,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    private void sendFinalScoresToAll(){
 <b class="nc">&nbsp;        String finalScores = getFinalScore();</b>
-<b class="nc">&nbsp;        FILEHelper.writeSucc(); // server uscito con successo, non devi mettere niente nella cache</b>
+<b class="nc">&nbsp;        FILEHelper.writeSucc(); // the server finished with success, so nothing has to be written in the cache</b>
 <b class="nc">&nbsp;        Thread finalTh = new Thread(() -&gt;{</b>
 <b class="nc">&nbsp;            for(int i = 0; i &lt; numPlayers; i++) {</b>
 <b class="nc">&nbsp;                if(names.get(i).equals(Game.serverPlayer))</b>
@@ -776,9 +851,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        try {
 <b class="nc">&nbsp;            finalTh.join();</b>
 <b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
-<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            connectionLost(e);</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        waitForSeconds(Game.standardTimer / 2.5);</b>
+<b class="nc">&nbsp;        waitForSeconds(Game.waitTimer / 2.5);</b>
 <b class="nc">&nbsp;        sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, &quot;server&quot;, finalScores));</b>
 &nbsp;    }
 &nbsp;    /**
@@ -798,9 +873,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public static void waitForSeconds(double n){
 &nbsp;        try {
 <b class="nc">&nbsp;            Thread.sleep((long) (n * 1000));</b>
-<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
-<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
-<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        } catch (InterruptedException ignored) {}</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * function that handle the eventual disconnection
@@ -810,6 +883,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public void connectionLost(Exception e){
 <b class="nc">&nbsp;        if(closed)</b>
 &nbsp;            return;
+<b class="nc">&nbsp;        e.printStackTrace();</b>
 <b class="nc">&nbsp;        if(Game.showErrors)</b>
 <b class="nc">&nbsp;            throw new RuntimeException(e);</b>
 &nbsp;        else{
@@ -820,9 +894,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                for(Socket s: playersSocket)</b>
 <b class="nc">&nbsp;                    s.close();</b>
 <b class="nc">&nbsp;            } catch (IOException ex) {</b>
-<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+&nbsp;                return;
 <b class="nc">&nbsp;            }</b>
-<b class="nc">&nbsp;            while (true){}</b>
+<b class="nc">&nbsp;            Game.waitForSeconds(Game.showTimer * 2);</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;    /**
@@ -830,24 +905,35 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param i the index of the lost client
 &nbsp;     * @author Ettori
 &nbsp;     */
-&nbsp;    public void playerDisconnected(int i) {
-<b class="nc">&nbsp;        if (disconnectedPlayers.contains(names.get(i)))</b>
-&nbsp;            return;
-&nbsp;        try {
-<b class="nc">&nbsp;            playersSocket.get(i).setSoTimeout(0);</b>
-<b class="nc">&nbsp;        } catch (SocketException e) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;Errore della socket&quot;);</b>
-<b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        disconnectedPlayers.add(names.get(i));</b>
-<b class="nc">&nbsp;        rmiClients.remove(names.get(i));</b>
-<b class="nc">&nbsp;        if (getActivePlayersNumber() == 1)</b>
-<b class="nc">&nbsp;            new Thread(this::disconnectedTimer).start();</b>
-<b class="nc">&nbsp;        if (i == activePlayer) {</b>
-<b class="nc">&nbsp;            for (int j = 0; j &lt; numPlayers; j++)</b>
-<b class="nc">&nbsp;                sendToClient(j, new Message(DISCONNECTED, names.get(activePlayer), null));</b>
-<b class="nc">&nbsp;            advanceTurn();</b>
-&nbsp;        }
-&nbsp;    }
+&nbsp;     public void playerDisconnected(int i, Exception exc) {
+<b class="nc">&nbsp;         synchronized (disconnectionLock) {</b>
+<b class="nc">&nbsp;             if (Game.showErrors)</b>
+<b class="nc">&nbsp;                 connectionLost(exc);</b>
+<b class="nc">&nbsp;             if (disconnectedPlayers.contains(names.get(i)))</b>
+<b class="nc">&nbsp;                 return;</b>
+&nbsp;             try {
+<b class="nc">&nbsp;                 playersSocket.get(i).setSoTimeout(0);</b>
+<b class="nc">&nbsp;             } catch (IOException ignored) {}</b>
+<b class="nc">&nbsp;             disconnectedPlayers.add(names.get(i));</b>
+<b class="nc">&nbsp;             rmiClients.remove(names.get(i));</b>
+<b class="nc">&nbsp;         }</b>
+<b class="nc">&nbsp;         if (getActivePlayersNumber() == 1)</b>
+<b class="nc">&nbsp;             new Thread(this::disconnectedTimer).start();</b>
+<b class="nc">&nbsp;         if (i == activePlayer) {</b>
+<b class="nc">&nbsp;             for (int j = 0; j &lt; numPlayers; j++) {</b>
+<b class="nc">&nbsp;                 int finalJ = j;</b>
+<b class="nc">&nbsp;                 new Thread(() -&gt; sendToClient(finalJ, new Message(DISCONNECTED, names.get(activePlayer), null))).start();</b>
+&nbsp;             }
+<b class="nc">&nbsp;             advanceTurn();</b>
+&nbsp;         }
+&nbsp;         else{
+<b class="nc">&nbsp;             for(int x = 0; x &lt; numPlayers; x++){</b>
+<b class="nc">&nbsp;                 if(!disconnectedPlayers.contains(names.get(x))) {</b>
+<b class="nc">&nbsp;                     sendToClient(x, new Message(LOST_CLIENT, names.get(i), null));</b>
+&nbsp;                 }
+&nbsp;             }
+&nbsp;         }
+&nbsp;     }
 &nbsp;    /**
 &nbsp;     * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
 &nbsp;     * @author Ettori
@@ -869,7 +955,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            System.exit(0);</b>
 &nbsp;        }
 &nbsp;    }
-&nbsp;
 &nbsp;    /**
 &nbsp;     * method that find the number of players which are currently connected to the game
 &nbsp;     * @author Ettori
@@ -883,24 +968,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param msg the message that must be sent
 &nbsp;     */
 &nbsp;    public void sendToClient(int i, Message msg){
-<b class="nc">&nbsp;        if(disconnectedPlayers.contains(names.get(i)))</b>
+<b class="nc">&nbsp;        if(i &lt; 0 || i &gt;= names.size())</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Sending to a NON existing player&quot;);</b>
+<b class="nc">&nbsp;        if (disconnectedPlayers.contains(names.get(i)))</b>
 &nbsp;            return;
-<b class="nc">&nbsp;        if(!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE){</b>
+<b class="nc">&nbsp;        if (!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE) {</b>
 &nbsp;            try {
 <b class="nc">&nbsp;                outStreams.get(i).writeObject(msg);</b>
 <b class="nc">&nbsp;            } catch (IOException e) {</b>
-<b class="nc">&nbsp;                if(msg.getType() == FINAL_SCORE)</b>
-&nbsp;                    return;
-<b class="nc">&nbsp;                playerDisconnected(i);</b>
+<b class="nc">&nbsp;                playerDisconnected(i, e);</b>
 <b class="nc">&nbsp;            }</b>
-&nbsp;        }
-&nbsp;        else{
+&nbsp;        } else {
 &nbsp;            try {
 <b class="nc">&nbsp;                rmiClients.get(names.get(i)).receivedEventRMI(msg);</b>
 <b class="nc">&nbsp;            } catch (RemoteException e) {</b>
-<b class="nc">&nbsp;                if(msg.getType() == FINAL_SCORE)</b>
-&nbsp;                    return;
-<b class="nc">&nbsp;                playerDisconnected(i);</b>
+<b class="nc">&nbsp;                playerDisconnected(i, e);</b>
 <b class="nc">&nbsp;            }</b>
 &nbsp;        }
 &nbsp;    }
@@ -927,39 +1009,44 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                from = from.substring(0, from.indexOf(&quot; &quot;));</b>
 <b class="nc">&nbsp;                sendChatToClients(from, msg.getAuthor(), (String)msg.getContent());</b>
 <b class="nc">&nbsp;            }</b>
-&nbsp;            case END_TURN -&gt; {
-<b class="nc">&nbsp;                JSONObject jsonObject = (JSONObject) msg.getContent();</b>
-<b class="nc">&nbsp;                players.set(activePlayer, (PlayerSend) jsonObject.get(&quot;player&quot;));</b>
-<b class="nc">&nbsp;                PlayerSend p = (PlayerSend) jsonObject.get(&quot;player&quot;);</b>
-<b class="nc">&nbsp;                for(int i = 0; i &lt; numPlayers; i++){</b>
-<b class="nc">&nbsp;                    if(i == activePlayer)</b>
-<b class="nc">&nbsp;                        continue;</b>
-<b class="nc">&nbsp;                    for(int j = 0; j &lt; numPlayers - 1; j++){</b>
-<b class="nc">&nbsp;                        if(players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer))) {</b>
-<b class="nc">&nbsp;                            players.get(i).librariesOfOtherPlayers.set(j, p.library);</b>
-<b class="nc">&nbsp;                            players.get(i).board = p.board;</b>
+&nbsp;            case UPDATE_GAME -&gt; {
+<b class="nc">&nbsp;                synchronized (waitMoveLock) {</b>
+<b class="nc">&nbsp;                    for (int i = 0; i &lt; numPlayers; i++) {</b>
+<b class="nc">&nbsp;                        if (i != activePlayer)</b>
+<b class="nc">&nbsp;                            sendToClient(i, msg);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;                    PlayerSend p = (PlayerSend) jsonObject.get(&quot;player&quot;);</b>
+<b class="nc">&nbsp;                    for (int i = 0; i &lt; numPlayers; i++) {</b>
+<b class="nc">&nbsp;                        if (i == activePlayer)</b>
+<b class="nc">&nbsp;                            continue;</b>
+<b class="nc">&nbsp;                        players.get(i).board = p.board;</b>
+<b class="nc">&nbsp;                        players.get(i).pointsMap.put(names.get(activePlayer), p.pointsUntilNow);</b>
+<b class="nc">&nbsp;                        for (int j = 0; j &lt; numPlayers - 1; j++) {</b>
+<b class="nc">&nbsp;                            if (players.get(i).librariesOfOtherPlayers.get(j).name.equals(names.get(activePlayer)))</b>
+<b class="nc">&nbsp;                                players.get(i).librariesOfOtherPlayers.set(j, p.library);</b>
 &nbsp;                        }
 &nbsp;                    }
-&nbsp;                }
-<b class="nc">&nbsp;                if(players.get(activePlayer).library.isFull() &amp;&amp; !endGameSituation) {</b>
-<b class="nc">&nbsp;                    endGameSituation = true;</b>
-<b class="nc">&nbsp;                    for(int i = 0; i &lt; names.size(); i++){</b>
-<b class="nc">&nbsp;                        if(i != activePlayer)</b>
-<b class="nc">&nbsp;                            sendToClient(i, new Message(LIB_FULL, names.get(activePlayer), null));</b>
-&nbsp;                    }
-&nbsp;                }
+<b class="nc">&nbsp;                    players.set(activePlayer, p);</b>
+<b class="nc">&nbsp;                    players.get(activePlayer).activeName = names.get(activePlayer);</b>
+<b class="nc">&nbsp;                    FILEHelper.writeServer(this);</b>
+<b class="nc">&nbsp;                    if (!rmiClients.containsKey(names.get(activePlayer)))</b>
+<b class="nc">&nbsp;                        sendToClient(activePlayer, new Message(STOP, null, null));</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                Game.waitForSeconds(Game.passTimer);</b>
 <b class="nc">&nbsp;                advanceTurn();</b>
 <b class="nc">&nbsp;            }</b>
-&nbsp;            case UPDATE_GAME -&gt; {
-<b class="nc">&nbsp;                for (int i = 0; i &lt; numPlayers; i++) {</b>
-<b class="nc">&nbsp;                    if (i != activePlayer)</b>
-<b class="nc">&nbsp;                        sendToClient(i,msg);</b>
-&nbsp;                }
-<b class="nc">&nbsp;                sendToClient(activePlayer, new Message(STOP, null, null));</b>
-<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            case PING, STOP -&gt;{}</b>
 &nbsp;            default -&gt; {
 <b class="nc">&nbsp;                if(msg.getType() == LIB_FULL &amp;&amp; !endGameSituation)</b>
 <b class="nc">&nbsp;                    endGameSituation = true;</b>
+<b class="nc">&nbsp;                if(msg.getType() == UPDATE_UNPLAYABLE){</b>
+<b class="nc">&nbsp;                    JSONObject jsonObject = (JSONObject) msg.getContent();</b>
+<b class="nc">&nbsp;                    Board b = (Board) jsonObject.get(&quot;board&quot;);</b>
+<b class="nc">&nbsp;                    for (int i = 0; i &lt; numPlayers; i++)</b>
+<b class="nc">&nbsp;                        players.get(i).board = new Board(b);</b>
+<b class="nc">&nbsp;                    FILEHelper.writeServer(this);</b>
+&nbsp;                }
 <b class="nc">&nbsp;                for (int i = 0; i &lt; numPlayers; i++) {</b>
 <b class="nc">&nbsp;                    if (i != activePlayer)</b>
 <b class="nc">&nbsp;                        sendToClient(i,msg);</b>
@@ -979,14 +1066,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public void pingRMI(){
 &nbsp;        while(true){
-<b class="nc">&nbsp;            waitForSeconds(Game.standardTimer * 2);</b>
+<b class="nc">&nbsp;            waitForSeconds(Game.waitTimer * 2);</b>
 <b class="nc">&nbsp;            for(String n: names){</b>
 <b class="nc">&nbsp;                if(!rmiClients.containsKey(n) || disconnectedPlayers.contains(n) || (endGameSituation &amp;&amp; activePlayer == 0))</b>
 <b class="nc">&nbsp;                    continue;</b>
 &nbsp;                try {
 <b class="nc">&nbsp;                    rmiClients.get(n).pingClient();</b>
 <b class="nc">&nbsp;                } catch (RemoteException e) {</b>
-<b class="nc">&nbsp;                    playerDisconnected(names.indexOf(n));</b>
+<b class="nc">&nbsp;                    playerDisconnected(names.indexOf(n), e);</b>
 <b class="nc">&nbsp;                }</b>
 <b class="nc">&nbsp;            }</b>
 &nbsp;        }
@@ -1015,7 +1102,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>

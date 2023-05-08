@@ -76,6 +76,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package app.controller;
 &nbsp;
+&nbsp;import java.io.Serial;
 &nbsp;import java.io.Serializable;
 &nbsp;
 &nbsp;/**
@@ -86,6 +87,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private final MessageType type;
 &nbsp;    private final String author;
 &nbsp;    private final Object content;
+&nbsp;    @Serial
+&nbsp;    private static final long serialVersionUID = 1L;
 &nbsp;
 &nbsp;    /**
 &nbsp;     * normal constructor for the Messages that will be sent in the network
@@ -93,7 +96,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param p the sender of the message (name)
 &nbsp;     * @param cont the content of the message, any type of class (Object)
 &nbsp;     */
-<b class="nc">&nbsp;    public Message(MessageType t, String p, Object cont){ // li costruisci in maniera completa una e una sola volta</b>
+<b class="nc">&nbsp;    public Message(MessageType t, String p, Object cont){ // build the message in a complete way, only one time</b>
 <b class="nc">&nbsp;        type = t;</b>
 <b class="nc">&nbsp;        author = p;</b>
 <b class="nc">&nbsp;        content = cont;</b>
@@ -140,7 +143,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-04-30 09:22</div>
+    <div style="float:right;">generated on 2023-05-08 21:47</div>
 </div>
 </body>
 </html>
