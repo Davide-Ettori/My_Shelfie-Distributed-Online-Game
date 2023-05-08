@@ -1478,6 +1478,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         tempChatHistory = new JTextArea(Dimensions.textCols, Dimensions.textCols - 8);
         tempChatHistory.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum), Dimensions.textCols * (Dimensions.textCharsNum)));
         tempChatHistory.setEditable(false);
+        tempChatHistory.setText(fullChat);
         chatHistory = new JScrollPane(tempChatHistory);
         chatHistory.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum), Dimensions.textCols * (Dimensions.textCharsNum)));
         insertMessage = new JTextField(Dimensions.textCols);
