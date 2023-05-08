@@ -546,12 +546,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void advanceTurn(){
         synchronized (disconnectionLock) {
-            System.out.println("numero player: " + getActivePlayersNumber());
             if (getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0) {
+                Game.waitForSeconds(Game.fastTimer);
                 sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " The game is temporarily paused because you are the only connected player"));
                 advance = true;
                 activePlayer = names.indexOf(Game.serverPlayer);
-                System.out.println("forzo: " + names.get(activePlayer));
                 return;
             }
         }
@@ -772,7 +771,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
          synchronized (disconnectionLock) {
              if (Game.showErrors)
                  connectionLost(exc);
-             System.out.println("disco: " + names.get(i));
+             //System.out.println("disco: " + names.get(i));
              if (disconnectedPlayers.contains(names.get(i)))
                  return;
              try {
