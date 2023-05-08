@@ -771,7 +771,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
          synchronized (disconnectionLock) {
              if (Game.showErrors)
                  connectionLost(exc);
-             //System.out.println("disco: " + names.get(i));
+             System.out.println("disco: " + names.get(i));
              if (disconnectedPlayers.contains(names.get(i)))
                  return;
              try {
@@ -836,10 +836,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        //System.out.println("tra poco mando");
-        if (disconnectedPlayers.contains(names.get(i)))
+        System.out.println("tra poco mando");
+        for(String s: disconnectedPlayers)
+            System.out.print(s + " ");
+        System.out.println(Game.serverPlayer + " fine");
+        if (i < 0 || i >= disconnectedPlayers.size() || disconnectedPlayers.contains(names.get(i)))
             return;
-        //System.out.println("mando " + msg.getType() + " to " + names.get(i));
+        System.out.println("mando " + msg.getType() + " to " + names.get(i));
         if (!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE) {
             try {
                 outStreams.get(i).writeObject(msg);

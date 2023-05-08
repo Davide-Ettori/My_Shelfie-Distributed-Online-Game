@@ -392,6 +392,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 gbc2.gridy = 4;
                 generalLabelChooseName.add(tempPanel1,gbc2);
 
+                if(flag)
+                    Game.serverPlayer = name;
                 new Thread(this::getInitialState).start();
                 return;
             }
