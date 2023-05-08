@@ -835,6 +835,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param msg the message that must be sent
      */
     public void sendToServer(Message msg){
+        System.out.println("Sending " + msg.getType() + " to server");
         if(netMode == SOCKET) {
             try {
                 outStream.writeObject(msg);

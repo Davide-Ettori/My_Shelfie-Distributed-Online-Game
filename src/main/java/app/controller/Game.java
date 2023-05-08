@@ -33,7 +33,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the fast timer of the app for small waiting task */
     public static final double fastTimer = 0.5;
     /** variable that represent the timer for the new turn interaction */
-    public static final double passTimer = 1;
+    public static final double passTimer = 3;
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
@@ -165,7 +165,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         new Thread(this::pingRMI).start();
         new Thread(this::listenForReconnection).start();
         if(!rmiClients.containsKey(names.get(0)))
-            waitMoveFromClient();
+            new Thread(this::waitMoveFromClient).start();
         else
             startChatServerThread();
     }
@@ -494,8 +494,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         sendChatToClients(names.get(activePlayer), msg.getAuthor(), (String) msg.getContent());
                         continue;
                     }
-                    if(msg.getType() == STOP)
+                    if(msg.getType() == STOP){
                         continue;
+                    }
                     for (int i = 0; i < numPlayers; i++) {
                         if (i != activePlayer)
                             sendToClient(i, msg);
@@ -573,12 +574,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
             }catch (Exception e){connectionLost(e);}
         }
-        sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
+        new Thread(() ->{
+            Game.waitForSeconds(Game.fastTimer * 2);
+            sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
+        }).start();
         if(!rmiClients.containsKey(names.get(activePlayer)))
             new Thread(this::waitMoveFromClient).start();
-        else {
+        else
             startChatServerThread();
-        }
     }
     /**
      * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
@@ -898,10 +901,17 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 Game.waitForSeconds(Game.passTimer);
                 advanceTurn();
             }
-            case STOP -> {}
+            case PING, STOP ->{}
             default -> {
                 if(msg.getType() == LIB_FULL && !endGameSituation)
                     endGameSituation = true;
+                if(msg.getType() == UPDATE_UNPLAYABLE){
+                    JSONObject jsonObject = (JSONObject) msg.getContent();
+                    Board b = (Board) jsonObject.get("board");
+                    for (int i = 0; i < numPlayers; i++)
+                        players.get(i).board = new Board(b);
+                    FILEHelper.writeServer(this);
+                }
                 for (int i = 0; i < numPlayers; i++) {
                     if (i != activePlayer)
                         sendToClient(i,msg);
