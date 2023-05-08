@@ -772,15 +772,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
          synchronized (disconnectionLock) {
              if (Game.showErrors)
                  connectionLost(exc);
-             System.out.println("disco: " + names.get(i));
+             //System.out.println("disco: " + names.get(i));
              if (disconnectedPlayers.contains(names.get(i)))
                  return;
              try {
-                 /*
-                 playersSocket.get(i).close();
-                 outStreams.get(i).close();
-                 inStreams.get(i).close();
-                  */
                  playersSocket.get(i).setSoTimeout(0);
              } catch (IOException ignored) {}
              disconnectedPlayers.add(names.get(i));
@@ -837,26 +832,21 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @param msg the message that must be sent
      */
     public void sendToClient(int i, Message msg){
-        System.out.println("tra poco mando");
         if(i < 0 || i >= names.size())
             throw new RuntimeException("Sending to a NON existing player");
         if (disconnectedPlayers.contains(names.get(i)))
             return;
-        System.out.println("mando " + msg.getType() + " to " + names.get(i));
+        //System.out.println("mando " + msg.getType() + " to " + names.get(i));
         if (!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE) {
             try {
                 outStreams.get(i).writeObject(msg);
             } catch (IOException e) {
-                if (msg.getType() == FINAL_SCORE)
-                    return;
                 playerDisconnected(i, e);
             }
         } else {
             try {
                 rmiClients.get(names.get(i)).receivedEventRMI(msg);
             } catch (RemoteException e) {
-                if (msg.getType() == FINAL_SCORE)
-                    return;
                 playerDisconnected(i, e);
             }
         }
