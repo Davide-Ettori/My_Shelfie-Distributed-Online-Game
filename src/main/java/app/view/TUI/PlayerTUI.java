@@ -682,7 +682,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
         if(msg.length() == 0)
             return false;
         if(msg.equals("@exit")){
-            System.out.println("The game is exiting...");
+            System.out.println("\nThe game is exiting...");
             Game.waitForSeconds(Game.fastTimer * 2);
             System.exit(0);
         }
