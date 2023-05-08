@@ -32,7 +32,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public static final double waitTimer = 2.5;
     /** variable that represent the fast timer of the app for small waiting task */
     public static final double fastTimer = 0.5;
-    /** variable that represent the timer for the new turn interaction */
+    /** variable that represent the timer for the new turn (changing) interaction */
     public static final double passTimer = 1;
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
