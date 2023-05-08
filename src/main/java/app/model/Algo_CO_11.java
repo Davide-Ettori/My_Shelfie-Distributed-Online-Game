@@ -2,9 +2,7 @@ package app.model;
 
 import static app.model.Color.*;
 /*
-Otto tessere dello stesso tipo. Non ci
-sono restrizioni sulla posizione di
-queste tessere.
+Eight tiles of the same type. There’s no restriction about the position of these tiles.
  */
 /**
  * class which represent the number eleven objective (common). Immutable

@@ -5,10 +5,7 @@ import java.util.Arrays;
 
 import static app.model.Color.EMPTY;
 /*
-Due gruppi separati di 4 tessere dello
-stesso tipo che formano un quadrato 2x2.
-Le tessere dei due gruppi devono essere
-dello stesso tipo.
+Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles of one square can be different from those of the other square.
  */
 /**
  * class which represent the number seven objective (common). Immutable

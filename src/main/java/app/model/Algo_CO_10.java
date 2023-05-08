@@ -5,8 +5,7 @@ import java.util.Arrays;
 
 import static app.model.Color.EMPTY;
 /*
-Cinque tessere dello stesso tipo
-che formano una X.
+Five tiles of the same type forming an X
  */
 /**
  * class which represent the number ten objective (common). Immutable

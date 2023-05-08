@@ -578,10 +578,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     sendToClient(i, new Message(CHANGE_TURN, "server", names.get(activePlayer)));
             }catch (Exception e){connectionLost(e);}
         }
-        new Thread(() ->{
-            //Game.waitForSeconds(Game.fastTimer);
-            sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
-        }).start();
+        new Thread(() -> sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""))).start();
         if(!rmiClients.containsKey(names.get(activePlayer)))
             new Thread(this::waitMoveFromClient).start();
         else
@@ -772,7 +769,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
          synchronized (disconnectionLock) {
              if (Game.showErrors)
                  connectionLost(exc);
-             //System.out.println("disco: " + names.get(i));
              if (disconnectedPlayers.contains(names.get(i)))
                  return;
              try {
@@ -836,7 +832,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             throw new RuntimeException("Sending to a NON existing player");
         if (disconnectedPlayers.contains(names.get(i)))
             return;
-        //System.out.println("mando " + msg.getType() + " to " + names.get(i));
         if (!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE) {
             try {
                 outStreams.get(i).writeObject(msg);

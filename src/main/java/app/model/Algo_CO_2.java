@@ -2,8 +2,7 @@ package app.model;
 
 import static app.model.Color.EMPTY;
 /*
-Cinque tessere dello stesso tipo che
-formano una diagonale.
+Five tiles of the same type forming a diagonal.
  */
 /**
  * class which represent the number two objective (common). Immutable

@@ -2,8 +2,7 @@ package app.model;
 
 import static app.model.Color.EMPTY;
 /*
-Quattro tessere dello stesso tipo
-ai quattro angoli della Libreria.
+Four tiles of the same type in the four corners of the bookshelf.
  */
 /**
  * class which represent the number three objective (common). Immutable

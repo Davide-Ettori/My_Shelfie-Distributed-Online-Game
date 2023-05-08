@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import static app.model.Color.EMPTY;
 
 /*
-Due colonne formate ciascuna
-da 6 diversi tipi di tessere.
+Two columns each formed by 6 different types of tiles.
  */
 /**
  * class which represent the number six objective (common). Immutable

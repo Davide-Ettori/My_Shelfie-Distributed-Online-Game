@@ -2,11 +2,9 @@ package app.model;
 
 import static app.model.Color.EMPTY;
 /*
-Quattro gruppi separati formati ciascuno
-da quattro tessere adiacenti dello stesso
-tipo (non necessariamente come mostrato
-in figura). Le tessere di un gruppo possono
-essere diverse da quelle di un altro gruppo.
+Four groups each containing at least
+4 tiles of the same type (not necessarily in the depicted shape).
+The tiles of one group can be different from those of another group.
  */
 /**
  * class which represent the number five objective (common). Immutable

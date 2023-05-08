@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import static app.model.Color.EMPTY;
 
 /*
-Due righe formate ciascuna
-da 5 diversi tipi di tessere.
+Two lines each formed by 5 different types of tiles. One line can show the same or a different combination of the other line.
  */
 /**
  * class which represent the number eight objective (common). Immutable
