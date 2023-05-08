@@ -60,7 +60,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
     private boolean advance = false;
     private final transient Object waitMoveLock = new Object();
-    private final transient Object sendMoveLock = new Object();
+    private final transient Object disconnectionLock = new Object();
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -545,11 +545,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     public void advanceTurn(){
-        if(getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0){
-            sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " The game is temporarily paused because you are the only connected player"));
-            advance = true;
-            activePlayer = names.indexOf(Game.serverPlayer);
-            return;
+        synchronized (disconnectionLock) {
+            System.out.println("numero player: " + getActivePlayersNumber());
+            if (getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0) {
+                sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " The game is temporarily paused because you are the only connected player"));
+                advance = true;
+                activePlayer = names.indexOf(Game.serverPlayer);
+                System.out.println("forzo: " + names.get(activePlayer));
+                return;
+            }
         }
         do{
             activePlayer = (activePlayer + 1) % numPlayers;
@@ -765,26 +769,30 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
      public void playerDisconnected(int i, Exception exc) {
-         synchronized (sendMoveLock) {
+         synchronized (disconnectionLock) {
              if (Game.showErrors)
                  connectionLost(exc);
-             //System.out.println("disco: " + names.get(i));
+             System.out.println("disco: " + names.get(i));
              if (disconnectedPlayers.contains(names.get(i)))
                  return;
              try {
+                 /*
                  playersSocket.get(i).close();
                  outStreams.get(i).close();
                  inStreams.get(i).close();
-             } catch (IOException ignored) {
-             }
+                  */
+                 playersSocket.get(i).setSoTimeout(0);
+             } catch (IOException ignored) {}
              disconnectedPlayers.add(names.get(i));
              rmiClients.remove(names.get(i));
          }
          if (getActivePlayersNumber() == 1)
              new Thread(this::disconnectedTimer).start();
          if (i == activePlayer) {
-             for (int j = 0; j < numPlayers; j++)
-                 sendToClient(j, new Message(DISCONNECTED, names.get(activePlayer), null));
+             for (int j = 0; j < numPlayers; j++) {
+                 int finalJ = j;
+                 new Thread(() -> sendToClient(finalJ, new Message(DISCONNECTED, names.get(activePlayer), null))).start();
+             }
              advanceTurn();
          }
          else{
