@@ -302,6 +302,7 @@ public class Board implements Serializable {
         }
         System.out.println();
         commonObjective_1.draw(pointsCO_1.size() != 0 ? pointsCO_1.peekLast() : 0);
+        System.out.println("\n---------------------------------------------\n");
         commonObjective_2.draw(pointsCO_2.size() != 0 ? pointsCO_2.peekLast() : 0);
     }
 }
