@@ -268,7 +268,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @author Ettori Faccincani
      */
     private void waitForEvents(){
-        boolean flag;
+        boolean flag; //used to indicate that this player has become the active one
         while(true){
             flag = false;
             try {

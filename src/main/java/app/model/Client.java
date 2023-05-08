@@ -28,7 +28,7 @@ public class Client {
     public static UIMode uiModeCur;
     private JFrame setupFrame = new JFrame();
     private JPanel generalPanel = new JPanel();
-    private boolean flag = false;
+    private boolean flag = false; //true only for the first player that connect to the server
     private static boolean close = true;
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 

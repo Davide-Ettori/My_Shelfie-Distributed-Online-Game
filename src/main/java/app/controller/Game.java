@@ -58,7 +58,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
     private transient Game gameTemp = null;
     private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
-    private boolean advance = false;
+    private boolean advance = false; //true iif the server has to force a new turn after resilience
     private final transient Object waitMoveLock = new Object();
     private final transient Object disconnectionLock = new Object();
     /**
@@ -122,7 +122,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             if(gameTemp.names.containsAll(names)) {
                 initializeOldClients();
                 if(gameTemp.endGameSituation){
-                    boolean temp;
+                    boolean temp; //variable used to check if the rmi is ready
                     for(int i = 0; i < numPlayers; i++) {
                         try {
                             temp = (boolean)inStreams.get(i).readObject();
@@ -145,7 +145,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else
             initializeAllClients();
-        boolean temp;
+        boolean temp; //variable used to check if the rmi is ready
         for(int i = 0; i < numPlayers; i++) {
             try {
                 temp = (boolean)inStreams.get(i).readObject();
@@ -351,7 +351,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 outStreams.set(names.indexOf(name), out);
                 playersSocket.set(names.indexOf(name), s);
                 disconnectedPlayers.remove(name);
-                boolean temp = (boolean)in.readObject();
+                boolean temp = (boolean)in.readObject(); //variable used to check if the rmi is ready
                 if(!rmiClients.containsKey(name)) {
                     try {
                         s.setSoTimeout(Player.pingTimeout);
