@@ -74,7 +74,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 outStream.writeObject(false);
             }
         }catch (Exception e){System.out.println("\nServer is inactive, try later"); connectionLost(e);}
-        System.out.println("\nClient connected");
+        System.out.println("\nClient connected \n\n");
         int width = 200;
         int height = 30;
 
@@ -94,6 +94,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
                 continue;
             System.out.println(sb);
         }
+        System.out.println("\n\n");
         chooseUserName(flag);
     }
 
