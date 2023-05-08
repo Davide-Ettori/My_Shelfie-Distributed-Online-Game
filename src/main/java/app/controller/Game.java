@@ -837,10 +837,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void sendToClient(int i, Message msg){
         System.out.println("tra poco mando");
-        for(String s: disconnectedPlayers)
-            System.out.print(s + " ");
-        System.out.println(Game.serverPlayer + " fine");
-        if (i < 0 || i >= disconnectedPlayers.size() || disconnectedPlayers.contains(names.get(i)))
+        if (i < 0 || i >= names.size() || disconnectedPlayers.contains(names.get(i)))
             return;
         System.out.println("mando " + msg.getType() + " to " + names.get(i));
         if (!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE) {
