@@ -17,6 +17,7 @@ run.sh
 target/*
 resources/*
 src/main/resources/*
+META-INF/*
 
 
 # User-specific stuff
