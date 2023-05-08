@@ -575,7 +575,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }catch (Exception e){connectionLost(e);}
         }
         new Thread(() ->{
-            Game.waitForSeconds(Game.fastTimer);
+            //Game.waitForSeconds(Game.fastTimer);
             sendToClient(activePlayer, new Message(YOUR_TURN, "server", ""));
         }).start();
         if(!rmiClients.containsKey(names.get(activePlayer)))
