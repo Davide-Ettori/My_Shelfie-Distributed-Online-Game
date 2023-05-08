@@ -48,7 +48,6 @@ In this table you can see how the project is evaluated
 
 
 ## How to Play
-DA FINIRE
 - Here is a video that explains how to play this Board Game: [Tutorial](https://my-shelfie-video.netlify.app)
 
 
