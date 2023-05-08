@@ -303,6 +303,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 playersSocket.add(serverSocket.accept());
                 clientOut = new ObjectOutputStream(playersSocket.get(playersSocket.size() - 1).getOutputStream());
                 clientIn = new ObjectInputStream(playersSocket.get(playersSocket.size() - 1).getInputStream());
+                clientOut.flush();
                 boolean isFake = (boolean) clientIn.readObject();
                 if(isFake) {
                     playersSocket.remove(playersSocket.size() - 1);
@@ -837,7 +838,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     public void sendToClient(int i, Message msg){
         System.out.println("tra poco mando");
-        if (i < 0 || i >= names.size() || disconnectedPlayers.contains(names.get(i)))
+        if(i < 0 || i >= names.size())
+            throw new RuntimeException("Sending to a NON existing player");
+        if (disconnectedPlayers.contains(names.get(i)))
             return;
         System.out.println("mando " + msg.getType() + " to " + names.get(i));
         if (!rmiClients.containsKey(names.get(i)) || msg.getType() == FINAL_SCORE) {

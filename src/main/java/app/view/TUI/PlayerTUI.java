@@ -70,6 +70,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             mySocket = new Socket(IP.activeIP, Initializer.PORT);
             outStream = new ObjectOutputStream(mySocket.getOutputStream());
             inStream = new ObjectInputStream(mySocket.getInputStream());
+            outStream.flush();
             if(!opt.equals("yes")){
                 outStream.writeObject(false);
             }
