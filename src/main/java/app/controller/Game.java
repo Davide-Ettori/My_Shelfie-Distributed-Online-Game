@@ -58,7 +58,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private final transient HashMap<String, PlayerI> rmiClients = new HashMap<>();
     private transient Game gameTemp = null;
     private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
-    private boolean advance = false; //true iif the server has to force a new turn after resilience
+    private boolean advance = false; //true iif the server has to force a new turn after resilience activation
     private final transient Object waitMoveLock = new Object();
     private final transient Object disconnectionLock = new Object();
     /**
