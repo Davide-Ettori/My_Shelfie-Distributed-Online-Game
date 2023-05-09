@@ -55,7 +55,6 @@ public class Client {
                 if(!ipText.getText().equals(" Insert ip: (default = 127.0.0.1) "))
                     IP.activeIP = ipText.getText();
                 try{
-
                     new Thread(() ->{
                         Game.waitForSeconds(3);
                         if(!Client.close)
@@ -63,13 +62,7 @@ public class Client {
                         System.out.println("\nThe ip address was incorrect...");
                         System.exit(0);
                     }).start();
-                    Socket mySocket = null;
-                    try{
-                        mySocket = new Socket(IP.activeIP, Initializer.PORT);
-                    } catch (Exception e){
-                        System.out.println("\nThe ip address was incorrect...");
-                        System.exit(0);
-                    }
+                    Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);
                     Client.close = false;
                     ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
                     out.writeObject(true);
