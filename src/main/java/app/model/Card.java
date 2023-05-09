@@ -80,6 +80,11 @@ public class Card implements Serializable {
         return " ? ";
     }
 
+    /**
+     * method used only for the TUI on Windows (because the color don't work)
+     * @param c the color of the card
+     * @author Gumus Ettori Giammusso Faccincani
+     */
     private String mapColorWindows(Color c){
         if (c == PINK)
             return " P ";
