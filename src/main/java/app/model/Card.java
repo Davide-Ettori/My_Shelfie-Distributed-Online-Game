@@ -53,28 +53,48 @@ public class Card implements Serializable {
      * @author Gumus
      */
     private String mapColor(Color c) {
-        String Pink = "\u001B[45m";
-        String Cyan = "\u001B[46m";
-        String Blue = "\u001B[44m";
-        String Green = "\u001B[42m";
-        String Yellow = "\u001B[43m";
-        String White= "\u001B[47m";
-        String Black = "\u001B[40m";
-        String Ansi_Reset = "\u001B[0m";
+        if(System.getProperty("os.name").contains("Windows"))
+            return mapColorWindows(c);
+        String pink = "\u001B[45m";
+        String cyan = "\u001B[46m";
+        String blue = "\u001B[44m";
+        String green = "\u001B[42m";
+        String yellow = "\u001B[43m";
+        String white= "\u001B[47m";
+        String black = "\u001B[40m";
+        String ansi_Reset = "\u001B[0m";
         if (c == PINK)
-            return Pink+" P "+Ansi_Reset;
+            return pink+" P "+ansi_Reset;
         if (c == CYAN)
-            return Cyan+" C "+Ansi_Reset;
+            return cyan+" C "+ansi_Reset;
         if (c == BLUE)
-            return Blue+" B "+Ansi_Reset;
+            return blue+" B "+ansi_Reset;
         if (c == GREEN)
-            return Green+" G "+Ansi_Reset;
+            return green+" G "+ansi_Reset;
         if (c == YELLOW)
-            return Yellow+ " Y "+Ansi_Reset;
+            return yellow+ " Y "+ansi_Reset;
         if (c == WHITE)
-            return White+ " W "+Ansi_Reset;
+            return white+ " W "+ansi_Reset;
         if (c == EMPTY)
-            return Black+" # "+Ansi_Reset;
+            return black+" # "+ansi_Reset;
+        return " ? ";
+    }
+
+    private String mapColorWindows(Color c){
+        if (c == PINK)
+            return " P ";
+        if (c == CYAN)
+            return " C ";
+        if (c == BLUE)
+            return " B ";
+        if (c == GREEN)
+            return " G ";
+        if (c == YELLOW)
+            return " Y ";
+        if (c == WHITE)
+            return " W ";
+        if (c == EMPTY)
+            return " # ";
         return " ? ";
     }
 
