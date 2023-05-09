@@ -10,6 +10,7 @@ import app.view.UIMode;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -47,28 +48,33 @@ public class Client {
         socketPortText.addActionListener(event -> sendIP.doClick());
         rmiPortText.addActionListener(event -> sendIP.doClick());
         sendIP.addActionListener((event) ->{
-            try{
-                if(!socketPortText.getText().equals(" Insert socket port: (default = 3333) "))
+            try {
+                if (!socketPortText.getText().equals(" Insert socket port: (default = 3333) "))
                     Initializer.PORT = Integer.parseInt(socketPortText.getText());
-                if(!rmiPortText.getText().equals(" Insert rmi port: (default = 5555) "))
+                if (!rmiPortText.getText().equals(" Insert rmi port: (default = 5555) "))
                     Initializer.PORT_RMI = Integer.parseInt(rmiPortText.getText());
-                if(!ipText.getText().equals(" Insert ip: (default = 127.0.0.1) "))
+                if (!ipText.getText().equals(" Insert ip: (default = 127.0.0.1) "))
                     IP.activeIP = ipText.getText();
-                try{
-                    new Thread(() ->{
+                Socket mySocket = null;
+                try {
+                    new Thread(() -> {
                         Game.waitForSeconds(3);
-                        if(!Client.close)
+                        if (!Client.close)
                             return;
                         System.out.println("\nThe ip address was incorrect...");
                         System.exit(0);
                     }).start();
-                    Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);
+                    mySocket = new Socket(IP.activeIP, Initializer.PORT);
                     Client.close = false;
                     ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
                     out.writeObject(true);
                     alert("There is already an active game...");
                     new Thread(this::insertInfo).start();
-                }catch (Exception e){
+                } catch (Exception e) {
+                    if (mySocket == null && !IP.activeIP.equals("127.0.0.1") && !IP.activeIP.equals(InetAddress.getLocalHost().getHostAddress())){
+                        System.out.println("\nThe ip address was incorrect...");
+                        System.exit(0);
+                    }
                     Client.close = false;
                     alert("You are the first player to connect!");
                     flag = true;
