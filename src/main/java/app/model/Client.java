@@ -29,7 +29,6 @@ public class Client {
     public static UIMode uiModeCur;
     private JFrame setupFrame = new JFrame();
     private JPanel generalPanel = new JPanel();
-    private boolean flag = false; //true only for the first player that connect to the server
     private static boolean close = true;
     private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -77,7 +76,6 @@ public class Client {
                     }
                     Client.close = false;
                     alert("You are the first player to connect!");
-                    flag = true;
                     new Thread(this::insertPlayers).start();
                 }
             }catch (Exception e){
@@ -213,7 +211,7 @@ public class Client {
                 alert("The game will continue in the terminal...");
                 Client.uiModeCur = TUI;
                 try {
-                    new PlayerTUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
+                    new PlayerTUI(SOCKET, yes.isSelected() ? "yes" : "no");
                 } catch (RemoteException e) {
                     alert("Client process unable to start...");
                     System.exit(0);
@@ -224,7 +222,7 @@ public class Client {
                 Client.uiModeCur = TUI;
                 alert("The game will continue in the terminal...");
                 try {
-                    new PlayerTUI(RMI, yes.isSelected() ? "yes" : "no", flag);
+                    new PlayerTUI(RMI, yes.isSelected() ? "yes" : "no");
                 } catch (RemoteException e) {
                     alert("Client process unable to start...");
                     System.exit(0);
@@ -234,7 +232,7 @@ public class Client {
             if(gui.isSelected() && socket.isSelected()){
                 Client.uiModeCur = GUI;
                 try {
-                    new PlayerGUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
+                    new PlayerGUI(SOCKET, yes.isSelected() ? "yes" : "no");
                 } catch (RemoteException e) {
                     alert("Client process unable to start...");
                     System.exit(0);
@@ -244,7 +242,7 @@ public class Client {
             if(gui.isSelected() && rmi.isSelected()){
                 Client.uiModeCur = GUI;
                 try {
-                    new PlayerGUI(RMI, yes.isSelected() ? "yes" : "no", flag);
+                    new PlayerGUI(RMI, yes.isSelected() ? "yes" : "no");
                 } catch (RemoteException e) {
                     alert("Client process unable to start...");
                     System.exit(0);

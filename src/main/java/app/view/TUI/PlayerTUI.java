@@ -60,7 +60,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param mode type of the network chosen by the user
      * @author Ettori
      */
-    public PlayerTUI(NetMode mode, String opt, boolean flag) throws RemoteException {
+    public PlayerTUI(NetMode mode, String opt) throws RemoteException {
         super();
         System.setProperty("java.rmi.server.hostname", IP.activeIP);
         uiMode = UIMode.TUI;
@@ -96,7 +96,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             System.out.println(sb);
         }
         System.out.println("\n\n");
-        chooseUserName(flag);
+        chooseUserName();
     }
 
     /**
@@ -126,7 +126,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * method for choosing the nickname of the player for the future game
      * @author Ettori
      */
-    private void chooseUserName(boolean flag){
+    private void chooseUserName(){
         NameStatus status = null;
         while(true){
             System.out.print("\nInsert your name: ");
@@ -163,8 +163,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             }
             System.out.println("Name Taken, choose another name");
         }
-        if(flag)
-            Game.serverPlayer = name;
         getInitialState();
     }
     /**
@@ -303,7 +301,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleShowEvent(Message msg){
-        if(msg.getAuthor().equals("win")){
+        if(msg.getAuthor() != null && msg.getAuthor().equals("win")){
             System.out.println("\n" + msg.getContent());
             Game.waitForSeconds(Game.waitTimer);
             System.exit(0);

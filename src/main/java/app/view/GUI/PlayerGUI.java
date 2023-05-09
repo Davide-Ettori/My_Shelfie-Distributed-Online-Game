@@ -94,7 +94,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param mode type of the network chosen by the user
      * @author Ettori
      */
-    public PlayerGUI(NetMode mode, String opt, boolean flag) throws RemoteException {
+    public PlayerGUI(NetMode mode, String opt) throws RemoteException {
         super();
         System.setProperty("java.rmi.server.hostname", IP.activeIP);
         uiMode = UIMode.GUI;
@@ -110,7 +110,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             }
         }catch (Exception e){alert("\nServer is inactive, try later"); connectionLost(e);}
         System.out.println("\nClient connected");
-        new Thread(() -> showChooseNameWindow(flag)).start();
+        new Thread(() -> showChooseNameWindow()).start();
     }
     /**
      * Clone the player on the client in the player on the server
@@ -321,7 +321,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * method for choosing the nickname of the player for the future game, implemented with the Swing GUI
      * @author Ettori Giammusso
      */
-    private void showChooseNameWindow(boolean flag){
+    private void showChooseNameWindow(){
         mainFrame =  new JFrame("My Shelfie");
         mainPanel = new JPanel(new GridBagLayout());
 
@@ -376,8 +376,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 gbc2.gridy = 4;
                 generalLabelChooseName.add(tempPanel1,gbc2);
 
-                if(flag)
-                    Game.serverPlayer = name;
                 new Thread(this::getInitialState).start();
                 return;
             }
@@ -393,8 +391,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                 gbc2.gridy = 4;
                 generalLabelChooseName.add(tempPanel1,gbc2);
 
-                if(flag)
-                    Game.serverPlayer = name;
                 new Thread(this::getInitialState).start();
                 return;
             }
