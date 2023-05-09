@@ -558,8 +558,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 activePlayer = names.indexOf(Game.serverPlayer);
                 return;
             }
-            if(disconnectedPlayers.size() !=0)
-                Game.waitForSeconds(fastTimer);
         }
         do{
             activePlayer = (activePlayer + 1) % numPlayers;
@@ -791,6 +789,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                  int finalJ = j;
                  new Thread(() -> sendToClient(finalJ, new Message(DISCONNECTED, names.get(activePlayer), null))).start();
              }
+             Game.waitForSeconds(passTimer);
              advanceTurn();
          }
          else{
