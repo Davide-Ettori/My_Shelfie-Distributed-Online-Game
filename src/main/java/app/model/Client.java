@@ -71,7 +71,7 @@ public class Client {
                     alert("There is already an active game...");
                     new Thread(this::insertInfo).start();
                 } catch (Exception e) {
-                    if (mySocket == null && !IP.activeIP.equals("127.0.0.1") && !IP.activeIP.equals(InetAddress.getLocalHost().getHostAddress()) && !System.getProperty("os.name").equals("MacOs")){
+                    if (mySocket == null && !IP.activeIP.equals("127.0.0.1") && !IP.activeIP.equals(InetAddress.getLocalHost().getHostAddress()) && !System.getProperty("os.name").equals("MacOS")){
                         System.out.println("\nThe ip address was incorrect...");
                         System.exit(0);
                     }
