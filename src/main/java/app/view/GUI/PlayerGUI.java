@@ -1656,7 +1656,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
                     System.exit(0);
             }
         });
-        Game.waitForSeconds(0.5);
+        Game.waitForSeconds(Game.fastTimer);
         new Thread(this::updateGUI).start();
     }
 }
