@@ -62,7 +62,13 @@ public class Client {
                         System.out.println("\nThe ip address was incorrect...");
                         System.exit(0);
                     }).start();
-                    Socket mySocket = new Socket(IP.activeIP, Initializer.PORT);
+                    Socket mySocket = null;
+                    try{
+                        mySocket = new Socket(IP.activeIP, Initializer.PORT);
+                    } catch (Exception e){
+                        System.out.println("\nThe ip address was incorrect...");
+                        System.exit(0);
+                    }
                     Client.close = false;
                     ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
                     out.writeObject(true);
