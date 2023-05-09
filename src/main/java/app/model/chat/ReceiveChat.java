@@ -43,6 +43,11 @@ public class ReceiveChat extends Thread{
                     continue;
                 }
                 if(msg.getType() == SHOW_EVENT){
+                    if(msg.getAuthor().equals("win")){
+                        System.out.println("\n" + msg.getContent());
+                        Game.waitForSeconds(Game.waitTimer);
+                        System.exit(0);
+                    }
                     System.out.println("\n" + msg.getContent());
                     continue;
                 }

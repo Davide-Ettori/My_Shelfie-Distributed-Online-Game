@@ -562,7 +562,12 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleShowEvent(Message msg){
-        updateEventText((String) msg.getContent());
+        if(msg.getAuthor() != null && msg.getAuthor().equals("win")){
+            alert((String) msg.getContent());
+            Game.waitForSeconds(Game.waitTimer);
+            System.exit(0);
+        }
+        updateEventText(" "  + msg.getContent());
     }
     /**
      * helper function for handling the client (not active) disconnection notification from the server

@@ -303,6 +303,11 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleShowEvent(Message msg){
+        if(msg.getAuthor().equals("win")){
+            System.out.println("\n" + msg.getContent());
+            Game.waitForSeconds(Game.waitTimer);
+            System.exit(0);
+        }
         System.out.println("\n" + msg.getContent());
     }
     /**

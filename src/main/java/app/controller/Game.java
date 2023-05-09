@@ -77,24 +77,15 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 gameTemp = FILEHelper.loadServer();
                 FILEHelper.writeFail();
                 if(gameTemp.numPlayers != maxP) {
-                    if(Client.uiModeCur == TUI)
-                        System.out.println("\nThe old game is not compatible, starting a new game...");
-                    else
-                        showMessageDialog(null, "The old game is not compatible, starting a new game...");
+                    System.out.println("\nThe old game is not compatible, starting a new game...");
                     gameTemp = null;
                 }
                 else {
-                    if(Client.uiModeCur == TUI)
-                        System.out.println("\nLoading the old game...");
-                    else
-                        showMessageDialog(null, "Loading the old game...");
+                    System.out.println("\nLoading the old game...");
                 }
             }
             else {
-                if(Client.uiModeCur == TUI)
-                    System.out.println("\nThere is no game to load, starting a new game...");
-                else
-                    showMessageDialog(null, "There is no game to load, starting a new game...");
+                System.out.println("\nThere is no game to load, starting a new game...");
             }
         }
         FILEHelper.writeFail();
@@ -105,10 +96,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             Game.waitForSeconds(60 * minutes);
             if(!timeExp)
                 return;
-            if(Client.uiModeCur == TUI)
-                System.out.println("\nTime limit exceeded, not enough players connected");
-            else
-                showMessageDialog(null, "Time limit exceeded, not enough players connected");
+            System.out.println("\nTime limit exceeded, not enough players connected");
             System.exit(0);
         }).start();
 
@@ -135,10 +123,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
             }
             else{
-                if(Client.uiModeCur == TUI)
-                    System.out.println("\nThe names of the clients do not match the old ones, starting a new game...");
-                else
-                    showMessageDialog(null, "The names of the clients do not match the old ones, starting a new game...");
+                System.out.println("\nThe names of the clients do not match the old ones, starting a new game...");
                 initializeAllClients();
             }
             gameTemp = null;
@@ -186,12 +171,21 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
             }
         }
-        if(Client.uiModeCur == TUI)
-            System.out.println("\nAncient client not found...");
-        else
-            showMessageDialog(null, "Ancient client not found...");
+        System.out.println("\nAncient client not found...");
         System.exit(0);
         return null;
+    }
+    /**
+     * get the only player connected to the game currently
+     * @return the index of the only player left active
+     * @author Ettori
+     */
+    private int getLastPlayer(){
+        for(int i = 0; i < numPlayers; i++){
+            if(!disconnectedPlayers.contains(names.get(i)))
+                return i;
+        }
+        return -1;
     }
     /**
      * helper method for initializing the old clients that were playing in the previous game
@@ -237,10 +231,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     p.pointsMap.put(names.get(j), 0);
                 }catch (Exception e){
-                    if(Client.uiModeCur == TUI)
-                        System.out.println("\nServer unable to start...");
-                    else
-                        showMessageDialog(null, "\nServer unable to start...");
+                    System.out.println("\nServer unable to start...");
                     System.exit(0);
                 }
             }
@@ -365,20 +356,20 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 if(getActivePlayersNumber() == 2){
                     disconnectedPlayers.remove(name);
                     if(advance){
-                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " Player " + name + " reconnected, the game is resuming..."));
+                        sendToClient(getLastPlayer(), new Message(SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
                         Game.waitForSeconds(Game.fastTimer * 3);
                         advance = false;
                         new Thread(this::advanceTurn).start();
                     }
                     else
-                        sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " Player " + name + " reconnected to the game"));
+                        sendToClient(getLastPlayer(), new Message(SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
                 }
                 else{
                     disconnectedPlayers.remove(name);
                     for(int i = 0; i < numPlayers; i++){
                         if(names.get(i).equals(name))
                             continue;
-                        sendToClient(i, new Message(SHOW_EVENT, null, " Player " + name + " reconnected to the game"));
+                        sendToClient(i, new Message(SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
                     }
                 }
             }
@@ -553,9 +544,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 connectionLost(new RuntimeException("All players disconnected"));
             if (getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0) {
                 Game.waitForSeconds(Game.fastTimer);
-                sendToClient(names.indexOf(Game.serverPlayer), new Message(SHOW_EVENT, null, " The game is temporarily paused because you are the only connected player"));
+                sendToClient(getLastPlayer(), new Message(SHOW_EVENT, null, "The game is temporarily paused because you are the only connected player"));
                 advance = true;
-                activePlayer = names.indexOf(Game.serverPlayer);
+                activePlayer = getLastPlayer();
                 return;
             }
         }
@@ -705,11 +696,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         String finalScores = getFinalScore();
         FILEHelper.writeSucc(); // the server finished with success, so nothing has to be written in the cache
         Thread finalTh = new Thread(() ->{
-            for(int i = 0; i < numPlayers; i++) {
-                if(names.get(i).equals(Game.serverPlayer))
-                    continue;
+            for(int i = 0; i < numPlayers; i++)
                 sendToClient(i, new Message(FINAL_SCORE, "server", finalScores));
-            }
         });
         finalTh.start();
         try {
@@ -717,8 +705,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         } catch (InterruptedException e) {
             connectionLost(e);
         }
-        waitForSeconds(Game.waitTimer / 2.5);
-        sendToClient(names.indexOf(Game.serverPlayer), new Message(FINAL_SCORE, "server", finalScores));
+        System.out.println("The game is finished successfully, server closing...");
+        waitForSeconds(Game.waitTimer);
+        System.exit(0);
     }
     /**
      * getter for the input streams from the server to all the clients
@@ -814,10 +803,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         Game.waitForSeconds(30);
         if(getActivePlayersNumber() == 1){
             FILEHelper.writeSucc();
-            if(Client.uiModeCur == GUI)
-                showMessageDialog(null, "You have won because all the other players have disconnected");
-            else
-                System.out.println("\nYou have won because all the other players have disconnected");
+            sendToClient(0, new Message(SHOW_EVENT, "win", "You have won because all the other players have disconnected"));
+            Game.waitForSeconds(passTimer);
             System.exit(0);
         }
     }

@@ -71,7 +71,7 @@ public class Client {
                     alert("There is already an active game...");
                     new Thread(this::insertInfo).start();
                 } catch (Exception e) {
-                    if (mySocket == null && !IP.activeIP.equals("127.0.0.1") && !IP.activeIP.equals(InetAddress.getLocalHost().getHostAddress()) && !System.getProperty("os.name").equals("Mac OS X")){
+                    if (mySocket == null && !IP.activeIP.equals("127.0.0.1") && !IP.activeIP.equals(InetAddress.getLocalHost().getHostAddress())){
                         System.out.println("\nThe ip address was incorrect...");
                         System.exit(0);
                     }
@@ -150,18 +150,12 @@ public class Client {
 
             int finalNumP = numP;
             String finalPersOpt = persOpt;
-            Thread serverTh = new Thread(() -> {
-                try {
-                    new Game(finalNumP, finalPersOpt);
-                } catch (RemoteException ex) {
-                    alert("Server unable to start...");
-                    System.exit(0);
-                }
-            });
-            serverTh.setPriority(Thread.MAX_PRIORITY);
-            serverTh.start();
-            Game.waitForSeconds(1);
-            new Thread(this::insertInfo).start();
+            setupFrame.dispose();
+            try {
+                new Game(finalNumP, finalPersOpt);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
         generalPanel.removeAll();
         generalPanel.setLayout(new GridLayout(3, 3));
@@ -218,14 +212,13 @@ public class Client {
             if(tui.isSelected() && socket.isSelected()){
                 alert("The game will continue in the terminal...");
                 Client.uiModeCur = TUI;
-                new Thread(() ->{
-                    try {
-                        new PlayerTUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
-                    } catch (RemoteException e) {
-                        alert("Client process unable to start...");
-                        System.exit(0);
-                    }
-                }).start();
+                try {
+                    new PlayerTUI(SOCKET, yes.isSelected() ? "yes" : "no", flag);
+                } catch (RemoteException e) {
+                    alert("Client process unable to start...");
+                    System.exit(0);
+                }
+                return;
             }
             if(tui.isSelected() && rmi.isSelected()){
                 Client.uiModeCur = TUI;
@@ -236,6 +229,7 @@ public class Client {
                     alert("Client process unable to start...");
                     System.exit(0);
                 }
+                return;
             }
             if(gui.isSelected() && socket.isSelected()){
                 Client.uiModeCur = GUI;
@@ -245,6 +239,7 @@ public class Client {
                     alert("Client process unable to start...");
                     System.exit(0);
                 }
+                return;
             }
             if(gui.isSelected() && rmi.isSelected()){
                 Client.uiModeCur = GUI;
@@ -254,6 +249,7 @@ public class Client {
                     alert("Client process unable to start...");
                     System.exit(0);
                 }
+                return;
             }
         });
         generalPanel.removeAll();
