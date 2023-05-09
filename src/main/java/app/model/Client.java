@@ -56,7 +56,6 @@ public class Client {
                 if (!ipText.getText().equals(" Insert ip: (default = 127.0.0.1) "))
                     IP.activeIP = ipText.getText();
                 Socket mySocket = null;
-                System.out.println(System.getProperty("os.name"));
                 try {
                     new Thread(() -> {
                         Game.waitForSeconds(3);
