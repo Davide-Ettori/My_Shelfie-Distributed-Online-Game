@@ -55,6 +55,7 @@ public class Client {
                 if(!ipText.getText().equals(" Insert ip: (default = 127.0.0.1) "))
                     IP.activeIP = ipText.getText();
                 try{
+
                     new Thread(() ->{
                         Game.waitForSeconds(3);
                         if(!Client.close)
