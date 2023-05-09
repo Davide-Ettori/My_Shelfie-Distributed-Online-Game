@@ -151,7 +151,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 synchronized (disconnectionLock){
                     if(getActivePlayersNumber() != 0)
                         continue;
-                    System.out.println("Number of players equals to zero, server closing...");
+                    System.out.println("\nNumber of players equals to zero, server closing...");
                     System.exit(0);
                 }
             }
@@ -714,7 +714,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         } catch (InterruptedException e) {
             connectionLost(e);
         }
-        System.out.println("The game is finished successfully, server closing...");
+        System.out.println("The game is finished successfully");
         waitForSeconds(Game.waitTimer);
         System.exit(0);
     }
@@ -859,7 +859,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void addClient(String name, PlayerI p){
         rmiClients.put(name, p);
     }
-
     /**
      * method called from remote which is equivalent to the waitMoveFromClient() method for the socket
      * @author Ettori

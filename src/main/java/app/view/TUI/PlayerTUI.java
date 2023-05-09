@@ -803,7 +803,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             throw new RuntimeException(e);
         else
             System.out.println("\nThe connection was lost and the application is disconnecting...");
-        Game.waitForSeconds(Game.waitTimer / 2.5);
+        Game.waitForSeconds(Game.waitTimer);
         System.exit(0);
     }
     /**
