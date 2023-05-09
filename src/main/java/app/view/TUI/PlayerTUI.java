@@ -218,6 +218,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI{
             System.out.println("\nBe patient, the game will start soon...");
             p = new PlayerTUI((Player)inStream.readObject());
             clone(p);
+            activeName = chairmanName;
             drawAll();
             if(netMode == RMI)
                 new Thread(this::listenForEndGame).start();

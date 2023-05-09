@@ -497,6 +497,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
             //alert("Be patient, the game will start soon...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
+            activeName = chairmanName;
             Thread th = new Thread(this::initGUI);
             th.start();
             th.join();
