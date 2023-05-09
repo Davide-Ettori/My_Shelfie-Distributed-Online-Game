@@ -753,7 +753,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 serverSocket.close();
                 for(Socket s: playersSocket)
                     s.close();
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 return;
             }
             Game.waitForSeconds(Game.showTimer * 2);
