@@ -494,7 +494,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
     private void getInitialState(){
         PlayerGUI p;
         try {
-            alert("Be patient, the game will start soon...");
+            //alert("Be patient, the game will start soon...");
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             Thread th = new Thread(this::initGUI);
@@ -1648,6 +1648,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
         mainPanel.add(generalLabel,gbc2);
 
         mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(mainFrame, "Are you sure to close the game ? (progress will be saved)", "Close Window", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+                    System.exit(0);
+            }
+        });
         Game.waitForSeconds(0.5);
         new Thread(this::updateGUI).start();
     }
