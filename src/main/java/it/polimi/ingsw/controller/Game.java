@@ -766,9 +766,11 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.out.println("\nConnection lost, the server is closing...");
             new Thread(() ->{
                 try {
-                    serverSocket.close();
                     for(Socket s: playersSocket)
                         s.close();
+                    for(ObjectOutputStream out: outStreams)
+                        out.close();
+                    serverSocket.close();
                 } catch (Exception ignored) {}
             }).start();
             Game.waitForSeconds(Game.fastTimer * 3);
@@ -789,6 +791,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
              //System.out.println("disco " + names.get(i));
              try {
                  playersSocket.get(i).setSoTimeout(0);
+                 outStreams.get(i).flush();
              } catch (IOException ignored) {}
              disconnectedPlayers.add(names.get(i));
              rmiClients.remove(names.get(i));
