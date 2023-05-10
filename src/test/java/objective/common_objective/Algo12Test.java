@@ -1,12 +1,10 @@
 package objective.common_objective;
 
-import app.model.Algo_CO_12;
-import app.model.Card;
-import org.junit.After;
+import it.polimi.ingsw.model.Algo_CO_12;
+import it.polimi.ingsw.model.Card;
 import org.junit.Before;
 import org.junit.Test;
-
-import static app.model.Color.*;
+import static it.polimi.ingsw.model.Color.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 /**

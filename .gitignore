@@ -12,7 +12,7 @@ assets/*
 documentation/*
 out/*
 src/main/resources/META-INF/*
-src/main/java/app/controller/cache/*
+src/main/java/it/polimi/ingsw/controller/cache/*
 run.sh
 target/*
 resources/*

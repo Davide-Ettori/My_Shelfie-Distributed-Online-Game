@@ -1,10 +1,11 @@
 package board;
 
-import app.model.*;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Card;
 import org.junit.Before;
 import org.junit.Test;
+import static it.polimi.ingsw.model.Color.*;
 
-import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
 /**
  * <p>

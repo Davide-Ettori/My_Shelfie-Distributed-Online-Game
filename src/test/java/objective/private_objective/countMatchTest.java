@@ -1,12 +1,11 @@
 package objective.private_objective;
 
-import app.model.Card;
-import app.model.PrivateObjective;
-import org.junit.After;
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.PrivateObjective;
 import org.junit.Before;
 import org.junit.Test;
+import static it.polimi.ingsw.model.Color.*;
 
-import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
 /**
  * Test the different number of goals and the different private objective

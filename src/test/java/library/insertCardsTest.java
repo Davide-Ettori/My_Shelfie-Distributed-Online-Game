@@ -1,11 +1,10 @@
 package library;
 
-import app.model.Card;
+import it.polimi.ingsw.model.Card;
 import org.junit.*;
-
-import static app.model.Color.*;
+import static it.polimi.ingsw.model.Color.*;
 import static org.junit.Assert.assertEquals;
-import app.model.Library;
+import it.polimi.ingsw.model.Library;
 
 import java.util.ArrayList;
 import java.util.Arrays;

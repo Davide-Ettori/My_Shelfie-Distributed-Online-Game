@@ -1,15 +1,15 @@
 package board;
 
-import app.model.Card;
+import it.polimi.ingsw.model.Card;
 import org.junit.*;
 
-import static app.model.Color.*;
 import static org.junit.Assert.assertEquals;
-import app.model.Board;
-import app.model.CommonObjective;
-import app.model.Strategy;
-import app.model.Algo_CO_1;
-import app.model.Algo_CO_2;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.CommonObjective;
+import it.polimi.ingsw.model.Strategy;
+import it.polimi.ingsw.model.Algo_CO_1;
+import it.polimi.ingsw.model.Algo_CO_2;
+import static it.polimi.ingsw.model.Color.*;
 
 /**
  * <p>
