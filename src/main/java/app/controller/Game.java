@@ -100,7 +100,24 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
 
         try{serverSocket = new ServerSocket(Initializer.PORT, 10, InetAddress.getByName(IP.activeIP));}
         catch(Exception e){connectionLost(e);}
-        System.out.println("\nServer listening...");
+        System.out.println("\nServer listening... (@exit for closing the server)");
+
+        new Thread(() ->{
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String s;
+            while(true){
+                try {
+                    s = br.readLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if(!s.equals("@exit"))
+                    continue;
+                System.out.println("\nServer exiting...");
+                Game.waitForSeconds(Game.fastTimer * 2);
+                System.exit(0);
+            }
+        }).start();
 
         listenForPlayersConnections();
 
@@ -751,14 +768,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         else{
             closed = true;
             System.out.println("\nConnection lost, the server is closing...");
-            try {
-                serverSocket.close();
-                for(Socket s: playersSocket)
-                    s.close();
-            } catch (Exception ex) {
-                return;
-            }
-            Game.waitForSeconds(Game.showTimer * 2);
+            new Thread(() ->{
+                try {
+                    serverSocket.close();
+                    for(Socket s: playersSocket)
+                        s.close();
+                } catch (Exception ignored) {}
+            }).start();
+            Game.waitForSeconds(Game.showTimer);
             System.exit(0);
         }
     }

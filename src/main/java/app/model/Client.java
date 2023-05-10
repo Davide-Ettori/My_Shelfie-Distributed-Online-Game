@@ -56,25 +56,12 @@ public class Client {
                     IP.activeIP = ipText.getText();
                 Socket mySocket = null;
                 try {
-                    new Thread(() -> {
-                        Game.waitForSeconds(3);
-                        if (!Client.close)
-                            return;
-                        System.out.println("\nThe ip address was incorrect...");
-                        System.exit(0);
-                    }).start();
                     mySocket = new Socket(IP.activeIP, Initializer.PORT);
-                    Client.close = false;
                     ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
                     out.writeObject(true);
                     alert("There is already an active game...");
                     new Thread(this::insertInfo).start();
                 } catch (Exception e) {
-                    if (mySocket == null && !IP.activeIP.equals("127.0.0.1") && !IP.activeIP.equals(InetAddress.getLocalHost().getHostAddress()) && !System.getProperty("os.name").contains("Mac")){
-                        System.out.println("\nThe ip address was incorrect...");
-                        System.exit(0);
-                    }
-                    Client.close = false;
                     alert("You are the first player to connect!");
                     new Thread(this::insertPlayers).start();
                 }
