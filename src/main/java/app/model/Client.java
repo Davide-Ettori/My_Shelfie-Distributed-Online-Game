@@ -10,7 +10,6 @@ import app.view.UIMode;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -27,10 +26,8 @@ public class Client {
 
     /** variable used to keep track of the UI mode that the player is currently using */
     public static UIMode uiModeCur;
-    private JFrame setupFrame = new JFrame();
-    private JPanel generalPanel = new JPanel();
-    private static boolean close = true;
-    private final transient Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private final JFrame setupFrame = new JFrame();
+    private final JPanel generalPanel = new JPanel();
 
     /**
      * method for drawing the GUI to ask ip, port for socket and port for RMI

@@ -19,8 +19,6 @@ import java.util.Random;
 
 import static app.controller.MessageType.*;
 import static app.controller.NameStatus.*;
-import static app.view.UIMode.*;
-import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * class which represent the instance of the current game
