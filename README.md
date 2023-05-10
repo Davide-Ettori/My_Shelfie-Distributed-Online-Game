@@ -15,7 +15,7 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 
 ## Project Specifications
 - You can find the project specifications [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Requirements.pdf).
-- And [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Rulebook.png) you can find the Rulebook of the game.
+- You can find the rulebook of the game [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Rulebook.png).
 
 ## How to Play
 1. Clone or download the repository
