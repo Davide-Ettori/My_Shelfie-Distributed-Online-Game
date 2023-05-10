@@ -22,8 +22,11 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 2. Open the root folder of the project
 3. Navigate to deliveries/Jar Files
 4. Open the terminal inside this folder
-5. Run the following command `java -jar app.jar`
+5. Run the following command `java -jar app.jar`  
 
+
+If the `java` command does not work, you might need to install java locally from the oracle website  
+  
 The first window always asks you to enter the IP address to use for connection and the ports for both Socket and RMI.  
 Then if you are the first player to connect to this IP and ports you will be assumed to be the server, so the app will ask the number of players and if you want to activate persistence.  
 If you are not the first one to connect you will be assumed to be a player, so the app will ask the UI mode, the network mode and if you want to activate resilience.  
