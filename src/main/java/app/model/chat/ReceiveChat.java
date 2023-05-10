@@ -35,7 +35,7 @@ public class ReceiveChat extends Thread{
                     return;
                 if(msg.getType() == FINAL_SCORE){
                     System.out.println("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
-                    Game.waitForSeconds(5);
+                    Game.waitForSeconds(Game.showTimer);
                     System.exit(0);
                 }
                 if(msg.getType() == LOST_CLIENT){

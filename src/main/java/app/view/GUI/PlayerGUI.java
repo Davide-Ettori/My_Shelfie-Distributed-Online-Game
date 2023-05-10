@@ -559,6 +559,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      */
     private void handleShowEvent(Message msg){
         if(msg.getAuthor() != null && msg.getAuthor().equals("win")){
+            updateEventText(" The game is finished, look at the results");
             alert((String) msg.getContent());
             Game.waitForSeconds(Game.waitTimer);
             System.exit(0);
@@ -637,6 +638,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI{
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleFinalScoreEvent(Message msg){
+        updateEventText(" The game is finished, look at the results");
         alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
         Game.waitForSeconds(Game.showTimer);
         System.exit(0);
