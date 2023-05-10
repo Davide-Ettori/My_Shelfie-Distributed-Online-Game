@@ -48,8 +48,20 @@ In this table you can see how the project is evaluated
 
 
 ## How to Play
-- Here is a video that explains how to play this Board Game: [Tutorial](https://my-shelfie-video.netlify.app)
+1. Clone or download the repository
+2. Open the root folder of the project
+3. Navigate to deliveries/Jar Files
+4. Open the terminal inside this folder
+5. Run the command: java -jar app.jar
 
+The first window always asks you to enter the IP address to use for connection and the ports for both Socket and RMI.
+Then if you are the first player to connect to this IP and ports you will be assumed to be the server, so the app will ask the number of players and if you want to activate persistence.
+If you are not the first one to connect you will be assumed to be a player, so the app will ask the UI mode, the network mode and if you want to activate resilience.
+You can run multiple games on the same machine and IP if you change the ports for the networks (both Socket and RMI).
+NOTE: if you activate persistence on the server the app won't accept the activation of resilience from the clients (it would make no sense).
+TIP: the enter key on your keyboard always triggers the button for making moves, sending chats and confirming IP
+
+- Here is a video that explains how to play this Board Game: [Tutorial](https://my-shelfie-video.netlify.app)
 
 ## Documentation
 For this project we documented:
