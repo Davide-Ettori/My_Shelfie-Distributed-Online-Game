@@ -775,7 +775,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         s.close();
                 } catch (Exception ignored) {}
             }).start();
-            Game.waitForSeconds(Game.showTimer);
+            Game.waitForSeconds(Game.fastTimer * 3);
             System.exit(0);
         }
     }
