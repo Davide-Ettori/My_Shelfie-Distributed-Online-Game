@@ -35,6 +35,7 @@ TIP: the enter key on your keyboard always triggers the button for making moves,
 
 - Here is a video that explains how to play this Board Game: [Tutorial](https://my-shelfie-video.netlify.app)
 
+Remember that in order to play correctly you must connect all the clients and the server to the same network
 
 ## Project Functionalities
 In this table you can see which functionalities we implemented
