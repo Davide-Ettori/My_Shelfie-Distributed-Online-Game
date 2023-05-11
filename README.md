@@ -22,7 +22,7 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 2. Open the root folder of the project
 3. For MacOS, Linux and Windows Poweshell: run the following command `cd "deliveries/Jar Files" ; java -cp App.jar it.polimi.ingsw.App` from there
 
-If you want to use the Window CMD run `cd "deliveries/Jar Files" && java -cp App.jar it.polimi.ingsw.App` instead
+If you want to use the Windows CMD run `cd "deliveries/Jar Files" && java -cp App.jar it.polimi.ingsw.App` instead
 
 If the `java` command does not work, you might need to install java locally from the oracle website  
   

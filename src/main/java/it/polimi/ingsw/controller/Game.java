@@ -332,7 +332,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 ths.add(th);
                 numPlayers++;
             }
-            catch(Exception e){connectionLost(e);}
+            catch(Exception e){
+                try {
+                    playersSocket.get(playersSocket.size() - 1).close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                playersSocket.remove(playersSocket.size() - 1);
+            }
         }
         timeExp = false;
         for(Thread t: ths){
@@ -757,7 +764,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void connectionLost(Exception e){
         if(closed)
             return;
-        //e.printStackTrace();
+        e.printStackTrace();
         if(Game.showErrors)
             throw new RuntimeException(e);
         else{
