@@ -18,11 +18,9 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 - You can find the rulebook of the game [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Rulebook.png).
 
 ## How to Play
-1. Clone or download the repository
-2. Open the root folder of the project
-3. For MacOS, Linux and Windows Poweshell: run the following command `cd "deliveries/Jar Files" ; java -cp App.jar it.polimi.ingsw.App` from that directory
-
-If you want to use the Windows CMD run `cd "deliveries/Jar Files" && java -cp App.jar it.polimi.ingsw.App` instead
+1. Download the App.jar file from deliveries/Jar Files
+2. Place it inside a folder of your choice
+3. Run the following command `java -cp App.jar it.polimi.ingsw.App` from that folder
 
 If the `java` command does not work, you might need to install java locally from the oracle website  
   
