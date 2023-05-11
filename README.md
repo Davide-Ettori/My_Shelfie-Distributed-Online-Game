@@ -20,8 +20,9 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 ## How to Play
 1. Clone or download the repository
 2. Open the root folder of the project
-3. Run the following command `cd "deliveries/Jar Files" ; java -cp App.jar it.polimi.ingsw.App` from the Powershell for windows or from the Terminal for MacOS and Linux
+3. For MacOS, Linux and Windows Poweshell: run the following command `cd "deliveries/Jar Files" ; java -cp App.jar it.polimi.ingsw.App` from there
 
+If you want to use the Window CMD run `cd "deliveries/Jar Files" && java -cp App.jar it.polimi.ingsw.App` instead
 
 If the `java` command does not work, you might need to install java locally from the oracle website  
   
