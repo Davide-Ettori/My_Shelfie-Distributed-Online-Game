@@ -20,7 +20,7 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 ## How to Play
 1. Clone or download the repository
 2. Open the root folder of the project
-3. For MacOS, Linux and Windows Poweshell: run the following command `cd "deliveries/Jar Files" ; java -cp App.jar it.polimi.ingsw.App` from there
+3. For MacOS, Linux and Windows Poweshell: run the following command `cd "deliveries/Jar Files" ; java -cp App.jar it.polimi.ingsw.App` from that directory
 
 If you want to use the Windows CMD run `cd "deliveries/Jar Files" && java -cp App.jar it.polimi.ingsw.App` instead
 
