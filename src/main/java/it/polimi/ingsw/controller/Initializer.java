@@ -193,12 +193,12 @@ public class Initializer {
      * @return the list of all the possible cards present in the game (132)
      */
     public static ArrayList<Card> setBucketOfCards(){
-        String cornici = "assets/item tiles/Cornici1.";
-        String gatti = "assets/item tiles/Gatti1.";
-        String giochi = "assets/item tiles/Giochi1.";
-        String libri = "assets/item tiles/Libri1.";
-        String piante = "assets/item tiles/Piante1.";
-        String trofei = "assets/item tiles/Trofei1.";
+        String cornici = "item tiles/Cornici1.";
+        String gatti = "item tiles/Gatti1.";
+        String giochi = "item tiles/Giochi1.";
+        String libri = "item tiles/Libri1.";
+        String piante = "item tiles/Piante1.";
+        String trofei = "item tiles/Trofei1.";
         ArrayList<Card> res = new ArrayList<>();
         for(int i = 0; i < cardNum; i++) {
             res.add(new Card(BLUE, cornici + (new Random().nextInt(3) + 1) + ".png"));

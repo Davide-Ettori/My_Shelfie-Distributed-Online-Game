@@ -8,18 +8,26 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # Ignore game assets
-assets/*
+resources
 documentation/*
 out/*
 src/main/resources/META-INF/*
 src/main/java/it/polimi/ingsw/controller/cache/*
 run.sh
 target/*
-resources/*
-src/main/resources/*
 META-INF/*
 .DS_Store
 My Shelfie.jar
+boards
+common goal cards
+item tiles
+misc
+personal goal cards
+Publisher material
+scoring tokens
+server.txt
+status.txt
+comando_jar.txt
 
 
 # User-specific stuff

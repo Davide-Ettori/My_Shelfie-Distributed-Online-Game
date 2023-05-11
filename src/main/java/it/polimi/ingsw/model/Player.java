@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.view.TUI.PlayerTUI;
 import it.polimi.ingsw.view.UIMode;
-import org.json.simple.JSONObject;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,8 +55,6 @@ public class Player extends UnicastRemoteObject implements Serializable {
     /** points achieved until now with the common objectives */
     public int pointsUntilNow;
     protected boolean endGame = false;
-    protected transient JSONObject boardStatus;
-    protected transient JSONObject gameStatus;
     /** points achieved until now with the common objectives by all the other players: (name, points) */
     public HashMap<String, Integer> pointsMap = new HashMap<>();
     protected boolean closed = false;

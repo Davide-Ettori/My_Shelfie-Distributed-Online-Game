@@ -24,5 +24,5 @@ public class Dimensions {
     public static final int generalBorder = 5;
     public static final int placeholderW = 10;
     public static final int placeholderH = 70;
-    public static final String pathPointsCO = "assets/scoring tokens/scoring";
+    public static final String pathPointsCO = "scoring tokens/scoring";
 }

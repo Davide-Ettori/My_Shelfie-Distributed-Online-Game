@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.IP;
-import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -218,7 +217,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         for(int i = 0; i < numPlayers; i++){
             try {
                 gameTemp.players.get(i).activeName = gameTemp.names.get(0);
-                outStreams.get(i).writeObject(getClientByName(names.get(i), gameTemp.players));
+                outStreams.get(i).writeObject(new Player(getClientByName(names.get(i), gameTemp.players)));
                 players.add(new PlayerSend(getClientByName(names.get(i), gameTemp.players)));
             }catch (Exception e){connectionLost(e);}
         }
@@ -279,7 +278,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }catch (Exception e){connectionLost(e);}
             p.numPlayers = numPlayers;
             try {
-                outStreams.get(i).writeObject(p);
+                outStreams.get(i).writeObject(new Player(p));
             }catch (Exception e){connectionLost(e);}
             players.add(new PlayerSend(p));
         }
@@ -524,15 +523,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         continue;
                     }
                     if (msg.getType() == MessageType.UPDATE_UNPLAYABLE) {
-                        JSONObject jsonObject = (JSONObject) msg.getContent();
-                        Board b = (Board) jsonObject.get("board");
+                        Board b = (Board) msg.getContent();
                         for (int i = 0; i < numPlayers; i++)
                             players.get(i).board = new Board(b);
                         FILEHelper.writeServer(this);
                     }
                     if (msg.getType() == MessageType.UPDATE_GAME) {
-                        JSONObject jsonObject = (JSONObject) msg.getContent();
-                        PlayerSend p = (PlayerSend) jsonObject.get("player");
+                        PlayerSend p = (PlayerSend) msg.getContent();
                         for (int i = 0; i < numPlayers; i++) {
                             if (i == activePlayer)
                                 continue;
@@ -895,8 +892,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         if (i != activePlayer)
                             sendToClient(i, msg);
                     }
-                    JSONObject jsonObject = (JSONObject) msg.getContent();
-                    PlayerSend p = (PlayerSend) jsonObject.get("player");
+                    PlayerSend p = (PlayerSend) msg.getContent();
                     for (int i = 0; i < numPlayers; i++) {
                         if (i == activePlayer)
                             continue;
@@ -921,8 +917,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 if(msg.getType() == MessageType.LIB_FULL && !endGameSituation)
                     endGameSituation = true;
                 if(msg.getType() == MessageType.UPDATE_UNPLAYABLE){
-                    JSONObject jsonObject = (JSONObject) msg.getContent();
-                    Board b = (Board) jsonObject.get("board");
+                    Board b = (Board) msg.getContent();
                     for (int i = 0; i < numPlayers; i++)
                         players.get(i).board = new Board(b);
                     FILEHelper.writeServer(this);

@@ -20,7 +20,7 @@ public class PrivateObjective extends Objective implements Serializable {
      * @param id the unique identifier of the objective
      */
     public PrivateObjective(Card[][] mat, int id){
-        imagePath = "assets/personal goal cards/Personal_Goals" + (id == 1 ? "" : id) + ".png";
+        imagePath = "personal goal cards/Personal_Goals" + (id == 1 ? "" : id) + ".png";
         arrayOfPoints = new int[]{0,1,2,4,6,9,12};
         matrix = mat;
         objectiveId = id;

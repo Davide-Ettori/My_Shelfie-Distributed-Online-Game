@@ -7,7 +7,6 @@ import it.polimi.ingsw.view.UIMode;
 
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.model.*;
-import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,6 +61,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
     private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
     private transient GameI server;
+    private transient ClassLoader classLoader = getClass().getClassLoader();
 
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
@@ -136,21 +136,15 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      */
     private void updateInfo(){
         try {
+            //Game.waitForSeconds(Game.fastTimer);
             SwingUtilities.invokeAndWait(() -> {
-                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
-                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
                 activeTurnInfo.setText(" The active player is " + activeName + " ");
                 curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
                 tempChatHistory.setText(fullChat);
             });
         } catch (InterruptedException | InvocationTargetException e) {
-            new Thread(() ->{
-                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
-                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon("assets/scoring tokens/scoring_back_EMPTY.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
-                activeTurnInfo.setText(" The active player is " + activeName + " ");
-                curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
-                tempChatHistory.setText(fullChat);
-            }).start();
             return;
         }
         mainFrame.revalidate();
@@ -163,17 +157,21 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private void updateBoard(){
         try {
             SwingUtilities.invokeAndWait(() ->{
+                String path;
                 for(int i = 0; i < DIM; i++){
                     for(int j = 0; j < DIM; j++){
                         if(i == libFullX && j == libFullY)
                             continue;
-                        boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(board.getGameBoard()[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                        path = board.getGameBoard()[i][j].imagePath.trim();
+                        try {
+                            boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(path)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                        }catch(Exception ignored){}
                         boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                     }
                 }
                 boardCards[libFullX][libFullY].setVisible(!endGame);
             });
-        } catch (InterruptedException | InvocationTargetException e) {
+        } catch (Exception e) {
             return;
         }
         mainFrame.revalidate();
@@ -188,14 +186,19 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
             SwingUtilities.invokeAndWait(() ->{
                 for(int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
-                        myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(library.gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                        try {
+                            myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(library.gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                        }
+                        catch (Exception ignored){}
                         myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                     }
                 }
+                //myLibraryCards[2][2].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("item tiles/Cornici1.3.png")).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
             });
         } catch (InterruptedException | InvocationTargetException e) {
             return;
         }
+        //myLibraryCards[2][2].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("item tiles/Cornici1.3.png")).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
         mainFrame.revalidate();
         mainFrame.repaint();
     }
@@ -224,7 +227,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                 library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points) ");
                 for(int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
-                        otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                        try {
+                            otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                        }catch(Exception ignored){}
                         otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                     }
                 }
@@ -232,7 +237,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                     library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points) ");
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
-                            otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                            try {
+                                otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                            }catch(Exception ignored){}
                             otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                         }
                     }
@@ -241,7 +248,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                     library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points) ");
                     for(int i = 0; i < ROWS; i++) {
                         for (int j = 0; j < COLS; j++) {
-                            otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                            try {
+                                otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                            }catch (Exception ignored){}
                             otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                         }
                     }
@@ -333,13 +342,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
         //WALLPAPER:
         //if you want a random wallpaper, uncomment the following line and comment the next line
-        //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Display_1.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("Publisher material/Display_1.jpg")).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
         generalLabelChooseName.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
         generalLabelChooseName.setLayout(new GridBagLayout());
 
         //my shelfie title
-        JLabel myShelfieTitleLabel = new JLabel(new ImageIcon(new ImageIcon("assets/Publisher material/Title 2000x618px.png").getImage().getScaledInstance(screenSize.width * 4 / 6, screenSize.height * 4 / 10, Image.SCALE_SMOOTH)));
+        JLabel myShelfieTitleLabel = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("Publisher material/Title 2000x618px.png")).getImage().getScaledInstance(screenSize.width * 4 / 6, screenSize.height * 4 / 10, Image.SCALE_SMOOTH)));
 
         sendBtn = new JButton("Choose Name"); // button to send the name
         textInput = new JTextField(20); // textbox input from the user
@@ -432,7 +441,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("My Shelfie");
-        mainFrame.setIconImage(new ImageIcon("assets/Publisher material/Icon 50x50px.png").getImage());
+        mainFrame.setIconImage(new ImageIcon(classLoader.getResource("Publisher material/Icon 50x50px.png")).getImage());
         mainFrame.pack(); // setup of the window
         mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         mainFrame.setVisible(true); // show the frame
@@ -603,8 +612,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleUpdateUnplayableEvent(Message msg){
-        JSONObject jsonObject = (JSONObject) msg.getContent();
-        board = (Board) jsonObject.get("board");
+        board = (Board) msg.getContent();
         updateBoard();
         updateEventText(" Board updated because it was unplayable");
     }
@@ -616,8 +624,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private void handleUpdateGameEvent(Message msg){
         if(netMode == NetMode.SOCKET)
             sendToServer(new Message(MessageType.STOP, null, null));
-        JSONObject jsonObject = (JSONObject) msg.getContent();
-        PlayerSend p = (PlayerSend) jsonObject.get("player");
+        PlayerSend p = (PlayerSend) msg.getContent();
         board = p.board;
         for(int i = 0; i < numPlayers - 1; i++){
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
@@ -750,9 +757,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         updateGUI();
         updateEventText(" Board updated because it was unplayble");
         try {
-            boardStatus = new JSONObject();
-            boardStatus.put("board", board);
-            sendToServer(new Message(MessageType.UPDATE_UNPLAYABLE, name, boardStatus));
+            sendToServer(new Message(MessageType.UPDATE_UNPLAYABLE, name, new Board(board)));
         }catch (Exception e){connectionLost(e);}
     }
     /**
@@ -760,10 +765,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void sendDoneMove(){
-        gameStatus = new JSONObject();
         updateEventText(" You made your move, now wait for other players to acknowledge it...");
-        gameStatus.put("player", new PlayerSend(this));
-        sendToServer(new Message(MessageType.UPDATE_GAME, name, gameStatus));
+        sendToServer(new Message(MessageType.UPDATE_GAME, name, new PlayerSend(this)));
     }
     /**
      * Send with socket network the message of the chat to the right players
@@ -922,7 +925,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
         //CYAN
 
-        POLabel = new JLabel(new ImageIcon(new ImageIcon(objective.imagePath).getImage().getScaledInstance(Dimensions.PO_w, Dimensions.PO_h, Image.SCALE_SMOOTH)));
+        POLabel = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(objective.imagePath)).getImage().getScaledInstance(Dimensions.PO_w, Dimensions.PO_h, Image.SCALE_SMOOTH)));
         POLabel.setPreferredSize(new Dimension(Dimensions.PO_w, Dimensions.PO_h));
 
         POPanel = new JPanel(new GridBagLayout());
@@ -931,7 +934,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         POTitle.setEditable(false);
         POTitle.setBorder(null);
 
-        CO1Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_1.imagePath).getImage().getScaledInstance(Dimensions.CO_w, Dimensions.CO_h, Image.SCALE_SMOOTH)));
+        CO1Label = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(board.commonObjective_1.imagePath)).getImage().getScaledInstance(Dimensions.CO_w, Dimensions.CO_h, Image.SCALE_SMOOTH)));
         CO1Label.setLayout(null);
         CO1Label.setPreferredSize(new Dimension(Dimensions.CO_w, Dimensions.CO_h));
 
@@ -941,7 +944,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         CO1Title.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         CO1Title.setEditable(false);
 
-        CO2Label = new JLabel(new ImageIcon(new ImageIcon(board.commonObjective_2.imagePath).getImage().getScaledInstance(Dimensions.CO_w, Dimensions.CO_h, Image.SCALE_SMOOTH)));
+        CO2Label = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(board.commonObjective_2.imagePath)).getImage().getScaledInstance(Dimensions.CO_w, Dimensions.CO_h, Image.SCALE_SMOOTH)));
         CO2Label.setLayout(null);
         CO2Label.setPreferredSize(new Dimension(Dimensions.CO_w, Dimensions.CO_h));
 
@@ -951,13 +954,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         CO2Title.setMinimumSize(new Dimension(Dimensions.textCols * Dimensions.textCharsNum, Dimensions.textCols));
         CO2Title.setEditable(false);
 
-        pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO1Label = new JLabel(new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
         pointsCO1Label.setPreferredSize(new Dimension(Dimensions.pointsDim, Dimensions.pointsDim));
 
-        pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon("assets/scoring tokens/scoring.jpg").getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+        pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
         pointsCO2Label.setPreferredSize(new Dimension(Dimensions.pointsDim, Dimensions.pointsDim));
 
-        chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon("assets/misc/firstplayertoken.png").getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)));
+        chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon(classLoader.getResource("misc/firstplayertoken.png")).getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource("misc/sfondo parquet.jpg")).getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(Dimensions.chairmanDim, Dimensions.chairmanDim));
 
         chairmanPanel = new JPanel(new GridBagLayout());
@@ -1145,7 +1148,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         library1Text = new JTextArea(1, Dimensions.textCols * 2 / 3);
         library1Text.setEditable(false);
         //Library of the player 1
-        library1Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
+        library1Label = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("boards/bookshelf_orth.png")).getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         library1Label.setLayout(null);
         library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
 
@@ -1156,7 +1159,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         library2Text.setEditable(false);
 
         //Library of the player 2
-        library2Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
+        library2Label = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("boards/bookshelf_orth.png")).getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         library2Label.setLayout(null);
         library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
 
@@ -1167,7 +1170,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         library3Text.setEditable(false);
 
         //Library of the player 3
-        library3Label = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
+        library3Label = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("boards/bookshelf_orth.png")).getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         library3Label.setLayout(null);
         library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
 
@@ -1343,7 +1346,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         //Text on top of the board
         boardText = new JTextArea(" Board of the Game ");
         boardText.setEditable(false);
-        boardLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/livingroom.png").getImage().getScaledInstance(Dimensions.boardDim, Dimensions.boardDim, Image.SCALE_SMOOTH)));
+        boardLabel = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("boards/livingroom.png")).getImage().getScaledInstance(Dimensions.boardDim, Dimensions.boardDim, Image.SCALE_SMOOTH)));
         boardLabel.setPreferredSize(new Dimension(Dimensions.boardDim, Dimensions.boardDim));
         boardLabel.setLayout(new GridBagLayout());
         // fill the board
@@ -1414,7 +1417,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
             }
         }
 
-        boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon("assets/scoring tokens/end game.jpg").getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+        boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("scoring tokens/end game.jpg")).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
         gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
         myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
@@ -1447,7 +1450,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         pickCardsBtn.setFocusPainted(false);
         pickCardsBtn.setPreferredSize(new Dimension(Dimensions.btnW, Dimensions.btnH));
         pickCardsBtn.addActionListener(e -> new Thread(this::tryToPickCards).start());
-        libraryLabel = new JLabel(new ImageIcon(new ImageIcon("assets/boards/bookshelf_orth.png").getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
+        libraryLabel = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("boards/bookshelf_orth.png")).getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         libraryLabel.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
         libraryLabel.setLayout(null);
         insets = libraryLabel.getInsets();
@@ -1599,7 +1602,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
         //FIRST LEVEL - RED
 
-        generalLabel = new JLabel(new ImageIcon(new ImageIcon("assets/misc/sfondo parquet.jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        generalLabel = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("misc/sfondo parquet.jpg")).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
         generalLabel.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
         generalLabel.setLayout(new GridBagLayout());
 

@@ -19,7 +19,7 @@ public class CommonObjective extends Objective implements Serializable {
      * @param identify the unique identifier of this objective
      */
     public CommonObjective(Strategy algo, int identify){
-        imagePath = "assets/common goal cards/" + identify + ".jpg";
+        imagePath = "common goal cards/" + identify + ".jpg";
         id = identify;
         algorithm = algo;
     }

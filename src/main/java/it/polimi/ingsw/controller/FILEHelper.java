@@ -13,12 +13,12 @@ public class FILEHelper {
      */
     public static void writeSucc(){
         try {
-            new File("src/main/java/it/polimi/ingsw/controller/cache/status" + Initializer.PORT + ".txt").createNewFile();
+            new File("status.txt").createNewFile();
         } catch (IOException e) {
             throw new RuntimeException("File System Corrupted");
         }
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/it/polimi/ingsw/controller/cache/status" + Initializer.PORT + ".txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("status.txt"));
             bw.write("SUCC");
             bw.close();
         }catch(Exception e){throw new RuntimeException(e);}
@@ -29,12 +29,12 @@ public class FILEHelper {
      */
     public static void writeFail(){
         try {
-            new File("src/main/java/it/polimi/ingsw/controller/cache/status" + Initializer.PORT + ".txt").createNewFile();
+            new File("status.txt").createNewFile();
         } catch (IOException e) {
             throw new RuntimeException("File System Corrupted");
         }
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/it/polimi/ingsw/controller/cache/status" + Initializer.PORT + ".txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("status.txt"));
             bw.write("FAIL");
             bw.close();
         }catch(Exception e){throw new RuntimeException(e);}
@@ -46,12 +46,12 @@ public class FILEHelper {
      */
     public static boolean havaCachedServer(){
         try {
-            new File("src/main/java/it/polimi/ingsw/controller/cache/status" + Initializer.PORT + ".txt").createNewFile();
+            new File("status.txt").createNewFile();
         } catch (IOException e) {
             throw new RuntimeException("File System Corrupted");
         }
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src/main/java/it/polimi/ingsw/controller/cache/status" + Initializer.PORT + ".txt"));
+            BufferedReader br = new BufferedReader(new FileReader("status.txt"));
             return br.readLine().equals("FAIL");
         }catch(Exception e){System.out.println();}
         return false;
@@ -63,12 +63,12 @@ public class FILEHelper {
      */
     public static void writeServer(Game server){
         try {
-            new File("src/main/java/it/polimi/ingsw/controller/cache/server" + Initializer.PORT + ".txt").createNewFile();
+            new File("server.txt").createNewFile();
         } catch (IOException e) {
             throw new RuntimeException("File System Corrupted");
         }
         try {
-            FileOutputStream fos = new FileOutputStream("src/main/java/it/polimi/ingsw/controller/cache/server" + Initializer.PORT + ".txt");
+            FileOutputStream fos = new FileOutputStream("server.txt");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(server);
             oos.close();
@@ -81,13 +81,13 @@ public class FILEHelper {
      */
     public static Game loadServer(){
         try {
-            new File("src/main/java/it/polimi/ingsw/controller/cache/server" + Initializer.PORT + ".txt").createNewFile();
+            new File("server.txt").createNewFile();
         } catch (IOException e) {
             throw new RuntimeException("File System Corrupted");
         }
         Game server = null;
         try {
-            FileInputStream fin = new FileInputStream("src/main/java/it/polimi/ingsw/controller/cache/server" + Initializer.PORT + ".txt");
+            FileInputStream fin = new FileInputStream("server.txt");
             ObjectInputStream ois = new ObjectInputStream(fin);
             server = (Game) ois.readObject();
             ois.close();

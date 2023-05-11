@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.chat.ReceiveChat;
 import it.polimi.ingsw.model.chat.SendChat;
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.model.*;
-import org.json.simple.JSONObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -341,8 +340,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleUpdateUnplayableEvent(Message msg){
-        JSONObject jsonObject = (JSONObject) msg.getContent();
-        board = (Board) jsonObject.get("board");
+        board = (Board) msg.getContent();
         drawAll();
         System.out.println("\nBoard updated because it was unplayable");
     }
@@ -355,8 +353,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
         stopChatThread();
         if(netMode == NetMode.SOCKET)
             sendToServer(new Message(MessageType.STOP, null, null)); // send this message on your Socket (to yourself)
-        JSONObject jsonObject = (JSONObject) msg.getContent();
-        PlayerSend p = (PlayerSend) jsonObject.get("player");
+        PlayerSend p = (PlayerSend) msg.getContent();
         board = p.board;
         for(int i = 0; i < numPlayers - 1; i++){
             if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))
@@ -623,9 +620,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
         drawAll();
         System.out.println("\nBoard updated because it was unplayble");
         try {
-            boardStatus = new JSONObject();
-            boardStatus.put("board", board);
-            sendToServer(new Message(MessageType.UPDATE_UNPLAYABLE, name, boardStatus));
+            sendToServer(new Message(MessageType.UPDATE_UNPLAYABLE, name, new Board(board)));
         }catch (Exception e){connectionLost(e);}
     }
     /**
@@ -633,10 +628,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void sendDoneMove(){
-        gameStatus = new JSONObject();
         System.out.println("You made your move, now wait for other players to acknowledge it...");
-        gameStatus.put("player", new PlayerSend(this));
-        sendToServer(new Message(MessageType.UPDATE_GAME, name, gameStatus));
+        sendToServer(new Message(MessageType.UPDATE_GAME, name, new PlayerSend(this)));
         if(netMode == NetMode.SOCKET) {
             Game.waitForSeconds(Game.passTimer);
             waitForEvents();
