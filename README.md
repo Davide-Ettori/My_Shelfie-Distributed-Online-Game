@@ -32,6 +32,7 @@ If you are not the first one to connect you will be assumed to be a player, so t
 You can run multiple games on the same machine and IP if you change the ports for the networks (both Socket and RMI).  
 NOTE: if you activate persistence on the server the app won't accept the activation of resilience from the clients (it would make no sense).  
 TIP: the enter key on your keyboard always triggers the button for making moves, sending chats and confirming IP.  
+Finally, if you use a NON-UNIX terminal the TUI interface won't show the colors
 
 - Here is a video that explains how to play this Board Game: [Tutorial](https://my-shelfie-video.netlify.app)
 
