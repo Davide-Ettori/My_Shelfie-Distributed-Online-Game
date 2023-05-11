@@ -51,6 +51,8 @@ public class Client {
                     Initializer.PORT_RMI = Integer.parseInt(rmiPortText.getText());
                 if (!ipText.getText().equals(" Insert ip: (default = 127.0.0.1) "))
                     IP.activeIP = ipText.getText();
+                if(IP.activeIP.equals(""))
+                    IP.activeIP = "-1";
                 Socket mySocket = null;
                 try {
                     mySocket = new Socket(IP.activeIP, Initializer.PORT);

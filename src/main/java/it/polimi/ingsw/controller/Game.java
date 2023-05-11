@@ -764,7 +764,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void connectionLost(Exception e){
         if(closed)
             return;
-        e.printStackTrace();
+        //e.printStackTrace();
         if(Game.showErrors)
             throw new RuntimeException(e);
         else{
