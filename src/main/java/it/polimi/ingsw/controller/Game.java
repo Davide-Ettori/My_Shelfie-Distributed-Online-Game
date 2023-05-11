@@ -423,6 +423,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 ObjectInputStream in = null;
                 try {
                     out = new ObjectOutputStream(finalS.getOutputStream());
+                    out.flush();
                     in = new ObjectInputStream(finalS.getInputStream());
                 } catch (IOException ignored) {}
                 tryToReconnectClient(finalS, out, in);
