@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * class which represent the instance of the current game
@@ -944,16 +945,25 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     public void pingRMI(){
+        AtomicBoolean flag = new AtomicBoolean(false);
         while(true){
             waitForSeconds(Game.waitTimer * 2);
             for(String n: names){
                 if(!rmiClients.containsKey(n) || disconnectedPlayers.contains(n) || (endGameSituation && activePlayer == 0))
                     continue;
-                try {
-                    rmiClients.get(n).pingClient();
-                } catch (RemoteException e) {
-                    playerDisconnected(names.indexOf(n), e);
-                }
+                flag.set(false);
+                new Thread(() ->{
+                    try {
+                        rmiClients.get(n).pingClient();
+                        flag.set(true);
+                    } catch (RemoteException e) {
+                        playerDisconnected(names.indexOf(n), e);
+                    }
+                }).start();
+                Game.waitForSeconds(Game.fastTimer * 2);
+                if(!flag.get())
+                    playerDisconnected(names.indexOf(n), new RuntimeException("Player Disconnected"));
+                //System.out.println("Pingo " + n);
             }
         }
     }
