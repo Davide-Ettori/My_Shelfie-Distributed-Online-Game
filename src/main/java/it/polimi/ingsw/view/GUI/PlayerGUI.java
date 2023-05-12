@@ -110,7 +110,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         }catch (Exception e){alert("\nServer is inactive, try later"); connectionLost(e);}
         System.out.println("\nClient connected");
         try {
-            File path = new File("song.wav");
+            File path = new File(getClass().getResource("/song.wav").toURI());
             AudioInputStream audioInput;
             audioInput = AudioSystem.getAudioInputStream(path);
 
@@ -118,7 +118,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
             clip.open(audioInput);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
-        }catch(Exception ignored){}
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         new Thread(this::showChooseNameWindow).start();
     }
     /**
