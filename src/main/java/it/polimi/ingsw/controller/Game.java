@@ -95,7 +95,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             Game.waitForSeconds(60 * minutes);
             if(!timeExp)
                 return;
-            System.out.println("\nTime limit exceeded, not enough players connected");
+            System.out.println("\nTime limit exceeded, not enough players connected\n");
             System.exit(0);
         }).start();
 
@@ -258,7 +258,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 try {
                     p.pointsMap.put(names.get(j), 0);
                 }catch (Exception e){
-                    System.out.println("\nServer unable to start...");
+                    System.out.println("\nServer unable to start...\n");
                     System.exit(0);
                 }
             }
@@ -352,10 +352,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             catch(Exception e){connectionLost(e);}
         }
         if(numPlayers < targetPlayers){
-            System.out.println("\nPlayer number not sufficient");
+            System.out.println("\nPlayer number not sufficient\n");
             System.exit(0);
         }
-        System.out.println("\nThe game started");
+        System.out.println("\nThe game started\n");
     }
     /**
      * method that listen for an old client to restart his previous game, in tha same old state
