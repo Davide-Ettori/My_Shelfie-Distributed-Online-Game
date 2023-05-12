@@ -813,6 +813,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         else
             new Thread(() -> updateEventText(" The connection was lost and the application is disconnecting...")).start();
         Game.waitForSeconds(Game.waitTimer);
+        System.out.println("The connection was lost and the application is disconnecting...\n");
         System.exit(0);
     }
     /**
