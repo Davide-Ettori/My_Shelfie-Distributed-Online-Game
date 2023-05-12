@@ -8,6 +8,9 @@ import it.polimi.ingsw.view.UIMode;
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.model.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
@@ -106,7 +109,17 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
             }
         }catch (Exception e){alert("\nServer is inactive, try later"); connectionLost(e);}
         System.out.println("\nClient connected");
-        new Thread(() -> showChooseNameWindow()).start();
+        try {
+            File path = new File("song.wav");
+            AudioInputStream audioInput;
+            audioInput = AudioSystem.getAudioInputStream(path);
+
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        }catch(Exception ignored){}
+        new Thread(this::showChooseNameWindow).start();
     }
     /**
      * Clone the player on the client in the player on the server
