@@ -28,6 +28,7 @@ scoring tokens
 server.txt
 status.txt
 comando_jar.txt
+.DS_Store
 
 
 # User-specific stuff
