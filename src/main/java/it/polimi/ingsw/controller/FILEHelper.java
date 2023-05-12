@@ -88,7 +88,10 @@ public class FILEHelper {
         Game server = null;
         try {
             FileInputStream fin = new FileInputStream("server.txt");
-            ObjectInputStream ois = new ObjectInputStream(fin);
+            ObjectInputStream ois = null;
+            try {
+                ois = new ObjectInputStream(fin);
+            }catch(Exception e){return null;}
             server = (Game) ois.readObject();
             ois.close();
         }catch(Exception e){throw new RuntimeException(e);}

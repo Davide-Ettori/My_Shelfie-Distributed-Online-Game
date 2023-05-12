@@ -63,7 +63,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public Game(int maxP, String old) throws RemoteException {
         super();
         System.setProperty("java.rmi.server.hostname", IP.activeIP);
-        LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind("Server", this); // host the server on the network
+        try {
+            LocateRegistry.createRegistry(Initializer.PORT_RMI).rebind("Server", this); // host the server on the network
+        }catch (Exception e){
+            System.out.println("\nPort 5555 is already used\n");
+            System.exit(0);
+        }
 
         targetPlayers = maxP;
         if(old.equals("yes")){
@@ -96,7 +101,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
 
         try{serverSocket = new ServerSocket(Initializer.PORT, 10, InetAddress.getByName(IP.activeIP));}
         catch(Exception e){connectionLost(e);}
-        System.out.println("\nServer listening... (@exit for closing the server)");
+        System.out.println("\nServer listening... (@exit for closing the server)\n");
 
         new Thread(() ->{
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -109,7 +114,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 }
                 if(!s.equals("@exit"))
                     continue;
-                System.out.println("\nServer exiting...");
+                System.out.println("\nServer exiting...\n");
                 Game.waitForSeconds(Game.fastTimer * 2);
                 System.exit(0);
             }

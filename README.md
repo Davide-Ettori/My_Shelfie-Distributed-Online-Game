@@ -22,6 +22,8 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 2. Place it inside a folder of your choice
 3. Run the following command: `java -cp App.jar it.polimi.ingsw.App` from a terminal starting at that folder
 
+The Application will automatically create some helper files inside the folder where the App.jar file is. Don't rename, modify or delete them
+
 If the `java` command does not work, you might need to install java locally from the oracle website  
   
 The first window always asks you to enter the IP address to use for connection and the ports for both Socket and RMI.  
