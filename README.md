@@ -36,7 +36,9 @@ Finally, if you use a NON-UNIX terminal the TUI interface won't show the colors
 
 - Here is a video that explains how to play this Board Game: [Tutorial](https://my-shelfie-video.netlify.app)
 
-Remember that in order to play correctly you must connect all the clients and the server to the same network: this means that if you are not playing on local host, you have to connect to the IP address of the network seen from the Computer hosting the Server.
+Remember that in order to play correctly you must connect all the clients and the server to the same network: this means that if you are not playing on local host, you have to connect to the IP address of the network seen from the Computer hosting the Server.   
+The best UI experience for the TUI is granted on Unix terminals  
+The best UI experience for the GUI is granted on screens of 16 inches or more
 
 ## Project Functionalities
 In this table you can see which functionalities we implemented
