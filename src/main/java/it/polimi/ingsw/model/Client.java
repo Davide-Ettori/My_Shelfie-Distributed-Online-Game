@@ -28,6 +28,7 @@ public class Client {
     public static UIMode uiModeCur;
     private final JFrame setupFrame = new JFrame();
     private final JPanel generalPanel = new JPanel();
+    private boolean close = true;
 
     /**
      * method for drawing the GUI to ask ip, port for socket and port for RMI
@@ -55,12 +56,21 @@ public class Client {
                     IP.activeIP = "-1";
                 Socket mySocket = null;
                 try {
+                    new Thread(() ->{
+                        Game.waitForSeconds(3);
+                        if(close){
+                            System.out.println("\nThe IP address does not exists on this network\n");
+                            System.exit(0);
+                        }
+                    }).start();
                     mySocket = new Socket(IP.activeIP, Initializer.PORT);
+                    close = false;
                     ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
                     out.writeObject(true);
                     alert("There is already an active game...");
                     new Thread(this::insertInfo).start();
                 } catch (Exception e) {
+                    close = false;
                     alert("You are the first player to connect!");
                     new Thread(this::insertPlayers).start();
                 }

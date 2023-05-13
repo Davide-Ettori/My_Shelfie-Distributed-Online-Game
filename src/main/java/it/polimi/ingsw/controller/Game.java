@@ -163,17 +163,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 connectionLost(e);
             }
         }
-        new Thread(() ->{
-            while(true){
-                Game.waitForSeconds(Game.waitTimer * 2);
-                synchronized (disconnectionLock){
-                    if(getActivePlayersNumber() != 0)
-                        continue;
-                    System.out.println("\nNumber of players equals to zero, server closing...");
-                    System.exit(0);
-                }
-            }
-        }).start();
         new Thread(this::pingRMI).start();
         new Thread(this::listenForReconnection).start();
         if(!rmiClients.containsKey(names.get(0)))
@@ -809,6 +798,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
          }
          if (getActivePlayersNumber() == 1)
              new Thread(this::disconnectedTimer).start();
+         if(getActivePlayersNumber() == 0){
+             System.out.println("The server is closing because there are no connected players...");
+             System.exit(0);
+         }
          if (i == activePlayer){
              for (int j = 0; j < numPlayers; j++) {
                  int finalJ = j;
