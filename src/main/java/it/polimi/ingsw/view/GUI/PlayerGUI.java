@@ -453,7 +453,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
         mainFrame.add(mainPanel, BorderLayout.CENTER);
         mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
-        //mainFrame.setResizable(false);
+        mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("My Shelfie");
         mainFrame.setIconImage(new ImageIcon(classLoader.getResource("Publisher material/Icon 50x50px.png")).getImage());
