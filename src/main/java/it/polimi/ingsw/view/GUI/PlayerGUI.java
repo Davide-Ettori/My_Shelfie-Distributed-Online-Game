@@ -95,6 +95,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      */
     public PlayerGUI(NetMode mode, String opt) throws RemoteException {
         super();
+        screenSize.height = 950;
+        screenSize.width = 1600;
         System.setProperty("java.rmi.server.hostname", IP.activeIP);
         uiMode = UIMode.GUI;
         netMode = mode;
