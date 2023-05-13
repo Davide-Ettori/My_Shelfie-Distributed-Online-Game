@@ -97,15 +97,4 @@ public class FILEHelper {
         }catch(Exception e){throw new RuntimeException(e);}
         return server;
     }
-    /**
-     * write helper for testing
-     * @author Ettori
-     */
-    public static void writeString(String s){
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/it/polimi/ingsw/controller/cache/test.txt"));
-            bw.write(s);
-            bw.close();
-        }catch(Exception e){throw new RuntimeException(e);}
-    }
 }
