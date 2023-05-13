@@ -819,10 +819,17 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
          if (i == activePlayer){
              for (int j = 0; j < numPlayers; j++) {
                  int finalJ = j;
-                 new Thread(() -> sendToClient(finalJ, new Message(MessageType.DISCONNECTED, names.get(activePlayer), null))).start();
+                 new Thread(() -> sendToClient(finalJ, new Message(MessageType.DISCONNECTED, names.get(i), null))).start();
              }
-             Game.waitForSeconds(passTimer);
-             advanceTurn();
+             if(getActivePlayersNumber() > 1){
+                 Game.waitForSeconds(passTimer);
+                 advanceTurn();
+             }
+             else{
+                 activePlayer = getLastPlayer();
+                 Game.waitForSeconds(Game.passTimer);
+                 notifyNewTurn();
+             }
          }
          else{
              for(int x = 0; x < numPlayers; x++){
