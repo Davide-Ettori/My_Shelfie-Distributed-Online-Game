@@ -283,7 +283,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         int temp = new Random().nextInt(numPlayers);
-        String n = names.get(0);
+        String n = null;
+        try {
+            n = names.get(0);
+        }catch (Exception e){connectionLost(e);}
         names.set(0, names.get(temp));
         names.set(temp, n);
 
