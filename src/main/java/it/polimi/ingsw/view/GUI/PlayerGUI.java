@@ -451,13 +451,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         gbc2.gridy=0;
         mainPanel.add(generalLabelChooseName,gbc2);
 
-        mainFrame.add(mainPanel, BorderLayout.CENTER);
-        mainFrame.setSize(screenSize.width * 5 / 6, screenSize.height * 9 / 10);
+        mainFrame.add(new JScrollPane(mainPanel), BorderLayout.CENTER);
+        mainFrame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.9), (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.9));
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("My Shelfie");
         mainFrame.setIconImage(new ImageIcon(classLoader.getResource("Publisher material/Icon 50x50px.png")).getImage());
-        mainFrame.pack(); // setup of the window
+        //mainFrame.pack(); // setup of the window
         mainFrame.setLocationRelativeTo(null); //the frame is centered when printed on the screen
         mainFrame.setVisible(true); // show the frame
     }
