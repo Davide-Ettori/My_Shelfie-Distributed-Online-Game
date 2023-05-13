@@ -146,6 +146,17 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         else
             initializeAllClients();
+
+        new Thread(() ->{
+            while (true){
+                Game.waitForSeconds(Game.waitTimer);
+                if(getActivePlayersNumber() != 0)
+                    continue;
+                System.out.println("\nThe server il closing because there are no connected players\n");
+                System.exit(0);
+            }
+        }).start();
+
         boolean temp; //variable used to check if the rmi is ready
         for(int i = 0; i < numPlayers; i++) {
             try {
