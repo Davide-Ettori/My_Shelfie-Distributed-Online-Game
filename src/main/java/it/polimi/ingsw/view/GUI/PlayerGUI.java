@@ -150,132 +150,112 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void updateInfo(){
-        try {
-            //Game.waitForSeconds(Game.fastTimer);
-            SwingUtilities.invokeAndWait(() -> {
-                pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
-                pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
-                activeTurnInfo.setText(" The active player is " + activeName + " ");
-                curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
-                tempChatHistory.setText(fullChat);
-            });
-        } catch (InterruptedException | InvocationTargetException e) {
-            return;
-        }
-        mainFrame.revalidate();
-        mainFrame.repaint();
+        //Game.waitForSeconds(Game.fastTimer);
+        SwingUtilities.invokeLater(() -> {
+            pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+            pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
+            activeTurnInfo.setText(" The active player is " + activeName + " ");
+            curPointsInfo.setText(" " + pointsUntilNow + " points achieved until now ");
+            tempChatHistory.setText(fullChat);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+        });
     }
     /**
      * method that update the board of the game
      * @author Ettori
      */
     private void updateBoard(){
-        try {
-            SwingUtilities.invokeAndWait(() ->{
-                String path;
-                for(int i = 0; i < DIM; i++){
-                    for(int j = 0; j < DIM; j++){
-                        if(i == libFullX && j == libFullY)
-                            continue;
-                        path = board.getGameBoard()[i][j].imagePath.trim();
-                        try {
-                            boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(path)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
-                        }catch(Exception ignored){}
-                        boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
-                    }
+        SwingUtilities.invokeLater(() ->{
+            String path;
+            for(int i = 0; i < DIM; i++){
+                for(int j = 0; j < DIM; j++){
+                    if(i == libFullX && j == libFullY)
+                        continue;
+                    path = board.getGameBoard()[i][j].imagePath.trim();
+                    try {
+                        boardCards[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(path)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                    }catch(Exception ignored){}
+                    boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                 }
-                boardCards[libFullX][libFullY].setVisible(!endGame);
-            });
-        } catch (Exception e) {
-            return;
-        }
-        mainFrame.revalidate();
-        mainFrame.repaint();
+            }
+            boardCards[libFullX][libFullY].setVisible(!endGame);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+        });
     }
     /**
      * method that update the library of the active player
      * @author Ettori
      */
     private void updateMyLibrary(){
-        try {
-            SwingUtilities.invokeAndWait(() ->{
-                for(int i = 0; i < ROWS; i++) {
-                    for (int j = 0; j < COLS; j++) {
-                        try {
-                            myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(library.gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
-                        }
-                        catch (Exception ignored){}
-                        myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
+        SwingUtilities.invokeLater(() ->{
+            for(int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLS; j++) {
+                    try {
+                        myLibraryCards[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(library.gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
                     }
+                    catch (Exception ignored){}
+                    myLibraryCards[i][j].setVisible(library.gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                 }
-                //myLibraryCards[2][2].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("item tiles/Cornici1.3.png")).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
-            });
-        } catch (InterruptedException | InvocationTargetException e) {
-            return;
-        }
+            }
+            mainFrame.revalidate();
+            mainFrame.repaint();
+            //myLibraryCards[2][2].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("item tiles/Cornici1.3.png")).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+        });
         //myLibraryCards[2][2].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("item tiles/Cornici1.3.png")).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
-        mainFrame.revalidate();
-        mainFrame.repaint();
     }
     /**
      * method that update the event text of the game, notifying the most recent event
      * @author Ettori
      */
     private void updateEventText(String s){
-        try {
-            SwingUtilities.invokeAndWait(() ->{
-                eventText.setText(s);
-            });
-        } catch (InterruptedException | InvocationTargetException e) {
-            return;
-        }
-        mainFrame.revalidate();
-        mainFrame.repaint();
+        SwingUtilities.invokeLater(() ->{
+            eventText.setText(s);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+        });
     }
     /**
      * method that update the libraries of all the player except the one which is active
      * @author Ettori
      */
     private void updateOtherLibraries(){
-        try {
-            SwingUtilities.invokeAndWait(() ->{
-                library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points) ");
+        SwingUtilities.invokeLater(() ->{
+            library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points) ");
+            for(int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLS; j++) {
+                    try {
+                        otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                    }catch(Exception ignored){}
+                    otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
+                }
+            }
+            if(numPlayers >= 3){
+                library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points) ");
                 for(int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
                         try {
-                            otherLibrariesCards.get(0)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(0).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                            otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
                         }catch(Exception ignored){}
-                        otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
+                        otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                     }
                 }
-                if(numPlayers >= 3){
-                    library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points) ");
-                    for(int i = 0; i < ROWS; i++) {
-                        for (int j = 0; j < COLS; j++) {
-                            try {
-                                otherLibrariesCards.get(1)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(1).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
-                            }catch(Exception ignored){}
-                            otherLibrariesCards.get(1)[i][j].setVisible(librariesOfOtherPlayers.get(1).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
-                        }
+            }
+            if(numPlayers >= 4){
+                library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points) ");
+                for(int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        try {
+                            otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
+                        }catch (Exception ignored){}
+                        otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                     }
                 }
-                if(numPlayers >= 4){
-                    library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points) ");
-                    for(int i = 0; i < ROWS; i++) {
-                        for (int j = 0; j < COLS; j++) {
-                            try {
-                                otherLibrariesCards.get(2)[i][j].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(librariesOfOtherPlayers.get(2).gameLibrary[i][j].imagePath)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
-                            }catch (Exception ignored){}
-                            otherLibrariesCards.get(2)[i][j].setVisible(librariesOfOtherPlayers.get(2).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
-                        }
-                    }
-                }
-            });
-        } catch (InterruptedException | InvocationTargetException e) {
-            return;
-        }
-        mainFrame.revalidate();
-        mainFrame.repaint();
+            }
+            mainFrame.revalidate();
+            mainFrame.repaint();
+        });
     }
     /**
      * Function that update the GUI with the new information
