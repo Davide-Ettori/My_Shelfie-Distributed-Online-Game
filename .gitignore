@@ -32,6 +32,9 @@ comando_jar.txt
 song.wav
 CO1.wav
 CO2.wav
+disconnect.wav
+turn.wav
+ending.wav
 library.wav
 *.txt
 

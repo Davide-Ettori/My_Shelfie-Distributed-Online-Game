@@ -8,9 +8,7 @@ import it.polimi.ingsw.view.UIMode;
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.model.*;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
@@ -117,6 +115,10 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
             Clip clip = AudioSystem.getClip();
             clip.open(audioInput);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-10.0f); //lower the volume of 10 decibel
+
             clip.start();
         }catch(Exception e){
             e.printStackTrace();
@@ -579,6 +581,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void handleYourTurnEvent(){
+        try {
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/turn.wav")));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         activeName = name;
         if(board.isBoardUnplayable())
             fixUnplayableBoard();
@@ -636,6 +646,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleFinalScoreEvent(Message msg){
+        try {
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/ending.wav")));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         updateEventText(" The game is finished, look at the results");
         alert("\nThe game is finished, this is the final scoreboard:\n\n" + msg.getContent());
         Game.waitForSeconds(Game.showTimer);
@@ -686,6 +704,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleDisconnectedEvent(Message msg){
+        try {
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/disconnect.wav")));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         updateEventText(" The active player (" + msg.getAuthor() + ") disconnected from the game");
         if(netMode == NetMode.SOCKET)
             sendToServer(new Message(MessageType.STOP, null, null));
