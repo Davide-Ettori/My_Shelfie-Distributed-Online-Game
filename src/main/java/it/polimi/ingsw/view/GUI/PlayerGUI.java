@@ -720,6 +720,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         boolean change = false;
         try {
             if (board.commonObjective_1.algorithm.checkMatch(library.gameLibrary) && !CO_1_Done && board.pointsCO_1.size() > 0) { // you can't take the CO if you already did
+                try {
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/CO1.wav")));
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                    clip.start();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 lastIndex = board.pointsCO_1.size() - 1;
                 points = board.pointsCO_1.get(lastIndex);
                 board.pointsCO_1.remove(lastIndex);
@@ -731,6 +739,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                 change = true;
             }
             if (board.commonObjective_2.algorithm.checkMatch(library.gameLibrary) && !CO_2_Done && board.pointsCO_2.size() > 0) {
+                try {
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/CO2.wav")));
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                    clip.start();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 lastIndex = board.pointsCO_2.size() - 1;
                 points = board.pointsCO_2.get(lastIndex);
                 board.pointsCO_2.remove(lastIndex);
@@ -752,6 +768,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private boolean checkLibFull(){
         try {
             if (library.isFull() && !endGame) {
+                try {
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/library.wav")));
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                    clip.start();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 endGame = true;
                 pointsUntilNow++;
                 sendToServer(new Message(MessageType.LIB_FULL, name, null));

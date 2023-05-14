@@ -30,6 +30,9 @@ status.txt
 comando_jar.txt
 .DS_Store
 song.wav
+CO1.wav
+CO2.wav
+library.wav
 *.txt
 
 # User-specific stuff
