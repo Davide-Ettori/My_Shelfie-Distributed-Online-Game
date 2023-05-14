@@ -27,9 +27,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     /** variable that represent the standard timer of the app for advancing the state of the game */
     public static final double waitTimer = 2.5;
     /** variable that represent the fast timer of the app for small waiting task */
-    public static final double fastTimer = 0.5;
+    public static final double fastTimer = 1;
     /** variable that represent the timer for the new turn (changing) interaction */
-    public static final double passTimer = 1;
+    public static final double passTimer = 0.5;
     /** variable that represent the standard timer of the app for showing events */
     public static final double showTimer = 2.5;
     /** variable that represent if we want to run or debug our application */
@@ -91,7 +91,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         shuffleObjBucket();
         numPlayers = 0;
         new Thread(() -> { // start a timer that wait for clients connections
-            double minutes = 2;
+            double minutes = 2.5;
             Game.waitForSeconds(60 * minutes);
             if(!timeExp)
                 return;
@@ -115,7 +115,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 if(!s.equals("@exit"))
                     continue;
                 System.out.println("\nServer exiting...\n");
-                Game.waitForSeconds(Game.fastTimer * 2);
+                Game.waitForSeconds(Game.fastTimer);
                 System.exit(0);
             }
         }).start();
@@ -394,7 +394,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     disconnectedPlayers.remove(name);
                     if(advance){
                         sendToClient(getLastPlayer(), new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
-                        Game.waitForSeconds(Game.fastTimer * 3);
+                        Game.waitForSeconds(Game.fastTimer * 1.5);
                         advance = false;
                         new Thread(this::advanceTurn).start();
                     }
@@ -579,7 +579,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             if(getActivePlayersNumber() == 0)
                 connectionLost(new RuntimeException("All players disconnected"));
             if (getActivePlayersNumber() == 1 && disconnectedPlayers.size() > 0) {
-                Game.waitForSeconds(Game.fastTimer);
+                Game.waitForSeconds(Game.passTimer);
                 sendToClient(getLastPlayer(), new Message(MessageType.SHOW_EVENT, null, "The game is temporarily paused because you are the only connected player"));
                 advance = true;
                 activePlayer = getLastPlayer();
@@ -592,7 +592,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         while(disconnectedPlayers.contains(names.get(activePlayer)));
         if(activePlayer == 0 && endGameSituation) {
             System.out.println("\nThe game is ending...");
-            waitForSeconds(Game.waitTimer / 2.5);
+            Game.waitForSeconds(Game.fastTimer);
             sendFinalScoresToAll();
             return;
         }
@@ -742,7 +742,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             connectionLost(e);
         }
         System.out.println("The game is finished successfully");
-        waitForSeconds(Game.waitTimer * 5);
+        Game.waitForSeconds(Game.waitTimer * 5);
         System.exit(0);
     }
     /**
@@ -787,7 +787,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     serverSocket.close();
                 } catch (Exception ignored) {}
             }).start();
-            Game.waitForSeconds(Game.fastTimer * 3);
+            Game.waitForSeconds(Game.fastTimer * 1.5);
             System.exit(0);
         }
     }
@@ -822,12 +822,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                  new Thread(() -> sendToClient(finalJ, new Message(MessageType.DISCONNECTED, names.get(i), null))).start();
              }
              if(getActivePlayersNumber() > 1){
-                 Game.waitForSeconds(passTimer);
+                 Game.waitForSeconds(Game.fastTimer);
                  advanceTurn();
              }
              else{
                  activePlayer = getLastPlayer();
-                 Game.waitForSeconds(Game.passTimer);
+                 Game.waitForSeconds(Game.fastTimer);
                  notifyNewTurn();
              }
          }
@@ -968,7 +968,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     public void pingRMI(){
         AtomicBoolean flag = new AtomicBoolean(false);
         while(true){
-            waitForSeconds(Game.waitTimer * 2);
+            Game.waitForSeconds(Game.waitTimer * 2);
             for(String n: names){
                 if(!rmiClients.containsKey(n) || disconnectedPlayers.contains(n) || (endGameSituation && activePlayer == 0))
                     continue;
@@ -981,7 +981,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         playerDisconnected(names.indexOf(n), e);
                     }
                 }).start();
-                Game.waitForSeconds(Game.fastTimer * 2);
+                Game.waitForSeconds(Game.fastTimer);
                 if(!flag.get())
                     playerDisconnected(names.indexOf(n), new RuntimeException("Player Disconnected"));
                 //System.out.println("Pingo " + n);

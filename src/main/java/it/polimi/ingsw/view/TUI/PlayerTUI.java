@@ -631,7 +631,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
         System.out.println("You made your move, now wait for other players to acknowledge it...");
         sendToServer(new Message(MessageType.UPDATE_GAME, name, new PlayerSend(this)));
         if(netMode == NetMode.SOCKET) {
-            Game.waitForSeconds(Game.passTimer);
+            Game.waitForSeconds(Game.fastTimer);
             waitForEvents();
         }
     }
