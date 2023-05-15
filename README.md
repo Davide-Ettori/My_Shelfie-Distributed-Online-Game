@@ -79,6 +79,8 @@ For this project we documented:
 - [Full Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Full%20Class%20Diagram.drawio.png) the complete Class Diagram of the project, generated with IntelliJ
 ### 3. Test Report 
 - [Here](https://test-report-web.netlify.app) you will see our test report.
+### 4. Jar File
+- [Here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/8b1fe22d51e6859e0278cf721a1dcd0fa1edc162/deliveries/Jar%20Files/Jar%20file%20for%20Dummies.pdf) you can find a helpful Guide on how to create the Jar file
 
 ## Development
 The software has been written using **Java 19**.
