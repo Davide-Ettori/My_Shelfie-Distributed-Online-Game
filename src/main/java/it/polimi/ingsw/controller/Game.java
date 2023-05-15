@@ -55,6 +55,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private boolean advance = false; //true iif the server has to force a new turn after resilience activation
     private final transient Object waitMoveLock = new Object();
     private final transient Object disconnectionLock = new Object();
+    private transient String playerNoChat = "";
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -393,13 +394,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 if(getActivePlayersNumber() == 2){
                     disconnectedPlayers.remove(name);
                     if(advance){
-                        sendToClient(getLastPlayer(), new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
+                        sendToClient(activePlayer, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
                         Game.waitForSeconds(Game.fastTimer * 1.5);
                         advance = false;
                         new Thread(this::advanceTurn).start();
                     }
                     else
-                        sendToClient(getLastPlayer(), new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                        sendToClient(activePlayer, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
                 }
                 else{
                     disconnectedPlayers.remove(name);
@@ -583,6 +584,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 sendToClient(getLastPlayer(), new Message(MessageType.SHOW_EVENT, null, "The game is temporarily paused because you are the only connected player"));
                 advance = true;
                 activePlayer = getLastPlayer();
+                new ChatBroadcast(this, activePlayer).start();
+                playerNoChat = names.get(activePlayer);
                 return;
             }
         }
@@ -622,11 +625,12 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private void startChatServerThread(){
         chatThreads = new ArrayList<>();
         for(int i = 0; i < numPlayers; i++){
-            if(i == activePlayer || rmiClients.containsKey(names.get(i)) || disconnectedPlayers.contains(names.get(i)))
+            if(i == activePlayer || rmiClients.containsKey(names.get(i)) || disconnectedPlayers.contains(names.get(i)) || names.get(i).equals(playerNoChat))
                 continue;
             chatThreads.add(new ChatBroadcast(this, i));
             chatThreads.get(chatThreads.size() - 1).start();
         }
+        playerNoChat = "";
     }
     /**
      * Send message in the chat to other client
