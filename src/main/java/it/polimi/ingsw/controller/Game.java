@@ -399,8 +399,10 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                         advance = false;
                         new Thread(this::advanceTurn).start();
                     }
-                    else
+                    else {
                         sendToClient(activePlayer, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                        new ChatBroadcast(this, names.indexOf(name)).start(); // the chat thread will be stopped naturally after the next UPDATE_GAME
+                    }
                 }
                 else{
                     disconnectedPlayers.remove(name);

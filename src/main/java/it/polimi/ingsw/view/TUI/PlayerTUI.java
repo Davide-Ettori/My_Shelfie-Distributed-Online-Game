@@ -150,14 +150,14 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
                 break;
             }
             if(status == NameStatus.NOT_FOUND){
-                System.out.println("\nAnother game is running and your name was not found...");
+                System.out.println("\nAnother game is running and your name was not found...\n");
                 System.exit(0);
             }
             if(status == NameStatus.FOUND){
                 getPreviousState();
                 return;
             }
-            System.out.println("Name Taken, choose another name");
+            System.out.println("Name Taken, choose another name\n");
         }
         getInitialState();
     }
