@@ -80,7 +80,7 @@ For this project we documented:
 ### 3. Test Report 
 - [Here](https://test-report-web.netlify.app) you will see our test report.
 ### 4. Jar File
-- [Here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/8b1fe22d51e6859e0278cf721a1dcd0fa1edc162/deliveries/Jar%20Files/Jar%20file%20for%20Dummies.pdf) you can find a helpful Guide on how to create the Jar file
+- [Here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/2ebf1f4dfe1ac11a9bb40dfb2fb645335fff20a4/deliveries/Jar%20Files/Jar%20file%20for%20Dummies.pdf) you can find a helpful Guide on how to create the Jar file
 
 ## Development
 The software has been written using **Java 19**.
