@@ -20,7 +20,7 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 ## How to Play
 1. Download the App.jar file from deliveries/Jar Files
 2. Place it inside a folder of your choice
-3. Run the following command: `java -jar App.jar` from a terminal starting at that folder. (you won't be able to double-click to run tha app)
+3. Run the following command: `java -jar App.jar` from a terminal starting at that folder. (you won't be able to double-click to run the app)
 
 The Application will automatically create some helper files inside the folder where the App.jar file is. Don't rename, modify or delete them
 
