@@ -363,7 +363,7 @@ public class Algo12Test {
     }
 
     /**
-     * <p>Five columns crescent from row 1 (True)</p>
+     * <p>Five columns crescent from row 1 and skipping a column (False)</p>
      * <p></p>
      * <p> testing library:
      * <table border="1">
@@ -372,7 +372,7 @@ public class Algo12Test {
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>B</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>W</td><td>P</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>Y</td></tr>
-     * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
      * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
      * </table>
      * @author Faccincani, Ettori , Gumus
@@ -403,7 +403,7 @@ public class Algo12Test {
         mat[3][3] = new Card(PINK);
         mat[3][4] = new Card(YELLOW);
 
-        mat[4][0] = new Card(PINK);
+        mat[4][0] = new Card();
         mat[4][1] = new Card(PINK);
         mat[4][2] = new Card(PINK);
         mat[4][3] = new Card(PINK);
@@ -415,7 +415,7 @@ public class Algo12Test {
         mat[5][3] = new Card(PINK);
         mat[5][4] = new Card(PINK);
 
-        assertTrue(algoCo12.checkMatch(mat));
+        assertFalse(algoCo12.checkMatch(mat));
     }
 
     /**
@@ -475,7 +475,7 @@ public class Algo12Test {
     }
 
     /**
-     * <p>?</p>
+     * <p>Five columns descending, ending in a zero-column (False)</p>
      * <p></p>
      * <p> testing library:
      * <table border="1">
