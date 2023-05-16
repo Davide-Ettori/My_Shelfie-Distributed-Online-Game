@@ -574,6 +574,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleLostClientEvent(Message msg){
+        try {
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/disconnect.wav")));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         updateEventText(" Player " + msg.getAuthor() + " disconnected from the game");
     }
     /**
@@ -704,16 +712,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @param msg the message containing the necessary information for reacting to the event
      */
     private void handleDisconnectedEvent(Message msg){
-        /*
-        try {
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/disconnect.wav")));
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInput);
-            clip.start();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        */
         updateEventText(" The active player (" + msg.getAuthor() + ") disconnected from the game");
         if(netMode == NetMode.SOCKET)
             sendToServer(new Message(MessageType.STOP, null, null));
