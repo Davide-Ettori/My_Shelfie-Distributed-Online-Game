@@ -29,6 +29,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
     private transient Thread chatThread = null;
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private transient GameI server;
+    private transient Thread turnThread = null;
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
      * @param p the Player object to copy, received by the server
@@ -317,12 +318,24 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void handleYourTurnEvent(){
+        turnThread.interrupt();
         activeName = name;
         drawAll();
         stopChatThread();
         if(netMode == NetMode.SOCKET) {
             startChatReceiveThread();
         }
+        turnThread = new Thread(() ->{
+            try {
+                Thread.sleep(1000 * 60 * 5);
+            } catch (InterruptedException e) {
+                return;
+            }
+            if(activeName.equals(name)){
+                sendDoneMove();
+            }
+        });
+        turnThread.start();
     }
     /**
      * helper function for handling the change event notification from the server

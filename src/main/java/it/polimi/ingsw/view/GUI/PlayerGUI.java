@@ -63,6 +63,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
     private transient GameI server;
     private transient ClassLoader classLoader = getClass().getClassLoader();
+    private transient Thread turnThread = null;
 
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
@@ -589,6 +590,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void handleYourTurnEvent(){
+        turnThread.interrupt();
         try {
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/turn.wav")));
             Clip clip = AudioSystem.getClip();
@@ -606,6 +608,17 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         }
         updateInfo();
         updateEventText(" Your turn is now started, play your move !");
+        turnThread = new Thread(() ->{
+            try {
+                Thread.sleep(1000 * 60 * 5);
+            } catch (InterruptedException e) {
+                return;
+            }
+            if(activeName.equals(name)){
+                sendDoneMove();
+            }
+        });
+        turnThread.start();
     }
     /**
      * helper function for handling the change event notification from the server
