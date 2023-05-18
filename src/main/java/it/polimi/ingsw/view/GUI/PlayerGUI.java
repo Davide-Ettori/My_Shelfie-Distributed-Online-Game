@@ -62,8 +62,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
     private transient ArrayList<Integer> cardsPicked = new ArrayList<>();
     private transient GameI server;
-    private transient ClassLoader classLoader = getClass().getClassLoader();
-    private transient Thread turnThread = null;
+    private final transient ClassLoader classLoader = getClass().getClassLoader();
 
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object

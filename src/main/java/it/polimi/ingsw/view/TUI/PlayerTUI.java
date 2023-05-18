@@ -29,7 +29,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
     private transient Thread chatThread = null;
     private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private transient GameI server;
-    private transient Thread turnThread = null;
     /**
      * constructor that copies a generic Player object inside a new PlayerTUI object
      * @param p the Player object to copy, received by the server

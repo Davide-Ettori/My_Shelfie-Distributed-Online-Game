@@ -58,6 +58,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
     /** points achieved until now with the common objectives by all the other players: (name, points) */
     public HashMap<String, Integer> pointsMap = new HashMap<>();
     protected boolean closed = false;
+    protected transient Thread turnThread = new Thread(() ->{});
 
     /**
      * constructor used by the server to initializer a base Player object
