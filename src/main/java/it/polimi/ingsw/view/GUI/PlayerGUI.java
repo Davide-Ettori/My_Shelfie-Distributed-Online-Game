@@ -590,7 +590,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void handleYourTurnEvent(){
-        turnThread.interrupt();
         try {
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/turn.wav")));
             Clip clip = AudioSystem.getClip();
@@ -614,9 +613,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
             } catch (InterruptedException e) {
                 return;
             }
-            if(activeName.equals(name)){
+            if(activeName.equals(name))
                 sendDoneMove();
-            }
         });
         turnThread.start();
     }
@@ -825,6 +823,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private void sendDoneMove(){
         updateEventText(" You made your move, now wait for other players to acknowledge it...");
         sendToServer(new Message(MessageType.UPDATE_GAME, name, new PlayerSend(this)));
+        turnThread.interrupt();
     }
     /**
      * Send with socket network the message of the chat to the right players

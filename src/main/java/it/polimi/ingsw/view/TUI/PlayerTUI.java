@@ -318,7 +318,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void handleYourTurnEvent(){
-        turnThread.interrupt();
         activeName = name;
         drawAll();
         stopChatThread();
@@ -331,9 +330,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
             } catch (InterruptedException e) {
                 return;
             }
-            if(activeName.equals(name)){
+            if(activeName.equals(name))
                 sendDoneMove();
-            }
         });
         turnThread.start();
     }
@@ -647,6 +645,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
             Game.waitForSeconds(Game.fastTimer);
             waitForEvents();
         }
+        turnThread.interrupt();
     }
     /**
      * stops all the thread interaction related to the chat (should be only ReceiveChat)
