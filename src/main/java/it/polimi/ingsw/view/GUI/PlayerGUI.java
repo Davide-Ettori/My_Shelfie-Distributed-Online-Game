@@ -213,7 +213,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      */
     private void updateEventText(String s){
         SwingUtilities.invokeLater(() ->{
-            eventText.setText(s);
+            try {
+                eventText.setText(s);
+            }catch (Exception ignored){}
             mainFrame.revalidate();
             mainFrame.repaint();
         });
