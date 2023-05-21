@@ -53,7 +53,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private transient Game gameTemp = null;
     private final transient ArrayList<String> disconnectedPlayers = new ArrayList<>();
     private boolean advance = false; //true iif the server has to force a new turn after resilience activation
-    private final transient Object waitMoveLock = new Object();
     private final transient Object disconnectionLock = new Object();
     private transient String playerNoChat = "";
     /**
@@ -371,7 +370,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     synchronized private void tryToReconnectClient(Socket s, ObjectOutputStream out, ObjectInputStream in){
         try {
             String name = (String) in.readObject();
-            if(disconnectedPlayers.contains(name)){
+            if(disconnectedPlayers.contains(name)) {
                 rmiClients.remove(name);
                 out.writeObject(NameStatus.FOUND);
                 PlayerSend p = new PlayerSend(players.get(names.indexOf(name)));
@@ -380,41 +379,41 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 inStreams.set(names.indexOf(name), in);
                 outStreams.set(names.indexOf(name), out);
                 playersSocket.set(names.indexOf(name), s);
-                disconnectedPlayers.remove(name);
-                boolean temp = (boolean)in.readObject(); //variable used to check if the rmi is ready
-                if(!rmiClients.containsKey(name)) {
-                    try {
-                        s.setSoTimeout(Player.pingTimeout);
-                    } catch (SocketException e) {
-                        connectionLost(e);
-                    }
-                    if (getActivePlayersNumber() >= 3) // if there are only 2 players, the turn will change, so there is no need to listen to the chat
-                        new ChatBroadcast(this, names.indexOf(name)).start();
-                }
-                if(getActivePlayersNumber() == 2){
+                synchronized (disconnectionLock) {
                     disconnectedPlayers.remove(name);
-                    if(advance){
-                        sendToClient(activePlayer, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
-                        Game.waitForSeconds(Game.fastTimer * 1.5);
-                        advance = false;
-                        new Thread(this::advanceTurn).start();
+                    boolean temp = (boolean) in.readObject(); //variable used to check if the rmi is ready
+                    if (!rmiClients.containsKey(name)) {
+                        try {
+                            s.setSoTimeout(Player.pingTimeout);
+                        } catch (SocketException e) {
+                            connectionLost(e);
+                        }
+                        if (getActivePlayersNumber() >= 3) // if there are only 2 players, the turn will change, so there is no need to listen to the chat
+                            new ChatBroadcast(this, names.indexOf(name)).start();
                     }
-                    else {
-                        sendToClient(activePlayer, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
-                        new ChatBroadcast(this, names.indexOf(name)).start(); // the chat thread will be stopped naturally after the next UPDATE_GAME
-                    }
-                }
-                else{
-                    disconnectedPlayers.remove(name);
-                    for(int i = 0; i < numPlayers; i++){
-                        if(names.get(i).equals(name))
-                            continue;
-                        sendToClient(i, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                    if (getActivePlayersNumber() == 2) {
+                        disconnectedPlayers.remove(name);
+                        if (advance) {
+                            sendToClient(activePlayer, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected, the game is resuming..."));
+                            Game.waitForSeconds(Game.fastTimer * 1.5);
+                            advance = false;
+                            new Thread(this::advanceTurn).start();
+                        } else {
+                            sendToClient(activePlayer, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                            new ChatBroadcast(this, names.indexOf(name)).start(); // the chat thread will be stopped naturally after the next UPDATE_GAME
+                        }
+                    } else {
+                        disconnectedPlayers.remove(name);
+                        for (int i = 0; i < numPlayers; i++) {
+                            if (names.get(i).equals(name))
+                                continue;
+                            sendToClient(i, new Message(MessageType.SHOW_EVENT, null, "Player " + name + " reconnected to the game"));
+                        }
                     }
                 }
             }
-            else
-                out.writeObject(NameStatus.NOT_FOUND);
+                else
+                    out.writeObject(NameStatus.NOT_FOUND);
         }catch (Exception e){
             try {
                 s.close();
@@ -510,7 +509,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori Faccincani
      */
     private void waitMoveFromClient(){
-        synchronized (waitMoveLock) {
             startChatServerThread();
             while (true) {
                 Message msg = null;
@@ -569,7 +567,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     connectionLost(e);
                 }
             }
-        }
         Game.waitForSeconds(Game.passTimer);
         advanceTurn();
     }
@@ -920,7 +917,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 sendChatToClients(from, msg.getAuthor(), (String)msg.getContent());
             }
             case UPDATE_GAME -> {
-                synchronized (waitMoveLock) {
                     for (int i = 0; i < numPlayers; i++) {
                         if (i != activePlayer)
                             sendToClient(i, msg);
@@ -941,7 +937,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                     FILEHelper.writeServer(this);
                     if (!rmiClients.containsKey(names.get(activePlayer)))
                         sendToClient(activePlayer, new Message(MessageType.STOP, null, null));
-                }
                 Game.waitForSeconds(Game.passTimer);
                 advanceTurn();
             }
