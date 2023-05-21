@@ -860,7 +860,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         Game.waitForSeconds(30);
         if(getActivePlayersNumber() == 1 && getLastPlayer() == name){
             FILEHelper.writeSucc();
-            sendToClient(0, new Message(MessageType.SHOW_EVENT, "win", "You have won because all the other players have disconnected"));
+            sendToClient(getLastPlayer(), new Message(MessageType.SHOW_EVENT, "win", "You have won because all the other players have disconnected"));
             Game.waitForSeconds(Game.waitTimer * 3);
             System.exit(0);
         }
