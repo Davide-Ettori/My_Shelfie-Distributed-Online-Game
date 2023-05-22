@@ -379,9 +379,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 inStreams.set(names.indexOf(name), in);
                 outStreams.set(names.indexOf(name), out);
                 playersSocket.set(names.indexOf(name), s);
+                boolean temp = (boolean) in.readObject(); //variable used to check if the rmi is ready
                 synchronized (disconnectionLock) {
                     disconnectedPlayers.remove(name);
-                    boolean temp = (boolean) in.readObject(); //variable used to check if the rmi is ready
                     if (!rmiClients.containsKey(name)) {
                         try {
                             s.setSoTimeout(Player.pingTimeout);
