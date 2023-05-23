@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.view.Dimensions;
-import it.polimi.ingsw.view.IP;
-import it.polimi.ingsw.view.UIMode;
+import it.polimi.ingsw.view.*;
 
 
 import it.polimi.ingsw.controller.*;
@@ -15,7 +13,6 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

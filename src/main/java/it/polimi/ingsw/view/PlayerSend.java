@@ -1,6 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.view.UIMode;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.NetMode;
+import it.polimi.ingsw.model.PrivateObjective;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

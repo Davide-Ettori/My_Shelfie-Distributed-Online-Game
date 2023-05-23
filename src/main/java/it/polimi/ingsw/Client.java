@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.Game;
 import it.polimi.ingsw.controller.Initializer;
@@ -82,8 +82,8 @@ public class Client {
                 generalPanel.requestFocusInWindow();
             }
         });
-        int w = 800;
-        int h = 450;
+        int w = 1000;
+        int h = 600;
         generalPanel.setLayout(new GridLayout(4, 1));
         generalPanel.add(ipText);
         generalPanel.add(socketPortText);
@@ -108,18 +108,18 @@ public class Client {
         JRadioButton p_2 = new JRadioButton("2 players");
         JRadioButton p_3 = new JRadioButton("3 players");
         JRadioButton p_4 = new JRadioButton("4 players");
-        p_2.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
-        p_3.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
-        p_4.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
+        p_2.setBorder(BorderFactory.createEmptyBorder(0,100,0,0));
+        p_3.setBorder(BorderFactory.createEmptyBorder(0,100,0,0));
+        p_4.setBorder(BorderFactory.createEmptyBorder(0,100,0,0));
         p_2.setSelected(true);
         ButtonGroup group_1 = new ButtonGroup();
         group_1.add(p_2);
         group_1.add(p_3);
         group_1.add(p_4);
-        JTextField pers = new JTextField(" Do you want to activate persistence ?");
+        JTextField pers = new JTextField(" Do you want to load the old game ?");
         pers.setEditable(false);
         JRadioButton yes = new JRadioButton("yes");
-        yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
+        yes.setBorder(BorderFactory.createEmptyBorder(0,100,0,0));
         JRadioButton no = new JRadioButton("no");
         no.setSelected(true);
         ButtonGroup group_2 = new ButtonGroup();
@@ -175,18 +175,18 @@ public class Client {
         uiText.setEditable(false);
         JTextField netText = new JTextField(" Choose NET mode ");
         netText.setEditable(false);
-        JTextField resilText = new JTextField(" Do you want to activate resilience ?");
+        JTextField resilText = new JTextField(" Do you want to reconnect to the running game ?");
         resilText.setEditable(false);
         JRadioButton tui = new JRadioButton("TUI");
-        tui.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
+        tui.setBorder(BorderFactory.createEmptyBorder(0,100,0,0));
         JRadioButton gui = new JRadioButton("GUI");
         gui.setSelected(true);
         JRadioButton socket = new JRadioButton("Socket");
-        socket.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
+        socket.setBorder(BorderFactory.createEmptyBorder(0,100,0,0));
         JRadioButton rmi = new JRadioButton("RMI");
         socket.setSelected(true);
         JRadioButton yes = new JRadioButton("Yes");
-        yes.setBorder(BorderFactory.createEmptyBorder(0,75,0,0));
+        yes.setBorder(BorderFactory.createEmptyBorder(0,100,0,0));
         JRadioButton no = new JRadioButton("No");
         no.setSelected(true);
         ButtonGroup group_1 = new ButtonGroup();

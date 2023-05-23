@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.chat;
+package it.polimi.ingsw.chat;
 
 import it.polimi.ingsw.controller.Game;
 import it.polimi.ingsw.controller.Message;

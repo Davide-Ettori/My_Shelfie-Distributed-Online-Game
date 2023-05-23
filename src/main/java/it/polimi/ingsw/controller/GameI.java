@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.PlayerI;
+import it.polimi.ingsw.view.PlayerI;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

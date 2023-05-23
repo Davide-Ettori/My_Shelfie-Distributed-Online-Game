@@ -1,10 +1,9 @@
 package it.polimi.ingsw.view.TUI;
 
-import it.polimi.ingsw.view.IP;
-import it.polimi.ingsw.view.UIMode;
+import it.polimi.ingsw.view.*;
 
-import it.polimi.ingsw.model.chat.ReceiveChat;
-import it.polimi.ingsw.model.chat.SendChat;
+import it.polimi.ingsw.chat.ReceiveChat;
+import it.polimi.ingsw.chat.SendChat;
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.model.*;
 

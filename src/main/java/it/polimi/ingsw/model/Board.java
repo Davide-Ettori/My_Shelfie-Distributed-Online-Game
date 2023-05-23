@@ -86,16 +86,6 @@ public class Board implements Serializable {
      */
     public CommonObjective getCO_2(){return commonObjective_2;}
     /**
-     * getter for the points of CO 1
-     * @author Ettori
-     */
-    public LinkedList<Integer> getPCO_1(){return pointsCO_1;}
-    /**
-     * getter for the points of CO 2
-     * @author Ettori
-     */
-    public LinkedList<Integer> getPCO_2(){return pointsCO_2;}
-    /**
      * check if the index is valid in the current board
      * @author Ettori
      * @param x pos x

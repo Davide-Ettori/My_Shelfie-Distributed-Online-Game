@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.TUI.PlayerTUI;
-import it.polimi.ingsw.view.UIMode;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

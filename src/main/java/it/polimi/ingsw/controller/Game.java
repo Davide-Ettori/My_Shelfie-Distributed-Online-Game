@@ -3,6 +3,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.IP;
+import it.polimi.ingsw.view.Player;
+import it.polimi.ingsw.view.PlayerI;
+import it.polimi.ingsw.view.PlayerSend;
 
 import java.io.*;
 import java.net.InetAddress;
