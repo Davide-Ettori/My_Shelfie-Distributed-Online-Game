@@ -297,7 +297,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      */
     private void randomizeChairman(){
         if(playersSocket.size() != numPlayers){
-            System.out.println("\nNot enough players connected to the game, server closing...");
+            System.out.println("\nNot enough players connected to the game, server closing...\n");
             System.exit(0);
         }
 
