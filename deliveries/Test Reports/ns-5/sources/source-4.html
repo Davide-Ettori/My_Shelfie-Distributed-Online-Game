@@ -1,0 +1,366 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Player</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view</a>
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/80)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view;
+&nbsp;
+&nbsp;import it.polimi.ingsw.model.*;
+&nbsp;import it.polimi.ingsw.view.TUI.PlayerTUI;
+&nbsp;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * class which represent the parent of PlayerGUI and PlayerTUI. Immutable
+&nbsp; * @author Ettori Giammusso
+&nbsp; */
+&nbsp;public class Player extends UnicastRemoteObject implements Serializable {
+&nbsp;
+&nbsp;    /** timer for pinging the socket from client to server */
+&nbsp;    public static final int pingTimeout = 1000 * 10;
+&nbsp;    /** variable that chooses from debugging or running */
+&nbsp;    public static final boolean showErrors = false;
+&nbsp;    protected String name;
+&nbsp;    protected PrivateObjective objective;
+&nbsp;    /** list of the libraries of all the players in the game */
+<b class="nc">&nbsp;    public ArrayList&lt;Library&gt; librariesOfOtherPlayers = new ArrayList&lt;&gt;();</b>
+&nbsp;    /** the board seen and used by this player */
+&nbsp;    public Board board;
+&nbsp;    /** the personal library of this player */
+&nbsp;    public Library library;
+&nbsp;    /** true iff the player is the chairman of this game */
+&nbsp;    public boolean isChairMan;
+&nbsp;    protected transient ObjectInputStream inStream;
+&nbsp;    protected transient ObjectOutputStream outStream;
+&nbsp;    protected transient Socket mySocket;
+<b class="nc">&nbsp;    protected String fullChat = &quot;&quot;;</b>
+&nbsp;
+&nbsp;    //The following attributes are shared between playerTUI and PlayerGUI
+&nbsp;    /** the name of the chairman of the game */
+&nbsp;    public String chairmanName;
+&nbsp;    /** the network mode chosen by the user */
+&nbsp;    public NetMode netMode;
+&nbsp;    /** the UI mode chosen by the user - not sure if necessary */
+&nbsp;    public UIMode uiMode;
+&nbsp;    /** number of players in this current game */
+&nbsp;    public int numPlayers;
+<b class="nc">&nbsp;    protected boolean CO_1_Done = false;</b>
+<b class="nc">&nbsp;    protected boolean CO_2_Done = false;</b>
+&nbsp;    /** the name of the player currently having his turn */
+<b class="nc">&nbsp;    public String activeName = &quot;&quot;;</b>
+&nbsp;
+&nbsp;    /** points achieved until now with the common objectives */
+&nbsp;    public int pointsUntilNow;
+<b class="nc">&nbsp;    protected boolean endGame = false;</b>
+&nbsp;    /** points achieved until now with the common objectives by all the other players: (name, points) */
+<b class="nc">&nbsp;    public HashMap&lt;String, Integer&gt; pointsMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    protected boolean closed = false;</b>
+<b class="nc">&nbsp;    protected transient Thread turnThread = new Thread(() -&gt;{});</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor used by the server to initializer a base Player object
+&nbsp;     * @author Ettori
+&nbsp;     * @throws RemoteException exc
+&nbsp;     */
+&nbsp;    public Player() throws RemoteException {
+<b class="nc">&nbsp;        super();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * copy constructor for the Player object
+&nbsp;     * @author Ettori
+&nbsp;     * @param p the Player object to copy
+&nbsp;     * @throws RemoteException exc
+&nbsp;     */
+&nbsp;    public Player(Player p) throws RemoteException {
+<b class="nc">&nbsp;        super();</b>
+<b class="nc">&nbsp;        netMode = p.netMode;</b>
+<b class="nc">&nbsp;        uiMode = p.uiMode;</b>
+<b class="nc">&nbsp;        name = p.name;</b>
+<b class="nc">&nbsp;        isChairMan = p.isChairMan;</b>
+<b class="nc">&nbsp;        library = new Library(p.library);</b>
+<b class="nc">&nbsp;        objective = p.objective;</b>
+<b class="nc">&nbsp;        pointsUntilNow = p.pointsUntilNow;</b>
+<b class="nc">&nbsp;        board = new Board(p.board);</b>
+<b class="nc">&nbsp;        librariesOfOtherPlayers = new ArrayList&lt;&gt;(p.librariesOfOtherPlayers);</b>
+<b class="nc">&nbsp;        mySocket = p.mySocket;</b>
+<b class="nc">&nbsp;        CO_1_Done = p.CO_1_Done;</b>
+<b class="nc">&nbsp;        CO_2_Done = p.CO_2_Done;</b>
+<b class="nc">&nbsp;        fullChat = p.fullChat;</b>
+<b class="nc">&nbsp;        chairmanName = p.chairmanName;</b>
+<b class="nc">&nbsp;        activeName = p.activeName;</b>
+<b class="nc">&nbsp;        numPlayers = p.numPlayers;</b>
+<b class="nc">&nbsp;        endGame = p.endGame;</b>
+<b class="nc">&nbsp;        pointsMap = p.pointsMap;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor that built a Player object from an old PlayerSend Object (used for persistence)
+&nbsp;     * @param p the old PlayerObject that was saved on the server
+&nbsp;     * @author Ettori
+&nbsp;     * @throws RemoteException exc
+&nbsp;     */
+&nbsp;    public Player(PlayerSend p) throws RemoteException {
+<b class="nc">&nbsp;        super();</b>
+<b class="nc">&nbsp;        netMode = p.netMode;</b>
+<b class="nc">&nbsp;        uiMode = p.uiMode;</b>
+<b class="nc">&nbsp;        name = p.name;</b>
+<b class="nc">&nbsp;        isChairMan = p.isChairMan;</b>
+<b class="nc">&nbsp;        library = new Library(p.library);</b>
+<b class="nc">&nbsp;        objective = p.objective;</b>
+<b class="nc">&nbsp;        pointsUntilNow = p.pointsUntilNow;</b>
+<b class="nc">&nbsp;        board = new Board(p.board);</b>
+<b class="nc">&nbsp;        librariesOfOtherPlayers = new ArrayList&lt;&gt;(p.librariesOfOtherPlayers);</b>
+<b class="nc">&nbsp;        mySocket = p.mySocket;</b>
+<b class="nc">&nbsp;        CO_1_Done = p.CO_1_Done;</b>
+<b class="nc">&nbsp;        CO_2_Done = p.CO_2_Done;</b>
+<b class="nc">&nbsp;        fullChat = p.fullChat;</b>
+<b class="nc">&nbsp;        chairmanName = p.chairmanName;</b>
+<b class="nc">&nbsp;        activeName = p.activeName;</b>
+<b class="nc">&nbsp;        numPlayers = p.numPlayers;</b>
+<b class="nc">&nbsp;        endGame = p.endGame;</b>
+<b class="nc">&nbsp;        pointsMap = p.pointsMap;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Clone the player on the client in the player on the server
+&nbsp;     * @author Ettori
+&nbsp;     * @param p the Player that will be cloned in the current Object
+&nbsp;     */
+<b class="nc">&nbsp;    public void clone(PlayerTUI p){}</b>
+&nbsp;    /**
+&nbsp;     * Check if the input by the user is correct
+&nbsp;     * @param s array of the coordinates
+&nbsp;     * @return true if the input is correct
+&nbsp;     * @author Faccincani
+&nbsp;     */
+&nbsp;    protected boolean checkRawCoords(String[] s) {
+&nbsp;        try {
+<b class="nc">&nbsp;            if (s.length % 2 == 1)</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                for (int i = 0; i &lt; s.length; i++) {</b>
+<b class="nc">&nbsp;                    if (Integer.parseInt(s[i]) &lt; 0 || Integer.parseInt(s[i]) &gt; 9)</b>
+<b class="nc">&nbsp;                        return false;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }catch (Exception e){</b>
+<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if the name of a player exists in the game (used by the chat)
+&nbsp;     * @author Ettori
+&nbsp;     * @param name the name to check in this game
+&nbsp;     * @return true iff that player actually exists in the current game
+&nbsp;     */
+&nbsp;    protected boolean doesPlayerExists(String name){
+<b class="nc">&nbsp;        for(Library lib : librariesOfOtherPlayers){</b>
+<b class="nc">&nbsp;            if(lib.name.equals(name))</b>
+<b class="nc">&nbsp;                return true;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * take the cards from the board and transfer them in the player library
+&nbsp;     * @author Ettori
+&nbsp;     * @param coord the list of coupled coordinates of the cards that the player want to take from the board
+&nbsp;     */
+&nbsp;    protected void pickCards(ArrayList&lt;Integer&gt; coord, int col) { // Paired Coordinates. This method will be called when the GUI o the TUI detect a choice made by the player
+<b class="nc">&nbsp;        ArrayList&lt;Card&gt; cards = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; coord.size(); i += 2) {</b>
+<b class="nc">&nbsp;            cards.add(new Card(board.getGameBoard()[coord.get(i)][coord.get(i + 1)]));</b>
+<b class="nc">&nbsp;            board.getGameBoard()[coord.get(i)][coord.get(i + 1)] = new Card(); // after a card is picked, it became EMPTY</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        deployCards(col, cards);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * physically position the cards in the chosen column
+&nbsp;     * @author Ettori
+&nbsp;     * @param col column
+&nbsp;     * @param cards list of the chosen cards
+&nbsp;     */
+&nbsp;    private void deployCards(int col, ArrayList&lt;Card&gt; cards) {
+<b class="nc">&nbsp;        library.insertCards(col, cards);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * setter for the PO
+&nbsp;     * @author Ettori
+&nbsp;     * @param obj  the PO that needs to be set
+&nbsp;     */
+<b class="nc">&nbsp;    public void setPrivateObjective(PrivateObjective obj) {objective = obj;}</b>
+&nbsp;    /**
+&nbsp;     * setter for the attribute name
+&nbsp;     * @author Ettori
+&nbsp;     * @param n the name to set
+&nbsp;     */
+<b class="nc">&nbsp;    public void setName(String n){name = n;}</b>
+&nbsp;    /**
+&nbsp;     * setter for the attribute isChairMan
+&nbsp;     * @author Ettori
+&nbsp;     * @param b the boolean to set
+&nbsp;     */
+<b class="nc">&nbsp;    public void setIsChairMan(boolean b){isChairMan = b;}</b>
+&nbsp;    /**
+&nbsp;     * getter for the socket input stream (from the server)
+&nbsp;     * @author Ettori
+&nbsp;     * @return the input stream of this player
+&nbsp;     */
+<b class="nc">&nbsp;    public ObjectInputStream getInStream(){return inStream;}</b>
+&nbsp;    /**
+&nbsp;     * getter for the name
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     * @return the name of the player
+&nbsp;     */
+&nbsp;    public String getName() {
+<b class="nc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the isChairMan
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     * @return if is chairman
+&nbsp;     */
+&nbsp;    public boolean getIsChairMan() {
+<b class="nc">&nbsp;        return isChairMan;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the first common objective
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     * @return the first common objective
+&nbsp;     */
+&nbsp;    public boolean getCO_1_Done() {
+<b class="nc">&nbsp;        return CO_1_Done;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the second common objective
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     * @return the second common objective
+&nbsp;     */
+&nbsp;    public boolean getCO_2_Done() {
+<b class="nc">&nbsp;        return CO_2_Done;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * getter for the full chat
+&nbsp;     * @author Ettori
+&nbsp;     * @return the full chat until now
+&nbsp;     */
+<b class="nc">&nbsp;    public String getFullChat() {return fullChat;}</b>
+&nbsp;    /**
+&nbsp;     * getter for the endGame
+&nbsp;     * @author Ettori Giammusso
+&nbsp;     * @return if the game is in endGame
+&nbsp;     */
+<b class="nc">&nbsp;    public boolean getEndGame() {return endGame;}</b>
+&nbsp;    /**
+&nbsp;     * Getter for the private objective
+&nbsp;     * @author Ettori
+&nbsp;     * @return the private objective of the player
+&nbsp;     */
+<b class="nc">&nbsp;    public PrivateObjective getPrivateObjective(){return objective;}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-24 15:18</div>
+</div>
+</body>
+</html>

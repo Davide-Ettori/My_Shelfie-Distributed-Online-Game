@@ -1,0 +1,193 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonObjective</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonObjective (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonObjective</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13,3%
+  </span>
+  <span class="absValue">
+    (4/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * class which represent the common objectives which all the players must try to achieve. Immutable
+&nbsp; * @author Ettori Faccincani
+&nbsp; */
+&nbsp;public class CommonObjective extends Objective implements Serializable {
+&nbsp;    /** the algorithm chosen, related to the specific common objective */
+&nbsp;    public final Strategy algorithm;
+&nbsp;    /** the unique identifier of the objective */
+&nbsp;    public final int id;
+&nbsp;    public final String imagePath;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * normal constructor for this type of objects
+&nbsp;     * @param algo the algorithm used, depends on the objective chosen
+&nbsp;     * @param identify the unique identifier of this objective
+&nbsp;     */
+<b class="fc">&nbsp;    public CommonObjective(Strategy algo, int identify){</b>
+<b class="fc">&nbsp;        imagePath = &quot;common goal cards/&quot; + identify + &quot;.jpg&quot;;</b>
+<b class="fc">&nbsp;        id = identify;</b>
+<b class="fc">&nbsp;        algorithm = algo;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * method that draws this objective
+&nbsp;     * @author Gumus
+&nbsp;     * @param points the points still available for this objective
+&nbsp;     */
+&nbsp;    public void draw(int points){
+<b class="nc">&nbsp;        System.out.println(&quot;Common objective number: &quot; + id + &quot;, Points available: &quot; + points);</b>
+<b class="nc">&nbsp;        System.out.print(&quot;Description: &quot;);</b>
+<b class="nc">&nbsp;        if(id == 1)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Two groups each containing 4 tiles of \n&quot; +</b>
+&nbsp;                    &quot;the same type in a 2x2 square. The tiles \n&quot; +
+&nbsp;                    &quot;of one square can be different from \n&quot; +
+&nbsp;                    &quot;those of the other square.&quot;);
+<b class="nc">&nbsp;        if(id == 2)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Two columns each formed by 6 \n&quot; +</b>
+&nbsp;                    &quot;different types of tiles.&quot;);
+<b class="nc">&nbsp;        if(id == 3)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Four groups each containing at least \n&quot; +</b>
+&nbsp;                    &quot;4 tiles of the same type (not necessarily \n&quot; +
+&nbsp;                    &quot;in the depicted shape).  \n&quot; +
+&nbsp;                    &quot;The tiles of one group can be different \n&quot; +
+&nbsp;                    &quot;from those of another group.&quot;);
+<b class="nc">&nbsp;        if(id == 4)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Six groups each containing at least \n&quot; +</b>
+&nbsp;                    &quot;2 tiles of the same type (not necessarily \n&quot; +
+&nbsp;                    &quot;in the depicted shape).  \n&quot; +
+&nbsp;                    &quot;The tiles of one group can be different \n&quot; +
+&nbsp;                    &quot;from those of another group.&quot;);
+<b class="nc">&nbsp;        if(id == 5)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Three columns each formed by 6 \n&quot; +</b>
+&nbsp;                    &quot;tiles Five tiles of the same type forming an X.\n&quot; +
+&nbsp;                    &quot;of maximum three different types. One \n&quot; +
+&nbsp;                    &quot;column can show the same or a different \n&quot; +
+&nbsp;                    &quot;combination of another column.&quot;);
+<b class="nc">&nbsp;        if(id == 6)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Two lines each formed by 5 different \n&quot; +</b>
+&nbsp;                    &quot;types of tiles. One line can show the \n&quot; +
+&nbsp;                    &quot;same or a different combination of the \n&quot; +
+&nbsp;                    &quot;other line.&quot;);
+<b class="nc">&nbsp;        if(id == 7)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Four lines each formed by 5 tiles of \n&quot; +</b>
+&nbsp;                    &quot;maximum three different types. One \n&quot; +
+&nbsp;                    &quot;line can show the same or a different \n&quot; +
+&nbsp;                    &quot;combination of another line.&quot;);
+<b class="nc">&nbsp;        if(id == 8)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Four tiles of the same type in the four \n&quot; +</b>
+&nbsp;                    &quot;corners of the bookshelf.&quot;);
+<b class="nc">&nbsp;        if(id == 9)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Eight tiles of the same type. There’s no \n&quot; +</b>
+&nbsp;                    &quot;restriction about the position of these \n&quot; +
+&nbsp;                    &quot;tiles.&quot;);
+<b class="nc">&nbsp;        if(id == 10)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Five tiles of the same type forming an X.&quot;);</b>
+<b class="nc">&nbsp;        if(id == 11)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Five tiles of the same type forming a \n&quot; +</b>
+&nbsp;                    &quot;diagonal. &quot;);
+<b class="nc">&nbsp;        if(id == 12)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Five columns of increasing or decreasing \n&quot; +</b>
+&nbsp;                    &quot;height. Starting from the first column on \n&quot; +
+&nbsp;                    &quot;the left or on the right, each next column \n&quot; +
+&nbsp;                    &quot;must be made of exactly one more tile. \n&quot; +
+&nbsp;                    &quot;Tiles can be of any type.&quot;);
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-24 15:18</div>
+</div>
+</body>
+</html>
