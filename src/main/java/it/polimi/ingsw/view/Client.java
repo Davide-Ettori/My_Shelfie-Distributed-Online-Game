@@ -1,11 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.Game;
 import it.polimi.ingsw.controller.Initializer;
 import it.polimi.ingsw.view.GUI.PlayerGUI;
-import it.polimi.ingsw.view.IP;
 import it.polimi.ingsw.view.TUI.PlayerTUI;
-import it.polimi.ingsw.view.UIMode;
 
 import javax.swing.*;
 import java.awt.*;
