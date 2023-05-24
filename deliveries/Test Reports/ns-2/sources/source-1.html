@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ChatBroadcast</title>
+  <title>Coverage Report > ReceiveChat</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">app.controller</a>
+    <a href="../index.html">it.polimi.ingsw.chat</a>
 </div>
 
-<h1>Coverage Summary for Class: ChatBroadcast (app.controller)</h1>
+<h1>Coverage Summary for Class: ReceiveChat (it.polimi.ingsw.chat)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ChatBroadcast</td>
+  <td class="name">ReceiveChat</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/25)
   </span>
 </td>
 </tr>
@@ -74,46 +74,66 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package app.controller;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.chat;
+&nbsp;
+&nbsp;import it.polimi.ingsw.controller.Game;
+&nbsp;import it.polimi.ingsw.controller.Message;
+&nbsp;import it.polimi.ingsw.view.TUI.PlayerTUI;
+&nbsp;import it.polimi.ingsw.controller.MessageType;
 &nbsp;
 &nbsp;import java.io.IOException;
 &nbsp;
-&nbsp;import static controller.it.polimi.ingsw.MessageType.*;
+&nbsp;import static it.polimi.ingsw.model.NetMode.RMI;
 &nbsp;
 &nbsp;/**
-&nbsp; * class which represents the threads for listening to the eventual chat messages for ALL the NON active players
+&nbsp; * class which represent the thread which listen for received chat message (used by the active player)
 &nbsp; */
-&nbsp;public class ChatBroadcast extends Thread{
-&nbsp;    private final Game game;
-&nbsp;    private final int index;
+&nbsp;public class ReceiveChat extends Thread{
+&nbsp;    private final PlayerTUI player;
 &nbsp;
 &nbsp;    /**
-&nbsp;     * normal constructor for this type of objects
-&nbsp;     * @param g the server object that is handling the game
-&nbsp;     * @param i the index of the client that this thread is listening to
+&nbsp;     * normal constructor for this thread
+&nbsp;     * @param p the active player that will see those messages
 &nbsp;     */
-<b class="nc">&nbsp;    public ChatBroadcast(Game g, int i){game = g; index = i;}</b>
+<b class="nc">&nbsp;    public ReceiveChat(PlayerTUI p){player = p;}</b>
 &nbsp;
 &nbsp;    /**
-&nbsp;     * main function of the thread, it listens for chat messages and send them back to the interested clients
+&nbsp;     * the main function of the thread, it reads messages from the inputStream and updates the game chat
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public void run(){
-&nbsp;        while (true) {
-<b class="nc">&nbsp;            Message msg = null;</b>
-&nbsp;            try {
-<b class="nc">&nbsp;                msg = (Message) game.getInStreams().get(index).readObject();</b>
-<b class="nc">&nbsp;            } catch (Exception e) {</b>
-<b class="nc">&nbsp;                game.playerDisconnected(index, e);</b>
-&nbsp;                return;
+<b class="nc">&nbsp;        if(player.netMode == RMI)</b>
+&nbsp;            return;
+&nbsp;        try {
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                Message msg = (Message) player.getInStream().readObject();</b>
+<b class="nc">&nbsp;                if(msg == null || msg.getType() == MessageType.STOP)</b>
+&nbsp;                    return;
+<b class="nc">&nbsp;                if(msg.getType() == MessageType.FINAL_SCORE){</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;\nThe game is finished, this is the final scoreboard:\n\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;                    Game.waitForSeconds(Game.showTimer);</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if(msg.getType() == MessageType.LOST_CLIENT){</b>
+<b class="nc">&nbsp;                    player.handleLostClientEvent(msg);</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if(msg.getType() == MessageType.SHOW_EVENT){</b>
+<b class="nc">&nbsp;                    if(msg.getAuthor() != null &amp;&amp; msg.getAuthor().equals(&quot;win&quot;)){</b>
+<b class="nc">&nbsp;                        System.out.println(&quot;\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;                        Game.waitForSeconds(Game.waitTimer);</b>
+<b class="nc">&nbsp;                        System.exit(0);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    System.out.println(&quot;\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.out.println(&quot;\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;                player.addToFullChat((String)msg.getContent());</b>
 <b class="nc">&nbsp;            }</b>
-<b class="nc">&nbsp;            if(msg == null)</b>
-&nbsp;                return;
-<b class="nc">&nbsp;            if(msg.getType() == PING)</b>
-<b class="nc">&nbsp;                continue;</b>
-<b class="nc">&nbsp;            if(msg.getType() == STOP)</b>
-&nbsp;                return;
-<b class="nc">&nbsp;            game.sendChatToClients(game.getNames().get(index), msg.getAuthor(), (String) msg.getContent());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException ignored){}</b>
+<b class="nc">&nbsp;        catch(Exception e){</b>
+<b class="nc">&nbsp;            player.connectionLost(e);</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;    }
 &nbsp;}
@@ -140,7 +160,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-08 21:47</div>
+    <div style="float:right;">generated on 2023-05-24 15:18</div>
 </div>
 </body>
 </html>

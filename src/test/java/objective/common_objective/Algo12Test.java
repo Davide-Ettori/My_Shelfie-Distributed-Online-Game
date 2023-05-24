@@ -372,7 +372,7 @@ public class Algo12Test {
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>B</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>W</td><td>P</td></tr>
      * <tr><td>&nbsp;&nbsp;&nbsp;</td><td>P</td><td>P</td><td>P</td><td>Y</td></tr>
-     * <tr><td>&nbsp</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+     * <tr><td>&nbsp;</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
      * <tr><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
      * </table>
      * @author Faccincani, Ettori , Gumus

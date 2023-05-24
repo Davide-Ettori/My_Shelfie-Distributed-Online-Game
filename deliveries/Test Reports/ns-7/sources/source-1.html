@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">app.view.TUI</a>
+    <a href="../index.html">it.polimi.ingsw.view.TUI</a>
 </div>
 
-<h1>Coverage Summary for Class: PlayerTUI (app.view.TUI)</h1>
+<h1>Coverage Summary for Class: PlayerTUI (it.polimi.ingsw.view.TUI)</h1>
 
 <table class="coverageStats">
 
@@ -43,7 +43,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/44)
+    (0/45)
   </span>
 </td>
 <td class="coverageStat">
@@ -51,31 +51,12 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/458)
+    (0/463)
   </span>
 </td>
 </tr>
   <tr>
     <td class="name">PlayerTUI$1</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/1)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/1)
-  </span>
-</td>
-  </tr>
-  <tr>
-    <td class="name">PlayerTUI$1 2</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -108,7 +89,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/460)
+    (0/464)
   </span>
 </td>
 </tr>
@@ -119,15 +100,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package app.view.TUI;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.TUI;
 &nbsp;
-&nbsp;import view.it.polimi.ingsw.IP;
-&nbsp;import view.it.polimi.ingsw.UIMode;
-&nbsp;import app.controller.*;
-&nbsp;import app.model.*;
-&nbsp;import chat.model.it.polimi.ingsw.ReceiveChat;
-&nbsp;import chat.model.it.polimi.ingsw.SendChat;
-&nbsp;import org.json.simple.JSONObject;
+&nbsp;import it.polimi.ingsw.view.*;
+&nbsp;
+&nbsp;import it.polimi.ingsw.chat.ReceiveChat;
+&nbsp;import it.polimi.ingsw.chat.SendChat;
+&nbsp;import it.polimi.ingsw.controller.*;
+&nbsp;import it.polimi.ingsw.model.*;
 &nbsp;
 &nbsp;import java.awt.*;
 &nbsp;import java.awt.image.BufferedImage;
@@ -141,16 +121,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import java.util.Date;
 &nbsp;
-&nbsp;import static controller.it.polimi.ingsw.MessageType.*;
-&nbsp;import static controller.it.polimi.ingsw.NameStatus.*;
-&nbsp;import static model.it.polimi.ingsw.NetMode.*;
-&nbsp;
 &nbsp;/**
 &nbsp; * class which represent the player on the client side, mutable,
 &nbsp; * implements Serializable because it will be sent in the socket network
 &nbsp; * @author Ettori Faccincani
 &nbsp; */
-&nbsp;public class PlayerTUI extends Player implements Serializable, PlayerI{
+&nbsp;public class PlayerTUI extends Player implements Serializable, PlayerI {
 <b class="nc">&nbsp;    private transient Thread chatThread = null;</b>
 <b class="nc">&nbsp;    private final transient BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
 &nbsp;    private transient GameI server;
@@ -181,7 +157,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param mode type of the network chosen by the user
 &nbsp;     * @author Ettori
 &nbsp;     */
-&nbsp;    public PlayerTUI(NetMode mode, String opt, boolean flag) throws RemoteException {
+&nbsp;    public PlayerTUI(NetMode mode, String opt) throws RemoteException {
 <b class="nc">&nbsp;        super();</b>
 <b class="nc">&nbsp;        System.setProperty(&quot;java.rmi.server.hostname&quot;, IP.activeIP);</b>
 <b class="nc">&nbsp;        uiMode = UIMode.TUI;</b>
@@ -217,7 +193,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            System.out.println(sb);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        System.out.println(&quot;\n\n&quot;);</b>
-<b class="nc">&nbsp;        chooseUserName(flag);</b>
+<b class="nc">&nbsp;        chooseUserName();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -247,7 +223,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * method for choosing the nickname of the player for the future game
 &nbsp;     * @author Ettori
 &nbsp;     */
-&nbsp;    private void chooseUserName(boolean flag){
+&nbsp;    private void chooseUserName(){
 <b class="nc">&nbsp;        NameStatus status = null;</b>
 &nbsp;        while(true){
 <b class="nc">&nbsp;            System.out.print(&quot;\nInsert your name: &quot;);</b>
@@ -266,26 +242,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                status = (NameStatus) inStream.readObject();</b>
 <b class="nc">&nbsp;            }catch(Exception e){connectionLost(e);}</b>
 &nbsp;
-<b class="nc">&nbsp;            if(status == NOT_TAKEN) {</b>
+<b class="nc">&nbsp;            if(status == NameStatus.NOT_TAKEN) {</b>
 <b class="nc">&nbsp;                System.out.println(&quot;\nName: &#39;&quot; + name + &quot;&#39; accepted by the server!&quot;);</b>
 <b class="nc">&nbsp;                break;</b>
 &nbsp;            }
-<b class="nc">&nbsp;            if(status == OLD){</b>
+<b class="nc">&nbsp;            if(status == NameStatus.OLD){</b>
 <b class="nc">&nbsp;                System.out.println(&quot;\nName: &#39;&quot; + name + &quot; was found in a previous game&quot;);</b>
 <b class="nc">&nbsp;                break;</b>
 &nbsp;            }
-<b class="nc">&nbsp;            if(status == NOT_FOUND){</b>
-<b class="nc">&nbsp;                System.out.println(&quot;\nAnother game is running and your name was not found...&quot;);</b>
+<b class="nc">&nbsp;            if(status == NameStatus.NOT_FOUND){</b>
+<b class="nc">&nbsp;                System.out.println(&quot;\nAnother game is running and your name was not found...\n&quot;);</b>
 <b class="nc">&nbsp;                System.exit(0);</b>
 &nbsp;            }
-<b class="nc">&nbsp;            if(status == FOUND){</b>
+<b class="nc">&nbsp;            if(status == NameStatus.FOUND){</b>
 <b class="nc">&nbsp;                getPreviousState();</b>
 &nbsp;                return;
 &nbsp;            }
-<b class="nc">&nbsp;            System.out.println(&quot;Name Taken, choose another name&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Name Taken, choose another name\n&quot;);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        if(flag)</b>
-<b class="nc">&nbsp;            Game.serverPlayer = name;</b>
 <b class="nc">&nbsp;        getInitialState();</b>
 &nbsp;    }
 &nbsp;    /**
@@ -299,7 +273,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            p = new PlayerTUI((Player)inStream.readObject());</b>
 <b class="nc">&nbsp;            clone(p);</b>
 <b class="nc">&nbsp;            drawAll();</b>
-<b class="nc">&nbsp;            if(netMode == RMI)</b>
+<b class="nc">&nbsp;            if(netMode == NetMode.RMI)</b>
 <b class="nc">&nbsp;                new Thread(this::listenForEndGame).start();</b>
 <b class="nc">&nbsp;            System.out.println(&quot;List of the commands of the chat\n@all for message to everyone\n@\&quot;name\&quot; for private message\n@names to see the nicknames of all the players\n@exit to close the game\n&quot;);</b>
 <b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
@@ -308,7 +282,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (RemoteException | NotBoundException e) {</b>
 <b class="nc">&nbsp;            connectionLost(e);</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        if(netMode == RMI) {</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.RMI) {</b>
 &nbsp;            try {
 <b class="nc">&nbsp;                server.addClient(name, this);</b>
 <b class="nc">&nbsp;            } catch (RemoteException e) {</b>
@@ -320,12 +294,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (IOException e) {</b>
 <b class="nc">&nbsp;            connectionLost(e);</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        if(netMode == SOCKET)</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET)</b>
 <b class="nc">&nbsp;            new Thread(this::ping).start();</b>
 &nbsp;        else
 <b class="nc">&nbsp;            new Thread(this::pingRMI).start();</b>
 <b class="nc">&nbsp;        startChatSendThread();</b>
-<b class="nc">&nbsp;        if(netMode == SOCKET) {</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET) {</b>
 <b class="nc">&nbsp;            waitForEvents();</b>
 &nbsp;        }
 &nbsp;    }
@@ -339,8 +313,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            System.out.println(&quot;\nBe patient, the game will start soon...&quot;);</b>
 <b class="nc">&nbsp;            p = new PlayerTUI((Player)inStream.readObject());</b>
 <b class="nc">&nbsp;            clone(p);</b>
+<b class="nc">&nbsp;            activeName = chairmanName;</b>
 <b class="nc">&nbsp;            drawAll();</b>
-<b class="nc">&nbsp;            if(netMode == RMI)</b>
+<b class="nc">&nbsp;            if(netMode == NetMode.RMI)</b>
 <b class="nc">&nbsp;                new Thread(this::listenForEndGame).start();</b>
 <b class="nc">&nbsp;            System.out.println(&quot;List of the commands of the chat\n@all for message to everyone\n@\&quot;name\&quot; for private message\n@names to see the nicknames of all the players\n@exit to close the game&quot;);</b>
 <b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
@@ -349,7 +324,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (RemoteException | NotBoundException e) {</b>
 <b class="nc">&nbsp;            connectionLost(e);</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        if(netMode == RMI) {</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.RMI) {</b>
 &nbsp;            try {
 <b class="nc">&nbsp;                server.addClient(name, this);</b>
 <b class="nc">&nbsp;            } catch (RemoteException e) {</b>
@@ -361,19 +336,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        } catch (IOException e) {</b>
 <b class="nc">&nbsp;            connectionLost(e);</b>
 <b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        if(netMode == SOCKET)</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET)</b>
 <b class="nc">&nbsp;            new Thread(this::ping).start();</b>
 &nbsp;        else
 <b class="nc">&nbsp;            new Thread(this::pingRMI).start();</b>
 <b class="nc">&nbsp;        if(name.equals(chairmanName)) {</b>
-<b class="nc">&nbsp;            if(netMode == SOCKET) {</b>
+<b class="nc">&nbsp;            if(netMode == NetMode.SOCKET) {</b>
 <b class="nc">&nbsp;                startChatReceiveThread();</b>
 &nbsp;            }
 <b class="nc">&nbsp;            waitForMove();</b>
 &nbsp;        }
 &nbsp;        else {
 <b class="nc">&nbsp;            startChatSendThread();</b>
-<b class="nc">&nbsp;            if(netMode == SOCKET) {</b>
+<b class="nc">&nbsp;            if(netMode == NetMode.SOCKET) {</b>
 <b class="nc">&nbsp;                waitForEvents();</b>
 &nbsp;            }
 &nbsp;        }
@@ -423,6 +398,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param msg the message containing the necessary information for reacting to the event
 &nbsp;     */
 &nbsp;    private void handleShowEvent(Message msg){
+<b class="nc">&nbsp;        if(msg.getAuthor() != null &amp;&amp; msg.getAuthor().equals(&quot;win&quot;)){</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\n&quot; + msg.getContent());</b>
+<b class="nc">&nbsp;            Game.waitForSeconds(Game.waitTimer);</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
+&nbsp;        }
 <b class="nc">&nbsp;        System.out.println(&quot;\n&quot; + msg.getContent());</b>
 &nbsp;    }
 &nbsp;    /**
@@ -441,9 +421,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        activeName = name;</b>
 <b class="nc">&nbsp;        drawAll();</b>
 <b class="nc">&nbsp;        stopChatThread();</b>
-<b class="nc">&nbsp;        if(netMode == SOCKET) {</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET) {</b>
 <b class="nc">&nbsp;            startChatReceiveThread();</b>
 &nbsp;        }
+<b class="nc">&nbsp;        turnThread = new Thread(() -&gt;{</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                Thread.sleep(1000 * 60 * 5);</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(activeName.equals(name))</b>
+<b class="nc">&nbsp;                sendDoneMove();</b>
+&nbsp;        });
+<b class="nc">&nbsp;        turnThread.start();</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * helper function for handling the change event notification from the server
@@ -461,8 +451,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param msg the message containing the necessary information for reacting to the event
 &nbsp;     */
 &nbsp;    private void handleUpdateUnplayableEvent(Message msg){
-<b class="nc">&nbsp;        JSONObject jsonObject = (JSONObject) msg.getContent();</b>
-<b class="nc">&nbsp;        board = (Board) jsonObject.get(&quot;board&quot;);</b>
+<b class="nc">&nbsp;        board = (Board) msg.getContent();</b>
 <b class="nc">&nbsp;        drawAll();</b>
 <b class="nc">&nbsp;        System.out.println(&quot;\nBoard updated because it was unplayable&quot;);</b>
 &nbsp;    }
@@ -473,10 +462,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    private void handleUpdateGameEvent(Message msg){
 <b class="nc">&nbsp;        stopChatThread();</b>
-<b class="nc">&nbsp;        if(netMode == SOCKET)</b>
-<b class="nc">&nbsp;            sendToServer(new Message(STOP, null, null)); // send this message on your Socket (to yourself)</b>
-<b class="nc">&nbsp;        JSONObject jsonObject = (JSONObject) msg.getContent();</b>
-<b class="nc">&nbsp;        PlayerSend p = (PlayerSend) jsonObject.get(&quot;player&quot;);</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET)</b>
+<b class="nc">&nbsp;            sendToServer(new Message(MessageType.STOP, null, null)); // send this message on your Socket (to yourself)</b>
+<b class="nc">&nbsp;        PlayerSend p = (PlayerSend) msg.getContent();</b>
 <b class="nc">&nbsp;        board = p.board;</b>
 <b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers - 1; i++){</b>
 <b class="nc">&nbsp;            if(librariesOfOtherPlayers.get(i).name.equals(msg.getAuthor()))</b>
@@ -544,8 +532,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    private void handleDisconnectedEvent(Message msg){
 <b class="nc">&nbsp;        System.out.println(&quot;\nThe active player (&quot; + msg.getAuthor() + &quot;) disconnected from the game&quot;);</b>
-<b class="nc">&nbsp;        if(netMode == SOCKET)</b>
-<b class="nc">&nbsp;            sendToServer(new Message(STOP, null, null));</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET)</b>
+<b class="nc">&nbsp;            sendToServer(new Message(MessageType.STOP, null, null));</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * method which waits for the current player&#39;s move, checks it and, then, send it to all other users (it also updates the library of this player)
@@ -697,7 +685,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                board.pointsCO_1.remove(lastIndex);</b>
 <b class="nc">&nbsp;                pointsUntilNow += points;</b>
 <b class="nc">&nbsp;                CO_1_Done = true;</b>
-<b class="nc">&nbsp;                sendToServer(new Message(CO_1, name, Integer.toString(points)));</b>
+<b class="nc">&nbsp;                sendToServer(new Message(MessageType.CO_1, name, Integer.toString(points)));</b>
 <b class="nc">&nbsp;                System.out.println(&quot;\nWell done, you completed the first common objective and you gain &quot; + points + &quot; points...&quot;);</b>
 <b class="nc">&nbsp;                Game.waitForSeconds(Game.showTimer);</b>
 <b class="nc">&nbsp;                change = true;</b>
@@ -708,7 +696,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                board.pointsCO_2.remove(lastIndex);</b>
 <b class="nc">&nbsp;                pointsUntilNow += points;</b>
 <b class="nc">&nbsp;                CO_2_Done = true;</b>
-<b class="nc">&nbsp;                sendToServer(new Message(CO_2, name, Integer.toString(points)));</b>
+<b class="nc">&nbsp;                sendToServer(new Message(MessageType.CO_2, name, Integer.toString(points)));</b>
 <b class="nc">&nbsp;                System.out.println(&quot;\nWell done, you completed the second common objective and you gain &quot; + points + &quot; points...&quot;);</b>
 <b class="nc">&nbsp;                Game.waitForSeconds(Game.showTimer);</b>
 <b class="nc">&nbsp;                change = true;</b>
@@ -726,7 +714,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            if (library.isFull() &amp;&amp; !endGame) {</b>
 <b class="nc">&nbsp;                endGame = true;</b>
 <b class="nc">&nbsp;                pointsUntilNow++;</b>
-<b class="nc">&nbsp;                sendToServer(new Message(LIB_FULL, name, null));</b>
+<b class="nc">&nbsp;                sendToServer(new Message(MessageType.LIB_FULL, name, null));</b>
 <b class="nc">&nbsp;                System.out.println(&quot;\nWell done, you are the first player to complete the library, the game will continue until the next turn of &quot; + chairmanName + &quot;...&quot;);</b>
 <b class="nc">&nbsp;                Game.waitForSeconds(Game.showTimer);</b>
 <b class="nc">&nbsp;                return true;</b>
@@ -743,9 +731,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        drawAll();</b>
 <b class="nc">&nbsp;        System.out.println(&quot;\nBoard updated because it was unplayble&quot;);</b>
 &nbsp;        try {
-<b class="nc">&nbsp;            boardStatus = new JSONObject();</b>
-<b class="nc">&nbsp;            boardStatus.put(&quot;board&quot;, board);</b>
-<b class="nc">&nbsp;            sendToServer(new Message(UPDATE_UNPLAYABLE, name, boardStatus));</b>
+<b class="nc">&nbsp;            sendToServer(new Message(MessageType.UPDATE_UNPLAYABLE, name, new Board(board)));</b>
 <b class="nc">&nbsp;        }catch (Exception e){connectionLost(e);}</b>
 &nbsp;    }
 &nbsp;    /**
@@ -753,14 +739,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @author Ettori
 &nbsp;     */
 &nbsp;    private void sendDoneMove(){
-<b class="nc">&nbsp;        gameStatus = new JSONObject();</b>
 <b class="nc">&nbsp;        System.out.println(&quot;You made your move, now wait for other players to acknowledge it...&quot;);</b>
-<b class="nc">&nbsp;        gameStatus.put(&quot;player&quot;, new PlayerSend(this));</b>
-<b class="nc">&nbsp;        sendToServer(new Message(UPDATE_GAME, name, gameStatus));</b>
-<b class="nc">&nbsp;        if(netMode == SOCKET) {</b>
-<b class="nc">&nbsp;            Game.waitForSeconds(Game.passTimer);</b>
+<b class="nc">&nbsp;        sendToServer(new Message(MessageType.UPDATE_GAME, name, new PlayerSend(this)));</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET) {</b>
+<b class="nc">&nbsp;            Game.waitForSeconds(Game.fastTimer);</b>
 <b class="nc">&nbsp;            waitForEvents();</b>
 &nbsp;        }
+<b class="nc">&nbsp;        turnThread.interrupt();</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * stops all the thread interaction related to the chat (should be only ReceiveChat)
@@ -851,7 +836,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 <b class="nc">&nbsp;        fullChat += msg;</b>
 &nbsp;        try{
-<b class="nc">&nbsp;            sendToServer(new Message(CHAT, dest, msg));</b>
+<b class="nc">&nbsp;            sendToServer(new Message(MessageType.CHAT, dest, msg));</b>
 <b class="nc">&nbsp;        }catch(Exception e){connectionLost(e);}</b>
 <b class="nc">&nbsp;        return true;</b>
 &nbsp;    }
@@ -919,8 +904,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        if(Player.showErrors)
 &nbsp;            throw new RuntimeException(e);
 &nbsp;        else
-<b class="nc">&nbsp;            System.out.println(&quot;\nThe connection was lost and the application is disconnecting...&quot;);</b>
-<b class="nc">&nbsp;        Game.waitForSeconds(Game.waitTimer / 2.5);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nThe connection was lost and the application is disconnecting...\n&quot;);</b>
+<b class="nc">&nbsp;        Game.waitForSeconds(Game.waitTimer);</b>
 <b class="nc">&nbsp;        System.exit(0);</b>
 &nbsp;    }
 &nbsp;    /**
@@ -931,7 +916,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        while(true){
 <b class="nc">&nbsp;            Game.waitForSeconds(Game.waitTimer * 2);</b>
 &nbsp;            try {
-<b class="nc">&nbsp;                outStream.writeObject(new Message(PING, null, null));</b>
+<b class="nc">&nbsp;                outStream.writeObject(new Message(MessageType.PING, null, null));</b>
 <b class="nc">&nbsp;            } catch (IOException e) {</b>
 <b class="nc">&nbsp;                connectionLost(e);</b>
 <b class="nc">&nbsp;            }</b>
@@ -980,7 +965,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public void sendToServer(Message msg){
 &nbsp;        //System.out.println(&quot;Sending &quot; + msg.getType() + &quot; to server&quot;);
-<b class="nc">&nbsp;        if(netMode == SOCKET) {</b>
+<b class="nc">&nbsp;        if(netMode == NetMode.SOCKET) {</b>
 &nbsp;            try {
 <b class="nc">&nbsp;                outStream.writeObject(msg);</b>
 <b class="nc">&nbsp;            } catch (IOException e) {</b>
@@ -1009,7 +994,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            }</b>
 <b class="nc">&nbsp;            if(msg == null)</b>
 <b class="nc">&nbsp;                connectionLost(new NullPointerException());</b>
-<b class="nc">&nbsp;            if(msg.getType() != FINAL_SCORE)</b>
+<b class="nc">&nbsp;            if(msg.getType() != MessageType.FINAL_SCORE)</b>
 <b class="nc">&nbsp;                connectionLost(new RuntimeException(&quot;listenForEndGame method in TUI received a message different than FINAL_SCORE&quot;));</b>
 <b class="nc">&nbsp;            handleFinalScoreEvent(msg);</b>
 &nbsp;        }
@@ -1043,7 +1028,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-08 21:47</div>
+    <div style="float:right;">generated on 2023-05-24 15:18</div>
 </div>
 </body>
 </html>

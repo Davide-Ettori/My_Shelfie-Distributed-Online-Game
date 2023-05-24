@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > IP</title>
+  <title>Coverage Report > Dimensions</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">app.view</a>
+    <a href="../index.html">it.polimi.ingsw.view</a>
 </div>
 
-<h1>Coverage Summary for Class: IP (app.view)</h1>
+<h1>Coverage Summary for Class: Dimensions (it.polimi.ingsw.view)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">IP</td>
+  <td class="name">Dimensions</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -54,7 +54,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/2)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/2)
+    (0/1)
   </span>
 </td>
 </tr>
@@ -74,21 +74,34 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package app.view;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view;
 &nbsp;
-<b class="nc">&nbsp;public class IP {</b>
-&nbsp;    public static final String DAVIDE_HOTSPOT_IP = &quot;172.20.10.3&quot; ;
-&nbsp;    public static final String DAVIDE_POLIMI_IP = &quot;10.168.91.35&quot;;
-&nbsp;    public static final String DAVIDE_XIAOMI_IP_F = &quot;192.168.74.95&quot;;
-&nbsp;    public static final String DAVIDE_XIAOMI_IP_G = &quot;192.168.52.95&quot;;
-&nbsp;    public static final String DAVIDE_IP_MILANO = &quot;172.17.0.129&quot;;
-&nbsp;    public static final String DAVIDE_IP_MANTOVA = &quot;192.168.1.21&quot;;
-&nbsp;    public static final String SAMUG_IP_MILANO = &quot;192.168.1.3&quot;;
-&nbsp;    public static final String LOCAL_HOST = &quot;127.0.0.1&quot;; // it&#39;s the computer itself!
-<b class="nc">&nbsp;    public static String activeIP = LOCAL_HOST;</b>
-&nbsp;
+&nbsp;/**
+&nbsp; * helper class which defines the dimensions of the objects showed in the GUI
+&nbsp; * @author Ettori
+&nbsp; */
+<b class="nc">&nbsp;public class Dimensions {</b>
+&nbsp;    public static final int CO_w = 144;
+&nbsp;    public static final int CO_h = 100;
+&nbsp;    public static final int PO_h = 100;
+&nbsp;    public static final int PO_w = 75;
+&nbsp;    public static final int pointsDim = 40;
+&nbsp;    public static final int chairmanDim = 100;
+&nbsp;    public static final int lib_w = 250;
+&nbsp;    public static final int lib_h = 300;
+&nbsp;    public static final int boardDim = 400; // every card is 400 / 9 = 44.44, approximately 44 pixels
+&nbsp;    public static final int cardDimBoard = 400 / 10 - 2;
+&nbsp;    public static final int cardLib_w = cardDimBoard - 7;
+&nbsp;    public static final int cardLib_h = cardDimBoard + 1;
+&nbsp;    public static final int textCols = 20;
+&nbsp;    public static final int textCharsNum = 11;
+&nbsp;    public static final int btnW = 200;
+&nbsp;    public static final int btnH = 50;
+&nbsp;    public static final int generalBorder = 5;
+&nbsp;    public static final int placeholderW = 10;
+&nbsp;    public static final int placeholderH = 70;
+&nbsp;    public static final String pathPointsCO = &quot;scoring tokens/scoring&quot;;
 &nbsp;}
-&nbsp;
 </code>
 </pre>
 </div>
@@ -112,7 +125,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-08 21:47</div>
+    <div style="float:right;">generated on 2023-05-24 15:18</div>
 </div>
 </body>
 </html>

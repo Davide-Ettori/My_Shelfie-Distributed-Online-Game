@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Algo_CO_3</title>
+  <title>Coverage Report > MessageType</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">app.model</a>
+    <a href="../index.html">it.polimi.ingsw.controller</a>
 </div>
 
-<h1>Coverage Summary for Class: Algo_CO_3 (app.model)</h1>
+<h1>Coverage Summary for Class: MessageType (it.polimi.ingsw.controller)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Algo_CO_3</td>
+  <td class="name">MessageType</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (2/2)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    80%
+    0%
   </span>
   <span class="absValue">
-    (4/5)
+    (0/1)
   </span>
 </td>
 </tr>
@@ -74,31 +74,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package app.model;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.controller;
 &nbsp;
-&nbsp;import static model.it.polimi.ingsw.Color.EMPTY;
-&nbsp;/*
-&nbsp;Four tiles of the same type in the four corners of the bookshelf.
-&nbsp; */
-&nbsp;/**
-&nbsp; * class which represent the number three objective (common). Immutable
-&nbsp; * @author Ettori Faccincani
-&nbsp; */
-<b class="fc">&nbsp;public class Algo_CO_3 extends Strategy {</b>
-&nbsp;    /**
-&nbsp;     * check if the matrix match with the objective
-&nbsp;     * @author Ettori
-&nbsp;     * @param board the matrix of the board
-&nbsp;     * @return true iff it found a match
-&nbsp;     */
-&nbsp;    @Override
-&nbsp;    public boolean checkMatch(Card[][] board) {
-<b class="fc">&nbsp;        Color color = board[0][0].color;</b>
-<b class="fc">&nbsp;        if (color == EMPTY)</b>
-<b class="nc">&nbsp;            return false;</b>
-<b class="fc">&nbsp;        return (board[ROWS - 1][COLS - 1].color == color) &amp;&amp; (board[0][COLS - 1].color == color) &amp;&amp; (board[ROWS - 1][0].color == color);</b>
-&nbsp;    }
-&nbsp;}
+&nbsp;import java.io.Serializable;
+&nbsp;
+<b class="nc">&nbsp;public enum MessageType implements Serializable {YOUR_TURN, CHANGE_TURN, UPDATE_GAME, FINAL_SCORE, UPDATE_UNPLAYABLE, CHAT, STOP, CO_1, CO_2, LIB_FULL, PING, DISCONNECTED, LOST_CLIENT, SHOW_EVENT}</b>
 </code>
 </pre>
 </div>
@@ -122,7 +102,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-08 21:47</div>
+    <div style="float:right;">generated on 2023-05-24 15:18</div>
 </div>
 </body>
 </html>

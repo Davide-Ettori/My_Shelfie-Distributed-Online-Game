@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ReceiveChat</title>
+  <title>Coverage Report > Algo_CO_1</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">app.model.chat</a>
+    <a href="../index.html">it.polimi.ingsw.model</a>
 </div>
 
-<h1>Coverage Summary for Class: ReceiveChat (app.model.chat)</h1>
+<h1>Coverage Summary for Class: Algo_CO_1 (it.polimi.ingsw.model)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ReceiveChat</td>
+  <td class="name">Algo_CO_1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/2)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/21)
+    (20/20)
   </span>
 </td>
 </tr>
@@ -74,62 +74,64 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package app.model.chat;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
 &nbsp;
-&nbsp;import controller.it.polimi.ingsw.Game;
-&nbsp;import controller.it.polimi.ingsw.Message;
-&nbsp;import TUI.view.it.polimi.ingsw.PlayerTUI;
-&nbsp;
-&nbsp;import java.io.IOException;
-&nbsp;
-&nbsp;import static controller.it.polimi.ingsw.MessageType.*;
-&nbsp;import static model.it.polimi.ingsw.NetMode.RMI;
+&nbsp;import static it.polimi.ingsw.model.Color.EMPTY;
+&nbsp;/*
+&nbsp;Six groups each containing at least
+&nbsp;2 tiles of the same type (not necessarily in the depicted shape).
+&nbsp;The tiles of one group can be different from those of another group.
+&nbsp; */
 &nbsp;
 &nbsp;/**
-&nbsp; * class which represent the thread which listen for received chat message (used by the active player)
+&nbsp; * class which represent the number one objective (common).
+&nbsp; * Immutable
+&nbsp; * @author Ettori Faccincani
 &nbsp; */
-&nbsp;public class ReceiveChat extends Thread{
-&nbsp;    private final PlayerTUI player;
 &nbsp;
+<b class="fc">&nbsp;public class Algo_CO_1 extends Strategy {</b>
+<b class="fc">&nbsp;    private final int[][] visitedMatrix = new int[ROWS][COLS];</b>
+&nbsp;    private int countVisitedCards;
 &nbsp;    /**
-&nbsp;     * normal constructor for this thread
-&nbsp;     * @param p the active player that will see those messages
+&nbsp;     * classic dfs
+&nbsp;     * @author Ettori
+&nbsp;     * @param i pos x
+&nbsp;     * @param j pos y
+&nbsp;     * @param color color
+&nbsp;     * @param board matrix of the board
 &nbsp;     */
-<b class="nc">&nbsp;    public ReceiveChat(PlayerTUI p){player = p;}</b>
-&nbsp;
-&nbsp;    /**
-&nbsp;     * the main function of the thread, it reads messages from the inputStream and updates the game chat
-&nbsp;     */
-&nbsp;    @Override
-&nbsp;    public void run(){
-<b class="nc">&nbsp;        if(player.netMode == RMI)</b>
+&nbsp;    private void dfs(int i, int j, Color color, Card[][] board) {
+<b class="fc">&nbsp;        if (!DFSHelper.isIndexValid(i, j) || board[i][j].color != color || visitedMatrix[i][j] == 1)</b>
 &nbsp;            return;
-&nbsp;        try {
-&nbsp;            while (true) {
-<b class="nc">&nbsp;                Message msg = (Message) player.getInStream().readObject();</b>
-<b class="nc">&nbsp;                if(msg == null || msg.getType() == STOP)</b>
-&nbsp;                    return;
-<b class="nc">&nbsp;                if(msg.getType() == FINAL_SCORE){</b>
-<b class="nc">&nbsp;                    System.out.println(&quot;\nThe game is finished, this is the final scoreboard:\n\n&quot; + msg.getContent());</b>
-<b class="nc">&nbsp;                    Game.waitForSeconds(5);</b>
-<b class="nc">&nbsp;                    System.exit(0);</b>
-&nbsp;                }
-<b class="nc">&nbsp;                if(msg.getType() == LOST_CLIENT){</b>
-<b class="nc">&nbsp;                    player.handleLostClientEvent(msg);</b>
-<b class="nc">&nbsp;                    continue;</b>
-&nbsp;                }
-<b class="nc">&nbsp;                if(msg.getType() == SHOW_EVENT){</b>
-<b class="nc">&nbsp;                    System.out.println(&quot;\n&quot; + msg.getContent());</b>
-<b class="nc">&nbsp;                    continue;</b>
-&nbsp;                }
-<b class="nc">&nbsp;                System.out.println(&quot;\n&quot; + msg.getContent());</b>
-<b class="nc">&nbsp;                player.addToFullChat((String)msg.getContent());</b>
-<b class="nc">&nbsp;            }</b>
+<b class="fc">&nbsp;        countVisitedCards++;</b>
+<b class="fc">&nbsp;        visitedMatrix[i][j] = 1;</b>
+<b class="fc">&nbsp;        dfs(i + 1, j, color, board);</b>
+<b class="fc">&nbsp;        dfs(i - 1, j, color, board);</b>
+<b class="fc">&nbsp;        dfs(i, j + 1, color, board);</b>
+<b class="fc">&nbsp;        dfs(i, j - 1, color, board);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * check if the matrix match with the objective
+&nbsp;     * @author Ettori
+&nbsp;     * @param board the matrix of the board
+&nbsp;     * @return true iff it found a match
+&nbsp;     */
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean checkMatch(Card[][] board) {
+<b class="fc">&nbsp;        int match = 0;</b>
+<b class="fc">&nbsp;        DFSHelper.resetVisitedMatrix(visitedMatrix);</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; COLS; j++) {</b>
+<b class="fc">&nbsp;                if (board[i][j].color == EMPTY)</b>
+<b class="fc">&nbsp;                    continue;</b>
+<b class="fc">&nbsp;                countVisitedCards = 0;</b>
+<b class="fc">&nbsp;                dfs(i, j, board[i][j].color, board);</b>
+<b class="fc">&nbsp;                if (countVisitedCards &gt;= 2)</b>
+<b class="fc">&nbsp;                    match++;</b>
+&nbsp;            }
 &nbsp;        }
-<b class="nc">&nbsp;        catch (IOException ignored){}</b>
-<b class="nc">&nbsp;        catch(Exception e){</b>
-<b class="nc">&nbsp;            player.connectionLost(e);</b>
-<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return match &gt;= 6;</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -155,7 +157,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-08 21:47</div>
+    <div style="float:right;">generated on 2023-05-24 15:18</div>
 </div>
 </body>
 </html>
