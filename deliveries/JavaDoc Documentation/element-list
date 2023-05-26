@@ -1,0 +1,11 @@
+board
+it.polimi.ingsw
+it.polimi.ingsw.chat
+it.polimi.ingsw.controller
+it.polimi.ingsw.model
+it.polimi.ingsw.view
+it.polimi.ingsw.view.GUI
+it.polimi.ingsw.view.TUI
+library
+objective.common_objective
+objective.private_objective
