@@ -588,6 +588,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @author Ettori
      */
     private void handleYourTurnEvent(){
+        /*
         try {
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream("/turn.wav")));
             Clip clip = AudioSystem.getClip();
@@ -596,6 +597,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         }catch(Exception e){
             e.printStackTrace();
         }
+         */
         activeName = name;
         if(board.isBoardUnplayable())
             fixUnplayableBoard();
