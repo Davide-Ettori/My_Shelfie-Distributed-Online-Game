@@ -259,7 +259,6 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
     public void addToFullChat(String s){fullChat += s;}
     /**
      * function  used to wait for notification from the server while the player is NON active
-     * @author Ettori
      * @author Ettori Faccincani
      */
     private void waitForEvents(){
@@ -713,12 +712,14 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
             Game.waitForSeconds(Game.fastTimer * 2);
             System.exit(0);
         }
+
+
         if(msg.charAt(0) != '@')
             return false;
         if(!msg.contains(" ")){
             if(msg.substring(1).equals("names"))
                 showAllNames();
-            return false;
+            return false; //return false because isn't a message to other player
         }
         String dest = msg.substring(1, msg.indexOf(' '));
         msg = msg.substring(msg.indexOf(' '));
@@ -769,6 +770,8 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
         library.draw();
         for(int i = 0; i < numPlayers - 1; i++)
             librariesOfOtherPlayers.get(i).draw("\nLibrary of " + librariesOfOtherPlayers.get(i).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(i).name) + " points)");
+
+        //points of CO are always even and other type of points are add at the end of the game
         if(pointsUntilNow % 2 == 1){
             System.out.println("\nYou have achieved " + (pointsUntilNow - 1) + " points from the common objectives (until now)");
             System.out.println("You also achieved 1 point for being the first player to complete the library");
@@ -862,7 +865,7 @@ public class PlayerTUI extends Player implements Serializable, PlayerI {
      * @param msg the message that must be sent
      */
     public void sendToServer(Message msg){
-        //System.out.println("Sending " + msg.getType() + " to server");
+
         if(netMode == NetMode.SOCKET) {
             try {
                 outStream.writeObject(msg);
