@@ -14,8 +14,8 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 
 
 ## Project Specifications
-- You can find the project specifications [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Requirements.pdf).
-- You can find the rulebook of the game [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/Project%20Specifications/Rulebook.png).
+- You can find the project specifications [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/Project%20Specifications/Requirements.pdf).
+- You can find the rulebook of the game [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/Project%20Specifications/Rulebook.png).
 
 ## How to Play
 1. Download the App.jar file from deliveries/Jar Files
@@ -73,13 +73,13 @@ For this project we documented:
 ### 1. JavaDoc
 - [Here](https://javadoc-web.netlify.app) you can find the JavaDoc documentation
 ### 2. UML
-- [Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/54cfcebd3fc741955e5c213090cbb66ec0a11f60/deliveries/UML%20Diagrams/PNG/Class%20Diagram.drawio.png) made with Draw.io, it represents the main classes, methods and attributes of the project
-- [Sequence Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/25beff41190c2fd519979629af4a3104baf94605/deliveries/UML%20Diagrams/PNG/Sequence%20Diagram.drawio.png) that represent how the messages are exchanged between the Client and the Server
-- [Full Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/main/deliveries/UML%20Diagrams/PNG/Full%20Class%20Diagram.drawio.png) the complete Class Diagram of the project, generated with IntelliJ
+- [Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/final/uml/Class%20Diagram.drawio.png) made with Draw.io, it represents the main classes, methods and attributes of the project
+- [Full Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/final/uml/Full%20Class%20Diagram.drawio.png) the complete Class Diagram of the project, generated with IntelliJ
+- [Sequence Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/final/uml/Sequence%20Diagram.drawio.png) that represent how the messages are exchanged between the Client and the Server
 ### 3. Test Report 
 - [Here](https://test-report-web.netlify.app) you will see our test report.
 ### 4. Jar File
-- [Here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/2ebf1f4dfe1ac11a9bb40dfb2fb645335fff20a4/deliveries/Jar%20Files/Jar%20file%20for%20Dummies.pdf) you can find a helpful Guide on how to create the Jar file
+- [Here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/Jar%20File%20Guide/Jar%20file%20for%20Dummies.pdf) you can find a helpful Guide on how to create the Jar file
  
 ## Development
 The software has been written using **Java 19**.
