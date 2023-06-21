@@ -67,7 +67,7 @@ public class Library implements Serializable {
      * @author Ettori Giammusso
      * @param col index of column
      * @param numCards number of cards
-     * @return true iff the cards can stay inside the library column
+     * @return true if the cards can stay inside the library column
      */
     public boolean checkCol(int col, int numCards){
         if(col < 0 || col >= COLS)

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Random;
 
 import static java.awt.Color.*;
 import static java.awt.GridBagConstraints.*;
@@ -151,6 +152,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private void updateInfo(){
         //Game.waitForSeconds(Game.fastTimer);
         SwingUtilities.invokeLater(() -> {
+            //funcional programming for set the correct PO and CO
             pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_1.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
             pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + "_" + board.pointsCO_2.peekLast() + ".jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
             activeTurnInfo.setText(" The active player is " + activeName + " ");
@@ -178,6 +180,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                     boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                 }
             }
+            //show or not show the card of the end game (if not show the game is ending)
             boardCards[libFullX][libFullY].setVisible(!endGame);
             mainFrame.revalidate();
             mainFrame.repaint();
@@ -224,6 +227,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private void updateOtherLibraries(){
         SwingUtilities.invokeLater(() ->{
             library1Text.setText(" Library of " + librariesOfOtherPlayers.get(0).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(0).name) + " points) ");
+            //plot the frist library of other
             for(int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLS; j++) {
                     try {
@@ -232,6 +236,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                     otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);
                 }
             }
+            //plot the second library of other
             if(numPlayers >= 3){
                 library2Text.setText(" Library of " + librariesOfOtherPlayers.get(1).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(1).name) + " points) ");
                 for(int i = 0; i < ROWS; i++) {
@@ -243,6 +248,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                     }
                 }
             }
+            //plot the third library of other
             if(numPlayers >= 4){
                 library3Text.setText(" Library of " + librariesOfOtherPlayers.get(2).name + " (" + pointsMap.get(librariesOfOtherPlayers.get(2).name) + " points) ");
                 for(int i = 0; i < ROWS; i++) {
@@ -315,6 +321,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
             sendDoneMove(); // send the move to the server
             }
+        //color the border of the cards selected
         for(int i = 0; i < cards.size(); i += 2)
             boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));
     }
@@ -326,7 +333,6 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         mainFrame =  new JFrame("My Shelfie");
         mainPanel = new JPanel(new GridBagLayout());
 
-        //PLACEHOLDERS:
         JPanel tempPanel1 = new JPanel();
         tempPanel1.setPreferredSize(new Dimension(Dimensions.placeholderW, Dimensions.placeholderH));
         tempPanel1.setBackground(new java.awt.Color(0, 0, 0, 0));
@@ -338,8 +344,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
         //WALLPAPER:
         //if you want a random wallpaper, uncomment the following line and comment the next line
-        //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("Publisher material/Display_1.jpg")).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon("Publisher material/Display_" + (new Random().nextInt(5) + 1) + ".jpg").getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
+        //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("Publisher material/Display_1.jpg")).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
         generalLabelChooseName.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));
         generalLabelChooseName.setLayout(new GridBagLayout());
 
@@ -380,6 +386,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                 new Thread(this::getInitialState).start();
                 return;
             }
+            //start the persistance
             if(status == NameStatus.OLD){
                 alert("\nName: " + name + " was found in a previous game");
                 textInput.setVisible(false);
@@ -491,7 +498,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     private void getInitialState(){
         PlayerGUI p;
         try {
-            //alert("Be patient, the game will start soon...");
+
             p = new PlayerGUI((Player)inStream.readObject());
             clone(p);
             activeName = chairmanName;
@@ -527,7 +534,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
             new Thread(this::pingRMI).start();
     }
     /**
-     * function used to wait for notification from the server while the player is NON active
+     * function used to wait for notification from the server while the player is NON-active
      * @author Ettori Faccincani
      */
     private void waitForEvents(){
@@ -743,6 +750,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+
                 lastIndex = board.pointsCO_1.size() - 1;
                 points = board.pointsCO_1.get(lastIndex);
                 board.pointsCO_1.remove(lastIndex);
@@ -851,7 +859,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
     }
     /**
      * helper function for alerting a message to the user (pop-up)
-     * @param s the string og the message to show
+     * @param s the string or the message to show
      */
     private void alert(String s){showMessageDialog(null, s);}
     /**
@@ -971,16 +979,13 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
      * @author Ettori Faccincani Giammusso
      */
     public void initGUI(){
-        //Creation:
-        //External
-        //Internals: first level of abstraction
 
-
-        //Internals: second level of abstraction
+        //general gbc
         gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
 
         //CYAN
 
+        //set the GUI of PO and CO
         POLabel = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(objective.imagePath)).getImage().getScaledInstance(Dimensions.PO_w, Dimensions.PO_h, Image.SCALE_SMOOTH)));
         POLabel.setPreferredSize(new Dimension(Dimensions.PO_w, Dimensions.PO_h));
 
@@ -1016,6 +1021,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon(classLoader.getResource("scoring tokens/scoring.jpg")).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));
         pointsCO2Label.setPreferredSize(new Dimension(Dimensions.pointsDim, Dimensions.pointsDim));
 
+        //GUI of chairman
         chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon(classLoader.getResource("misc/firstplayertoken.png")).getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource("misc/sfondo parquet.jpg")).getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)));
         chairmanLabel.setPreferredSize(new Dimension(Dimensions.chairmanDim, Dimensions.chairmanDim));
 
@@ -1046,6 +1052,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         titleInfo.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum + 2), Dimensions.textCols));
         titleInfo.setEditable(false);
 
+        //settings of the gbc of the right part of the GUI
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
@@ -1077,14 +1084,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         infoBox.add(curPointsInfo,gbc);
         gbc.fill = NONE;
 
-        //
 
-        //Internals: third level of abstraction
-        //...in development
-
-        //Addition: (Hierarchy of panels inside panels)
-        //SECOND LEVEL
-        //CYAN
+        //SECOND LEVEL - CYAN
         internalPanelSide = new JPanel(new GridBagLayout());
         Insets insets = CO1Label.getInsets();
 
@@ -1197,6 +1198,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         gbc.weightx = 0.0;
 
         //GREEN
+
+        //GUI of the other player
         internalPanelLow = new JPanel(new GridBagLayout());
 
         player1Panel = new JPanel(new GridBagLayout());
@@ -1207,6 +1210,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         library1Label = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource("boards/bookshelf_orth.png")).getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));
         library1Label.setLayout(null);
         library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));
+
 
         player2Panel = new JPanel(new GridBagLayout());
 
@@ -1379,6 +1383,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         gbc.weighty = 0.0;
         internalPanelLow.add(player3Panel,gbc);
 
+        //panel on the bottom of the GUI with the last event
         eventText = new JTextField(120);
         updateEventText(" Last relevant event of the Game ");
         eventText.setMinimumSize(new Dimension(Dimensions.textCols * 45, Dimensions.textCols + 8));
@@ -1392,11 +1397,14 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         gbc.weightx = 1;
         gbc.weighty = 0.2;
         gbc.gridwidth = 3;
-        //gbc.fill = HORIZONTAL;
         gbc.insets = new Insets(0,15,10,0);
         internalPanelLow.add(eventText, gbc);
 
-        //blue
+
+        //BLUE
+
+        //GUI of the board
+
         internalPanelHigh = new JPanel(new GridBagLayout());
         gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix
         //Text on top of the board
@@ -1475,6 +1483,9 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
 
         boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("scoring tokens/end game.jpg")).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));
         gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
+
+
+        //GUI of my library
         myLibraryPanel = new JPanel(new GridBagLayout());
         //Text on top of my library
         myLibraryText = new JTextArea(" Your personal Library (" + name + ") ");
@@ -1530,6 +1541,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
                 myLibraryCards[i][j] = tempLabel;
             }
         }
+
+        //GUI of the chat
         gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);
         chatPanel = new JPanel(new GridBagLayout());
         chatTitle = new JTextArea(" Chat history of the Game ");
@@ -1554,6 +1567,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         sendMessageBtn.setPreferredSize(new Dimension());
         sendMessageBtn.setPreferredSize(new Dimension(Dimensions.btnW, Dimensions.btnH));
         sendMessageBtn.addActionListener(e -> new Thread(this::sendChatMsg).start());
+
         //BOARD
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -1700,7 +1714,8 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         gbc.gridheight = 2;
         generalLabel.add(internalPanelSide,gbc);
 
-        mainPanel.removeAll();//remove all the precedent GUI used to choose the name
+        //remove all the precedent GUI used to choose the name
+        mainPanel.removeAll();
         //Now add the new GUI to play the game
         gbc2.gridx=0;
         gbc2.gridy=0;
