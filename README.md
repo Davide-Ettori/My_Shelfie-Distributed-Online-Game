@@ -74,7 +74,7 @@ For this project we documented:
 - [Here](https://javadoc-web.netlify.app) you can find the JavaDoc documentation
 ### 2. UML
 - [Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/final/uml/Class%20Diagram.drawio.png) made with Draw.io, it represents the main classes, methods and attributes of the project
-- [Full Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/final/uml/Full%20Class%20Diagram.drawio.png) the complete Class Diagram of the project, generated with IntelliJ
+- [Full Class Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/c3477766b7ebca780c78eec2cef926da89e14e50/deliverables/final/uml/Generated_class_diagram.png) the complete Class Diagram of the project, generated with IntelliJ
 - [Sequence Diagram](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/final/uml/Sequence%20Diagram.drawio.png) that represent how the messages are exchanged between the Client and the Server
 ### 3. Test Report 
 - [Here](https://test-report-web.netlify.app) you will see our test report.
