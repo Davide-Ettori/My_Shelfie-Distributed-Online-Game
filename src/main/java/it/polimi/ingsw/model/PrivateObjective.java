@@ -25,6 +25,7 @@ public class PrivateObjective extends Objective implements Serializable {
         matrix = mat;
         objectiveId = id;
     }
+
     /**
      * count the points accumulated by the player
      * @author Ettori Giammusso
@@ -34,6 +35,7 @@ public class PrivateObjective extends Objective implements Serializable {
     public int countPoints(Card[][] cards) {
         return arrayOfPoints[countMatch(cards)];
     }
+
     /**
      * count how many cards the player matched with the objective
      * @author Ettori Giammusso
@@ -50,6 +52,7 @@ public class PrivateObjective extends Objective implements Serializable {
         }
         return count;
     }
+
     /**
      * method that draws the objective itself (the matrix of cards)
      * @author Gumus

@@ -40,7 +40,7 @@ public class Card implements Serializable {
     /**
      * copy constructor for this class, used for deep copying objects
      * @param c the object to copy
-     * @author ettori
+     * @author Ettori
      */
     public Card(Card c){ // copy constructor
         color = c.color;

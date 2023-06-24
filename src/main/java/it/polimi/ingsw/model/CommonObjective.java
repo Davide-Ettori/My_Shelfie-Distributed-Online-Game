@@ -23,6 +23,7 @@ public class CommonObjective extends Objective implements Serializable {
         id = identify;
         algorithm = algo;
     }
+
     /**
      * method that draws this objective
      * @author Gumus

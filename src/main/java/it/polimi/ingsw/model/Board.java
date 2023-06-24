@@ -3,10 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.Initializer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 import static it.polimi.ingsw.model.Color.*;
 
@@ -52,11 +49,12 @@ public class Board implements Serializable {
             pointsCO_2 = new LinkedList<>(Arrays.asList(2,4,6,8));
         }
     }
+
     /**
      * copy constructor for this class, used for deep copying objects
      * @param b the object to copy (game board)
      */
-    public Board(Board b){ // copy constructor
+    public Board(Board b){
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 gameBoard[i][j] = new Card(b.gameBoard[i][j]);
@@ -70,21 +68,25 @@ public class Board implements Serializable {
         name = b.name;
         gameMatrix = b.gameMatrix;
     }
+
     /**
      * getter for the game board
      * @author Ettori
      */
     public Card[][] getGameBoard(){return gameBoard;} // useful getter :-)
+
     /**
      * getter for the CO 1
      * @author Ettori
      */
     public CommonObjective getCO_1(){return commonObjective_1;}
+
     /**
      * getter for the CO 2
      * @author Ettori
      */
     public CommonObjective getCO_2(){return commonObjective_2;}
+
     /**
      * check if the index is valid in the current board
      * @author Ettori
@@ -95,6 +97,7 @@ public class Board implements Serializable {
     private boolean isValidIndex(int x, int y){
         return x >= 0 && x < DIM && y >= 0 && y < DIM;
     }
+
     /**
      * check if the card has other card near
      * @author Ettori
@@ -102,7 +105,7 @@ public class Board implements Serializable {
      * @param y pos y
      * @return true iff the card is alone
      */
-    private boolean isAlone(int x, int y){ // return true iif the card is lonely, this means that there aren't adjacent cards
+    private boolean isAlone(int x, int y){
         if(isValidIndex(x + 1, y) && gameBoard[x + 1][y].color != EMPTY)
             return false;
         if(isValidIndex(x - 1, y) && gameBoard[x - 1][y].color != EMPTY)
@@ -113,10 +116,11 @@ public class Board implements Serializable {
             return false;
         return true;
     }
+
     /**
      * check if the current board is unplayable
      * @author Ettori
-     * @return true iff it is unplayable
+     * @return true if it is unplayable
      */
     public boolean isBoardUnplayable() {
         for(int i = 0; i < DIM; i++){
@@ -128,12 +132,13 @@ public class Board implements Serializable {
         // if it's unplayable, call the method fillBoard(number of players)
         return true;
     }
+
     /**
      * check if the card has at least one free side
      * @author Ettori
      * @param x pos x
      * @param y pos y
-     * @return true iff it has at least one free side
+     * @return true if it has at least one free side
      */
     public boolean hasOneFreeSide(int x, int y){
         if(!isValidIndex(x , y) || gameBoard[x][y].color == EMPTY) // check if the current card is in a valid spot, then look for near cards
@@ -148,17 +153,19 @@ public class Board implements Serializable {
             return true;
         return false;
     }
+
     /**
      * check if the cards picked are all near one to the other
      * @author Ettori
      * @param coords list of paired coordinates
-     * @return true iff for each position it exists (at least) one card adjacent to it
+     * @return true if for each position it exists (at least) one card adjacent to it
      */
     private boolean areCardsNear(ArrayList<Integer> coords){
         boolean flag;
         for(int i = 0; i < coords.size(); i += 2){
             flag = false;
             for(int j = 0; j < coords.size(); j += 2){
+                //check if the cards have distance each other equals to 1 (if yes, are near)
                 if(Math.abs(coords.get(i) - coords.get(j)) + Math.abs(coords.get(i + 1) - coords.get(j + 1)) == 1)
                     flag = true;
             }
@@ -167,6 +174,7 @@ public class Board implements Serializable {
         }
         return true;
     }
+
     /**
      * check if the cards picked are in a valid position
      * @author Ettori
@@ -180,6 +188,7 @@ public class Board implements Serializable {
         }
         return cardPositions.size() == 2 || (areCardsAligned(cardPositions) && areCardsNear(cardPositions));
     }
+
     /**
      * check if the cards are on a straight line
      * @author Ettori
@@ -189,16 +198,19 @@ public class Board implements Serializable {
     public boolean areCardsAligned(ArrayList<Integer> cardPosition){
         boolean allInRow = true;
         for(int i = 0; i < cardPosition.size(); i += 2){
-            if(cardPosition.get(i) != cardPosition.get(0))
+            //!equals is null-safe
+            if(!Objects.equals(cardPosition.get(i), cardPosition.get(0)))
                 allInRow = false;
         }
         boolean allInCol = true;
         for(int i = 1; i < cardPosition.size(); i += 2){
-            if(cardPosition.get(i) != cardPosition.get(1))
+            //!equals is null-safe
+            if(!Objects.equals(cardPosition.get(i), cardPosition.get(1)))
                 allInCol = false;
         }
         return allInRow || allInCol;
     }
+
     /**
      * initialize a new board
      * @author Ettori
@@ -212,6 +224,7 @@ public class Board implements Serializable {
         }
         fillBoard(numPlayers);
     }
+
     /**
      * fill the board (start of the game or when it is unplayable)
      * @author Ettori
@@ -246,6 +259,7 @@ public class Board implements Serializable {
             }
         }
     }
+
     /**
      * randomize the card array so that we get a random board
      * @author Ettori
@@ -261,6 +275,7 @@ public class Board implements Serializable {
             bucketOfCards.set(j, temp);
         }
     }
+
     /**
      * setter for the gameBoard (only used by testing)
      * @author Gumus Giammusso
@@ -272,6 +287,7 @@ public class Board implements Serializable {
                 gameBoard[i][j] = new Card(g[i][j]);
             }
     }
+
     /**
      * method that print the game board
      * @author Gumus

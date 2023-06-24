@@ -8,9 +8,9 @@ package it.polimi.ingsw.model;
 public class DFSHelper {
     private static final int ROWS = 6;
     private static final int COLS = 5;
+
     /**
      * reset the matrix of the nodes visited in the DFS
-     *
      * @param mat  the matrix
      * @author Ettori Giammusso
      */
@@ -21,24 +21,24 @@ public class DFSHelper {
             }
         }
     }
+
     /**
      * check if the index is in the matrix
-     *
      * @param x    position x
-     * @param y    posizione y
-     * @return true iff the index is in the matrix
+     * @param y    position y
+     * @return true if the index is in the matrix
      * @author Ettori Giammusso
      */
     public static boolean isIndexValid(int x, int y) {
         return x >= 0 && x < ROWS && y >= 0 && y < COLS;
     }
+
     /**
      * check if the node was already visited, otherwise visit the node
-     *
      * @param x   position x
      * @param y   position y
      * @param mat matrix of visited nodes
-     * @return true iff the node was visited
+     * @return true if the node was visited
      * @author Ettori Giammusso
      */
     public static boolean isVisited(int x, int y, int[][] mat) {

@@ -21,6 +21,7 @@ public class Library implements Serializable {
     private int countVisitedCards;
     /** the name of the player using this library */
     public String name;
+
     /**
      * normal constructor for this type of objects
      * @param n the name of the player using this library
@@ -33,6 +34,7 @@ public class Library implements Serializable {
         }
         name = n;
     }
+
     /**
      * copy constructor for the Library Objects, useful for deep copy
      * @param l the library which you need to copy
@@ -46,14 +48,13 @@ public class Library implements Serializable {
         countVisitedCards = 0;
         name = l.name;
     }
+
     /**
      * check if the library is full
      * @author Ettori Giammusso
      * @return true or false, depending on if library is full or not
      */
     public boolean isFull(){
-        //if(gameLibrary[4][4].color != EMPTY) // THIS PART IS ONLY USED FOR TESTING PURPOSE: REMOVE ABSOLUTELY!!
-        //   return true;                      // THIS PART IS ONLY USED FOR TESTING PURPOSE: REMOVE ABSOLUTELY!!
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
                 if(gameLibrary[i][j].color == EMPTY)
@@ -62,6 +63,7 @@ public class Library implements Serializable {
         }
         return true;
     }
+
     /**
      * check if the chosen column have enough space for the cards
      * @author Ettori Giammusso
@@ -75,6 +77,7 @@ public class Library implements Serializable {
         int freeCard = getFirstFreeCard(col) + 1;
         return freeCard >= numCards;
     }
+
     /**
      * find the maximum number of cards insertable in the current library
      * @author Ettori Gumus Giammusso
@@ -86,6 +89,7 @@ public class Library implements Serializable {
             res = Math.max(res, getFirstFreeCard(i) + 1);
         return res;
     }
+
     /**
      * take the index of the first free cell of the column, starting from the lower position and going up
      * @author Ettori Giammusso
@@ -100,6 +104,7 @@ public class Library implements Serializable {
         }
         return -1;
     }
+
     /**
      * insert the cards in the library of the current player
      * @author Ettori Giammusso
@@ -112,6 +117,7 @@ public class Library implements Serializable {
             gameLibrary[place - i][col] = cards.get(i);
         }
     }
+
     /**
      * reset the matrix used in the DFS to memorize the visited nodes
      * @author Ettori Giammusso
@@ -123,16 +129,18 @@ public class Library implements Serializable {
             }
         }
     }
+
     /**
      * check if the position in the matrix is valid
      * @author Ettori Giammusso
      * @param x position X
      * @param y position Y
-     * @return true iff the position is valid
+     * @return true if the position is valid
      */
     private boolean indexNotValid(int x, int y){
         return x < 0 || x >= ROWS || y < 0 || y >= COLS;
     }
+
     /**
      * classic algorithm of in-depth-research (or depth-first search)
      * @author Ettori Giammusso
@@ -150,6 +158,7 @@ public class Library implements Serializable {
         dfs(i, j + 1, color);
         dfs(i, j - 1, color);
     }
+
     /**
      * count the points gained thanks to adjacent cards
      * @author Ettori Giammusso
@@ -180,6 +189,7 @@ public class Library implements Serializable {
         }
         return points;
     }
+
     /**
      * method that draws the library of the owner
      * @author Gumus
@@ -199,6 +209,7 @@ public class Library implements Serializable {
             System.out.println();
         }
     }
+
     /**
      * method that draws the library of a player, not the owner
      * @author Gumus
@@ -217,12 +228,13 @@ public class Library implements Serializable {
             }
             System.out.println();
         }
+
     }
     /**
      * check that the 2 library have the cards with the same color
      * @author Ettori Giammusso
      * @param lib library that need to be checked
-     * @return true iff the library are equals
+     * @return true if the library are equals
      */
     public boolean sameLibraryColor(Library lib){
         for(int i = 0; i < ROWS; i++){
