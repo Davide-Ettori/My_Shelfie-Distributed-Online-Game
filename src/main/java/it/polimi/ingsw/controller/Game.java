@@ -58,6 +58,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private boolean advance = false; //true iif the server has to force a new turn after resilience activation
     private final transient Object disconnectionLock = new Object();
     private transient String playerNoChat = "";
+
     /**
      * normal constructor for this type of object, this class is also the main process on the server
      * @param maxP the number of players for this game, chosen before by the user
@@ -291,6 +292,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             players.add(new PlayerSend(p));
         }
     }
+
     /**
      * choose a random chairman from all the players who connected to the game
      * @author Ettori
@@ -317,6 +319,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         inStreams.set(0, inStreams.get(temp));
         inStreams.set(temp, inTemp);
     }
+
     /**
      * helper function which waits for client's connection to the server socket, when all are connected the game starts
      * @author Ettori
@@ -368,8 +371,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         System.out.println("\nThe game started\n");
     }
+
     /**
-     * method that listen for an old client to restart his previous game, in tha same old state
+     * method that listen for an old client to restart his previous game, in the same old state
      * @param s the socket of the player
      * @param out the output stream of the player
      * @param in the input stream of the player
@@ -430,6 +434,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             } catch (IOException ignored) {}
         }
     }
+
     /**
      * method that wait permanently for a new client to connect to the existing game
      * @author Ettori
@@ -455,6 +460,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }).start();
         }
     }
+
     /**
      * Check if the name that the client choose is already TAKEN
      * @param in the input stream of the socket
@@ -489,6 +495,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             playersSocket.remove(playersSocket.size() - 1);
         }
     }
+
     /**
      * Make a random choose of the objective (Common and Private)
      * @author Ettori
@@ -511,6 +518,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             bucketOfPO.set(j, temp_2);
         }
     }
+
     /**
      * Wait the move of the client that are playing and set the chat,
      * when the client made the move and send it to server update Board and Library
@@ -578,6 +586,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         Game.waitForSeconds(Game.passTimer);
         advanceTurn();
     }
+
     /**
      * Set the status of the players for the next turn and assign activePlayer to who will play this turn
      * @author Ettori Faccincani
@@ -608,6 +617,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         notifyNewTurn();
     }
+
     /**
      * Send the message to the client that a new turn start (two cases, if is the turn of the client or is the turn of another client)
      * @author Ettori Faccincani
@@ -625,6 +635,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         else
             startChatServerThread();
     }
+
     /**
      * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
      * @author Ettori
@@ -639,6 +650,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         playerNoChat = "";
     }
+
     /**
      * Send message in the chat to other client
      * @param from who send the message
@@ -662,11 +674,13 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }catch (Exception e){connectionLost(e);}
     }
+
     /**
      * find and return the name of the chairman of this game
      * @return the name of the chairman (String)
      */
     private String getChairmanName(){return names.get(0);}
+
     /**
      * find and return the chairman Player
      * @return the chairman Object (Player)
@@ -692,6 +706,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         }
         return -1;
     }
+
     /**
      * choose the private objective, one for every player
      * @return the chosen private objective
@@ -701,6 +716,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         bucketOfPO.remove(0);
         return res;
     }
+
     /**
      * Count the points at the end of the game (not private or common objective)
      * and sum to the points made until now
@@ -756,16 +772,19 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
         Game.waitForSeconds(Game.waitTimer * 5);
         System.exit(0);
     }
+
     /**
      * getter for the input streams from the server to all the clients
      * @return the ArrayList containing all the input streams
      */
     public ArrayList<ObjectInputStream> getInStreams(){return inStreams;}
+
     /**
      * getter for the list of names of the players active in this game
      * @return the ArrayList containing all the names of the connected players
      */
     public ArrayList<String> getNames(){return names;}
+
     /**
      * shortcut for the Thread.sleep(int) function, it accepts SECONDS, NOT MILLISECONDS
      * @param n the (decimal) number of seconds to wait
@@ -775,6 +794,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             Thread.sleep((long) (n * 1000));
         } catch (InterruptedException ignored) {}
     }
+
     /**
      * function that handle the eventual disconnection
      * @param e the exception to throw
@@ -802,6 +822,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.exit(0);
         }
     }
+
     /**
      * method which acknowledge that one of the client disconnected and set the game to continue without the lost client
      * @param i the index of the lost client
@@ -850,6 +871,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
              }
          }
      }
+
     /**
      * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
      * @author Ettori
@@ -870,12 +892,14 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             System.exit(0);
         }
     }
+
     /**
      * method that find the number of players which are currently connected to the game
      * @author Ettori
      * @return the number of connected players
      */
     private int getActivePlayersNumber(){return numPlayers - disconnectedPlayers.size();}
+
     /**
      * general method to respond to a client, it chooses the right network connection of the player
      * @author Ettori
@@ -902,7 +926,9 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
     }
+
     /******************************************** RMI ***************************************************************/
+
     /**
      * method called from remote used to add a client to the store of all the RMI clients
      * @author Ettori
@@ -965,6 +991,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
             }
         }
     }
+
     /**
      * method that allow the server to be pinged from an RMI client
      * @author Ettori
@@ -976,7 +1003,7 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
      * @author Ettori
      */
     public void pingRMI(){
-        AtomicBoolean flag = new AtomicBoolean(false);
+        AtomicBoolean flag = new AtomicBoolean(false);  //particulat type of boolean: we use because is recommended for connections
         while(true){
             Game.waitForSeconds(Game.waitTimer * 2);
             for(String n: names){
@@ -994,7 +1021,6 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
                 Game.waitForSeconds(Game.fastTimer);
                 if(!flag.get())
                     playerDisconnected(names.indexOf(n), new RuntimeException("Player Disconnected"));
-                //System.out.println("Pingo " + n);
             }
         }
     }

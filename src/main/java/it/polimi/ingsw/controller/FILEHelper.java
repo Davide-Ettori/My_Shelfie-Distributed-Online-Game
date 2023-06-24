@@ -8,7 +8,7 @@ import java.io.*;
  */
 public class FILEHelper {
     /**
-     * write 'SUCC' on status.txt indicating tha the server closed in a normal way
+     * write 'SUCC' on status.txt indicating that the server was closed in a normal way
      * @author Ettori
      */
     public static void writeSucc(){
@@ -24,7 +24,7 @@ public class FILEHelper {
         }catch(Exception e){throw new RuntimeException(e);}
     }
     /**
-     * write 'FAIL' on status.txt indicating tha the server closed in a NOT normal way
+     * write 'FAIL' on status.txt indicating that the server was closed in a NOT normal way
      * @author Ettori
      */
     public static void writeFail(){
@@ -42,7 +42,7 @@ public class FILEHelper {
     /**
      * check if there is a cache server from a previous game
      * @author Ettori
-     * @return true iff there is a cached server
+     * @return true if there is a cached server
      */
     public static boolean havaCachedServer(){
         try {

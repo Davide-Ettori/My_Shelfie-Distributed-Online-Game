@@ -187,26 +187,27 @@ public class Initializer {
                 new CommonObjective(new Algo_CO_12(), 12)
         ));
     }
+
     /**
      * return the list of initialized cards - STATIC
      * @author Ettori
      * @return the list of all the possible cards present in the game (132)
      */
     public static ArrayList<Card> setBucketOfCards(){
-        String cornici = "item tiles/Cornici1.";
-        String gatti = "item tiles/Gatti1.";
-        String giochi = "item tiles/Giochi1.";
-        String libri = "item tiles/Libri1.";
-        String piante = "item tiles/Piante1.";
-        String trofei = "item tiles/Trofei1.";
+        String frames = "item tiles/Cornici1.";
+        String cats = "item tiles/Gatti1.";
+        String games = "item tiles/Giochi1.";
+        String books = "item tiles/Libri1.";
+        String plants = "item tiles/Piante1.";
+        String trophies = "item tiles/Trofei1.";
         ArrayList<Card> res = new ArrayList<>();
         for(int i = 0; i < cardNum; i++) {
-            res.add(new Card(BLUE, cornici + (new Random().nextInt(3) + 1) + ".png"));
-            res.add(new Card(GREEN, gatti + (new Random().nextInt(3) + 1) + ".png"));
-            res.add(new Card(YELLOW, giochi + (new Random().nextInt(3) + 1) + ".png"));
-            res.add(new Card(WHITE, libri + (new Random().nextInt(3) + 1) + ".png"));
-            res.add(new Card(PINK, piante + (new Random().nextInt(3) + 1) + ".png"));
-            res.add(new Card(CYAN, trofei + (new Random().nextInt(3) + 1) + ".png"));
+            res.add(new Card(BLUE, frames + (new Random().nextInt(3) + 1) + ".png"));
+            res.add(new Card(GREEN, cats + (new Random().nextInt(3) + 1) + ".png"));
+            res.add(new Card(YELLOW, games + (new Random().nextInt(3) + 1) + ".png"));
+            res.add(new Card(WHITE, books + (new Random().nextInt(3) + 1) + ".png"));
+            res.add(new Card(PINK, plants + (new Random().nextInt(3) + 1) + ".png"));
+            res.add(new Card(CYAN, trophies + (new Random().nextInt(3) + 1) + ".png"));
         }
         return res;
     }
