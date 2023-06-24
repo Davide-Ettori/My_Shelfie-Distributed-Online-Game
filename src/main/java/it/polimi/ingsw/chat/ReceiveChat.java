@@ -30,6 +30,7 @@ public class ReceiveChat extends Thread{
             return;
         try {
             while (true) {
+                //in the following case the message is use to catch event in the game
                 Message msg = (Message) player.getInStream().readObject();
                 if(msg == null || msg.getType() == MessageType.STOP)
                     return;
@@ -51,6 +52,7 @@ public class ReceiveChat extends Thread{
                     System.out.println("\n" + msg.getContent());
                     continue;
                 }
+                //IN this case the message is a message in the chat
                 System.out.println("\n" + msg.getContent());
                 player.addToFullChat((String)msg.getContent());
             }
