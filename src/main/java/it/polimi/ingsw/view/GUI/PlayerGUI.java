@@ -333,6 +333,7 @@ public class PlayerGUI extends Player implements Serializable, PlayerI {
         mainFrame =  new JFrame("My Shelfie");
         mainPanel = new JPanel(new GridBagLayout());
 
+        //tempPanels are used to replace the textArea and the Button after a person has chosen the name in order to prevent the "My Shelfie" label to move
         JPanel tempPanel1 = new JPanel();
         tempPanel1.setPreferredSize(new Dimension(Dimensions.placeholderW, Dimensions.placeholderH));
         tempPanel1.setBackground(new java.awt.Color(0, 0, 0, 0));
