@@ -77,6 +77,7 @@ public class PlayerSend implements Serializable {
         endGame = p.endGame;
         pointsMap = p.pointsMap;
     }
+
     /**
      * copy constructor for the PlayerSend object
      * @author Ettori

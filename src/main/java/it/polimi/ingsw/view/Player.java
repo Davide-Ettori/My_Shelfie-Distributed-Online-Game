@@ -33,6 +33,8 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public Library library;
     /** true iff the player is the chairman of this game */
     public boolean isChairMan;
+
+    //these statements are transient because we not serialize them
     protected transient ObjectInputStream inStream;
     protected transient ObjectOutputStream outStream;
     protected transient Socket mySocket;
@@ -68,6 +70,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public Player() throws RemoteException {
         super();
     }
+
     /**
      * copy constructor for the Player object
      * @author Ettori
@@ -123,12 +126,14 @@ public class Player extends UnicastRemoteObject implements Serializable {
         endGame = p.endGame;
         pointsMap = p.pointsMap;
     }
+
     /**
      * Clone the player on the client in the player on the server
      * @author Ettori
      * @param p the Player that will be cloned in the current Object
      */
     public void clone(PlayerTUI p){}
+
     /**
      * Check if the input by the user is correct
      * @param s array of the coordinates
@@ -150,6 +155,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
         }
         return true;
     }
+
     /**
      * check if the name of a player exists in the game (used by the chat)
      * @author Ettori
@@ -163,6 +169,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
         }
         return false;
     }
+
     /**
      * take the cards from the board and transfer them in the player library
      * @author Ettori
@@ -177,6 +184,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
 
         deployCards(col, cards);
     }
+
     /**
      * physically position the cards in the chosen column
      * @author Ettori
@@ -186,30 +194,35 @@ public class Player extends UnicastRemoteObject implements Serializable {
     private void deployCards(int col, ArrayList<Card> cards) {
         library.insertCards(col, cards);
     }
+
     /**
      * setter for the PO
      * @author Ettori
      * @param obj  the PO that needs to be set
      */
     public void setPrivateObjective(PrivateObjective obj) {objective = obj;}
+
     /**
      * setter for the attribute name
      * @author Ettori
      * @param n the name to set
      */
     public void setName(String n){name = n;}
+
     /**
      * setter for the attribute isChairMan
      * @author Ettori
      * @param b the boolean to set
      */
     public void setIsChairMan(boolean b){isChairMan = b;}
+
     /**
      * getter for the socket input stream (from the server)
      * @author Ettori
      * @return the input stream of this player
      */
     public ObjectInputStream getInStream(){return inStream;}
+
     /**
      * getter for the name
      * @author Ettori Giammusso
@@ -218,6 +231,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public String getName() {
         return name;
     }
+
     /**
      * getter for the isChairMan
      * @author Ettori Giammusso
@@ -226,6 +240,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public boolean getIsChairMan() {
         return isChairMan;
     }
+
     /**
      * getter for the first common objective
      * @author Ettori Giammusso
@@ -234,6 +249,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public boolean getCO_1_Done() {
         return CO_1_Done;
     }
+
     /**
      * getter for the second common objective
      * @author Ettori Giammusso
@@ -242,18 +258,21 @@ public class Player extends UnicastRemoteObject implements Serializable {
     public boolean getCO_2_Done() {
         return CO_2_Done;
     }
+
     /**
      * getter for the full chat
      * @author Ettori
      * @return the full chat until now
      */
     public String getFullChat() {return fullChat;}
+
     /**
      * getter for the endGame
      * @author Ettori Giammusso
      * @return if the game is in endGame
      */
     public boolean getEndGame() {return endGame;}
+
     /**
      * Getter for the private objective
      * @author Ettori

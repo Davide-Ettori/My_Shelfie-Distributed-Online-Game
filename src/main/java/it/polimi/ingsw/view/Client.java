@@ -17,7 +17,7 @@ import static it.polimi.ingsw.view.UIMode.GUI;
 import static it.polimi.ingsw.view.UIMode.TUI;
 
 /**
- * class which represent the entry point for the client
+ * class which represent the entry point for the client (everything is made with GUI)
  * @author Ettori
  */
 public class Client {
@@ -29,10 +29,11 @@ public class Client {
     private boolean close = true;
 
     /**
-     * method for drawing the GUI to ask ip, port for socket and port for RMI
+     * method for drawing the GUI to ask ip, port for Socket and port for RMI
      * @author Ettori Giammusso
      */
     private void insertIp(){
+
         setupFrame.setTitle("Insert the IP Address");
         JTextField ipText = new JTextField(" Insert ip: (default = 127.0.0.1) ");
         JTextField socketPortText = new JTextField(" Insert socket port: (default = 3333) ");
@@ -99,6 +100,7 @@ public class Client {
         setupFrame.setVisible(true);
         generalPanel.requestFocus();
     }
+
     /**
      * method for drawing the GUI to ask number of players and persistence
      * @author Ettori
@@ -166,6 +168,7 @@ public class Client {
         generalPanel.repaint();
         setupFrame.setVisible(true);
     }
+
     /**
      * method for drawing the GUI to ask UI mode, net Mode and resilience
      * @author Ettori
@@ -244,7 +247,6 @@ public class Client {
                     alert("Client process unable to start...");
                     System.exit(0);
                 }
-                return;
             }
         });
         generalPanel.removeAll();
@@ -265,6 +267,7 @@ public class Client {
         generalPanel.repaint();
         setupFrame.setVisible(true);
     }
+
     /**
      * helper function for alerting a message to the user (pop-up)
      * @param s the string og the message to show

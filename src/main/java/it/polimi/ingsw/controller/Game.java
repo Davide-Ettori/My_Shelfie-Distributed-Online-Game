@@ -42,6 +42,8 @@ public class Game extends UnicastRemoteObject implements Serializable, GameI {
     private int activePlayer = 0;
     private ArrayList<PlayerSend> players = new ArrayList<>();
     private ArrayList<String> names = new ArrayList<>();
+
+    //transient because we don't want to serialize them
     private final transient ArrayList<Socket> playersSocket = new ArrayList<>();
     private final transient ArrayList<ObjectOutputStream> outStreams = new ArrayList<>();
     private final transient ArrayList<ObjectInputStream> inStreams = new ArrayList<>();
