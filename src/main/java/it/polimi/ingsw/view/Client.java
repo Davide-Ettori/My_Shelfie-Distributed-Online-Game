@@ -30,6 +30,7 @@ public class Client {
 
     /**
      * method for drawing the GUI to ask ip, port for socket and port for RMI
+     * @author Ettori Giammusso
      */
     private void insertIp(){
         setupFrame.setTitle("Insert the IP Address");
@@ -100,6 +101,7 @@ public class Client {
     }
     /**
      * method for drawing the GUI to ask number of players and persistence
+     * @author Ettori
      */
     private void insertPlayers(){
         setupFrame.setTitle("Insert the Number of Players");
@@ -166,6 +168,7 @@ public class Client {
     }
     /**
      * method for drawing the GUI to ask UI mode, net Mode and resilience
+     * @author Ettori
      */
     private void insertInfo(){
         setupFrame.setTitle("Insert the Game Mode");
@@ -265,6 +268,7 @@ public class Client {
     /**
      * helper function for alerting a message to the user (pop-up)
      * @param s the string og the message to show
+     * @author Ettori
      */
     private void alert(String s){javax.swing.JOptionPane.showMessageDialog(null, s);}
 

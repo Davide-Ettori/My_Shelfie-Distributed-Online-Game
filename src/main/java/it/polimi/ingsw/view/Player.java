@@ -154,7 +154,7 @@ public class Player extends UnicastRemoteObject implements Serializable {
      * check if the name of a player exists in the game (used by the chat)
      * @author Ettori
      * @param name the name to check in this game
-     * @return true iff that player actually exists in the current game
+     * @return true if that player actually exists in the current game
      */
     protected boolean doesPlayerExists(String name){
         for(Library lib : librariesOfOtherPlayers){

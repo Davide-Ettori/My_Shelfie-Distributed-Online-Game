@@ -37,7 +37,7 @@ public class PlayerSend implements Serializable {
     public String chairmanName;
     /** the network mode chosen by the user */
     public NetMode netMode;
-    /** the UI mode chosen by the user - not sure if necessary */
+    /** the UI mode chosen by the user */
     public UIMode uiMode;
     /** number of players in this current game */
     public int numPlayers;
