@@ -1,14 +1,9 @@
 package board;
 
-import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.*;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.CommonObjective;
-import it.polimi.ingsw.model.Strategy;
-import it.polimi.ingsw.model.Algo_CO_1;
-import it.polimi.ingsw.model.Algo_CO_2;
 import static it.polimi.ingsw.model.Color.*;
 
 /**
@@ -42,6 +37,16 @@ public class isBoardUnplayableTest {
 
         board1 = new Board(4,CO1,CO2);
         gameBoard1 = new Card[DIM][DIM];
+
+        Board boardTest = new Board(2, new CommonObjective(new Algo_CO_1(),1), new CommonObjective(new Algo_CO_2(),2));
+        boardTest.initBoard(2);
+        boardTest.draw();
+
+        Color[] colors = new Color[]{PINK, WHITE, BLUE, CYAN, YELLOW, GREEN, EMPTY};
+        for(Color c: colors){
+            new Card(c).draw();
+            new Card(c).draw(1);
+        }
     }
 
     /**

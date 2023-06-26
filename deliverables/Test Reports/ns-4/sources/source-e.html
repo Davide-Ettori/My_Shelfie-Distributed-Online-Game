@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    85,7%
+    100%
   </span>
   <span class="absValue">
-    (6/7)
+    (8/8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    53,8%
+    100%
   </span>
   <span class="absValue">
-    (28/52)
+    (51/51)
   </span>
 </td>
 </tr>
@@ -116,20 +116,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    /**
 &nbsp;     * copy constructor for this class, used for deep copying objects
 &nbsp;     * @param c the object to copy
-&nbsp;     * @author ettori
+&nbsp;     * @author Ettori
 &nbsp;     */
 <b class="fc">&nbsp;    public Card(Card c){ // copy constructor</b>
-<b class="fc">&nbsp;        color = c.color;</b>
-<b class="fc">&nbsp;        imagePath = c.imagePath;</b>
+<b class="fc">&nbsp;        if(c == null)</b>
+<b class="fc">&nbsp;            color = Color.EMPTY;</b>
+&nbsp;        else {
+<b class="fc">&nbsp;            color = c.color;</b>
+<b class="fc">&nbsp;            imagePath = c.imagePath;</b>
+&nbsp;        }
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * assigns ansi code to each color to be printed then return the string
 &nbsp;     * @param c the color to be printed
 &nbsp;     * @author Gumus
 &nbsp;     */
-&nbsp;    private String mapColor(Color c) {
-<b class="fc">&nbsp;        if(System.getProperty(&quot;os.name&quot;).contains(&quot;Windows&quot;))</b>
-<b class="nc">&nbsp;            return mapColorWindows(c);</b>
+&nbsp;    private String mapColor(Color c, int flag) {
+<b class="fc">&nbsp;        if(System.getProperty(&quot;os.name&quot;).contains(&quot;Windows&quot;) || flag == 1)</b>
+<b class="fc">&nbsp;            return mapColorWindows(c);</b>
 <b class="fc">&nbsp;        String pink = &quot;\u001B[45m&quot;;</b>
 <b class="fc">&nbsp;        String cyan = &quot;\u001B[46m&quot;;</b>
 <b class="fc">&nbsp;        String blue = &quot;\u001B[44m&quot;;</b>
@@ -141,18 +145,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        if (c == Color.PINK)</b>
 <b class="fc">&nbsp;            return pink+&quot; P &quot;+ansi_Reset;</b>
 <b class="fc">&nbsp;        if (c == Color.CYAN)</b>
-<b class="nc">&nbsp;            return cyan+&quot; C &quot;+ansi_Reset;</b>
+<b class="fc">&nbsp;            return cyan+&quot; C &quot;+ansi_Reset;</b>
 <b class="fc">&nbsp;        if (c == Color.BLUE)</b>
 <b class="fc">&nbsp;            return blue+&quot; B &quot;+ansi_Reset;</b>
 <b class="fc">&nbsp;        if (c == Color.GREEN)</b>
 <b class="fc">&nbsp;            return green+&quot; G &quot;+ansi_Reset;</b>
-<b class="nc">&nbsp;        if (c == Color.YELLOW)</b>
-<b class="nc">&nbsp;            return yellow+ &quot; Y &quot;+ansi_Reset;</b>
-<b class="nc">&nbsp;        if (c == Color.WHITE)</b>
-<b class="nc">&nbsp;            return white+ &quot; W &quot;+ansi_Reset;</b>
-<b class="nc">&nbsp;        if (c == Color.EMPTY)</b>
-<b class="nc">&nbsp;            return black+&quot; # &quot;+ansi_Reset;</b>
-<b class="nc">&nbsp;        return &quot; ? &quot;;</b>
+<b class="fc">&nbsp;        if (c == Color.YELLOW)</b>
+<b class="fc">&nbsp;            return yellow+ &quot; Y &quot;+ansi_Reset;</b>
+<b class="fc">&nbsp;        if (c == Color.WHITE)</b>
+<b class="fc">&nbsp;            return white+ &quot; W &quot;+ansi_Reset;</b>
+<b class="fc">&nbsp;        return black+&quot; # &quot;+ansi_Reset;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
@@ -161,28 +163,32 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @author Gumus Ettori Giammusso Faccincani
 &nbsp;     */
 &nbsp;    private String mapColorWindows(Color c){
-<b class="nc">&nbsp;        if (c == Color.PINK)</b>
-<b class="nc">&nbsp;            return &quot; P &quot;;</b>
-<b class="nc">&nbsp;        if (c == Color.CYAN)</b>
-<b class="nc">&nbsp;            return &quot; C &quot;;</b>
-<b class="nc">&nbsp;        if (c == Color.BLUE)</b>
-<b class="nc">&nbsp;            return &quot; B &quot;;</b>
-<b class="nc">&nbsp;        if (c == Color.GREEN)</b>
-<b class="nc">&nbsp;            return &quot; G &quot;;</b>
-<b class="nc">&nbsp;        if (c == Color.YELLOW)</b>
-<b class="nc">&nbsp;            return &quot; Y &quot;;</b>
-<b class="nc">&nbsp;        if (c == Color.WHITE)</b>
-<b class="nc">&nbsp;            return &quot; W &quot;;</b>
-<b class="nc">&nbsp;        if (c == Color.EMPTY)</b>
-<b class="nc">&nbsp;            return &quot; # &quot;;</b>
-<b class="nc">&nbsp;        return &quot; ? &quot;;</b>
+<b class="fc">&nbsp;        if (c == Color.PINK)</b>
+<b class="fc">&nbsp;            return &quot; P &quot;;</b>
+<b class="fc">&nbsp;        if (c == Color.CYAN)</b>
+<b class="fc">&nbsp;            return &quot; C &quot;;</b>
+<b class="fc">&nbsp;        if (c == Color.BLUE)</b>
+<b class="fc">&nbsp;            return &quot; B &quot;;</b>
+<b class="fc">&nbsp;        if (c == Color.GREEN)</b>
+<b class="fc">&nbsp;            return &quot; G &quot;;</b>
+<b class="fc">&nbsp;        if (c == Color.YELLOW)</b>
+<b class="fc">&nbsp;            return &quot; Y &quot;;</b>
+<b class="fc">&nbsp;        if (c == Color.WHITE)</b>
+<b class="fc">&nbsp;            return &quot; W &quot;;</b>
+<b class="fc">&nbsp;        return &quot; # &quot;;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
 &nbsp;     * method used to draw the card itself (TUI)
 &nbsp;     * @author Ettori
 &nbsp;     */
-<b class="fc">&nbsp;    public void draw(){System.out.print(mapColor(color));}</b>
+<b class="fc">&nbsp;    public void draw(){System.out.print(mapColor(color, 0));}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * method used only for testing
+&nbsp;     * @author Ettori
+&nbsp;     */
+<b class="fc">&nbsp;    public void draw(int flag){System.out.print(mapColor(color, flag));}</b>
 &nbsp;}
 </code>
 </pre>
@@ -207,7 +213,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

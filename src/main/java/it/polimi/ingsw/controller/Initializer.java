@@ -35,6 +35,12 @@ public class Initializer {
     private static final int cardNum = 22;
     public static int PORT = 3333;
     public static int PORT_RMI = 5555;
+
+    /**
+     * standard constructor, only for the purpose of testing
+     */
+    public Initializer(){}
+
     /**
      * return a new full matrix of empty cards - STATIC
      * @author Ettori Faccincani

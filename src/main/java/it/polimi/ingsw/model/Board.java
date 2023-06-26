@@ -106,15 +106,7 @@ public class Board implements Serializable {
      * @return true iff the card is alone
      */
     private boolean isAlone(int x, int y){
-        if(isValidIndex(x + 1, y) && gameBoard[x + 1][y].color != EMPTY)
-            return false;
-        if(isValidIndex(x - 1, y) && gameBoard[x - 1][y].color != EMPTY)
-            return false;
-        if(isValidIndex(x, y + 1) && gameBoard[x][y + 1].color != EMPTY)
-            return false;
-        if(isValidIndex(x, y - 1) && gameBoard[x][y - 1].color != EMPTY)
-            return false;
-        return true;
+        return (!isValidIndex(x + 1, y) || gameBoard[x + 1][y].color == EMPTY) && ((!isValidIndex(x - 1, y) || gameBoard[x - 1][y].color == EMPTY) || (!isValidIndex(x, y + 1) || gameBoard[x][y + 1].color == EMPTY) || (!isValidIndex(x, y - 1) || gameBoard[x][y - 1].color == EMPTY));
     }
 
     /**
@@ -243,15 +235,11 @@ public class Board implements Serializable {
                 {0,0,0,0,4,3,0,0,0}
         };
         Card card;
-        if(bucketOfCards == null)
-            bucketOfCards = Initializer.setBucketOfCards();
         for(int i = 0; i < DIM; i++){
             for(int j = 0; j < DIM; j++){
                 if(gameMatrix[i][j] == 0)
                     continue;
-                if(gameBoard[i][j].color != EMPTY)
-                    continue;
-                if(numPlayers >= gameMatrix[i][j]){
+                if(gameBoard[i][j].color == EMPTY && numPlayers >= gameMatrix[i][j]){
                     card = bucketOfCards.get(0);
                     gameBoard[i][j] = new Card(card);
                     bucketOfCards.remove(0); // bucketOfCards gets exchanged with the server through the client

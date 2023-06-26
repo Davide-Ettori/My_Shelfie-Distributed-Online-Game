@@ -16,7 +16,6 @@ public class countGroupedPointsTest {
     @Before
     public void setUp(){
         this.lib = new Library("");
-
     }
 
     /**
@@ -39,7 +38,7 @@ public class countGroupedPointsTest {
         lib.gameLibrary[0][4] = new Card();
 
         lib.gameLibrary[1][0] = new Card(PINK);
-        lib.gameLibrary[1][1] = new Card(BLUE);
+        lib.gameLibrary[1][1] = new Card();
         lib.gameLibrary[1][2] = new Card();
         lib.gameLibrary[1][3] = new Card();
         lib.gameLibrary[1][4] = new Card();
@@ -48,10 +47,10 @@ public class countGroupedPointsTest {
         lib.gameLibrary[2][1] = new Card(BLUE);
         lib.gameLibrary[2][2] = new Card(BLUE);
         lib.gameLibrary[2][3] = new Card(BLUE);
-        lib.gameLibrary[2][4] = new Card(BLUE);
+        lib.gameLibrary[2][4] = new Card();
 
         lib.gameLibrary[3][0] = new Card(PINK);
-        lib.gameLibrary[3][1] = new Card(BLUE);
+        lib.gameLibrary[3][1] = new Card();
         lib.gameLibrary[3][2] = new Card(GREEN);
         lib.gameLibrary[3][3] = new Card(PINK);
         lib.gameLibrary[3][4] = new Card(PINK);
@@ -68,7 +67,7 @@ public class countGroupedPointsTest {
         lib.gameLibrary[5][3] = new Card(PINK);
         lib.gameLibrary[5][4] = new Card(PINK);
 
-        assertEquals(lib.countGroupedPoints(), 25);
+        assertEquals(lib.countGroupedPoints(), 20);
     }
 
     /**

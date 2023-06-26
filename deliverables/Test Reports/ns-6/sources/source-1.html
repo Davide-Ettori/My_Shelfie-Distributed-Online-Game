@@ -162,6 +162,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import java.util.Arrays;
 &nbsp;import java.util.Date;
+&nbsp;import java.util.Random;
 &nbsp;
 &nbsp;import static java.awt.Color.*;
 &nbsp;import static java.awt.GridBagConstraints.*;
@@ -291,6 +292,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private void updateInfo(){
 &nbsp;        //Game.waitForSeconds(Game.fastTimer);
 <b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+&nbsp;            //funcional programming for set the correct PO and CO
 <b class="nc">&nbsp;            pointsCO1Label.setIcon(board.pointsCO_1.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource(&quot;scoring tokens/scoring_back_EMPTY.jpg&quot;)).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + &quot;_&quot; + board.pointsCO_1.peekLast() + &quot;.jpg&quot;)).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));</b>
 <b class="nc">&nbsp;            pointsCO2Label.setIcon(board.pointsCO_2.size() == 0 ? new ImageIcon (new ImageIcon(classLoader.getResource(&quot;scoring tokens/scoring_back_EMPTY.jpg&quot;)).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(Dimensions.pathPointsCO + &quot;_&quot; + board.pointsCO_2.peekLast() + &quot;.jpg&quot;)).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));</b>
 <b class="nc">&nbsp;            activeTurnInfo.setText(&quot; The active player is &quot; + activeName + &quot; &quot;);</b>
@@ -318,6 +320,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    boardCards[i][j].setVisible(board.getGameBoard()[i][j].color != it.polimi.ingsw.model.Color.EMPTY);</b>
 &nbsp;                }
 &nbsp;            }
+&nbsp;            //show or not show the card of the end game (if not show the game is ending)
 <b class="nc">&nbsp;            boardCards[libFullX][libFullY].setVisible(!endGame);</b>
 <b class="nc">&nbsp;            mainFrame.revalidate();</b>
 <b class="nc">&nbsp;            mainFrame.repaint();</b>
@@ -364,6 +367,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private void updateOtherLibraries(){
 <b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt;{</b>
 <b class="nc">&nbsp;            library1Text.setText(&quot; Library of &quot; + librariesOfOtherPlayers.get(0).name + &quot; (&quot; + pointsMap.get(librariesOfOtherPlayers.get(0).name) + &quot; points) &quot;);</b>
+&nbsp;            //plot the frist library of other
 <b class="nc">&nbsp;            for(int i = 0; i &lt; ROWS; i++) {</b>
 <b class="nc">&nbsp;                for (int j = 0; j &lt; COLS; j++) {</b>
 &nbsp;                    try {
@@ -372,6 +376,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    otherLibrariesCards.get(0)[i][j].setVisible(librariesOfOtherPlayers.get(0).gameLibrary[i][j].color != it.polimi.ingsw.model.Color.EMPTY);</b>
 &nbsp;                }
 &nbsp;            }
+&nbsp;            //plot the second library of other
 <b class="nc">&nbsp;            if(numPlayers &gt;= 3){</b>
 <b class="nc">&nbsp;                library2Text.setText(&quot; Library of &quot; + librariesOfOtherPlayers.get(1).name + &quot; (&quot; + pointsMap.get(librariesOfOtherPlayers.get(1).name) + &quot; points) &quot;);</b>
 <b class="nc">&nbsp;                for(int i = 0; i &lt; ROWS; i++) {</b>
@@ -383,6 +388,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                    }
 &nbsp;                }
 &nbsp;            }
+&nbsp;            //plot the third library of other
 <b class="nc">&nbsp;            if(numPlayers &gt;= 4){</b>
 <b class="nc">&nbsp;                library3Text.setText(&quot; Library of &quot; + librariesOfOtherPlayers.get(2).name + &quot; (&quot; + pointsMap.get(librariesOfOtherPlayers.get(2).name) + &quot; points) &quot;);</b>
 <b class="nc">&nbsp;                for(int i = 0; i &lt; ROWS; i++) {</b>
@@ -455,6 +461,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;            sendDoneMove(); // send the move to the server</b>
 &nbsp;            }
+&nbsp;        //color the border of the cards selected
 <b class="nc">&nbsp;        for(int i = 0; i &lt; cards.size(); i += 2)</b>
 <b class="nc">&nbsp;            boardCards[cards.get(i)][cards.get(i + 1)].setBorder(BorderFactory.createLineBorder(borderColor, 0));</b>
 &nbsp;    }
@@ -466,7 +473,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        mainFrame =  new JFrame(&quot;My Shelfie&quot;);</b>
 <b class="nc">&nbsp;        mainPanel = new JPanel(new GridBagLayout());</b>
 &nbsp;
-&nbsp;        //PLACEHOLDERS:
+&nbsp;        //tempPanels are used to replace the textArea and the Button after a person has chosen the name in order to prevent the &quot;My Shelfie&quot; label to move
 <b class="nc">&nbsp;        JPanel tempPanel1 = new JPanel();</b>
 <b class="nc">&nbsp;        tempPanel1.setPreferredSize(new Dimension(Dimensions.placeholderW, Dimensions.placeholderH));</b>
 <b class="nc">&nbsp;        tempPanel1.setBackground(new java.awt.Color(0, 0, 0, 0));</b>
@@ -478,8 +485,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;        //WALLPAPER:
 &nbsp;        //if you want a random wallpaper, uncomment the following line and comment the next line
-&nbsp;        //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon(&quot;Publisher material/Display_&quot; + (new Random().nextInt(5) + 1) + &quot;.jpg&quot;).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
-<b class="nc">&nbsp;        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(&quot;Publisher material/Display_1.jpg&quot;)).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));</b>
+<b class="nc">&nbsp;        JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon(&quot;Publisher material/Display_&quot; + (new Random().nextInt(5) + 1) + &quot;.jpg&quot;).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));</b>
+&nbsp;        //JLabel generalLabelChooseName = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(&quot;Publisher material/Display_1.jpg&quot;)).getImage().getScaledInstance(screenSize.width * 5 / 6, screenSize.height * 9 / 10, Image.SCALE_SMOOTH)));
 <b class="nc">&nbsp;        generalLabelChooseName.setPreferredSize(new Dimension(screenSize.width * 5 / 6, screenSize.height * 8 / 10 + 65));</b>
 <b class="nc">&nbsp;        generalLabelChooseName.setLayout(new GridBagLayout());</b>
 &nbsp;
@@ -520,6 +527,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                new Thread(this::getInitialState).start();</b>
 &nbsp;                return;
 &nbsp;            }
+&nbsp;            //start the persistance
 <b class="nc">&nbsp;            if(status == NameStatus.OLD){</b>
 <b class="nc">&nbsp;                alert(&quot;\nName: &quot; + name + &quot; was found in a previous game&quot;);</b>
 <b class="nc">&nbsp;                textInput.setVisible(false);</b>
@@ -631,7 +639,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private void getInitialState(){
 &nbsp;        PlayerGUI p;
 &nbsp;        try {
-&nbsp;            //alert(&quot;Be patient, the game will start soon...&quot;);
+&nbsp;
 <b class="nc">&nbsp;            p = new PlayerGUI((Player)inStream.readObject());</b>
 <b class="nc">&nbsp;            clone(p);</b>
 <b class="nc">&nbsp;            activeName = chairmanName;</b>
@@ -667,7 +675,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            new Thread(this::pingRMI).start();</b>
 &nbsp;    }
 &nbsp;    /**
-&nbsp;     * function used to wait for notification from the server while the player is NON active
+&nbsp;     * function used to wait for notification from the server while the player is NON-active
 &nbsp;     * @author Ettori Faccincani
 &nbsp;     */
 &nbsp;    private void waitForEvents(){
@@ -883,6 +891,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                }catch(Exception e){</b>
 <b class="nc">&nbsp;                    e.printStackTrace();</b>
 <b class="nc">&nbsp;                }</b>
+&nbsp;
 <b class="nc">&nbsp;                lastIndex = board.pointsCO_1.size() - 1;</b>
 <b class="nc">&nbsp;                points = board.pointsCO_1.get(lastIndex);</b>
 <b class="nc">&nbsp;                board.pointsCO_1.remove(lastIndex);</b>
@@ -991,7 +1000,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * helper function for alerting a message to the user (pop-up)
-&nbsp;     * @param s the string og the message to show
+&nbsp;     * @param s the string or the message to show
 &nbsp;     */
 <b class="nc">&nbsp;    private void alert(String s){showMessageDialog(null, s);}</b>
 &nbsp;    /**
@@ -1111,16 +1120,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @author Ettori Faccincani Giammusso
 &nbsp;     */
 &nbsp;    public void initGUI(){
-&nbsp;        //Creation:
-&nbsp;        //External
-&nbsp;        //Internals: first level of abstraction
 &nbsp;
-&nbsp;
-&nbsp;        //Internals: second level of abstraction
+&nbsp;        //general gbc
 <b class="nc">&nbsp;        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);</b>
 &nbsp;
 &nbsp;        //CYAN
 &nbsp;
+&nbsp;        //set the GUI of PO and CO
 <b class="nc">&nbsp;        POLabel = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(objective.imagePath)).getImage().getScaledInstance(Dimensions.PO_w, Dimensions.PO_h, Image.SCALE_SMOOTH)));</b>
 <b class="nc">&nbsp;        POLabel.setPreferredSize(new Dimension(Dimensions.PO_w, Dimensions.PO_h));</b>
 &nbsp;
@@ -1156,6 +1162,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        pointsCO2Label = new JLabel(new ImageIcon (new ImageIcon(classLoader.getResource(&quot;scoring tokens/scoring.jpg&quot;)).getImage().getScaledInstance(Dimensions.pointsDim, Dimensions.pointsDim, Image.SCALE_SMOOTH)));</b>
 <b class="nc">&nbsp;        pointsCO2Label.setPreferredSize(new Dimension(Dimensions.pointsDim, Dimensions.pointsDim));</b>
 &nbsp;
+&nbsp;        //GUI of chairman
 <b class="nc">&nbsp;        chairmanLabel = new JLabel(isChairMan ? new ImageIcon (new ImageIcon(classLoader.getResource(&quot;misc/firstplayertoken.png&quot;)).getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)) : new ImageIcon (new ImageIcon(classLoader.getResource(&quot;misc/sfondo parquet.jpg&quot;)).getImage().getScaledInstance(Dimensions.chairmanDim, Dimensions.chairmanDim, Image.SCALE_SMOOTH)));</b>
 <b class="nc">&nbsp;        chairmanLabel.setPreferredSize(new Dimension(Dimensions.chairmanDim, Dimensions.chairmanDim));</b>
 &nbsp;
@@ -1186,6 +1193,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        titleInfo.setMinimumSize(new Dimension(Dimensions.textCols * (Dimensions.textCharsNum + 2), Dimensions.textCols));</b>
 <b class="nc">&nbsp;        titleInfo.setEditable(false);</b>
 &nbsp;
+&nbsp;        //settings of the gbc of the right part of the GUI
 <b class="nc">&nbsp;        gbc.gridx = 0;</b>
 <b class="nc">&nbsp;        gbc.gridy = 0;</b>
 <b class="nc">&nbsp;        gbc.ipadx = 0;</b>
@@ -1217,14 +1225,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        infoBox.add(curPointsInfo,gbc);</b>
 <b class="nc">&nbsp;        gbc.fill = NONE;</b>
 &nbsp;
-&nbsp;        //
 &nbsp;
-&nbsp;        //Internals: third level of abstraction
-&nbsp;        //...in development
-&nbsp;
-&nbsp;        //Addition: (Hierarchy of panels inside panels)
-&nbsp;        //SECOND LEVEL
-&nbsp;        //CYAN
+&nbsp;        //SECOND LEVEL - CYAN
 <b class="nc">&nbsp;        internalPanelSide = new JPanel(new GridBagLayout());</b>
 <b class="nc">&nbsp;        Insets insets = CO1Label.getInsets();</b>
 &nbsp;
@@ -1337,6 +1339,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        gbc.weightx = 0.0;</b>
 &nbsp;
 &nbsp;        //GREEN
+&nbsp;
+&nbsp;        //GUI of the other player
 <b class="nc">&nbsp;        internalPanelLow = new JPanel(new GridBagLayout());</b>
 &nbsp;
 <b class="nc">&nbsp;        player1Panel = new JPanel(new GridBagLayout());</b>
@@ -1347,6 +1351,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        library1Label = new JLabel(new ImageIcon(new ImageIcon(classLoader.getResource(&quot;boards/bookshelf_orth.png&quot;)).getImage().getScaledInstance(Dimensions.lib_w, Dimensions.lib_h, Image.SCALE_SMOOTH)));</b>
 <b class="nc">&nbsp;        library1Label.setLayout(null);</b>
 <b class="nc">&nbsp;        library1Label.setPreferredSize(new Dimension(Dimensions.lib_w, Dimensions.lib_h));</b>
+&nbsp;
 &nbsp;
 <b class="nc">&nbsp;        player2Panel = new JPanel(new GridBagLayout());</b>
 &nbsp;
@@ -1519,6 +1524,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        gbc.weighty = 0.0;</b>
 <b class="nc">&nbsp;        internalPanelLow.add(player3Panel,gbc);</b>
 &nbsp;
+&nbsp;        //panel on the bottom of the GUI with the last event
 <b class="nc">&nbsp;        eventText = new JTextField(120);</b>
 <b class="nc">&nbsp;        updateEventText(&quot; Last relevant event of the Game &quot;);</b>
 <b class="nc">&nbsp;        eventText.setMinimumSize(new Dimension(Dimensions.textCols * 45, Dimensions.textCols + 8));</b>
@@ -1532,11 +1538,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        gbc.weightx = 1;</b>
 <b class="nc">&nbsp;        gbc.weighty = 0.2;</b>
 <b class="nc">&nbsp;        gbc.gridwidth = 3;</b>
-&nbsp;        //gbc.fill = HORIZONTAL;
 <b class="nc">&nbsp;        gbc.insets = new Insets(0,15,10,0);</b>
 <b class="nc">&nbsp;        internalPanelLow.add(eventText, gbc);</b>
 &nbsp;
-&nbsp;        //blue
+&nbsp;
+&nbsp;        //BLUE
+&nbsp;
+&nbsp;        //GUI of the board
+&nbsp;
 <b class="nc">&nbsp;        internalPanelHigh = new JPanel(new GridBagLayout());</b>
 <b class="nc">&nbsp;        gameBoardPanel = new JPanel(new GridBagLayout()); //the chairman is just a card in the matrix</b>
 &nbsp;        //Text on top of the board
@@ -1615,6 +1624,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;        boardCards[libFullX][libFullY].setIcon(new ImageIcon(new ImageIcon(classLoader.getResource(&quot;scoring tokens/end game.jpg&quot;)).getImage().getScaledInstance(Dimensions.cardDimBoard, Dimensions.cardDimBoard, Image.SCALE_SMOOTH)));</b>
 <b class="nc">&nbsp;        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);</b>
+&nbsp;
+&nbsp;
+&nbsp;        //GUI of my library
 <b class="nc">&nbsp;        myLibraryPanel = new JPanel(new GridBagLayout());</b>
 &nbsp;        //Text on top of my library
 <b class="nc">&nbsp;        myLibraryText = new JTextArea(&quot; Your personal Library (&quot; + name + &quot;) &quot;);</b>
@@ -1670,6 +1682,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                myLibraryCards[i][j] = tempLabel;</b>
 &nbsp;            }
 &nbsp;        }
+&nbsp;
+&nbsp;        //GUI of the chat
 <b class="nc">&nbsp;        gbc.insets = new Insets(Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder, Dimensions.generalBorder);</b>
 <b class="nc">&nbsp;        chatPanel = new JPanel(new GridBagLayout());</b>
 <b class="nc">&nbsp;        chatTitle = new JTextArea(&quot; Chat history of the Game &quot;);</b>
@@ -1694,6 +1708,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        sendMessageBtn.setPreferredSize(new Dimension());</b>
 <b class="nc">&nbsp;        sendMessageBtn.setPreferredSize(new Dimension(Dimensions.btnW, Dimensions.btnH));</b>
 <b class="nc">&nbsp;        sendMessageBtn.addActionListener(e -&gt; new Thread(this::sendChatMsg).start());</b>
+&nbsp;
 &nbsp;        //BOARD
 <b class="nc">&nbsp;        gbc.gridx = 0;</b>
 <b class="nc">&nbsp;        gbc.gridy = 0;</b>
@@ -1840,7 +1855,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        gbc.gridheight = 2;</b>
 <b class="nc">&nbsp;        generalLabel.add(internalPanelSide,gbc);</b>
 &nbsp;
-<b class="nc">&nbsp;        mainPanel.removeAll();//remove all the precedent GUI used to choose the name</b>
+&nbsp;        //remove all the precedent GUI used to choose the name
+<b class="nc">&nbsp;        mainPanel.removeAll();</b>
 &nbsp;        //Now add the new GUI to play the game
 <b class="nc">&nbsp;        gbc2.gridx=0;</b>
 <b class="nc">&nbsp;        gbc2.gridy=0;</b>
@@ -1882,7 +1898,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Ettori Faccincani
  *
  */
-abstract class Objective implements Serializable {
+public class Objective implements Serializable {
     /** the rows of the library that will be checked by the objective */
     public int ROWS = 6;
     /** the columns of the library that will be checked by the objective */

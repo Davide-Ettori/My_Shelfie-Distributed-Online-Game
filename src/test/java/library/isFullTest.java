@@ -1,8 +1,11 @@
 package library;
 
+import it.polimi.ingsw.controller.Initializer;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.NetMode;
 import org.junit.*;
 import static it.polimi.ingsw.model.Color.*;
+import static it.polimi.ingsw.model.NetMode.RMI;
 import static org.junit.Assert.assertEquals;
 import it.polimi.ingsw.model.Library;
 public class isFullTest {
@@ -14,6 +17,11 @@ public class isFullTest {
     @Before
     public void setUp(){
         this.lib = new Library("");
+        NetMode net = RMI;
+        Initializer init = new Initializer();
+        Initializer.setBucketOfCards();
+        Initializer.setBucketOfCO();
+        Initializer.setBucketOfPO();
     }
 
     /**

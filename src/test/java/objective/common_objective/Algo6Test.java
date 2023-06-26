@@ -2,8 +2,10 @@ package objective.common_objective;
 
 
 
+import it.polimi.ingsw.model.Algo_CO_1;
 import it.polimi.ingsw.model.Algo_CO_6;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.CommonObjective;
 import org.junit.Before;
 import org.junit.Test;
 import static it.polimi.ingsw.model.Color.*;
@@ -26,6 +28,7 @@ public class Algo6Test {
     @Before
     public void setUp() {
         this.algoCo6 = new Algo_CO_6();
+        new CommonObjective(new Algo_CO_6(), 6).draw(0);
     }
 
     /**

@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,3%
+    100%
   </span>
   <span class="absValue">
-    (2/6)
+    (6/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    15,6%
+    100%
   </span>
   <span class="absValue">
-    (17/109)
+    (109/109)
   </span>
 </td>
 </tr>
@@ -105,24 +105,30 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp; * @author Ettori Faccincani
 &nbsp; *
 &nbsp; */
-<b class="nc">&nbsp;public class Initializer {</b>
+&nbsp;public class Initializer {
 &nbsp;    private static final int ROWS = 6;
 &nbsp;    private static final int COLS = 5;
 &nbsp;    private static final int cardNum = 22;
 <b class="fc">&nbsp;    public static int PORT = 3333;</b>
 <b class="fc">&nbsp;    public static int PORT_RMI = 5555;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * standard constructor, only for the purpose of testing
+&nbsp;     */
+<b class="fc">&nbsp;    public Initializer(){}</b>
+&nbsp;
 &nbsp;    /**
 &nbsp;     * return a new full matrix of empty cards - STATIC
 &nbsp;     * @author Ettori Faccincani
 &nbsp;     * @return the new matrix
 &nbsp;     */
 &nbsp;    private static Card[][] setEmpty() {
-<b class="nc">&nbsp;        Card[][] res = new Card[ROWS][COLS];</b>
-<b class="nc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
-<b class="nc">&nbsp;            for (int j = 0; j &lt; COLS; j++)</b>
-<b class="nc">&nbsp;                res[i][j] = new Card();</b>
+<b class="fc">&nbsp;        Card[][] res = new Card[ROWS][COLS];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; ROWS; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; COLS; j++)</b>
+<b class="fc">&nbsp;                res[i][j] = new Card();</b>
 &nbsp;        }
-<b class="nc">&nbsp;        return res;</b>
+<b class="fc">&nbsp;        return res;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * return the list of initialized private objective - STATIC
@@ -130,104 +136,104 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the list of all the possible private objective
 &nbsp;     */
 &nbsp;    public static ArrayList&lt;PrivateObjective&gt; setBucketOfPO() {
-<b class="nc">&nbsp;        Card[][] mat_1 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_2 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_3 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_4 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_5 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_6 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_7 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_8 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_9 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_10 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_11 = setEmpty();</b>
-<b class="nc">&nbsp;        Card[][] mat_12 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_1 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_2 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_3 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_4 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_5 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_6 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_7 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_8 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_9 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_10 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_11 = setEmpty();</b>
+<b class="fc">&nbsp;        Card[][] mat_12 = setEmpty();</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_1[0][0] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_1[0][2] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_1[1][4] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_1[2][3] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_1[3][1] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_1[5][2] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_1[0][0] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_1[0][2] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_1[1][4] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_1[2][3] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_1[3][1] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_1[5][2] = new Card(CYAN);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_2[1][1] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_2[2][0] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_2[2][2] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_2[3][4] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_2[4][3] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_2[5][4] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_2[1][1] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_2[2][0] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_2[2][2] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_2[3][4] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_2[4][3] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_2[5][4] = new Card(BLUE);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_3[1][0] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_3[1][3] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_3[2][2] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_3[3][1] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_3[3][4] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_3[5][0] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_3[1][0] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_3[1][3] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_3[2][2] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_3[3][1] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_3[3][4] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_3[5][0] = new Card(WHITE);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_4[0][4] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_4[2][0] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_4[2][2] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_4[3][3] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_4[4][1] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_4[4][2] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_4[0][4] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_4[2][0] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_4[2][2] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_4[3][3] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_4[4][1] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_4[4][2] = new Card(GREEN);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_5[1][1] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_5[3][1] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_5[3][2] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_5[4][4] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_5[5][0] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_5[5][3] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_5[1][1] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_5[3][1] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_5[3][2] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_5[4][4] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_5[5][0] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_5[5][3] = new Card(GREEN);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_6[0][2] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_6[0][4] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_6[2][3] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_6[4][1] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_6[4][3] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_6[5][0] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_6[0][2] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_6[0][4] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_6[2][3] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_6[4][1] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_6[4][3] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_6[5][0] = new Card(PINK);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_7[0][0] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_7[1][3] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_7[2][1] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_7[3][0] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_7[4][4] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_7[5][2] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_7[0][0] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_7[1][3] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_7[2][1] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_7[3][0] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_7[4][4] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_7[5][2] = new Card(WHITE);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_8[0][4] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_8[1][1] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_8[2][2] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_8[3][0] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_8[4][3] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_8[5][3] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_8[0][4] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_8[1][1] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_8[2][2] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_8[3][0] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_8[4][3] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_8[5][3] = new Card(YELLOW);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_9[0][2] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_9[2][2] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_9[3][4] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_9[4][1] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_9[4][4] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_9[5][0] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_9[0][2] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_9[2][2] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_9[3][4] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_9[4][1] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_9[4][4] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_9[5][0] = new Card(BLUE);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_10[0][4] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_10[1][1] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_10[2][0] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_10[3][3] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_10[4][1] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_10[5][3] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_10[0][4] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_10[1][1] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_10[2][0] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_10[3][3] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_10[4][1] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_10[5][3] = new Card(PINK);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_11[0][2] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_11[1][1] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_11[2][0] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_11[3][2] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_11[4][4] = new Card(GREEN);</b>
-<b class="nc">&nbsp;        mat_11[5][3] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_11[0][2] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_11[1][1] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_11[2][0] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_11[3][2] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_11[4][4] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_11[5][3] = new Card(CYAN);</b>
 &nbsp;
-<b class="nc">&nbsp;        mat_12[0][2] = new Card(WHITE);</b>
-<b class="nc">&nbsp;        mat_12[1][1] = new Card(PINK);</b>
-<b class="nc">&nbsp;        mat_12[2][2] = new Card(BLUE);</b>
-<b class="nc">&nbsp;        mat_12[3][3] = new Card(CYAN);</b>
-<b class="nc">&nbsp;        mat_12[4][4] = new Card(YELLOW);</b>
-<b class="nc">&nbsp;        mat_12[5][0] = new Card(GREEN);</b>
+<b class="fc">&nbsp;        mat_12[0][2] = new Card(WHITE);</b>
+<b class="fc">&nbsp;        mat_12[1][1] = new Card(PINK);</b>
+<b class="fc">&nbsp;        mat_12[2][2] = new Card(BLUE);</b>
+<b class="fc">&nbsp;        mat_12[3][3] = new Card(CYAN);</b>
+<b class="fc">&nbsp;        mat_12[4][4] = new Card(YELLOW);</b>
+<b class="fc">&nbsp;        mat_12[5][0] = new Card(GREEN);</b>
 &nbsp;
-<b class="nc">&nbsp;        return new ArrayList&lt;&gt;(Arrays.asList(</b>
+<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(Arrays.asList(</b>
 &nbsp;                new PrivateObjective(mat_1, 1),
 &nbsp;                new PrivateObjective(mat_2, 2),
 &nbsp;                new PrivateObjective(mat_3, 3),
@@ -248,7 +254,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return the list of all the possible common objective
 &nbsp;     */
 &nbsp;    public static ArrayList&lt;CommonObjective&gt; setBucketOfCO() {
-<b class="nc">&nbsp;        return new ArrayList&lt;&gt;(Arrays.asList(</b>
+<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(Arrays.asList(</b>
 &nbsp;                new CommonObjective(new Algo_CO_1(), 4),
 &nbsp;                new CommonObjective(new Algo_CO_2(), 11),
 &nbsp;                new CommonObjective(new Algo_CO_3(), 8),
@@ -263,26 +269,27 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                new CommonObjective(new Algo_CO_12(), 12)
 &nbsp;        ));
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * return the list of initialized cards - STATIC
 &nbsp;     * @author Ettori
 &nbsp;     * @return the list of all the possible cards present in the game (132)
 &nbsp;     */
 &nbsp;    public static ArrayList&lt;Card&gt; setBucketOfCards(){
-<b class="fc">&nbsp;        String cornici = &quot;item tiles/Cornici1.&quot;;</b>
-<b class="fc">&nbsp;        String gatti = &quot;item tiles/Gatti1.&quot;;</b>
-<b class="fc">&nbsp;        String giochi = &quot;item tiles/Giochi1.&quot;;</b>
-<b class="fc">&nbsp;        String libri = &quot;item tiles/Libri1.&quot;;</b>
-<b class="fc">&nbsp;        String piante = &quot;item tiles/Piante1.&quot;;</b>
-<b class="fc">&nbsp;        String trofei = &quot;item tiles/Trofei1.&quot;;</b>
+<b class="fc">&nbsp;        String frames = &quot;item tiles/Cornici1.&quot;;</b>
+<b class="fc">&nbsp;        String cats = &quot;item tiles/Gatti1.&quot;;</b>
+<b class="fc">&nbsp;        String games = &quot;item tiles/Giochi1.&quot;;</b>
+<b class="fc">&nbsp;        String books = &quot;item tiles/Libri1.&quot;;</b>
+<b class="fc">&nbsp;        String plants = &quot;item tiles/Piante1.&quot;;</b>
+<b class="fc">&nbsp;        String trophies = &quot;item tiles/Trofei1.&quot;;</b>
 <b class="fc">&nbsp;        ArrayList&lt;Card&gt; res = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;        for(int i = 0; i &lt; cardNum; i++) {</b>
-<b class="fc">&nbsp;            res.add(new Card(BLUE, cornici + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
-<b class="fc">&nbsp;            res.add(new Card(GREEN, gatti + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
-<b class="fc">&nbsp;            res.add(new Card(YELLOW, giochi + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
-<b class="fc">&nbsp;            res.add(new Card(WHITE, libri + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
-<b class="fc">&nbsp;            res.add(new Card(PINK, piante + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
-<b class="fc">&nbsp;            res.add(new Card(CYAN, trofei + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(BLUE, frames + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(GREEN, cats + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(YELLOW, games + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(WHITE, books + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(PINK, plants + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
+<b class="fc">&nbsp;            res.add(new Card(CYAN, trophies + (new Random().nextInt(3) + 1) + &quot;.png&quot;));</b>
 &nbsp;        }
 <b class="fc">&nbsp;        return res;</b>
 &nbsp;    }
@@ -310,7 +317,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

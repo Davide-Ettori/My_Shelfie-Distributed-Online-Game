@@ -10,8 +10,14 @@ public class DFSHelper {
     private static final int COLS = 5;
 
     /**
+     * standard constructor, only for testing purpose
+     * @author Ettori
+     */
+    public DFSHelper(){}
+
+    /**
      * reset the matrix of the nodes visited in the DFS
-     * @param mat  the matrix
+     * @param mat the matrix
      * @author Ettori Giammusso
      */
     public static void resetVisitedMatrix(int[][] mat) {

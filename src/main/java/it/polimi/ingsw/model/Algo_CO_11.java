@@ -26,9 +26,7 @@ public class Algo_CO_11 extends Strategy { // sesto prima colonna
             return 3;
         if (color == WHITE)
             return 4;
-        if (color == PINK)
-            return 5;
-        return -1;
+        return 5;
     }
     /**
      * check if the matrix match with the objective

@@ -1,7 +1,9 @@
 package objective.common_objective;
 
+import it.polimi.ingsw.model.Algo_CO_1;
 import it.polimi.ingsw.model.Algo_CO_11;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.CommonObjective;
 import org.junit.Before;
 import org.junit.Test;
 import static it.polimi.ingsw.model.Color.*;
@@ -22,6 +24,7 @@ public class Algo11Test {
     @Before
     public void setUp() {
         this.algoCo11 = new Algo_CO_11();
+        new CommonObjective(new Algo_CO_11(), 11).draw(0);
     }
 
     /**
@@ -74,7 +77,7 @@ public class Algo11Test {
         mat[5][0] = new Card(PINK);
         mat[5][1] = new Card(GREEN);
         mat[5][2] = new Card(GREEN);
-        mat[5][3] = new Card();
+        mat[5][3] = new Card(WHITE);
         mat[5][4] = new Card();
 
         assertTrue(algoCo11.checkMatch(mat));

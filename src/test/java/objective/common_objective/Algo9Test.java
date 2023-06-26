@@ -1,7 +1,9 @@
 package objective.common_objective;
 
+import it.polimi.ingsw.model.Algo_CO_1;
 import it.polimi.ingsw.model.Algo_CO_9;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.CommonObjective;
 import org.junit.Before;
 import org.junit.Test;
 import static it.polimi.ingsw.model.Color.*;
@@ -23,6 +25,7 @@ public class Algo9Test {
     @Before
     public void setUp() {
         this.algoCo9 = new Algo_CO_9();
+        new CommonObjective(new Algo_CO_9(), 9).draw(0);
     }
 
     /**
@@ -80,7 +83,6 @@ public class Algo9Test {
 
         assertTrue(algoCo9.checkMatch(mat));
     }
-
     /**
      * <p>Less than three column made by six cards of three colors</p>
      * <p></p>
@@ -117,7 +119,7 @@ public class Algo9Test {
         mat[2][4] = new Card(BLUE);
 
         mat[3][0] = new Card(PINK);
-        mat[3][1] = new Card(YELLOW);
+        mat[3][1] = new Card(CYAN);
         mat[3][2] = new Card(GREEN);
         mat[3][3] = new Card(PINK);
         mat[3][4] = new Card(PINK);

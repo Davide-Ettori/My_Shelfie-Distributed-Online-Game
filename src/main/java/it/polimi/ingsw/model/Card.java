@@ -43,16 +43,20 @@ public class Card implements Serializable {
      * @author Ettori
      */
     public Card(Card c){ // copy constructor
-        color = c.color;
-        imagePath = c.imagePath;
+        if(c == null)
+            color = Color.EMPTY;
+        else {
+            color = c.color;
+            imagePath = c.imagePath;
+        }
     }
     /**
      * assigns ansi code to each color to be printed then return the string
      * @param c the color to be printed
      * @author Gumus
      */
-    private String mapColor(Color c) {
-        if(System.getProperty("os.name").contains("Windows"))
+    private String mapColor(Color c, int flag) {
+        if(System.getProperty("os.name").contains("Windows") || flag == 1)
             return mapColorWindows(c);
         String pink = "\u001B[45m";
         String cyan = "\u001B[46m";
@@ -74,9 +78,7 @@ public class Card implements Serializable {
             return yellow+ " Y "+ansi_Reset;
         if (c == Color.WHITE)
             return white+ " W "+ansi_Reset;
-        if (c == Color.EMPTY)
-            return black+" # "+ansi_Reset;
-        return " ? ";
+        return black+" # "+ansi_Reset;
     }
 
     /**
@@ -97,14 +99,18 @@ public class Card implements Serializable {
             return " Y ";
         if (c == Color.WHITE)
             return " W ";
-        if (c == Color.EMPTY)
-            return " # ";
-        return " ? ";
+        return " # ";
     }
 
     /**
      * method used to draw the card itself (TUI)
      * @author Ettori
      */
-    public void draw(){System.out.print(mapColor(color));}
+    public void draw(){System.out.print(mapColor(color, 0));}
+
+    /**
+     * method used only for testing
+     * @author Ettori
+     */
+    public void draw(int flag){System.out.print(mapColor(color, flag));}
 }

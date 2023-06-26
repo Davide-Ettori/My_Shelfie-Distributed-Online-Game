@@ -51,6 +51,12 @@ public class areCardsPickableTest {
         gameBoard1 = new Card[DIM][DIM];
 
         board2 = new Board(2,CO1,CO2);
+
+        Board boardTest = new Board(3, CO1, CO2);
+        boardTest = new Board(boardTest);
+        boardTest.getGameBoard();
+        boardTest.getCO_1();
+        boardTest.getCO_2();
     }
     /**
      * Test the case in which only 2 cards are picked in a board initialized for just 2 players

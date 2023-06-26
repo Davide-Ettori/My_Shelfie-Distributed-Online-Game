@@ -106,6 +106,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            return;
 &nbsp;        try {
 &nbsp;            while (true) {
+&nbsp;                //in the following case the message is use to catch event in the game
 <b class="nc">&nbsp;                Message msg = (Message) player.getInStream().readObject();</b>
 <b class="nc">&nbsp;                if(msg == null || msg.getType() == MessageType.STOP)</b>
 &nbsp;                    return;
@@ -127,6 +128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    System.out.println(&quot;\n&quot; + msg.getContent());</b>
 <b class="nc">&nbsp;                    continue;</b>
 &nbsp;                }
+&nbsp;                //IN this case the message is a message in the chat
 <b class="nc">&nbsp;                System.out.println(&quot;\n&quot; + msg.getContent());</b>
 <b class="nc">&nbsp;                player.addToFullChat((String)msg.getContent());</b>
 <b class="nc">&nbsp;            }</b>
@@ -160,7 +162,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

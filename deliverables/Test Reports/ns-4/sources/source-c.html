@@ -59,10 +59,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92,9%
+    100%
   </span>
   <span class="absValue">
-    (13/14)
+    (14/14)
   </span>
 </td>
 </tr>
@@ -98,8 +98,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    private boolean notEmptyOnCol(Card[][] board, int c){
 <b class="fc">&nbsp;        for(int i = 0; i &lt; ROWS; i++){</b>
-<b class="fc">&nbsp;            if(board[i][c].color == EMPTY)</b>
-<b class="nc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;            if(board[i][c].color == EMPTY) {</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            }
 &nbsp;        }
 <b class="fc">&nbsp;        return true;</b>
 &nbsp;    }
@@ -116,7 +117,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        for (int j = 0; j &lt; COLS; j++) {</b>
 <b class="fc">&nbsp;            colors = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;            for (int i = 0; i &lt; ROWS; i++) {</b>
-<b class="fc">&nbsp;                if (!colors.contains(board[i][j].color))</b>
+<b class="fc">&nbsp;                if (!colors.contains(board[i][j].color) &amp;&amp; board[i][j].color != EMPTY)</b>
 <b class="fc">&nbsp;                    colors.add(board[i][j].color);</b>
 &nbsp;            }
 <b class="fc">&nbsp;            if (colors.size() &gt;= 1 &amp;&amp; colors.size() &lt;= 3 &amp;&amp; notEmptyOnCol(board, j))</b>
@@ -148,7 +149,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

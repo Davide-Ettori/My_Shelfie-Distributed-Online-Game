@@ -51,7 +51,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/560)
+    (0/563)
   </span>
 </td>
 </tr>
@@ -89,7 +89,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/561)
+    (0/564)
   </span>
 </td>
 </tr>
@@ -160,6 +160,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    private boolean advance = false; //true iif the server has to force a new turn after resilience activation</b>
 <b class="nc">&nbsp;    private final transient Object disconnectionLock = new Object();</b>
 <b class="nc">&nbsp;    private transient String playerNoChat = &quot;&quot;;</b>
+&nbsp;
 &nbsp;    /**
 &nbsp;     * normal constructor for this type of object, this class is also the main process on the server
 &nbsp;     * @param maxP the number of players for this game, chosen before by the user
@@ -393,18 +394,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            players.add(new PlayerSend(p));</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * choose a random chairman from all the players who connected to the game
 &nbsp;     * @author Ettori
 &nbsp;     */
 &nbsp;    private void randomizeChairman(){
+<b class="nc">&nbsp;        if(playersSocket.size() != numPlayers){</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\nNot enough players connected to the game, server closing...\n&quot;);</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
+&nbsp;        }
+&nbsp;
 <b class="nc">&nbsp;        int temp = new Random().nextInt(numPlayers);</b>
 <b class="nc">&nbsp;        String n = null;</b>
 &nbsp;        try {
 <b class="nc">&nbsp;            n = names.get(0);</b>
+<b class="nc">&nbsp;            names.set(0, names.get(temp));</b>
+<b class="nc">&nbsp;            names.set(temp, n);</b>
 <b class="nc">&nbsp;        }catch (Exception e){connectionLost(e);}</b>
-<b class="nc">&nbsp;        names.set(0, names.get(temp));</b>
-<b class="nc">&nbsp;        names.set(temp, n);</b>
 &nbsp;
 <b class="nc">&nbsp;        ObjectOutputStream outTemp = outStreams.get(0);</b>
 <b class="nc">&nbsp;        outStreams.set(0, outStreams.get(temp));</b>
@@ -414,6 +421,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        inStreams.set(0, inStreams.get(temp));</b>
 <b class="nc">&nbsp;        inStreams.set(temp, inTemp);</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * helper function which waits for client&#39;s connection to the server socket, when all are connected the game starts
 &nbsp;     * @author Ettori
@@ -465,8 +473,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 <b class="nc">&nbsp;        System.out.println(&quot;\nThe game started\n&quot;);</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
-&nbsp;     * method that listen for an old client to restart his previous game, in tha same old state
+&nbsp;     * method that listen for an old client to restart his previous game, in the same old state
 &nbsp;     * @param s the socket of the player
 &nbsp;     * @param out the output stream of the player
 &nbsp;     * @param in the input stream of the player
@@ -527,6 +536,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            } catch (IOException ignored) {}</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * method that wait permanently for a new client to connect to the existing game
 &nbsp;     * @author Ettori
@@ -552,6 +562,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            }).start();</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Check if the name that the client choose is already TAKEN
 &nbsp;     * @param in the input stream of the socket
@@ -586,6 +597,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            playersSocket.remove(playersSocket.size() - 1);</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Make a random choose of the objective (Common and Private)
 &nbsp;     * @author Ettori
@@ -608,6 +620,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            bucketOfPO.set(j, temp_2);</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Wait the move of the client that are playing and set the chat,
 &nbsp;     * when the client made the move and send it to server update Board and Library
@@ -675,6 +688,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Game.waitForSeconds(Game.passTimer);</b>
 <b class="nc">&nbsp;        advanceTurn();</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Set the status of the players for the next turn and assign activePlayer to who will play this turn
 &nbsp;     * @author Ettori Faccincani
@@ -705,6 +719,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 <b class="nc">&nbsp;        notifyNewTurn();</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Send the message to the client that a new turn start (two cases, if is the turn of the client or is the turn of another client)
 &nbsp;     * @author Ettori Faccincani
@@ -722,6 +737,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        else
 <b class="nc">&nbsp;            startChatServerThread();</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * start all the threads that listen for chat messages from the clients (and sends the messages back to the players)
 &nbsp;     * @author Ettori
@@ -736,6 +752,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 <b class="nc">&nbsp;        playerNoChat = &quot;&quot;;</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Send message in the chat to other client
 &nbsp;     * @param from who send the message
@@ -759,11 +776,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            }
 <b class="nc">&nbsp;        }catch (Exception e){connectionLost(e);}</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * find and return the name of the chairman of this game
 &nbsp;     * @return the name of the chairman (String)
 &nbsp;     */
 <b class="nc">&nbsp;    private String getChairmanName(){return names.get(0);}</b>
+&nbsp;
 &nbsp;    /**
 &nbsp;     * find and return the chairman Player
 &nbsp;     * @return the chairman Object (Player)
@@ -789,6 +808,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 <b class="nc">&nbsp;        return -1;</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * choose the private objective, one for every player
 &nbsp;     * @return the chosen private objective
@@ -798,6 +818,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        bucketOfPO.remove(0);</b>
 <b class="nc">&nbsp;        return res;</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * Count the points at the end of the game (not private or common objective)
 &nbsp;     * and sum to the points made until now
@@ -853,16 +874,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Game.waitForSeconds(Game.waitTimer * 5);</b>
 <b class="nc">&nbsp;        System.exit(0);</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * getter for the input streams from the server to all the clients
 &nbsp;     * @return the ArrayList containing all the input streams
 &nbsp;     */
 <b class="nc">&nbsp;    public ArrayList&lt;ObjectInputStream&gt; getInStreams(){return inStreams;}</b>
+&nbsp;
 &nbsp;    /**
 &nbsp;     * getter for the list of names of the players active in this game
 &nbsp;     * @return the ArrayList containing all the names of the connected players
 &nbsp;     */
 <b class="nc">&nbsp;    public ArrayList&lt;String&gt; getNames(){return names;}</b>
+&nbsp;
 &nbsp;    /**
 &nbsp;     * shortcut for the Thread.sleep(int) function, it accepts SECONDS, NOT MILLISECONDS
 &nbsp;     * @param n the (decimal) number of seconds to wait
@@ -872,6 +896,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            Thread.sleep((long) (n * 1000));</b>
 <b class="nc">&nbsp;        } catch (InterruptedException ignored) {}</b>
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * function that handle the eventual disconnection
 &nbsp;     * @param e the exception to throw
@@ -899,6 +924,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            System.exit(0);</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * method which acknowledge that one of the client disconnected and set the game to continue without the lost client
 &nbsp;     * @param i the index of the lost client
@@ -947,6 +973,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;             }
 &nbsp;         }
 &nbsp;     }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * method that checks if one player has been alone for more than 1 minute, in that case that player is declared winner and the game end
 &nbsp;     * @author Ettori
@@ -967,12 +994,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            System.exit(0);</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * method that find the number of players which are currently connected to the game
 &nbsp;     * @author Ettori
 &nbsp;     * @return the number of connected players
 &nbsp;     */
 <b class="nc">&nbsp;    private int getActivePlayersNumber(){return numPlayers - disconnectedPlayers.size();}</b>
+&nbsp;
 &nbsp;    /**
 &nbsp;     * general method to respond to a client, it chooses the right network connection of the player
 &nbsp;     * @author Ettori
@@ -999,7 +1028,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            }</b>
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    /******************************************** RMI ***************************************************************/
+&nbsp;
 &nbsp;    /**
 &nbsp;     * method called from remote used to add a client to the store of all the RMI clients
 &nbsp;     * @author Ettori
@@ -1062,6 +1093,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            }
 &nbsp;        }
 &nbsp;    }
+&nbsp;
 &nbsp;    /**
 &nbsp;     * method that allow the server to be pinged from an RMI client
 &nbsp;     * @author Ettori
@@ -1073,7 +1105,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @author Ettori
 &nbsp;     */
 &nbsp;    public void pingRMI(){
-<b class="nc">&nbsp;        AtomicBoolean flag = new AtomicBoolean(false);</b>
+<b class="nc">&nbsp;        AtomicBoolean flag = new AtomicBoolean(false);  //particulat type of boolean: we use because is recommended for connections</b>
 &nbsp;        while(true){
 <b class="nc">&nbsp;            Game.waitForSeconds(Game.waitTimer * 2);</b>
 <b class="nc">&nbsp;            for(String n: names){</b>
@@ -1091,7 +1123,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                Game.waitForSeconds(Game.fastTimer);</b>
 <b class="nc">&nbsp;                if(!flag.get())</b>
 <b class="nc">&nbsp;                    playerDisconnected(names.indexOf(n), new RuntimeException(&quot;Player Disconnected&quot;));</b>
-&nbsp;                //System.out.println(&quot;Pingo &quot; + n);
 <b class="nc">&nbsp;            }</b>
 &nbsp;        }
 &nbsp;    }
@@ -1119,7 +1150,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

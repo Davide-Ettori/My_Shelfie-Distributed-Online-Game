@@ -59,10 +59,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    80%
+    100%
   </span>
   <span class="absValue">
-    (4/5)
+    (3/3)
   </span>
 </td>
 </tr>
@@ -94,9 +94,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    @Override
 &nbsp;    public boolean checkMatch(Card[][] board) {
 <b class="fc">&nbsp;        Color color = board[0][0].color;</b>
-<b class="fc">&nbsp;        if (color == EMPTY)</b>
-<b class="nc">&nbsp;            return false;</b>
-<b class="fc">&nbsp;        return (board[ROWS - 1][COLS - 1].color == color) &amp;&amp; (board[0][COLS - 1].color == color) &amp;&amp; (board[ROWS - 1][0].color == color);</b>
+<b class="fc">&nbsp;        return (color != EMPTY) &amp;&amp; (board[ROWS - 1][COLS - 1].color == color) &amp;&amp; (board[0][COLS - 1].color == color) &amp;&amp; (board[ROWS - 1][0].color == color);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -122,7 +120,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

@@ -18,6 +18,10 @@ public class drawTest {
     public void setUp(){
         lib = new Library("");
         lib.name = "sam";
+
+        Library libTest = new Library(lib);
+        libTest.checkCol(-1, 2);
+        libTest.maxCardsInsertable();
     }
     /**
      * <table border="1">
@@ -69,6 +73,7 @@ public class drawTest {
         lib.gameLibrary[5][4] = new Card(PINK);
 
         lib.draw("Library of: " +lib.name);
+        lib.draw();
     }
 
 }

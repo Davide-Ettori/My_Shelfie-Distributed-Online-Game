@@ -23,6 +23,12 @@ public class hasOneFreeSideTest {
     public void setUp(){
         board1 = new Board(4,null,null);
         gameBoard1 = new Card[DIM][DIM];
+
+        Board boardTest = new Board(4, null, null);
+        boardTest.initBoard(4);
+        boardTest.hasOneFreeSide(0, 5);
+        boardTest.hasOneFreeSide(5, DIM);
+        boardTest.hasOneFreeSide(5, 0);
     }
 
     /**

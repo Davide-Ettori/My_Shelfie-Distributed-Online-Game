@@ -361,7 +361,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;    public void addToFullChat(String s){fullChat += s;}</b>
 &nbsp;    /**
 &nbsp;     * function  used to wait for notification from the server while the player is NON active
-&nbsp;     * @author Ettori
 &nbsp;     * @author Ettori Faccincani
 &nbsp;     */
 &nbsp;    private void waitForEvents(){
@@ -815,12 +814,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            Game.waitForSeconds(Game.fastTimer * 2);</b>
 <b class="nc">&nbsp;            System.exit(0);</b>
 &nbsp;        }
+&nbsp;
+&nbsp;
 <b class="nc">&nbsp;        if(msg.charAt(0) != &#39;@&#39;)</b>
 <b class="nc">&nbsp;            return false;</b>
 <b class="nc">&nbsp;        if(!msg.contains(&quot; &quot;)){</b>
 <b class="nc">&nbsp;            if(msg.substring(1).equals(&quot;names&quot;))</b>
 <b class="nc">&nbsp;                showAllNames();</b>
-<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;            return false; //return false because isn&#39;t a message to other player</b>
 &nbsp;        }
 <b class="nc">&nbsp;        String dest = msg.substring(1, msg.indexOf(&#39; &#39;));</b>
 <b class="nc">&nbsp;        msg = msg.substring(msg.indexOf(&#39; &#39;));</b>
@@ -871,6 +872,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        library.draw();</b>
 <b class="nc">&nbsp;        for(int i = 0; i &lt; numPlayers - 1; i++)</b>
 <b class="nc">&nbsp;            librariesOfOtherPlayers.get(i).draw(&quot;\nLibrary of &quot; + librariesOfOtherPlayers.get(i).name + &quot; (&quot; + pointsMap.get(librariesOfOtherPlayers.get(i).name) + &quot; points)&quot;);</b>
+&nbsp;
+&nbsp;        //points of CO are always even and other type of points are add at the end of the game
 <b class="nc">&nbsp;        if(pointsUntilNow % 2 == 1){</b>
 <b class="nc">&nbsp;            System.out.println(&quot;\nYou have achieved &quot; + (pointsUntilNow - 1) + &quot; points from the common objectives (until now)&quot;);</b>
 <b class="nc">&nbsp;            System.out.println(&quot;You also achieved 1 point for being the first player to complete the library&quot;);</b>
@@ -964,7 +967,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param msg the message that must be sent
 &nbsp;     */
 &nbsp;    public void sendToServer(Message msg){
-&nbsp;        //System.out.println(&quot;Sending &quot; + msg.getType() + &quot; to server&quot;);
+&nbsp;
 <b class="nc">&nbsp;        if(netMode == NetMode.SOCKET) {</b>
 &nbsp;            try {
 <b class="nc">&nbsp;                outStream.writeObject(msg);</b>
@@ -1028,7 +1031,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-24 15:18</div>
+    <div style="float:right;">generated on 2023-06-26 10:24</div>
 </div>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package objective.private_objective;
 
-import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.PrivateObjective;
+import it.polimi.ingsw.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import static it.polimi.ingsw.model.Color.*;
@@ -21,6 +20,7 @@ public class countMatchTest {
     @Before
     public void setUp(){
         this.lib = new Card[6][5];
+        DFSHelper d = new DFSHelper();
     }
 
     /**
@@ -734,6 +734,10 @@ public class countMatchTest {
         lib[5][2] = new Card();
         lib[5][3] = new Card();
         lib[5][4] = new Card();
+
+        new PrivateObjective(lib, 1).draw();
+        new Strategy().checkMatch(null);
+        new Objective().draw();
 
         assertEquals(new PrivateObjective(mat, 1).countPoints(lib), 0);
     }

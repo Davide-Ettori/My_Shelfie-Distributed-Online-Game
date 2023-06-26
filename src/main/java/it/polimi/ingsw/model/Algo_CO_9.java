@@ -22,8 +22,9 @@ public class Algo_CO_9 extends Strategy { // quinto prima colonna
      */
     private boolean notEmptyOnCol(Card[][] board, int c){
         for(int i = 0; i < ROWS; i++){
-            if(board[i][c].color == EMPTY)
+            if(board[i][c].color == EMPTY) {
                 return false;
+            }
         }
         return true;
     }
@@ -40,7 +41,7 @@ public class Algo_CO_9 extends Strategy { // quinto prima colonna
         for (int j = 0; j < COLS; j++) {
             colors = new ArrayList<>();
             for (int i = 0; i < ROWS; i++) {
-                if (!colors.contains(board[i][j].color))
+                if (!colors.contains(board[i][j].color) && board[i][j].color != EMPTY)
                     colors.add(board[i][j].color);
             }
             if (colors.size() >= 1 && colors.size() <= 3 && notEmptyOnCol(board, j))
