@@ -26,7 +26,7 @@ The Application will automatically create some helper files inside the folder wh
 
 If the `java` command does not work, you might need to install java locally from the oracle website  
   
-The first window always asks you to enter the IP address to use for connection and the ports for both Socket and RMI. We suggest using the default ports. The Ip address should be the one of the server for all the players and can be found by the `ipconfig` command on the terminal of the server machine 
+The first window always asks you to enter the IP address to use for connection and the ports for both Socket and RMI (the ports must be different). We suggest using the default ports. The Ip address should be the one of the server for all the players and can be found by the `ipconfig` command on the terminal of the server machine 
 Then if you are the first player to connect to this IP and ports you will be assumed to be the server, so the app will ask the number of players and if you want to activate persistence.  
 If you are not the first one to connect you will be assumed to be a player, so the app will ask the UI mode, the network mode and if you want to activate resilience.  
 You can run multiple games on the same machine and IP if you change the ports for the networks (both Socket and RMI).  
