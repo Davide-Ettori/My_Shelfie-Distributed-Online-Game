@@ -18,7 +18,7 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 - You can find the rulebook of the game [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/Project%20Specifications/Rulebook.png).
 
 ## How to Play
-1. Download the App.jar file from deliveries/Jar Files
+1. Download the App.jar file from [deliverables/final/jar/App.jar](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/cf28922d90f87866757f3e77630a494123a09fdb/deliverables/final/jar/App.jar)
 2. Place it inside a folder of your choice
 3. Run the following command: `java -jar App.jar` from a terminal starting at that folder. (you won't be able to double-click to run the app)
 
@@ -26,13 +26,13 @@ The Application will automatically create some helper files inside the folder wh
 
 If the `java` command does not work, you might need to install java locally from the oracle website  
   
-The first window always asks you to enter the IP address to use for connection and the ports for both Socket and RMI (the ports must be different). We suggest using the default ports. The Ip address should be the one of the server for all the players and can be found by the `ipconfig` command on the terminal of the server machine 
+The first window always asks you to enter the IP address to use for connection and the ports for both Socket and RMI (the ports must be different). We suggest using the default ports, without modifying what's already written. The Ip address should be the one of the server for all the players and can be found by the `ipconfig` command on the terminal of the server machine. 
 Then if you are the first player to connect to this IP and ports you will be assumed to be the server, so the app will ask the number of players and if you want to activate persistence.  
 If you are not the first one to connect you will be assumed to be a player, so the app will ask the UI mode, the network mode and if you want to activate resilience.  
 You can run multiple games on the same machine and IP if you change the ports for the networks (both Socket and RMI).  
-NOTE: if you activate persistence on the server the app won't accept the activation of resilience from the clients (it would make no sense).  
+NOTE: if you activate persistence on the server the app won't accept the activation of resilience from the clients (it wouldn't make sense).  
 TIP: the enter key on your keyboard always triggers the button for making moves, sending chats and confirming IP.  
-Finally, if you use a NON-UNIX terminal the TUI interface won't show the colors
+Finally, if you use a NON-UNIX terminal the TUI interface won't show the colors.
 
 - Here is a video that explains how to play this Board Game: [Tutorial](https://my-shelfie-video.netlify.app)
 
