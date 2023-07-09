@@ -12,6 +12,7 @@ Polytechnic of Milan - Prof. San Pietro section - Group number 3
 - <b> Samuele Faccincani </b>
 - <b> Furkan Gumus </b>
 
+Final Grade: 30 Cum Laude / 30
 
 ## Project Specifications
 - You can find the project specifications [here](https://github.com/Davide-Ettori/ing-sw-2023-ettori-giammusso-faccincani-gumus/blob/7ed0c08c04f93d05b89c4a760248ac8cd674cad1/deliverables/Project%20Specifications/Requirements.pdf).
@@ -51,7 +52,7 @@ In this table you can see which functionalities we implemented
 | RMI                | ✅    |          |
 | TUI                | ✅    |          |
 | GUI                | ✅    |          |
-| Multiple Games     |      | ❌        |
+| Multiple Games     |      | ✅        |
 | Server Persistence |      | ✅        |
 | Client Resilience  |      | ✅        |
 | Chat               |      | ✅        |
@@ -95,3 +96,5 @@ The version control was operated with **Git and GitHub**
 
 ## License
 All rights to My Shelfie game are owned by Cranio Games, which provided the graphical resources to be used for educational purposes only.
+
+NOTA: My Shelfie è un gioco da tavolo sviluppato ed edito da Cranio Creations Srl. I contenuti grafici di questo progetto riconducibili al prodotto editoriale da tavolo sono utilizzati previa approvazione di Cranio Creations Srl a solo scopo didattico. È vietata la distribuzione, la copia o la riproduzione dei contenuti e immagini in qualsiasi forma al di fuori del progetto, così come la redistribuzione e la pubblicazione dei contenuti e immagini a fini diversi da quello sopracitato. È inoltre vietato l'utilizzo commerciale di suddetti contenuti.
