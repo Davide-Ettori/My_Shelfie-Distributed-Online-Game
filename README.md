@@ -6,7 +6,7 @@
 
 
 ### Authors
-Polytechnic of Milan - Prof. San Pietro section - Group number 3
+Polytechnic of Milan - Prof. San Pietro section - Software Engineering
 - <b> Davide Ettori </b>
 - <b> Samuele Giammusso </b>
 - <b> Samuele Faccincani </b>
