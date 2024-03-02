@@ -6,7 +6,7 @@
 
 
 ### Authors
-Polytechnic of Milan - Prof. Pierluigi San Pietro - Software Engineering
+Politecnico di Milano - Prof. Pierluigi San Pietro - Software Engineering
 - <b> Davide Ettori </b>
 - <b> Samuele Giammusso </b>
 - <b> Samuele Faccincani </b>
